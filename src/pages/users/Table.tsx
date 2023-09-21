@@ -2,7 +2,7 @@ import { BsEyeFill, BsFillTrashFill } from "react-icons/bs";
 import { UserInterface } from "../../interfaces/userInterface";
 import { FC } from "react";
 type tableProps = {
-    data: UserInterface[]
+    data?: UserInterface[]
 }
 const Table: FC<tableProps> = (props) => {
     const { data } = props
@@ -27,7 +27,7 @@ const Table: FC<tableProps> = (props) => {
                 </thead>
                 <tbody>
                     {
-                        data.length>0 && data.map((value, index)=>(
+                        data && data.length? data?.map((value, index)=>(
                             <tr key={value.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {index+1}
@@ -43,7 +43,7 @@ const Table: FC<tableProps> = (props) => {
                                     <BsFillTrashFill className="text-red-600" />
                                 </td>
                             </tr>
-                        ))
+                        )) : null
                     }
                 </tbody>
             </table>

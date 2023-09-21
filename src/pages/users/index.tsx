@@ -3,20 +3,14 @@ import Table from './Table'
 import TablePaging from './TablePaging'
 import { api } from '../../services'
 import { UserInterface } from '../../interfaces/userInterface'
+import useFetch from '../../hooks/useFetch'
+import url from '../../services/url'
+import Spinner from '../../components/ui/Spinner'
 
 const UserPage = () => {
-    const [data, setData]= useState<UserInterface[]>([]);
+    const { users } = url
 
-    const getData = async () => {
-        const data = await api.get('users');
-        if(data){
-            setData(data.data)
-        }
-    }
-
-    useEffect(()=> {
-        getData()
-    }, [])
+    const { data, loading, refectch } = useFetch(users)
 
     return (
         <div className='w-full'>
@@ -24,10 +18,17 @@ const UserPage = () => {
                 <label className='text-lg font-semibold'>Users</label>
             </div>
             <div className='w-full mt-8'>
-                <Table
-                    data={data}
-                />
-                <TablePaging />
+                {
+                    loading ? 
+                    <Spinner /> :
+                    <>
+                        <Table
+                            data={data}
+                        />
+                        <TablePaging />
+                    </>
+                }
+                
             </div>
         </div>
     )
