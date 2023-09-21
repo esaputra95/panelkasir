@@ -4,9 +4,6 @@ import TablePaging from './TablePaging'
 import { api } from '../../services'
 import { UserInterface } from '../../interfaces/userInterface'
 
-type UserData = {
-
-}
 const UserPage = () => {
     const [data, setData]= useState<UserInterface[]>([]);
 
@@ -20,6 +17,7 @@ const UserPage = () => {
     useEffect(()=> {
         getData()
     }, [])
+
     return (
         <div className='w-full'>
             <div>
