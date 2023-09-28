@@ -1,6 +1,3 @@
-import React from 'react'
-import { InputText } from '../../components/input'
-
 const RegisterStudents = () => {
     return (
         <div className='w-full min-h-screen bg-gray-100 py-4'>
@@ -416,7 +413,7 @@ const RegisterStudents = () => {
                             </div>
                         </div>
                     </div>
-                    
+
                     <div className="mt-6 flex items-center justify-end gap-x-6">
                         <button
                         type="button"
