@@ -1,11 +1,9 @@
 
 import { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux'
+import { useLocation } from 'react-router-dom';
+import {  useDispatch } from 'react-redux'
 import { setMenu } from '../../../redux/menuSlice'
-import { RootState } from '../../../redux/store'
-import Header from './Header'
-import MenuItems from './MenuItems'
+// import { RootState } from '../../../redux/store'
 
 import {
     Card,
@@ -31,15 +29,15 @@ import {
 
 
 const SideBarLayout = () => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const location = useLocation()
-    const selector = useSelector((state: RootState) => state.menu)
+    // const selector = useSelector((state: RootState) => state.menu)
     const dispatch = useDispatch()
 
-    const handleOnClickMenu = (path:string) => {
-        dispatch(setMenu(path))
-        navigate(path)
-    }
+    // const handleOnClickMenu = (path:string) => {
+    //     dispatch(setMenu(path))
+    //     navigate(path)
+    // }
 
     useEffect(()=> {
         const path = location.pathname === "/" ? 'dashboard' : location.pathname.replace('/', '');

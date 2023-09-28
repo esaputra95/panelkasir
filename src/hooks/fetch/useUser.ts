@@ -1,7 +1,7 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
-import { getUser, postUser } from "../models/userModel"
+import {  useQuery } from "@tanstack/react-query"
+import { getUser } from "../models/userModel"
 import { useState } from "react"
-import { UserInterface, UserInterfaceForm, UserSearchType } from "../../interfaces/userInterface"
+import { UserInterfaceForm, UserSearchType } from "../../interfaces/userInterface"
 import { SubmitHandler, useForm } from "react-hook-form"
 import url from "../../services/url"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -29,9 +29,9 @@ export const useUser = () => {
         )
     })
 
-    const { mutate } = useMutation({
-        mutationFn: ( data:UserInterface ) => postUser(users, data)
-    })
+    // const { mutate } = useMutation({
+    //     mutationFn: ( data:UserInterface ) => postUser(users, data)
+    // })
 
     const onSubmit: SubmitHandler<UserInterfaceForm> = (data) => {
         console.log({data});

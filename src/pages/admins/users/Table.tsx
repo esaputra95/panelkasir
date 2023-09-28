@@ -1,5 +1,5 @@
 import { BsEyeFill, BsFillTrashFill } from "react-icons/bs";
-import { UserInterface } from "../../interfaces/userInterface";
+import { UserInterface } from "../../../interfaces/userInterface";
 import { FC } from "react";
 
 type tableProps = {
