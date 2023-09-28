@@ -1,5 +1,3 @@
-import InputText from '../../components/input/inputText'
-import Button from '../../components/input/button'
 import { useNavigate } from 'react-router-dom'
 import { ChangeEvent, useState } from 'react'
 import { LoginInterface } from '../../interfaces/loginInterface'
@@ -35,9 +33,9 @@ const LoginPage = () => {
                 <label className='flex justify-center font-bold text-3xl'>
                     Login
                 </label>
-                <InputText onChange={(e)=>handleOnchange(e)} label='Username' name='username' value={form?.username} type='text' />
-                <InputText onChange={(e)=>handleOnchange(e)} label='Password' name='password' value={form?.password} type='password' />
-                <Button onClick={handleLogin}>Login</Button>
+                {/* <InputText onChange={(e)=>handleOnchange(e)} label='Username' name='username' value={form?.username} type='text' />
+                <InputText onChange={(e)=>handleOnchange(e)} label='Password' name='password' value={form?.password} type='password' /> */}
+                {/* <Button onClick={handleLogin}>Login</Button> */}
             </div>
         </div>
     )

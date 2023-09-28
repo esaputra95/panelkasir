@@ -1,5 +1,5 @@
-import PublicLayout from "../layouts/PublicLayout";
-import HomePage from "../pages/dashboard/HomePage";
+import PublicLayout from "../components/layouts/PublicLayout";
+import RegisterStudents from "../pages/publics/RegisterStudents";
 
 const PublicRouters = [
     {
@@ -7,8 +7,8 @@ const PublicRouters = [
         element: <PublicLayout />,
         children: [
             {
-                path: '/dashboard',
-                element: <HomePage />
+                path: '/register',
+                element: <RegisterStudents />
             }
         ]
     }

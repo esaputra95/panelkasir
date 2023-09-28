@@ -1,6 +1,3 @@
-interface PagingProps {
-    totalPage: number 
-}
 const TablePaging = () => {
     return (
         <div className="w-full flex items-center justify-center">

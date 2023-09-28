@@ -1,7 +1,7 @@
-import AdminLayout from "../layouts/admin/AdminLayout";
-import HomePage from "../pages/dashboard/HomePage";
+import AdminLayout from "../components/layouts/admin/AdminLayout";
+import HomePage from "../pages/admins/dashboard/HomePage";
 import NotFoundPage from "../pages/NotFoundPage";
-import UserPage from "../pages/users";
+import UserPage from "../pages/admins/users";
 import Middleware from "./MiddlewareRouter";
 
 const MainRouters = [

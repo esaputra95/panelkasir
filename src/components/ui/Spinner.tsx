@@ -1,5 +1,3 @@
-import React from 'react'
-
 const Spinner = () => {
     return (
         <div role="status" className='w-full flex justify-center'>

@@ -1,4 +1,4 @@
-import AuthLayout from "../layouts/AuthLayout";
+import AuthLayout from "../components/layouts/AuthLayout";
 import LoginPage from "../pages/auth/LoginPage";
 
 const AuthRouters = [
