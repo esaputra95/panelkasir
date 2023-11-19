@@ -1,10 +1,11 @@
 const RegisterStudents = () => {
     return (
-        <div className='w-full min-h-screen bg-gray-100 py-4'>
-            <div className='flex justify-center w-10/12 bg-white p-8 m-auto space-x-4 rounded-md mb-4'>
+        <div className='w-full min-h-screen bg-gray-100 py:2 xl:py-4 lg:py-4 md:py-4'>
+            <div className='xl:flex lg:flex md:flex justify-center w-10/12 bg-white p-2 xl:p-8 lg:p-8 md:p-8  m-auto space-x-4 rounded-md mb-4'>
                 <img src="http://localhost:5173/assets/logo.png" className='h-16 w-16' alt="Logo" />
                 <div className='w-full flex flex-col'>
                     <span className='w-full text-3xl font-bold text-left'>Halaman Pendaftaran ESP BIMBEL</span>
+                    <span className='w-full text-xl font-semibold text-left'>Tahun Ajaran 2023/2034</span>
                     <span className='w-full text-left font-light'>Harap mengisi seluruh form dengan baik dan benar</span>
                 </div>
             </div>
@@ -13,13 +14,13 @@ const RegisterStudents = () => {
                     <div className="space-y-12">
                         <div className="border-b border-gray-900/10 pb-12">
                             <h2 className="text-base font-semibold leading-7 text-gray-900">
-                                Informasi data diri
+                                Informasi data diri Siswa
                             </h2>
                             <p className="mt-1 text-sm leading-6 text-gray-600">
                                 Mohon untuk mengisi semua form dengan baik ban benar
                             </p>
                             <div className="mt-10 w-full space-y-8 sm:grid-cols-6">
-                                <div className="sm:col-span-4 w-8/12">
+                                <div className="sm:col-span-4 w-full xl:w-8/12 lg:w-8/12 md:w-8/12 ">
                                     <label
                                         htmlFor="email"
                                         className="block text-sm font-medium leading-6 text-gray-900"

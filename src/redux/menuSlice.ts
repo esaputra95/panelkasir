@@ -3,7 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { reduxInterface } from '../interfaces/reduxInterface';
 
 const initialState:reduxInterface = {
-    menu: 'Dashboard'
+    menu: 'Dashboard',
 };
 
 const slice = createSlice({

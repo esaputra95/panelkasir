@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-type modalState = {
+export type modalState = {
     visible: boolean,
     label: string
 }
@@ -8,7 +8,7 @@ type modalState = {
 export const modalFormState = () => {
     const [modalFormState, setModalFormState] = useState<modalState>({visible: false, label: ''});
     return {
-        state: modalFormState,
-        setModal: (state:any)=> setModalFormState({...state})
+        modalForm: modalFormState,
+        setModalForm: setModalFormState
     }
 }

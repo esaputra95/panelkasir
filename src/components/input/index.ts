@@ -1,2 +1,5 @@
 export { default as Button } from './button'
 export { default as InputText } from './inputText'
+export { default as SelectOption } from './SelectOption'
+export { default as SelectAutoComplete } from './SelectAutoComplete'
+export { default as SelectInput } from './SelectInput'

@@ -1,4 +1,4 @@
-import { UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
+import { FieldErrors, UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
 
 interface Geolocation {
     lat: string;
@@ -13,18 +13,13 @@ interface Address {
     zipcode: string;
 }
   
-interface Name {
-    firstname: string;
-    lastname: string;
-}
-  
 export interface UserInterface {
     address?: Address;
     id: number;
     email: string;
     username: string;
     password: string;
-    name?: Name;
+    name?: string;
     phone: string;
     __v?: number;
 }
@@ -40,5 +35,6 @@ export type UserFormProps = {
 	handleSubmit: UseFormHandleSubmit<UserInterfaceForm>
 	onSubmit: (data:UserInterfaceForm) => void;
 	register: UseFormRegister<UserInterfaceForm>
+    errors: FieldErrors<UserInterfaceForm>;
 }
   

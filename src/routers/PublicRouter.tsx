@@ -1,5 +1,6 @@
 import PublicLayout from "../components/layouts/PublicLayout";
-import RegisterStudents from "../pages/publics/RegisterStudents";
+import MessagePage from "../pages/publics/MessagePage";
+import RegisterPage from "../pages/publics/register";
 
 const PublicRouters = [
     {
@@ -8,7 +9,11 @@ const PublicRouters = [
         children: [
             {
                 path: '/register',
-                element: <RegisterStudents />
+                element: <RegisterPage />
+            },
+            {
+                path: '/message',
+                element: <MessagePage />
             }
         ]
     }

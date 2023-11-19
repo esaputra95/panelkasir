@@ -1,0 +1,8 @@
+export { default as ClassTypePage } from './classType'
+export { default as ClassMasterPage } from './classMaster'
+export { default as RoomPage } from './room'
+export { default as UniversityPage } from './university'
+export { default as MajorPage } from './major'
+export { default as CoursePage } from './course'
+export { default as MaterialPage } from './material'
+export { default as TutorPage } from './tutor'

@@ -14,16 +14,17 @@ const UserPage = () => {
         isLoading,
         register,
         onSubmit,
+        errors,
         handleSubmit
     } = useUser()
 
-    const { state, setModal} = modalFormState()
+    const {modalForm, setModalForm} = modalFormState()
     
     useEffect(()=> {
-        setModal({
+        setModalForm((state)=>({
             ...state,
             label: 'Form Add User Data'
-        })
+        }))
     }, [])
     
 
@@ -33,15 +34,15 @@ const UserPage = () => {
 
     return (
         <div className='w-full'>
-            <ModalForm visible={state.visible} onClose={()=>setModal({...state, visible:false})} title={state.label} size="medium">
-                <FormUser handleSubmit={handleSubmit} register={register} onSubmit={onSubmit} />
+            <ModalForm visible={modalForm.visible} onClose={()=>setModalForm({...modalForm, visible:false})} title={modalForm.label} size="medium">
+                <FormUser handleSubmit={handleSubmit} register={register} onSubmit={onSubmit} errors={errors} />
             </ModalForm>
             <div>
                 <label className='text-lg font-semibold'>User Data List</label>
             </div>
             <div className='w-full'>
                 <div className='py-4'>
-                    <Button onClick={()=>setModal({...state, visible:true})} >+ User</Button>
+                    <Button onClick={()=>setModalForm((state)=>({...state, visible:true}))} >+ User</Button>
                 </div>
                 {
                     isLoading ? 
