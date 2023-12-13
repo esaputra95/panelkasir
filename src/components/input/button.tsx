@@ -1,7 +1,7 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import { ButtonHTMLAttributes } from "react";
 
-const button = cva("flex items-center", {
+const button = cva("flex items-center justify-center", {
 	variants: {
 		variant: {
 			primary: [
@@ -46,13 +46,13 @@ const button = cva("flex items-center", {
 			warning: [
 				"focus:outline-none",
 				"text-white",
-				"bg-yellow-400",
-				"hover:bg-yellow-500",
+				"bg-orange-700",
+				"hover:bg-orange-700",
 				"focus:ring-4",
-				"focus:ring-yellow-300",
+				"focus:ring-orange-500",
 				"font-medium",
 				"rounded-lg",
-				"dark:focus:ring-yellow-900"
+				"dark:focus:ring-orange-900"
 			],
 			alternative: [
 				"font-medium",

@@ -3,6 +3,7 @@ import { InputText, Button, SelectAutoComplete } from '../../../../components/in
 import { TentorNotAvailableFormProps } from '../../../../interfaces/schedule/tentorNotAvailableInterface';
 import { useTranslation } from 'react-i18next';
 import Spinner from '../../../../components/ui/Spinner';
+import useAccess from '../../../../utils/useAccess';
 
 const FormTentorNotAvailable: FC<TentorNotAvailableFormProps> = (props) => {
     const { 
@@ -17,18 +18,20 @@ const FormTentorNotAvailable: FC<TentorNotAvailableFormProps> = (props) => {
         control
     } = props;
     const {t} = useTranslation()
-
+    const {token} = useAccess()
     
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className='flex flex-col space-y-4'>
-                <SelectAutoComplete 
-                    control={control}
-                    errors={errors}
-                    loadOption={optionTutor}
-                    name='tentor'
-                    label={t("tutor")}
-                />
+                <div className={`${token?.userType==="tentor" ? 'hidden': 'flex'}`}>
+                    <SelectAutoComplete 
+                        control={control}
+                        errors={errors}
+                        loadOption={optionTutor}
+                        name='tentor'
+                        label={t("tutor")}
+                    />
+                </div>
                 <InputText
                     {...register("startDate")}
                     errors={errors.startDate?.message} 

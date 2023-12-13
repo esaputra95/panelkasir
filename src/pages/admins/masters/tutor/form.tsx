@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { InputText, Button } from '../../../../components/input';
+import { InputText, Button, SelectOption } from '../../../../components/input';
 import { TutorFormProps } from '../../../../interfaces/master/tutorInterface';
 import { useTranslation } from 'react-i18next';
 import Spinner from '../../../../components/ui/Spinner';
@@ -10,13 +10,7 @@ const FormTutor: FC<TutorFormProps> = (props) => {
     
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <div className='flex flex-col space-y-4'>
-                <InputText
-                    {...register("code")}
-                    errors={errors.code?.message} 
-                    readOnly={idDetail?true:false} 
-                    label={t("code")} 
-                />
+            <div className='grid grid-cols-2 gap-2'>
                 <InputText
                     {...register("name")}
                     errors={errors.name?.message} 
@@ -24,17 +18,61 @@ const FormTutor: FC<TutorFormProps> = (props) => {
                     label={t("name")} 
                 />
                 <InputText
-                    {...register("price")}
-                    errors={errors.price?.message} 
+                    {...register("username")}
+                    errors={errors.username?.message} 
                     readOnly={idDetail?true:false} 
-                    label={t("price")} 
+                    label={t("username")} 
                 />
                 <InputText
-                    {...register("description")}
-                    errors={errors.description?.message} 
+                    {...register("email")}
+                    errors={errors.email?.message} 
+                    type='email'
                     readOnly={idDetail?true:false} 
-                    label={t("description")} 
+                    label={t("email")} 
                 />
+                <InputText
+                    {...register("password")}
+                    errors={errors.password?.message} 
+                    readOnly={idDetail?true:false} 
+                    type='password'
+                    label={t("password")} 
+                />
+                <InputText
+                    {...register("nickname")}
+                    errors={errors.nickname?.message} 
+                    readOnly={idDetail?true:false} 
+                    label={t("nickname")} 
+                />
+                <InputText
+                    {...register("phone")}
+                    errors={errors.phone?.message} 
+                    readOnly={idDetail?true:false} 
+                    label={t("phone")} 
+                />
+                <InputText
+                    {...register("address")}
+                    errors={errors.address?.message} 
+                    readOnly={idDetail?true:false} 
+                    label={t("address")} 
+                />
+                <SelectOption 
+                    {...register('userType')}
+                    label={t('access-level')}
+                    option={[
+                        {label:'Admin', value: 'admin'},
+                        {label:t('tutor'), value: 'tentor'}
+                    ]}
+                    disabled={idDetail?true:false}
+                    errors={errors.userType?.message}
+                />
+            </div>
+            <div className='border-t border-gray-400 mt-4' />
+            
+            <div className='mt-4 w-full'>
+                <label className='font-semibold'>Skill Tentor</label>
+                <div className='w-full'>
+                    
+                </div>
             </div>
             <div className='w-full flex justify-end space-x-2'>
                 <Button 

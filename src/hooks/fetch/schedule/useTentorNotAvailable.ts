@@ -1,7 +1,17 @@
 import {  useMutation, useQuery } from "@tanstack/react-query"
-import { deleteData, getData, getDataById, getDataSelect, postData } from "./../../models/schedule/tentorNotAvailableModel"
+import {
+    deleteData,
+    getData,
+    getDataById,
+    getDataSelect,
+    postData
+} from "./../../models/schedule/tentorNotAvailableModel"
 import { useEffect, useState } from "react"
-import { ApiResponseTentorNotAvailable, TentorNotAvailableFilter, TentorNotAvailableInterface } from "./../../../interfaces/schedule/tentorNotAvailableInterface"
+import {
+    ApiResponseTentorNotAvailable,
+    TentorNotAvailableFilter,
+    TentorNotAvailableInterface
+} from "./../../../interfaces/schedule/tentorNotAvailableInterface"
 import { SubmitHandler, useForm } from "react-hook-form"
 import url from "./../../../services/url"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -15,8 +25,13 @@ import { TentorNotAvailableDummy } from './../../../utils/dummy/scheduleDummy'
 import usePage from "../../../utils/pageState"
 import { DataMessageError } from "../../../interfaces/apiInfoInterface"
 import { handleMessageErrors } from "../../../services/handleErrorMessage"
-import { createSearchParams, useNavigate, useSearchParams } from "react-router-dom"
+import { 
+    createSearchParams,
+    useNavigate,
+    useSearchParams
+} from "react-router-dom"
 import moment from "moment-timezone"
+import useAccess from "../../../utils/useAccess"
 
 export const useTentorNotAvailable = () => {
     const [ query, setQuery ] = useState<TentorNotAvailableFilter>()
@@ -26,6 +41,7 @@ export const useTentorNotAvailable = () => {
     const { t } = useTranslation();
     const modalConfirm = modalConfirmState()
     const page = usePage();
+    const {token} = useAccess()
 
     const [searchParams] = useSearchParams();
 
@@ -39,12 +55,17 @@ export const useTentorNotAvailable = () => {
             ...state,
             label: 'Form '
         }))
+
+        if(token?.userType==="tentor"){
+            setValue('tentorId', token.id)
+        }
     }, [])
 
     const {
         reset,
         register,
         handleSubmit,
+        setValue,
         control,
         formState: { errors },
     } = useForm<TentorNotAvailableInterface>({
@@ -56,7 +77,8 @@ export const useTentorNotAvailable = () => {
         handleSubmit:handleSubmitFilter,
     } = useForm<TentorNotAvailableFilter>()
       
-    const {data:dataTentorNotAvailable, isFetching, refetch} = useQuery<ApiResponseTentorNotAvailable, AxiosError>({ 
+    const {data:dataTentorNotAvailable, isFetching, refetch} = 
+    useQuery<ApiResponseTentorNotAvailable, AxiosError>({ 
         queryKey: ['class-types', query], 
         networkMode: 'always',
         queryFn: async () => await getData(TentorNotAvailable.get, 
@@ -67,7 +89,8 @@ export const useTentorNotAvailable = () => {
             }
         ),
         onSuccess(data) {
-            page.setTotal(Math.ceil((data?.data?.info?.total  ?? 1)/(data?.data?.info?.limit ?? page.limit)));
+            page.setTotal(Math.ceil((data?.data?.info?.total  ?? 1)/
+                (data?.data?.info?.limit ?? page.limit)));
         },
         onError: (errors) => {
             toast.error(errors.message, {
@@ -78,7 +101,7 @@ export const useTentorNotAvailable = () => {
 
     useEffect(()=> {
         navigate({
-            pathname: "/tentor-not-available",
+            pathname: "/schedule/tentor-not-available",
             search: createSearchParams({
                 page: page.page+''
             }).toString()
@@ -96,8 +119,6 @@ export const useTentorNotAvailable = () => {
     const { mutate:mutateById } = useMutation({
         mutationFn: (id:string) => getDataById(TentorNotAvailable.getById, id),
         onSuccess:(data:TentorNotAvailableInterface)=>{
-            console.log('date : ', moment(data.startDate).format());
-            
             reset({
                 ...data,
                 startDate: moment(data.startDate).tz('Asia/Jakarta').format('YYYY-MM-DDTHH:mm'),
@@ -160,7 +181,7 @@ export const useTentorNotAvailable = () => {
     const onSubmit: SubmitHandler<TentorNotAvailableInterface> = (data) => {
         mutate({
             ...data,
-            tentorId: data.tentor.value
+            tentorId: token?.userType === "admin" ?  data.tentor?.value ?? '' : token?.id ?? ''
         })
     }
 

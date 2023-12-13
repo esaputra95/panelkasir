@@ -3,7 +3,6 @@ import { FC } from "react";
 import { SessionInterface } from "../../../../interfaces/settings/sessionInterface";
 import { useTranslation } from "react-i18next";
 import Skeleton from "../../../../components/ui/Skeleton";
-import moment from 'moment';
 
 type tableProps = {
     data?: SessionInterface[],
@@ -32,7 +31,7 @@ const header = [
 const Table: FC<tableProps> = (props) => {
     const { data, isFetching, page, limit, onDelete, onUpdate, onDetail } = props;
     const { t } = useTranslation()
-    let number:number = ((page-1)*limit)
+    const number:number = ((page-1)*limit)
     return (
         <div className="relative overflow-x-auto max-h-96">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">

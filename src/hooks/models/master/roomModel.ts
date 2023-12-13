@@ -1,8 +1,9 @@
 import { api } from "../../../services";
 import { RoomInterface, RoomSearchInterface } from "../../../interfaces/master/roomInterface";
+import { AxiosError } from "axios";
 
 interface ParamRoomInterface extends RoomSearchInterface {
-  	page?: number,
+	page?: number,
 	limit?: number,
 	order?: string
 }
@@ -24,7 +25,7 @@ const postData = async (url:string, data:RoomInterface) => {
 			throw response;
 		}
 	} catch (error) {
-		throw error;
+		return error;
 	}
 }
 
@@ -40,10 +41,20 @@ const deleteData = async (url:string, id:string) => {
 const getDataById = async (url:string, id:string) => {
 	try {
 		const response = await api.get(`${url}/${id}`)
-		if(response.status===200) return response.data.data.Room
+		if(response.status===200) return response.data.data.room
 	} catch (error) {
 		return error
 	}
 }
 
-export { getData, postData, deleteData, getDataById };
+const getDataSelect = async (url:string, params: {name: string}) => {
+	try {
+		const response = await api.get(url, {params: {...params}})
+		return response.data
+	} catch (error) {
+		const err = error as AxiosError
+		throw err;
+	}
+}
+
+export { getData, postData, deleteData, getDataById, getDataSelect };

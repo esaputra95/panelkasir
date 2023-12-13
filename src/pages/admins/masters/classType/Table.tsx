@@ -1,10 +1,8 @@
 import { BsEyeFill, BsFillTrashFill, BsPencilFill } from "react-icons/bs";
 import { FC } from "react";
-import { ClassTypeFilter, ClassTypeInterface } from "../../../../interfaces/master/classTypeInterface";
+import {  ClassTypeInterface } from "../../../../interfaces/master/classTypeInterface";
 import { useTranslation } from "react-i18next";
 import Skeleton from "../../../../components/ui/Skeleton";
-import { SubmitHandler, UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
-import Filter from "./tables/Filter";
 
 const header = [
     { 
@@ -42,7 +40,7 @@ const Table: FC<tableProps> = (props) => {
         onDetail
     } = props;
     const { t } = useTranslation()
-    let number:number = ((page-1)*limit)
+    const number:number = ((page-1)*limit)
     return (
         <div className="relative overflow-x-auto max-h-96">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">

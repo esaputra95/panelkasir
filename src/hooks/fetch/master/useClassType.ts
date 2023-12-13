@@ -73,8 +73,6 @@ export const useClassType = () => {
     const optionClassType = async (data:string) => {
         const response = await getDataSelect(classType.getSelect, {name: data});
         if(response.status){
-            console.log(response.data.classType);
-            
             return response.data.classType
         }
     }

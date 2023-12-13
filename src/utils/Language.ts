@@ -1,9 +1,9 @@
 export const Language = [
     {
-        label: 'Indonesia',
+        label: 'ID',
         code: 'id'
     }, {
-        label: 'English',
+        label: 'EN',
         code: 'en'
     }
 ]

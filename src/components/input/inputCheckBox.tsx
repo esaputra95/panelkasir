@@ -1,4 +1,4 @@
-import { FC, InputHTMLAttributes, forwardRef } from 'react'
+import { InputHTMLAttributes, forwardRef } from 'react'
 
 interface  InputCheckboxProps extends InputHTMLAttributes<HTMLInputElement>{
     label?: string;
@@ -6,7 +6,7 @@ interface  InputCheckboxProps extends InputHTMLAttributes<HTMLInputElement>{
 }
 
 const InputCheckBox =  forwardRef<HTMLInputElement, InputCheckboxProps>((props, ref) => {
-    const {  label, errors, ...rest } = props
+    const {  label, ...rest } = props
     return (
         <div className="flex items-center mb-4">
             <input

@@ -1,15 +1,14 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { Controller } from 'react-hook-form';
+import { GroupBase, OptionsOrGroups } from 'react-select';
 import AsyncSelect from 'react-select/async';
-import { OptionSelectInterface } from '../../interfaces/globalInterface';
 
 interface SelectAutocompleteProps {
     control: any;
-    loadOption : (value: any) => Promise<any>;
+    loadOption : ((inputValue: string, callback: (options: OptionsOrGroups<any, GroupBase<any>>) => void) => void) | undefined
     errors: any;
     label?: string;
     name: string;
-    // setValue?: OptionSelectInterface
 }
 const SelectAutoComplete: FC<SelectAutocompleteProps> = (props) => {
     const { control, loadOption, errors, name, label, ...rest } = props
@@ -22,7 +21,6 @@ const SelectAutoComplete: FC<SelectAutocompleteProps> = (props) => {
                 {...rest}
                 name={name}
                 control={control}
-                // defaultValue={{value:'77654c2d-f2ac-4e01-9692-60fabbb1bd68', label:'Kelas A'}}
                 render={({field}) => (
                     <AsyncSelect
                         {...field}

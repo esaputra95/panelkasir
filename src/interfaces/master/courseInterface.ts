@@ -1,7 +1,11 @@
-import { Control, FieldErrors, UseFormGetValues, UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
+import {
+    Control,
+    FieldErrors,
+    UseFormHandleSubmit,
+    UseFormRegister
+} from "react-hook-form";
 import { ApiResponse, InfoResponse } from "../apiInfoInterface";
 import { OptionSelectInterface } from "../globalInterface";
-import { UniversityInterface } from "./universityInterface";
 import { MajorInterface } from "./majorInterface";
 
 export interface CourseInterface {

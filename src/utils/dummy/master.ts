@@ -1,9 +1,7 @@
 export const TutorDummy = {
-    id: '',
-    code: '',
     name: '',
-    price: 0,
-    description: ''
+    username:'',
+    password:''
 }
 
 export const classTypeDummy = {

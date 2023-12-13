@@ -1,11 +1,11 @@
 import { BsEyeFill, BsFillTrashFill, BsPencilFill } from "react-icons/bs";
 import { FC } from "react";
-import { ClassMasterTableInterface } from "../../../../interfaces/master/classMasterInterface";
+import { RecordMateriTableInterface } from "../../../../interfaces/recordMateri/RecordMateriInterface";
 import { useTranslation } from "react-i18next";
 import Skeleton from "../../../../components/ui/Skeleton";
 
 type TableProps = {
-    data?: ClassMasterTableInterface[],
+    data?: RecordMateriTableInterface[],
     isFetching?: boolean,
     page: number,
     limit: number,
@@ -34,7 +34,7 @@ const header = [
 const Table: FC<TableProps> = (props) => {
     const { data, isFetching, page, limit, onDelete, onUpdate, onDetail } = props;
     const { t } = useTranslation()
-    let number:number = ((page-1)*limit)
+    const number:number = ((page-1)*limit)
     return (
         <div className="relative overflow-x-auto max-h-96">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -57,16 +57,16 @@ const Table: FC<TableProps> = (props) => {
                                     {(number+index+1)}
                                 </th>
                                 <td className="px-6 py-4">
-                                    {value.code}
+                                    {value.date}
                                 </td>
                                 <td className="px-6 py-4">
-                                    {value.name}
+                                    {value.date}
                                 </td>
                                 <td className="px-6 py-4">
                                     {value.classTypes.name}
                                 </td>
                                 <td className="px-6 py-4">
-                                    {value.method}
+                                    {value.date}
                                 </td>
                                 <td className="px-6 py-4">
                                     {value.description}

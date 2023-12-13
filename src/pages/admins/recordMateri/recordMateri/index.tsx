@@ -1,16 +1,15 @@
 import Table from './Table'
 import TablePaging from './TablePaging'
-import { useClassMaster } from '../../../../hooks/fetch/master/useClassMaster'
+import { useRecordMateri } from '../../../../hooks/fetch/recordMateri/useRecordMateri'
 import ModalForm from '../../../../components/ui/modal/ModalForm'
-import FormClassMaster from './form'
+import FormRecordMateri from './form'
 import { Button } from '../../../../components/input'
 import locatioanName from '../../../../utils/location'
 import ModalConfirm from '../../../../components/ui/modal/ModalConfirm'
-import { useClassType } from '../../../../hooks/fetch/master/useClassType'
 
-const ClassMasterPage = () => {
+const RecordMateriPage = () => {
     const { 
-        dataClassMaster, 
+        dataRecordMateri, 
         isFetching,
         errors,
         isLoadingMutate,
@@ -27,9 +26,8 @@ const ClassMasterPage = () => {
         idDetail,
         page,
         control,
-    } = useClassMaster()
-
-    const { optionClassType } = useClassType()
+        handelOnChangeForm
+    } = useRecordMateri()
 
     return (
         <div className='w-full'>
@@ -40,16 +38,16 @@ const ClassMasterPage = () => {
                 title={modalForm.label}
                 size="medium"
             >
-                <FormClassMaster
+                <FormRecordMateri
                     onCancel={onCancel}
                     isLoading={isLoadingMutate}
                     errors={errors}
                     idDetail={idDetail}
                     control={control}
-                    classTypeOption={optionClassType}
                     handleSubmit={handleSubmit}
                     register={register}
                     onSubmit={onSubmit}
+                    handelOnChangeForm={handelOnChangeForm}
                 />
             </ModalForm>
             <div className='w-full'>
@@ -61,7 +59,7 @@ const ClassMasterPage = () => {
                     </Button>
                 </div>
                 <Table
-                    data={dataClassMaster?.data?.classMaster ?? []}
+                    data={dataRecordMateri?.data?.recordMateri ?? []}
                     isFetching={isFetching}
                     page={page.page}
                     limit={page.limit}
@@ -79,4 +77,4 @@ const ClassMasterPage = () => {
     )
 }
 
-export default ClassMasterPage
+export default RecordMateriPage

@@ -1,6 +1,5 @@
 import { Control, FieldErrors, UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
 import { ApiResponse, InfoResponse } from "../apiInfoInterface";
-import { OptionSelectInterface } from "../globalInterface";
 import { StudentInterface } from "../master/studentInterface";
 import { RegisterInterface } from "../public/registerInterface";
 import { PackageInterface } from "../settings/packageInterface";

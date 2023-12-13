@@ -1,7 +1,6 @@
 import { 
     BsEyeFill,
     BsFillTrashFill,
-    BsPencilFill,
     BsFillSendFill,
     BsArrowRightCircleFill
 } from "react-icons/bs";
@@ -46,14 +45,12 @@ const Table: FC<TableProps> = (props) => {
         page,
         limit,
         onDelete,
-        onUpdate,
-        onDetail,
         sendMessage,
         changeStatusInvoice
     } = props;
     const { t } = useTranslation()
     const navigate = useNavigate()
-    let number:number = ((page-1)*limit)
+    const number:number = ((page-1)*limit)
     return (
         <div className="relative overflow-x-auto max-h-96">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">

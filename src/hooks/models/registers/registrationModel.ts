@@ -3,7 +3,7 @@ import { RegistrationSearchInterface } from "../../../interfaces/registers/regis
 import { AxiosError } from "axios";
 
 interface ParamRegistrationInterface extends RegistrationSearchInterface {
-  	page?: number,
+	page?: number,
 	limit?: number,
 	order?: string
 }
@@ -29,7 +29,7 @@ const postData = async (url:string, data:any) => {
 			throw response;
 		}
 	} catch (error) {
-		throw error;
+		return error;
 	}
 }
 
@@ -51,16 +51,6 @@ const getDataById = async (url:string, id:string) => {
 	}
 }
 
-const getDataSelect = async (url:string, id:string) => {
-	// try {
-	// 	const response = await api.get(url, })
-	// 	return response.data
-	// } catch (error) {
-	// 	let err = error as AxiosError
-	// 	throw err;
-	// }
-}
-
 const changeStatus = async (url:string, data:any) => {
 	try {
 		const response = await api.put(`${url}/${data.id}`, {
@@ -70,10 +60,10 @@ const changeStatus = async (url:string, data:any) => {
 		if(response.status === 200) return response.data
 		throw response;
 	} catch (error) {
-		let err = error as AxiosError
+		const err = error as AxiosError
 		throw err;
 	}
 }
 
 
-export { getData, postData, deleteData, getDataById, getDataSelect, changeStatus };
+export { getData, postData, deleteData, getDataById, changeStatus };

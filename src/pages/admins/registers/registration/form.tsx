@@ -17,11 +17,6 @@ const FormRegistration: FC<RegistrationFormProps> = (props) => {
         classTypeOption
     } = props;
     const {t} = useTranslation()
-
-    const mapResponseToValuesAndLabels = (data:any) => ({
-        value: data.id,
-        label: data.name,
-    });
     
     return (
         <form onSubmit={handleSubmit(onSubmit)}>

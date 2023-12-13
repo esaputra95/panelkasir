@@ -38,7 +38,7 @@ const Table: FC<tableProps> = (props) => {
                                     {index+1}
                                 </th>
                                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    {value?.name?.firstname}
+                                    {value?.name}
                                 </th>
                                 <td className="px-6 py-4">
                                     {value.username}

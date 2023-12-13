@@ -15,10 +15,13 @@ import { CourseDummy } from './../../../utils/dummy/master'
 import usePage from "../../../utils/pageState"
 import { DataMessageError } from "../../../interfaces/apiInfoInterface"
 import { handleMessageErrors } from "../../../services/handleErrorMessage"
+import { OptionSelectInterface } from "../../../interfaces/globalInterface"
+import { OptionDummy } from "../../../utils/dummy/setting"
 
 export const useCourse = () => {
     const [ query, setQuery ] = useState<CourseInterface>()
     const [ idDetail, setIdDetail ] = useState<string | null>()
+    const [ dataOptionCourse, setDataOptionCourse] = useState<OptionSelectInterface[]>([OptionDummy])
     const { Course } = url
     const { modalForm, setModalForm } = modalFormState()
     const { t } = useTranslation();
@@ -178,6 +181,7 @@ export const useCourse = () => {
     const optionCourse = async (data:string) => {
         const response = await getDataSelect(Course.getSelect, {name: data});
         if(response.status){
+            setDataOptionCourse(response.data.course)
             return response.data.course
         }
     }
@@ -202,6 +206,7 @@ export const useCourse = () => {
         idDetail,
         page: page,
         control,
-        optionCourse
+        optionCourse,
+        dataOptionCourse
     }
 }

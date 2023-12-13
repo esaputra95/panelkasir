@@ -125,8 +125,6 @@ export const useMajor = () => {
     })
 
     const onSubmit: SubmitHandler<MajorInterface> = (data) => {
-        console.log("{data}", data);
-        
         mutate({
             ...data,
             universityId: data.university?.value

@@ -21,7 +21,6 @@ const SelectInput: FC<SelectInputProps> = (props) => {
             <Controller
                 control={control}
                 name={name}
-                // defaultValue={setValue}
                 render={({field}) => (
                     <Select {...field} options={options} />
                 )}

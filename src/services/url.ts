@@ -1,4 +1,7 @@
 const url = {
+    auth: {
+        login:'auth/login'
+    },
     users: 'users',
     classType: {
         get: 'class-types',
@@ -21,7 +24,8 @@ const url = {
         post: 'rooms',
         put: 'rooms',
         getById: 'rooms',
-        delete: 'rooms'
+        delete: 'rooms',
+        getSelect: 'rooms/select',
     },
     University: {
         get: 'universities',
@@ -112,12 +116,45 @@ const url = {
         getSelect: 'tutors/select'
     },
     TentorNotAvailable: {
-        get: 'tentor-not-available',
-        post: 'tentor-not-available',
-        put: 'tentor-not-available',
-        getById: 'tentor-not-available',
-        delete: 'tentor-not-available',
-        getSelect: 'tentor-not-available/select'
+        get: 'schedule/tentor-not-available',
+        post: 'schedule/tentor-not-available',
+        put: 'schedule/tentor-not-available',
+        getById: 'schedule/tentor-not-available',
+        delete: 'schedule/tentor-not-available',
+        getSelect: 'schedule/tentor-not-available/select'
+    },
+    StudyGroup: {
+        get: 'schedule/study-groups',
+        post: 'schedule/study-groups',
+        put: 'schedule/study-groups',
+        getById: 'schedule/study-groups',
+        delete: 'schedule/study-groups',
+        getSelect: 'schedule/study-groups/select'
+    },
+    RecordMateri: {
+        get: 'record-materi',
+        post: 'record-materi',
+        put: 'record-materi',
+        getById: 'record-materi',
+        delete: 'record-materi',
+        getSelect: 'record-materi/select',
+        getStudyGroup: 'record-materi/get-study-group'
+    },
+    Student: {
+        getSelect: 'students/select'
+    },
+    SessionSchedule: {
+        get: 'schedule/schedules',
+        post: 'schedule/schedules',
+        put: 'schedule/schedules',
+        getById: 'schedule/schedules',
+        delete: 'schedule/schedules',
+        getSelect: 'schedule/schedules/select',
+        checkSchedule: 'schedule/schedules/check-schedule',
+        cancelSchedule: 'schedule/schedules/cancel-schedule'
+    },
+    ClassInformation: {
+        get: 'schedule/class-information'
     }
 };
 

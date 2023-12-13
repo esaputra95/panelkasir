@@ -15,10 +15,13 @@ import { ClassMasterDummy } from '../../../utils/dummy/master'
 import usePage from "../../../utils/pageState"
 import { DataMessageError } from "../../../interfaces/apiInfoInterface"
 import { handleMessageErrors } from "../../../services/handleErrorMessage"
+import { OptionSelectInterface } from "../../../interfaces/globalInterface"
+import { OptionDummy } from "../../../utils/dummy/setting"
 
 export const useClassMaster = () => {
     const [ query, setQuery ] = useState<ClassMasterInterface>()
     const [ idDetail, setIdDetail ] = useState<string | null>()
+    const [ dataOptionClassMaster, setDataOptionCLassMaster] = useState<OptionSelectInterface[]>([OptionDummy])
     const { ClassMaster } = url
     const { modalForm, setModalForm } = modalFormState()
     const { t } = useTranslation();
@@ -66,11 +69,10 @@ export const useClassMaster = () => {
         }
     })
 
-    const optionClassMaster = async (data:string) => {
+    const optionClassMaster = async (data: string): Promise<OptionSelectInterface[]> => {
         const response = await getDataSelect(ClassMaster.getSelect, {name: data});
-        if(response.status){
-            return response.data.classType
-        }
+        setDataOptionCLassMaster(response.data.class);
+        return response.data.class
     }
 
     const { mutate:mutateById } = useMutation({
@@ -210,6 +212,7 @@ export const useClassMaster = () => {
         idDetail,
         page: page,
         control,
-        optionClassMaster
+        optionClassMaster,
+        dataOptionClassMaster
     }
 }

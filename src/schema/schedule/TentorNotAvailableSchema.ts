@@ -4,10 +4,7 @@ import * as yup from "yup"
 const TentorNotAvailableSchema = () => {
     const {t} = useTranslation();
     const schema = yup.object({
-        tentor: yup.object().shape({
-            label: yup.string().required(),
-            value: yup.string().required(),
-        }),
+        tentorId: yup.string().required(`${t("tutor")} ${t("required")}`),
         startDate: yup.string().required(`${t("start-date")} ${t("required")}`),
         untilDate: yup.string().required(`${t("until-date")} ${t("required")}`),
     });

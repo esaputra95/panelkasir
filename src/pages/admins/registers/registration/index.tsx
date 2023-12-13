@@ -19,7 +19,6 @@ const RegistrationPage = () => {
         onSubmit,
         handleSubmit,
         modalForm,
-        setModalForm,
         onDelete,
         modalConfirm,
         onUpdate,

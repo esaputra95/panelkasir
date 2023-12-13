@@ -5,7 +5,8 @@ import { AxiosError } from "axios";
 interface ParamTentorNotAvailableInterface extends TentorNotAvailableSearchInterface {
 	page?: number,
 	limit?: number,
-	order?: string
+	order?: string,
+	tentorId?: string
 }
 
 const getData = async (url:string, params:ParamTentorNotAvailableInterface) => {

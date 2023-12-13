@@ -4,8 +4,8 @@ import { OptionSelectInterface } from "../globalInterface";
 
 export interface TentorNotAvailableInterface {
     id?: string;
-    tentorId?: string;
-    tentor: OptionSelectInterface;
+    tentorId: string;
+    tentor?: OptionSelectInterface;
     startDate: string;
     untilDate: string;
     description?: string;
@@ -52,5 +52,6 @@ export interface ApiResponseTentorNotAvailable extends ApiResponse {
 
 export interface TentorNotAvailableFilter {
     name?: string,
-    code?:string
+    code?: string,
+    tentorId?: string
 }

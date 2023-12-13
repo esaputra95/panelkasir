@@ -3,7 +3,16 @@ import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import {  useDispatch, useSelector } from 'react-redux'
 import { setMenu } from '../../../redux/menuSlice'
-import { Card, Typography, List, ListItem, ListItemPrefix, AccordionBody, AccordionHeader, Accordion, } from "@material-tailwind/react";
+import {
+	Card,
+	Typography,
+	List,
+	ListItem,
+	ListItemPrefix,
+	AccordionBody,
+	AccordionHeader,
+	Accordion
+} from "@material-tailwind/react";
 import {
     UserCircleIcon,
     Cog6ToothIcon,
@@ -16,14 +25,22 @@ import {
   } from "@heroicons/react/24/solid";
 import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { useTranslation } from 'react-i18next';
-import { MasterMenu, ReportMaster, ScheduleMenu, SettingMenu } from './MenuItems';
+import {
+	MasterMenu,
+	RecordMateri,
+	ReportMaster,
+	ScheduleMenu,
+	SettingMenu
+} from './MenuItems';
 import { RootState } from '../../../redux/store';
+import useAccess from '../../../utils/useAccess';
 
 const SideBarLayout = () => {
     const navigate = useNavigate();
     const location = useLocation()
     const selector = useSelector((state: RootState) => state.menu)
     const dispatch = useDispatch()
+	const { token } = useAccess()
 
     const handleOnClickMenu = (path:string) => {
         dispatch(setMenu(path))
@@ -44,14 +61,20 @@ const SideBarLayout = () => {
 	const { t } = useTranslation();
 
     return (
-        <Card className="w-full sticky top-0 overflow-auto h-screen max-w-[20rem] p-4 rounded-none shadow-xl shadow-blue-gray-900/5">
+        <Card className="w-full sticky top-0 overflow-auto h-screen 
+			max-w-[20rem] p-4 rounded-none shadow-xl shadow-blue-gray-900/5"
+		>
 			<div className="mb-2 p-4 bg-white">
 				<Typography variant="h5" color="blue-gray">
 					ESP BIMBEL
 				</Typography>
 			</div>
 			<List>
-				<ListItem onClick={()=>handleOnClickMenu('homes')}>
+				<ListItem 
+					className={`${token?.userType==="admin" 
+						|| token?.userType === "tentor"? `flex`: 'hidden'}`
+					} 
+					onClick={()=>handleOnClickMenu('dashboard')}>
 					<ListItemPrefix>
 						<HomeIcon className="h-5 w-5" />
 					</ListItemPrefix>
@@ -62,11 +85,14 @@ const SideBarLayout = () => {
 					icon={
 						<ChevronDownIcon
 						strokeWidth={2.5}
-						className={`mx-auto h-4 w-4 transition-transform ${open === 1 ? "rotate-180" : ""}`}
+						className={`mx-auto h-4 w-4 transition-transform 
+							${token?.userType==="admin" ? 'flex':'hidden'}
+							${open === 1 ? "rotate-180" : ""}`
+						}
 						/>
 					}
 				>
-					<ListItem className="p-0" selected={open === 1}>
+					<ListItem className={`p-0 ${token?.userType==="admin" ? 'flex':'hidden'}`} selected={open === 1}>
 						<AccordionHeader onClick={() => handleOpen(1)} className="border-b-0 p-3">
 							<ListItemPrefix>
 								<InboxIcon className="h-5 w-5" />
@@ -80,7 +106,13 @@ const SideBarLayout = () => {
 						<List className="p-0">
 							{
 								MasterMenu.map((value)=> (
-									<ListItem selected={selector.menu === value.path ? true : false} key={Math.random()} onClick={()=>handleOnClickMenu(value.path)}>
+									<ListItem
+										selected={
+											selector.menu === value.path ? true : false
+										} 
+										key={Math.random()} 
+										onClick={()=>handleOnClickMenu(value.path)}
+									>
 										<ListItemPrefix>
 											<ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
 										</ListItemPrefix>
@@ -94,6 +126,7 @@ const SideBarLayout = () => {
 				<ListItem 
 					selected={ selector.menu==="registrations" ?  true : false } 
 					onClick={()=> handleOnClickMenu('registrations') }
+					className={`${token?.userType==="admin" ? 'flex':'hidden'}`}
 				>
 					<ListItemPrefix>
 						<ListBulletIcon className="h-5 w-5" />
@@ -104,8 +137,10 @@ const SideBarLayout = () => {
 					open={open === 2}
 					icon={
 						<ChevronDownIcon
-						strokeWidth={2.5}
-						className={`mx-auto h-4 w-4 transition-transform ${open === 2 ? "rotate-180" : ""}`}
+							strokeWidth={2.5}
+							className={`mx-auto h-4 w-4 transition-transform 
+								${open === 2 ? "rotate-180" : ""}`
+							}
 						/>
 					}
 				>
@@ -123,7 +158,55 @@ const SideBarLayout = () => {
 						<List className="p-0">
 						{
 								ScheduleMenu.map((value)=> (
-									<ListItem selected={selector.menu === value.path ? true : false} key={Math.random()} onClick={()=>handleOnClickMenu(value.path)}>
+									<ListItem 
+										selected={
+											selector.menu === value.path ? true : false
+										}
+										className={`${value.access.includes(token?.userType??'') ? 'flex': 'hidden'}`}
+										key={Math.random()}
+										onClick={()=>handleOnClickMenu(value.path)}>
+										<ListItemPrefix>
+											<ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+										</ListItemPrefix>
+										{t(value.label)}
+									</ListItem>
+								))
+							}
+						</List>
+					</AccordionBody>
+				</Accordion>
+				<Accordion
+					open={open === 3}
+					icon={
+						<ChevronDownIcon
+							strokeWidth={2.5}
+							className={`mx-auto h-4 w-4 transition-transform 
+								${open === 3 ? "rotate-180" : ""}`
+							}
+						/>
+					}
+				>
+					<ListItem className="p-0" selected={open === 3}>
+						<AccordionHeader onClick={() => handleOpen(3)} className="border-b-0 p-3">
+							<ListItemPrefix>
+								<CalendarDaysIcon className="h-5 w-5" />
+							</ListItemPrefix>
+							<Typography color="blue-gray" className="mr-auto font-normal">
+								{t("record-materi")}
+							</Typography>
+						</AccordionHeader>
+					</ListItem>
+					<AccordionBody className="py-1">
+						<List className="p-0">
+						{
+								RecordMateri.map((value)=> (
+									<ListItem 
+										selected={
+											selector.menu === value.path ? true : false
+										}
+										className={`${value.access.includes(token?.userType??'') ? 'flex': 'hidden'}`}
+										key={Math.random()}
+										onClick={()=>handleOnClickMenu(value.path)}>
 										<ListItemPrefix>
 											<ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
 										</ListItemPrefix>
@@ -158,7 +241,10 @@ const SideBarLayout = () => {
 						<List className="p-0">
 							{
 								ReportMaster.map((value)=> (
-									<ListItem selected={selector.menu === value.path ? true : false} key={Math.random()} onClick={()=>handleOnClickMenu(value.path)}>
+									<ListItem 
+										selected={selector.menu === value.path ? true : false} 
+										key={Math.random()} onClick={()=>handleOnClickMenu(value.path)}
+									>
 										<ListItemPrefix>
 											<ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
 										</ListItemPrefix>
@@ -181,7 +267,9 @@ const SideBarLayout = () => {
 					icon={
 						<ChevronDownIcon
 						strokeWidth={2.5}
-						className={`mx-auto h-4 w-4 transition-transform ${open === 1 ? "rotate-180" : ""}`}
+						className={`mx-auto h-4 w-4 transition-transform 
+							${open === 1 ? "rotate-180" : ""}`
+						}
 						/>
 					}
 				>
@@ -199,7 +287,11 @@ const SideBarLayout = () => {
 						<List className="p-0">
 							{
 								SettingMenu.map((value)=> (
-									<ListItem selected={selector.menu === value.path ? true : false} key={Math.random()} onClick={()=>handleOnClickMenu(value.path)}>
+									<ListItem 
+										selected={selector.menu === value.path ? true : false}
+										key={Math.random()} 
+										onClick={()=>handleOnClickMenu(value.path)}
+									>
 										<ListItemPrefix>
 											<ChevronRightIcon strokeWidth={4} className="h-3 w-5" />
 										</ListItemPrefix>

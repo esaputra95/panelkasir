@@ -15,10 +15,13 @@ import { TutorDummy } from '../../../utils/dummy/master'
 import usePage from "../../../utils/pageState"
 import { DataMessageError } from "../../../interfaces/apiInfoInterface"
 import { handleMessageErrors } from "../../../services/handleErrorMessage"
+import { OptionSelectInterface } from "../../../interfaces/globalInterface"
+import { OptionDummy } from "../../../utils/dummy/setting"
 
 export const useTutor = () => {
     const [ query, setQuery ] = useState<TutorFilter>()
     const [ idDetail, setIdDetail ] = useState<string | null>()
+    const [ dataOptionTutor, setDataOptionTutor] = useState<OptionSelectInterface[]>([OptionDummy])
     const { Tutor } = url
     const { modalForm, setModalForm } = modalFormState()
     const { t } = useTranslation();
@@ -74,6 +77,7 @@ export const useTutor = () => {
     const optionTutor = async (data:string) => {
         const response = await getDataSelect(Tutor.getSelect, {name: data});
         if(response.status){
+            setDataOptionTutor(response.data.tutor)
             return response.data.tutor
         }
     }
@@ -81,7 +85,10 @@ export const useTutor = () => {
     const { mutate:mutateById } = useMutation({
         mutationFn: (id:string) => getDataById(Tutor.getById, id),
         onSuccess:(data:TutorInterface)=>{
-            reset(data)
+            reset({
+                ...data,
+                password:''
+            })
             setModalForm((state)=>({
                 ...state,
                 visible: true
@@ -213,6 +220,7 @@ export const useTutor = () => {
         optionTutor,
         registerFilter,
         handleSubmitFilter,
-        onFilter
+        onFilter,
+        dataOptionTutor
     }
 }

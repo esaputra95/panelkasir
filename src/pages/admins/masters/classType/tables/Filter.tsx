@@ -1,4 +1,6 @@
-import { SubmitHandler, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
+import {
+    UseFormRegister
+} from 'react-hook-form'
 import { InputText } from '../../../../../components/input'
 import { ClassTypeFilter } from '../../../../../interfaces/master/classTypeInterface'
 import { FC } from 'react'

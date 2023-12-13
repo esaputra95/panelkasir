@@ -1,41 +1,51 @@
-// import { useNavigate } from 'react-router-dom'
-// import {  useState } from 'react'
-// import { LoginInterface } from '../../interfaces/loginInterface'
-// import Alert from '../../components/ui/Alert'
-// import { alertState } from '../../utils/alertState'
+import { Button, InputText } from '../../components/input'
+import { useLogin } from '../../hooks//fetch/auth/useLogin'
 
 const LoginPage = () => {
-    // const [form, setForm] = useState<LoginInterface>()
-    // const { alert, onAlert } = alertState()
-    // const navigate = useNavigate()
-    // const handleLogin = () => {
-    //     console.log({form});
-        
-    //     if(form?.username === "admin" && form.password ==="admin"){
-    //         localStorage.setItem("token", '123')
-    //         navigate('/dashboard')
-    //         onAlert('', false)
-    //     }else{
-    //         onAlert('Username or passwrod incorrect', true)
-    //     }
-    // }
-
-    // const handleOnchange = (e:ChangeEvent<HTMLInputElement>) => {
-    //     setForm({...form, [e.target.name]: e.target.value})
-    // }
+    const {
+        handleSubmit,
+        onSubmit,
+        register,
+        errors,
+    } = useLogin()
     return (
         <div className='w-full h-screen flex bg-gray-100 justify-center items-center'>
-            <div className='w-5/12 bg-white shadow-md p-8 rounded-lg space-y-4'>
-                {/* {
-                    alert?.visible ? <Alert message={alert?.message} /> : null
-                } */}
-                
-                <label className='flex justify-center font-bold text-3xl'>
-                    Login
-                </label>
-                {/* <InputText onChange={(e)=>handleOnchange(e)} label='Username' name='username' value={form?.username} type='text' />
-                <InputText onChange={(e)=>handleOnchange(e)} label='Password' name='password' value={form?.password} type='password' /> */}
-                {/* <Button onClick={handleLogin}>Login</Button> */}
+            <div className='w-6/12 rounded-lg bg-blue-200 flex justify-between'>
+                <div className='w-6/12 flex flex-col p-8 gap-y-4 justify-center items-center'>
+                    <label className='font-semibold text-lg text-gray-700'>
+                        Selamat Datang
+                    </label>
+                    <label className='text-center  text-gray-700'>
+                        Selamat datang kembali, Silahkan masukkan Username dan Password untuk mengakses Aplikasi 
+                    </label>
+                </div>
+                <div className='w-6/12 bg-white shadow-md rounded-r-lg p-8 space-y-4'>
+                    <label className='flex justify-center font-bold text-3xl  text-gray-700'>
+                        WELCOME
+                    </label>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <div className='flex flex-col gap-y-4'>
+                            <InputText 
+                                {...register('username')}
+                                label='Username'
+                                type='text'
+                                errors={errors.username?.message}
+                            />
+                            <InputText
+                                {...register('password')}
+                                label='Password'
+                                type='password'
+                                errors={errors.password?.message}
+                            />
+                            <Button 
+                                type='submit'
+                                variant='primary'
+                            >
+                                Login
+                            </Button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     )

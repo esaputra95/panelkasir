@@ -3,7 +3,7 @@ import { CourseSearchInterface } from "../../../interfaces/master/courseInterfac
 import { AxiosError } from "axios";
 
 interface ParamCourseInterface extends CourseSearchInterface {
-  	page?: number,
+	page?: number,
 	limit?: number,
 	order?: string
 }
@@ -15,7 +15,7 @@ const getData = async (url:string, params:ParamCourseInterface) => {
 
 const postData = async (url:string, data:any) => {
 	try {
-		delete data.course
+		delete data.major
 		if(data.id){
 			const response = await api.put(`${url}/${data.id}`, data);
 			if(response.status === 200) return response.data
@@ -26,7 +26,7 @@ const postData = async (url:string, data:any) => {
 			throw response;
 		}
 	} catch (error) {
-		throw error;
+		return error;
 	}
 }
 
@@ -53,7 +53,7 @@ const getDataSelect = async (url:string, params: {name: string}) => {
 		const response = await api.get(url, {params: {...params}})
 		return response.data
 	} catch (error) {
-		let err = error as AxiosError
+		const err = error as AxiosError
 		throw err;
 	}
 }

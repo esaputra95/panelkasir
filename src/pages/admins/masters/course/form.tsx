@@ -44,7 +44,7 @@ const FormCourse: FC<CourseFormProps> = (props) => {
                     {...register("description")}
                     errors={errors.description?.message} 
                     readOnly={idDetail?true:false} 
-                    label={t("description")} 
+                    label={t("materials")} 
                 />
             </div>
             <div className='w-full flex justify-end space-x-2'>

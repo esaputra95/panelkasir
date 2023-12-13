@@ -1,30 +1,26 @@
-import { FC, SelectHTMLAttributes } from "react"
+import { SelectHTMLAttributes, forwardRef } from "react"
 import { OptionSelectInterface } from "../../interfaces/globalInterface";
 
 interface  SelectOptionProps extends SelectHTMLAttributes<HTMLSelectElement>{
-    register: any;
     label?: string;
-    errors?: any;
+    errors?: string;
     option: OptionSelectInterface[]
 }
 
-const SelectOption: FC<SelectOptionProps> = (props) => {
-    const { name, register, label, errors, option, ...rest } = props
+const SelectOption= forwardRef<HTMLSelectElement, SelectOptionProps>((props, ref) => {
+    const { label, errors, option, ...rest } = props
     return (
         <div className="w-full">
-            <label
-                htmlFor="country"
-                className="block text-sm font-medium leading-6 text-gray-900"
-            >
+            <label className="block text-gray-700 text-sm font-bold mb-2">
                 {label}
             </label>
             <div className="mt-2">
                 <select
-                    {...register('gender')}
-                    {...rest}
+                    ref={ref} 
+                    {...rest} 
                     id="gender"
                     autoComplete="gender"
-                    className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 "
                 >
                     <option></option>
                     {
@@ -34,8 +30,13 @@ const SelectOption: FC<SelectOptionProps> = (props) => {
                     }
                 </select>
             </div>
+            <label className='text-red-500 text-sm font-light'>
+                {
+                    errors? errors : null
+                }
+            </label>
         </div>
     )
-}
+})
 
 export default SelectOption

@@ -34,11 +34,11 @@ export const MasterMenu = [
         path: 'courses',
         active: false,
     },
-    {
-        label: 'materials',
-        path: 'materials',
-        active: false,
-    },
+    // {
+    //     label: 'materials',
+    //     path: 'materials',
+    //     active: false,
+    // },
 ];
 
 export const ReportMaster = [
@@ -63,18 +63,21 @@ export const ReportMaster = [
 export const ScheduleMenu = [
     {
         label: 'tentor-not-available',
-        path: 'tentor-not-available',
-        active: false
+        path: 'schedule/tentor-not-available',
+        active: false,
+        access: ['admin', 'tentor']
     },
     {
         label: 'study-groups',
-        path: 'study-groups',
-        active: false
+        path: 'schedule/study-groups',
+        active: false,
+        access: ['admin']
     },
     {
-        label: 'schedule-lists',
-        path: 'schedule-lists',
-        active: false
+        label: 'class-information',
+        path: 'schedule/class-information',
+        active: false,
+        access: ['admin', 'tentor']
     }
 ]
 
@@ -100,3 +103,12 @@ export const SettingMenu = [
         active: false
     }
 ];
+
+export const RecordMateri = [
+    {
+        label: 'record-materi',
+        path: 'record-materi',
+        active: false,
+        access: ['admin', 'tentor']
+    },
+]

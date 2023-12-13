@@ -19,7 +19,7 @@ const InputText= forwardRef<HTMLInputElement, InputTextProps>((props, ref) => {
                 w-full py-2 px-3 text-gray-700 leading-tight 
                 focus:outline-none focus:shadow-outline ${className}`}
             />
-            <label className="text-red-300">
+            <label className='text-red-500 text-sm font-light'>
                {errors ? errors :""}
             </label>
         </div>

@@ -2,20 +2,32 @@ import { FieldErrors, UseFormHandleSubmit, UseFormRegister } from "react-hook-fo
 import { ApiResponse, InfoResponse } from "../apiInfoInterface";
 
 export interface TutorInterface {
-    id?: string;
-    code?: string;
-    name: string;
-    price: number;
-    description?: string;
-    userCreate?: string | null,
-    createdAt?: Date | null,
-    updatedAt?: Date | null,
-    deletedAt?: Date | null
+    id?: string
+    name: string
+    email: string
+    username: string
+    password: string
+    token?: string
+    refreshToken?: string
+    roleId?: string
+    userType: UserType
+    nickname: string
+    address?: string
+    phone: string
+    userCreate?: string
+    createdAt?: string
+    updatedAt?: string
+    deletedAt?: string
 }
 
 export interface TutorSearchInterface {
     name?: string;
     code?: string
+}
+
+export enum UserType {
+    admin="admin", 
+    tentor="tentor"
 }
 
 export type TutorFormProps = {

@@ -1,6 +1,5 @@
 import AdminLayout from "../components/layouts/admin/AdminLayout";
 import HomePage from "../pages/admins/dashboard/HomePage";
-import NotFoundPage from "../pages/NotFoundPage";
 import UserPage from "../pages/admins/users";
 import Middleware from "./MiddlewareRouter";
 import { 
@@ -20,7 +19,13 @@ import {
     SessionPage
 } from "../pages/admins/settings";
 import { RegistrationPage } from "../pages/admins/registers";
-import { TentorNotAvailablePage } from "../pages/admins/schedules";
+import { 
+    ClassInformationPage,
+    SessionPage as SessionSchedule,
+    TentorNotAvailablePage 
+} from "../pages/admins/schedules";
+import StudyGroupPage from "../pages/admins/schedules/studyGroup";
+import { RecordMateriPage } from "../pages/admins/recordMateri";
 
 const MainRouters = [
     {
@@ -92,13 +97,25 @@ const MainRouters = [
                 element: <TutorPage />
             },
             {
-                path: 'tentor-not-available',
+                path: 'schedule/tentor-not-available',
                 element: <TentorNotAvailablePage />
             },
             {
-                path: '*', 
-                element: <NotFoundPage />
+                path: 'schedule/study-groups',
+                element: <StudyGroupPage />
             },
+            {
+                path: 'schedule/sessions',
+                element: <SessionSchedule />
+            },
+            {
+                path: 'schedule/class-information',
+                element: <ClassInformationPage />
+            },
+            {
+                path: 'record-materi',
+                element: <RecordMateriPage />
+            }
         ], 
     }
 ];

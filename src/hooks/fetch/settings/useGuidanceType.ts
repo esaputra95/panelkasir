@@ -1,7 +1,19 @@
-import {  useMutation, useQuery } from "@tanstack/react-query"
-import { deleteData, getData, getDataById, getDataSelect, postData } from "./../../models/settings/guidanceTypeModel"
+import {
+    useMutation,
+    useQuery
+} from "@tanstack/react-query"
+import { 
+    deleteData, 
+    getData, 
+    getDataById, 
+    getDataSelect,
+    postData
+} from "./../../models/settings/guidanceTypeModel"
 import { useEffect, useState } from "react"
-import { ApiResponseGuidanceType, GuidanceTypeInterface } from "./../../../interfaces/settings/guidanceTypeInterface"
+import { 
+    ApiResponseGuidanceType,
+    GuidanceTypeInterface
+} from "./../../../interfaces/settings/guidanceTypeInterface"
 import { SubmitHandler, useForm } from "react-hook-form"
 import url from "./../../../services/url"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -11,24 +23,21 @@ import { modalFormState } from "../../../utils/modalFormState"
 import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next"
 import { modalConfirmState } from "../../../utils/modalConfirmState"
-import { GuidanceTypeDummy } from './../../../utils/dummy/setting'
+import { GuidanceTypeDummy, OptionDummy } from './../../../utils/dummy/setting'
 import usePage from "../../../utils/pageState"
 import { DataMessageError } from "../../../interfaces/apiInfoInterface"
 import { handleMessageErrors } from "../../../services/handleErrorMessage"
-import { useNavigate, useParams } from "react-router-dom"
+import { OptionSelectInterface } from "../../../interfaces/globalInterface"
 
 export const useGuidanceType = () => {
     const [ query, setQuery ] = useState<GuidanceTypeInterface>()
     const [ idDetail, setIdDetail ] = useState<string | null>()
+    const [ dataOptionGuidanceType, setDataOptionGuidanceType ] = useState<OptionSelectInterface[]>([OptionDummy])
     const { GuidanceType } = url
     const { modalForm, setModalForm } = modalFormState()
     const { t } = useTranslation();
     const modalConfirm = modalConfirmState()
     const page = usePage();
-    const params = useParams()
-    console.log({params});
-    
-    
     useEffect(()=> {
         setModalForm((state)=>({
             ...state,
@@ -72,6 +81,7 @@ export const useGuidanceType = () => {
     const optionGuidanceType = async (data:string) => {
         const response = await getDataSelect(GuidanceType.getSelect, {name: data});
         if(response.status){
+            setDataOptionGuidanceType(response.data.guidanceType)
             return response.data.guidanceType
         }
     }
@@ -103,7 +113,7 @@ export const useGuidanceType = () => {
         },
         onError: async (errors) => {
             const err = errors as AxiosError<DataMessageError>
-            let message: any = `${errors}`
+            let message = `${errors}`
             if(err.response?.status === 400){
                 message = await handleMessageErrors(err.response?.data?.errors)
             }
@@ -201,6 +211,7 @@ export const useGuidanceType = () => {
         onDetail,
         idDetail,
         page: page,
-        optionGuidanceType
+        optionGuidanceType,
+        dataOptionGuidanceType
     }
 }

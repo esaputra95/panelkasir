@@ -1,5 +1,11 @@
 import {  useMutation, useQuery } from "@tanstack/react-query"
-import { deleteData, getData, getDataById, postData } from "./../../models/master/roomModel"
+import {
+    deleteData,
+    getData,
+    getDataById,
+    postData,
+    getDataSelect
+} from "./../../models/master/roomModel"
 import { useEffect, useState } from "react"
 import { ApiResponseRoom, RoomInterface } from "./../../../interfaces/master/roomInterface"
 import { SubmitHandler, useForm } from "react-hook-form"
@@ -15,10 +21,13 @@ import { roomDummy } from './../../../utils/dummy/master'
 import usePage from "../../../utils/pageState"
 import { DataMessageError } from "../../../interfaces/apiInfoInterface"
 import { handleMessageErrors } from "../../../services/handleErrorMessage"
+import { OptionSelectInterface } from "../../../interfaces/globalInterface"
+import { OptionDummy } from "../../../utils/dummy/setting"
 
 export const useRoom = () => {
     const [ query, setQuery ] = useState<RoomInterface>()
     const [ idDetail, setIdDetail ] = useState<string | null>()
+    const [ dataOptionRoom, setDataOptionRoom] = useState<OptionSelectInterface[]>([OptionDummy])
     const { Room } = url
     const { modalForm, setModalForm } = modalFormState()
     const { t } = useTranslation();
@@ -171,6 +180,14 @@ export const useRoom = () => {
         mutateById(id)
     }
 
+    const optionRoom = async (data:string) => {
+        const response = await getDataSelect(Room.getSelect, {name: data});
+        if(response.status){
+            setDataOptionRoom(response.data.room)
+            return response.data.room
+        }
+    }
+
     return {
         dataRoom,
         isFetching,
@@ -190,5 +207,7 @@ export const useRoom = () => {
         onDetail,
         idDetail,
         page: page,
+        optionRoom,
+        dataOptionRoom
     }
 }

@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import { RegisterFormInterface } from '../../../interfaces/public/registerInterface'
 import { Button, InputText, SelectAutoComplete, SelectOption } from '../../../components/input'
 import { useTranslation } from 'react-i18next'
@@ -18,10 +18,6 @@ const FormRegister: FC<RegisterFormInterface> = (props) => {
         optionGuidanceType
     } = props
     const {t} = useTranslation()
-    const [value, setValue] = useState()
-
-    console.log({errors});
-    
 
     return (
         <div className='w-full min-h-screen bg-gray-100 py:2 xl:py-4 lg:py-4 md:py-4'>
@@ -53,10 +49,10 @@ const FormRegister: FC<RegisterFormInterface> = (props) => {
                                 </div>
                                 <div className="sm:col-span-3">
                                     <SelectOption 
-                                        register={register}
+                                        {...register('gender')}
                                         name='gender'
                                         label={t("gender")}
-                                        errors={errors}
+                                        errors={errors?.gender?.message}
                                         option={[{value:'laki_laki', label:'Lak-Laki'}, {value:'perempuan', label:'Perempuan'}]}
                                     />
                                 </div>
