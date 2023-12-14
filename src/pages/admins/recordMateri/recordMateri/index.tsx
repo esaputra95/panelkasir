@@ -26,7 +26,8 @@ const RecordMateriPage = () => {
         idDetail,
         page,
         control,
-        handelOnChangeForm
+        handelOnChangeForm,
+        optionStudyGroup
     } = useRecordMateri()
 
     return (
@@ -48,6 +49,7 @@ const RecordMateriPage = () => {
                     register={register}
                     onSubmit={onSubmit}
                     handelOnChangeForm={handelOnChangeForm}
+                    optionStudyGroup={optionStudyGroup}
                 />
             </ModalForm>
             <div className='w-full'>

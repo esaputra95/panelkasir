@@ -76,7 +76,7 @@ const button = cva("flex items-center justify-center", {
 		},
 		size: {
 			small: ["text-sm", "py-1", "px-2"],
-			medium: ["text-base", "py-2.5", "px-5"],
+			medium: ["text-base", "py-2.5", "px-5", "h-12"],
 		},
 	},
 	compoundVariants: [{ variant: "primary", size: "medium"}],

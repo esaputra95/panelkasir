@@ -50,7 +50,7 @@ export type StudyGroupFormProps = {
     optionGuidanceType: (data: string) => Promise<OptionSelectInterface[]>
     dataOptionGuidanceType: OptionSelectInterface[];
     fields: FieldArrayWithId<StudyGroupInputForm, "studyGroupDetails", "id">[]
-    optionStudent:  (data: string) => Promise<OptionSelectInterface[]>
+    optionStudent: (data: string) => Promise<OptionSelectInterface[]>
     dataOptionStudent: OptionSelectInterface[];
     append: UseFieldArrayAppend<StudyGroupInputForm, "studyGroupDetails">
     remove: UseFieldArrayRemove,

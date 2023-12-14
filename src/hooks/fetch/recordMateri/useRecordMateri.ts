@@ -58,6 +58,7 @@ export const useRecordMateri = () => {
         register,
         handleSubmit,
         setValue,
+        getValues,
         control,
         formState: { errors },
     } = useForm<RecordMateriFormInterface>({
@@ -93,6 +94,12 @@ export const useRecordMateri = () => {
         const response = await getDataSelect(RecordMateri.getSelect, {name: data});
         setDataOptionRecordMateri(response.data.class);
         return response.data.class
+    }
+
+    const optionStudyGroup = async (data: string) => {
+        const response = await getStudyGroup(RecordMateri.getStudyGroup, {name: data, tentorId: token?.id ?? ''});
+        setDataOptionRecordMateri(response.data.studyGroup);
+        return response.data.studyGroup
     }
 
     const { mutate:mutateById } = useMutation({
@@ -224,14 +231,14 @@ export const useRecordMateri = () => {
     }
 
     const getStudents = () => {
-        getStudyGroup(
-            RecordMateri.getStudyGroup,
-            {
-                tentorId: token?.id ?? '',
-                date: '',
-                groupId: ''
-            }
-        )
+        // getStudyGroup(
+        //     RecordMateri.getStudyGroup,
+        //     {
+        //         tentorId: token?.id ?? '',
+        //         date: getValues('date'),
+        //         groupId: ''
+        //     }
+        // )
     }
 
     return {
@@ -256,6 +263,7 @@ export const useRecordMateri = () => {
         control,
         optionRecordMateri,
         dataOptionRecordMateri,
-        handelOnChangeForm
+        handelOnChangeForm,
+        optionStudyGroup
     }
 }

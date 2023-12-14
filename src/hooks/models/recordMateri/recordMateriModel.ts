@@ -9,10 +9,10 @@ interface ParamRecordMateriInterface extends RecordMateriSearchInterface {
 }
 
 interface StudyGroupInterface {
+	name:string;
 	tentorId: string;
-	groupId:string;
-	date: string
 }
+
 
 const getData = async (url:string, params:ParamRecordMateriInterface) => {
 	const response = await api.get(url, { params: { ...params } });
@@ -76,6 +76,7 @@ const getStudyGroup = async (url:string, data:StudyGroupInterface) => {
 		return error as AxiosError
 	}
 }
+
 
 export {
 	getData,

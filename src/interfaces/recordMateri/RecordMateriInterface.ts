@@ -3,6 +3,7 @@ import { ApiResponse, InfoResponse } from "../apiInfoInterface";
 import { OptionSelectInterface } from "../globalInterface";
 import { ClassTypeInterface } from "../master/classTypeInterface";
 import { ChangeEvent } from "react";
+import { GroupBase, OptionsOrGroups } from "react-select";
 
 export interface RecordMateriInterface {
     id?: string;
@@ -26,6 +27,7 @@ export interface RecordMateriSearchInterface {
 
 export interface RecordMateriFormInterface {
     date: string;
+    studyGroupId: string;
     detail: RecordMateriInterface[]
 }
 
@@ -38,7 +40,8 @@ export type RecordMateriFormProps = {
     isLoading?: boolean;
     idDetail?: string | null;
     control: Control<RecordMateriFormInterface>;
-    handelOnChangeForm: (event: ChangeEvent<HTMLInputElement>) => void
+    handelOnChangeForm: (event: ChangeEvent<HTMLInputElement>) => void;
+    optionStudyGroup: ((inputValue: string, callback: (options: OptionsOrGroups<string, GroupBase<string>>) => void) => void | Promise<OptionsOrGroups<string, GroupBase<string>>>) | undefined
 }
 
 export interface Info {
