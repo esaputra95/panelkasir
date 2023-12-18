@@ -6,6 +6,9 @@ import FormRecordMateri from './form'
 import { Button } from '../../../../components/input'
 import locatioanName from '../../../../utils/location'
 import ModalConfirm from '../../../../components/ui/modal/ModalConfirm'
+import { useStudent } from '../../../../hooks/fetch/master/useStudent'
+import { useMaterial } from '../../../../hooks/fetch/master/useMaterial'
+import { useCourse } from '../../../../hooks/fetch/master/useCourse'
 
 const RecordMateriPage = () => {
     const { 
@@ -16,6 +19,7 @@ const RecordMateriPage = () => {
         register,
         onSubmit,
         handleSubmit,
+        getValues,
         modalForm,
         setModalForm,
         onDelete,
@@ -27,8 +31,22 @@ const RecordMateriPage = () => {
         page,
         control,
         handelOnChangeForm,
-        optionStudyGroup
+        optionStudyGroup,
+        getListStudents,
+        fieldDetails,
+        appendDetail,
+        removeDetail
     } = useRecordMateri()
+    
+    const {
+        optionStudent,
+        dataOptionStudent
+    } = useStudent();
+
+    const {
+        optionCourse,
+        dataOptionCourse
+    } = useCourse()
 
     return (
         <div className='w-full'>
@@ -50,6 +68,13 @@ const RecordMateriPage = () => {
                     onSubmit={onSubmit}
                     handelOnChangeForm={handelOnChangeForm}
                     optionStudyGroup={optionStudyGroup}
+                    getListStudents={getListStudents}
+                    getValues={getValues}
+                    fieldDetails={fieldDetails}
+                    optionStudent={optionStudent}
+                    dataOptionStudent={dataOptionStudent}
+                    optionCourse={optionCourse}
+                    dataOptionCourse={dataOptionCourse}
                 />
             </ModalForm>
             <div className='w-full'>

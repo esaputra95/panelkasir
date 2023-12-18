@@ -4,6 +4,7 @@ import {
     getData,
     getDataById,
     getDataSelect,
+    getListStudent,
     getStudyGroup,
     postData
 } from "../../models/recordMateri/recordMateriModel"
@@ -18,7 +19,7 @@ import {
     RecordMateriFormInterface,
     RecordMateriInterface
 } from "../../../interfaces/recordMateri/RecordMateriInterface"
-import { SubmitHandler, useForm } from "react-hook-form"
+import { SubmitHandler, useFieldArray, useForm } from "react-hook-form"
 import url from "../../../services/url"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { RecordMateriSchema } from "../../../schema/recordMateri"
@@ -34,6 +35,7 @@ import { handleMessageErrors } from "../../../services/handleErrorMessage"
 import { OptionSelectInterface } from "../../../interfaces/globalInterface"
 import { OptionDummy } from "../../../utils/dummy/setting"
 import useAccess from "../../../utils/useAccess"
+
 
 export const useRecordMateri = () => {
     const [ query, setQuery ] = useState<RecordMateriInterface>()
@@ -66,6 +68,19 @@ export const useRecordMateri = () => {
         defaultValues: RecordMateriDummy
     })
 
+    const {
+        fields:fieldDetails,
+        append:appendDetail,
+        remove:removeDetail
+    } = useFieldArray({
+        control,
+        name: 'detail'
+    })
+
+    useEffect(()=> {
+        setValue('tentorId', token?.id)
+    }, [token])
+
     useEffect(()=> {
         refetch()
     }, [page.page])
@@ -97,7 +112,7 @@ export const useRecordMateri = () => {
     }
 
     const optionStudyGroup = async (data: string) => {
-        const response = await getStudyGroup(RecordMateri.getStudyGroup, {name: data, tentorId: token?.id ?? ''});
+        const response = await getStudyGroup(RecordMateri.getStudyGroup, {name: data, tentorId: getValues('tentorId') ?? ''});
         setDataOptionRecordMateri(response.data.studyGroup);
         return response.data.studyGroup
     }
@@ -122,16 +137,18 @@ export const useRecordMateri = () => {
 
     const { mutate, isLoading:isLoadingMutate } = useMutation({
         mutationFn: (data:RecordMateriInterface)=> postData(RecordMateri.post, data),
-        onSuccess: () => {
-            setModalForm((state)=>({
-                ...state,
-                visible: false
-            }))
-            refetch()
-            reset()
-            toast.success(t("success-save"), {
-                position: toast.POSITION.TOP_CENTER
-            });
+        onSuccess: (err) => {
+            console.log({err});
+            
+            // setModalForm((state)=>({
+            //     ...state,
+            //     visible: false
+            // }))
+            // refetch()
+            // reset()
+            // toast.success(t("success-save"), {
+            //     position: toast.POSITION.TOP_CENTER
+            // });
             
         },
         onError: async (errors) => {
@@ -225,20 +242,28 @@ export const useRecordMateri = () => {
             event.target.name as keyof RecordMateriFormInterface, 
             event.target.value
         )
-        if(event.target.name==="date"){
-            getStudents()
-        }
     }
 
-    const getStudents = () => {
-        // getStudyGroup(
-        //     RecordMateri.getStudyGroup,
-        //     {
-        //         tentorId: token?.id ?? '',
-        //         date: getValues('date'),
-        //         groupId: ''
-        //     }
-        // )
+    const getListStudents = async (date?:string|undefined, tentorId?:string|undefined, groupId?: string|undefined) => {
+        const data = await getListStudent(RecordMateri.getListStudent, {
+            tentorId: tentorId??'',
+            date: date??'',
+            groupId: groupId??''
+        });
+        const list = data.data?.listStudent ?? []
+        
+        let listStudent:RecordMateriInterface[]=[]
+        for (let index = 0; index < list.length; index++) {
+            listStudent=[
+                ...listStudent,
+                {
+                    studentId: list[index].studentId,
+                    materiId: list[index].materiId
+                }
+            ]
+        }
+        
+        setValue('detail', listStudent)
     }
 
     return {
@@ -246,6 +271,7 @@ export const useRecordMateri = () => {
         isFetching,
         setQuery,
         onSubmit,
+        getValues,
         isLoadingMutate,
         errors,
         reset,
@@ -264,6 +290,10 @@ export const useRecordMateri = () => {
         optionRecordMateri,
         dataOptionRecordMateri,
         handelOnChangeForm,
-        optionStudyGroup
+        optionStudyGroup,
+        getListStudents,
+        fieldDetails,
+        appendDetail,
+        removeDetail
     }
 }

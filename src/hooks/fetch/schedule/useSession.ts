@@ -131,6 +131,7 @@ export const useSession = () => {
 
     useEffect(()=> {
         setValue('schedule.studyGroupId', queryUrl.get('id')??'')
+        checkSessions(queryUrl.get('id')??'')
     }, [])
 
     const {data:dataGroup} = useQuery({

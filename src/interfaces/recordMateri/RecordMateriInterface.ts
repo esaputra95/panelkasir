@@ -1,4 +1,4 @@
-import { Control, FieldErrors, UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
+import { Control, FieldArrayWithId, FieldErrors, UseFormGetValues, UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
 import { ApiResponse, InfoResponse } from "../apiInfoInterface";
 import { OptionSelectInterface } from "../globalInterface";
 import { ClassTypeInterface } from "../master/classTypeInterface";
@@ -27,8 +27,9 @@ export interface RecordMateriSearchInterface {
 
 export interface RecordMateriFormInterface {
     date: string;
-    studyGroupId: string;
-    detail: RecordMateriInterface[]
+    studyGroupId?: string;
+    tentorId?:string;
+    detail: RecordMateriInterface[];
 }
 
 export type RecordMateriFormProps = {
@@ -41,7 +42,17 @@ export type RecordMateriFormProps = {
     idDetail?: string | null;
     control: Control<RecordMateriFormInterface>;
     handelOnChangeForm: (event: ChangeEvent<HTMLInputElement>) => void;
-    optionStudyGroup: ((inputValue: string, callback: (options: OptionsOrGroups<string, GroupBase<string>>) => void) => void | Promise<OptionsOrGroups<string, GroupBase<string>>>) | undefined
+    optionStudyGroup: ((inputValue: string, callback: (options: OptionsOrGroups<string, GroupBase<string>>) 
+        => void) => void | 
+        Promise<OptionsOrGroups<string, GroupBase<string>>>) | 
+        undefined;
+    getListStudents: (date: string, tentorId: string, groupId: string) => Promise<void>;
+    getValues: UseFormGetValues<RecordMateriFormInterface>;
+    fieldDetails: FieldArrayWithId<RecordMateriFormInterface, "detail", "id">[];
+    optionStudent:  (data: string) => Promise<OptionSelectInterface[]>;
+    dataOptionStudent: OptionSelectInterface[];
+    dataOptionCourse: OptionSelectInterface[];
+    optionCourse:  (data: string) => Promise<OptionSelectInterface[]>
 }
 
 export interface Info {

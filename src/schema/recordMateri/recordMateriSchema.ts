@@ -5,7 +5,7 @@ const RecordMateriSchema = () => {
     const {t} = useTranslation()
     const schema = yup.object({
         date: yup.string().required(`${t("date")} ${t("required")}`),
-        studyGroupId: yup.string().required(`${t("study-groups")} ${t("required")}`),
+        // studyGroupId: yup.string().required(`${t("study-groups")} ${t("required")}`),
         detail: yup.array().of(
             yup.object().shape({
                 studentId: yup.string().required(`${t("date")} ${t("required")}`),

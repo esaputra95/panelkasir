@@ -12,14 +12,22 @@ const FormRecordMateri: FC<RecordMateriFormProps> = (props) => {
         onSubmit,
         register,
         onCancel,
+        getValues,
         errors,
         isLoading,
         idDetail,
         control,
         handelOnChangeForm,
-        optionStudyGroup
+        optionStudyGroup,
+        getListStudents,
+        fieldDetails,
+        optionStudent,
+        dataOptionStudent,
+        optionCourse,
+        dataOptionCourse
     } = props;
     const {t} = useTranslation()
+    console.log({errors});
     
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -35,8 +43,9 @@ const FormRecordMateri: FC<RecordMateriFormProps> = (props) => {
                         handelOnChangeForm(event)
                     }
                 />
+                
                 <div className='w-full pl-2'>
-                    <LabelInput>{t("class-types")}</LabelInput>
+                    <LabelInput>{t("study-groups")}</LabelInput>
                     <Controller
                         name="studyGroupId"
                         control={control}
@@ -46,7 +55,6 @@ const FormRecordMateri: FC<RecordMateriFormProps> = (props) => {
                                 {...field}
                                 cacheOptions
                                 loadOptions={optionStudyGroup}
-                                defaultOptions={true}
                                 placeholder='Select...'
                                 ref={(ref)=>ref}
                             />
@@ -60,7 +68,123 @@ const FormRecordMateri: FC<RecordMateriFormProps> = (props) => {
                 </div>
             </div>
             <div className='w-full flex justify-end'>
-                <Button variant='success'>Lihat Siswa</Button>
+                <Button
+                    type='button'
+                    variant='success'
+                    onClick={()=> getListStudents(
+                        getValues('date')??'', 
+                        getValues('tentorId')??'', 
+                        getValues('studyGroupId')??'')}
+                >
+                    Lihat Siswa
+                </Button>
+            </div>
+            <div className="w-full relative overflow-x-auto">
+                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th>
+                                {t('students')}
+                            </th>
+                            <th>
+                                {t('materials')}
+                            </th>
+                            <th>
+                                {t('advice')}
+                            </th>
+                            <th>
+                                {t('description')}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {
+                        fieldDetails.length > 0 ?fieldDetails.map((field, index)=>
+                            <tr key={field.id}>
+                                <td >
+                                    <Controller
+                                        name={`detail.${index}.student`}
+                                        control={control}
+                                            render={({ field }) => 
+                                            <AsyncSelect
+                                                className='w-full'
+                                                {...field}
+                                                name={`scheduleDetails.${index}.student`}
+                                                cacheOptions
+                                                loadOptions={optionStudent}
+                                                // isDisabled={idDetail? true : false}
+                                                isSearchable={false}
+                                                defaultOptions
+                                                // onChange={(e:SingleValue<OptionSelectInterface>)=>
+                                                //     handleOnChangeSessionDetail(e?.value ?? '', index)
+                                                // }
+                                                placeholder='Select...'
+                                                value={ dataOptionStudent.filter(value=> 
+                                                        value.value === getValues(`detail.${index}.studentId`)
+                                                    )
+                                                }
+                                                ref={(ref)=> ref}
+                                            />
+                                        }
+                                    />
+                                    <span className='text-red-300'>
+                                    {
+                                        errors.detail?.[index]?.student?.message ?? null
+                                    }
+                                    </span>
+                                </td>
+                                <td >
+                                    <Controller
+                                        name={`detail.${index}.material`}
+                                        control={control}
+                                            render={({ field }) => 
+                                            <AsyncSelect
+                                                className='w-full'
+                                                {...field}
+                                                name={`scheduleDetails.${index}.material`}
+                                                cacheOptions
+                                                loadOptions={optionCourse}
+                                                isDisabled={idDetail? true : false}
+                                                defaultOptions
+                                                // onChange={(e:SingleValue<OptionSelectInterface>)=>
+                                                //     handleOnChangeSessionDetail(e?.value ?? '', index)
+                                                // }
+                                                value={ dataOptionCourse.filter(value=> 
+                                                    value.value === getValues(`detail.${index}.materiId`)
+                                                )
+                                            }
+                                                placeholder='Select...'
+                                                ref={(ref)=> ref}
+                                            />
+                                        }
+                                    />
+                                    <span className='text-red-300'>
+                                    {
+                                        errors.detail?.[index]?.student?.message ?? null
+                                    }
+                                    </span>
+                                </td>
+                                <td>
+                                <InputText
+                                    {
+                                        ...register(`detail.${index}.advice`)
+                                    }
+                                    errors={errors.detail?.[index]?.advice?.message ?? ''}
+                                /></td>
+                                <td>
+                                    
+                                <InputText
+                                    {
+                                        ...register(`detail.${index}.description`)
+                                    }
+                                    errors={errors.detail?.[index]?.description?.message ?? ''}
+                                />
+                                </td>
+                            </tr>
+                        ) : null
+                    }
+                    </tbody>
+                </table>
             </div>
             <div className='w-full flex justify-end space-x-2'>
                 <Button

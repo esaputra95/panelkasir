@@ -29,8 +29,6 @@ const postData = async (url:string, data:any) => {
 			if(response.status === 200) return response.data
 			throw response;
 		}else{
-			delete data.classType
-			data.method = data.method.value
 			const response = await api.post(url, data);
 			if(response.status === 200) return response.data
 			throw response;
@@ -77,6 +75,24 @@ const getStudyGroup = async (url:string, data:StudyGroupInterface) => {
 	}
 }
 
+type ListParamData = {
+	tentorId: string;
+	date: string;
+	groupId: string;
+}
+
+
+const getListStudent = async (url:string, data:ListParamData) => {
+	try {
+		const response = await api.post(url, data)
+		console.log({response});
+		
+		return response.data
+	} catch (error) {
+		return error as AxiosError
+	}
+}
+
 
 export {
 	getData,
@@ -84,5 +100,6 @@ export {
 	deleteData,
 	getDataById,
 	getDataSelect,
-	getStudyGroup
+	getStudyGroup,
+	getListStudent
 };

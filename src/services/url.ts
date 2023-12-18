@@ -138,7 +138,8 @@ const url = {
         getById: 'record-materi',
         delete: 'record-materi',
         getSelect: 'record-materi/select',
-        getStudyGroup: 'record-materi/get-study-group'
+        getStudyGroup: 'record-materi/get-study-group',
+        getListStudent: 'record-materi/get-list-student'
     },
     Student: {
         getSelect: 'students/select'

@@ -9,9 +9,14 @@ const InputText= forwardRef<HTMLInputElement, InputTextProps>((props, ref) => {
     const {  label, errors, className, ...rest } = props
     return (
         <div className="w-full">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-                {label}
-            </label>
+            {
+                label? (
+                    <label className="block text-gray-700 text-sm font-bold mb-2">
+                        {label}
+                    </label>
+                ) : null
+            }
+            
             <input 
                 ref={ref} 
                 {...rest} 
