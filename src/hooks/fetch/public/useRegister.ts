@@ -28,7 +28,7 @@ const useRegister = () => {
     });
     
     const {data:dataClassMaster, isFetching, refetch} = useQuery<ApiResponseRegister, AxiosError>({ 
-        queryKey: ['class-master'], 
+        queryKey: ['register'], 
         networkMode: 'always',
         queryFn: async () => await getData(Register.get, 
             {

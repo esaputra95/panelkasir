@@ -1,7 +1,7 @@
-const withMT = require("@material-tailwind/react/utils/withMT"); 
+import withMT from "@material-tailwind/react/utils/withMT"; 
 
 /** @type {import('tailwindcss').Config} */
-module.exports = withMT({
+export default withMT({
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -12,6 +12,7 @@ module.exports = withMT({
     extend: {
       maxHeight: {
         '100': '27rem',
+        '120': '32rem',
       }
     },
   },

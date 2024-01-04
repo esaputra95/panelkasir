@@ -35,12 +35,15 @@ import { handleMessageErrors } from "../../../services/handleErrorMessage"
 import { OptionSelectInterface } from "../../../interfaces/globalInterface"
 import { OptionDummy } from "../../../utils/dummy/setting"
 import useAccess from "../../../utils/useAccess"
+import moment from "moment"
 
 
 export const useRecordMateri = () => {
-    const [ query, setQuery ] = useState<RecordMateriInterface>()
+    const [ updateStatus, setUpdateStatus ] = useState<boolean>(false)
+    const [ query, setQuery ] = useState<RecordMateriInterface>({studentId: '', materiId:''})
     const [ idDetail, setIdDetail ] = useState<string | null>()
     const [ dataOptionRecordMateri, setDataOptionRecordMateri] = useState<OptionSelectInterface[]>([OptionDummy])
+    const [ dataOptionStudyGroup, setDataOptionStudyGroup] = useState<OptionSelectInterface[]>([OptionDummy])
     const { RecordMateri } = url
     const { modalForm, setModalForm } = modalFormState()
     const { t } = useTranslation();
@@ -69,9 +72,7 @@ export const useRecordMateri = () => {
     })
 
     const {
-        fields:fieldDetails,
-        append:appendDetail,
-        remove:removeDetail
+        fields:fieldDetails
     } = useFieldArray({
         control,
         name: 'detail'
@@ -84,7 +85,7 @@ export const useRecordMateri = () => {
     useEffect(()=> {
         refetch()
     }, [page.page])
-      
+    
     const {data:dataRecordMateri, isFetching, refetch} = useQuery<ApiResponseRecordMateri, AxiosError>({ 
         queryKey: ['class-master'], 
         networkMode: 'always',
@@ -96,6 +97,7 @@ export const useRecordMateri = () => {
             }
         ),
         onSuccess(data) {
+            setUpdateStatus(false)
             page.setTotal(Math.ceil((data?.data?.info?.total  ?? 1)/(data?.data?.info?.limit ?? page.limit)));
         },
         onError: (errors) => {
@@ -112,16 +114,39 @@ export const useRecordMateri = () => {
     }
 
     const optionStudyGroup = async (data: string) => {
-        const response = await getStudyGroup(RecordMateri.getStudyGroup, {name: data, tentorId: getValues('tentorId') ?? ''});
-        setDataOptionRecordMateri(response.data.studyGroup);
-        return response.data.studyGroup
+        const response = await getStudyGroup(
+            RecordMateri.getStudyGroup, 
+            {
+                name: data, tentorId: getValues('tentorId') ?? ''
+            }
+        );
+
+        setDataOptionStudyGroup(response);
+        return response
     }
 
     const { mutate:mutateById } = useMutation({
-        mutationFn: (id:string) => getDataById(RecordMateri.getById, id),
+        networkMode: 'always',
+        mutationFn: (id:string) => {
+            return getDataById(RecordMateri.getById, id)
+        },
         onSuccess:(data:ApiResponseUpdateRecordMateri)=>{
             if(data.status){
-                reset(data.data.recordMateri)
+                const recordMateri = data.data.recordMateri
+                reset({
+                    id: recordMateri.id,
+                    date: moment(recordMateri.date).format('YYYY-MM-DD'),
+                    studyGroupId: recordMateri.scheduleDetails?.schedules.studyGroupId,
+                    tentorId: recordMateri.tentorId,
+                    detail: [
+                        {
+                            studentId: recordMateri.studentId,
+                            description: recordMateri.description,
+                            advice: recordMateri.advice,
+                            materiId: recordMateri.materiId
+                        }
+                    ]
+                })
                 setModalForm((state)=>({
                     ...state,
                     visible: true
@@ -137,18 +162,16 @@ export const useRecordMateri = () => {
 
     const { mutate, isLoading:isLoadingMutate } = useMutation({
         mutationFn: (data:RecordMateriInterface)=> postData(RecordMateri.post, data),
-        onSuccess: (err) => {
-            console.log({err});
-            
-            // setModalForm((state)=>({
-            //     ...state,
-            //     visible: false
-            // }))
-            // refetch()
-            // reset()
-            // toast.success(t("success-save"), {
-            //     position: toast.POSITION.TOP_CENTER
-            // });
+        onSuccess: () => {
+            setModalForm((state)=>({
+                ...state,
+                visible: false
+            }))
+            refetch()
+            reset()
+            toast.success(t("success-save"), {
+                position: toast.POSITION.TOP_CENTER
+            });
             
         },
         onError: async (errors) => {
@@ -164,7 +187,9 @@ export const useRecordMateri = () => {
     })
 
     const {mutate:mutateDelete} = useMutation({
-        mutationFn: (id:string) => deleteData(RecordMateri.delete, id),
+        mutationFn: (id:string) => {
+            return deleteData(RecordMateri.delete, id)
+        },
         onSuccess: () => {
             modalConfirm.setModalConfirm({
                 ...modalConfirm.modalConfirm,
@@ -200,6 +225,7 @@ export const useRecordMateri = () => {
             message: state.message,
             confirmLabel: state.confirmLabel,
             cancelLabel: state.cancelLabel,
+            type:'danger',
             visible: true,
             onConfirm:()=>{
                 modalConfirm.setModalConfirm((state)=>({
@@ -218,10 +244,12 @@ export const useRecordMateri = () => {
     }
 
     const onUpdate = (id:string) => {
+        setUpdateStatus(true)
         mutateById(id)
     }
 
     const onCancel = () => {
+        setUpdateStatus(false)
         setModalForm((state)=>({
             ...state,
             visible: false
@@ -258,12 +286,23 @@ export const useRecordMateri = () => {
                 ...listStudent,
                 {
                     studentId: list[index].studentId,
-                    materiId: list[index].materiId
+                    materiId: list[index].materiId,
+                    scheduleDetailId: list[index].id
                 }
             ]
         }
-        
         setValue('detail', listStudent)
+    }
+
+    const handleOnChangeStudents = async (data:string) => {
+        setQuery(prevState => ({
+            ...prevState,
+            studentId: data
+        }));
+    }
+
+    const handleOnSearchStudent = ()=> {
+        refetch()
     }
 
     return {
@@ -293,7 +332,9 @@ export const useRecordMateri = () => {
         optionStudyGroup,
         getListStudents,
         fieldDetails,
-        appendDetail,
-        removeDetail
+        handleOnChangeStudents,
+        handleOnSearchStudent,
+        dataOptionStudyGroup,
+        updateStatus
     }
 }

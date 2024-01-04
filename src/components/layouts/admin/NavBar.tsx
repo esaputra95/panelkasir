@@ -14,7 +14,7 @@ const NavBar = () => {
 	const onChangeLang = (e:string) => {
 		const lang_code = e;
 		i18n.changeLanguage(lang_code);
-		window.sessionStorage.setItem('language', e)
+		window.localStorage.setItem('language', e)
 	};
 	
 	const logOut = () => {
@@ -23,7 +23,7 @@ const NavBar = () => {
 	}
 
 	return (
-		<div className="w-full bg-white sticky top-0 ">
+		<div className="w-full bg-white sticky top-0 z-[1000] ">
 			<div className="w-full flex justify-between h-16 items-center px-8">
 				<div className="font-semibold ">{t(location.pathname.replace('/', '').split('/').slice(-1)[0])}</div>
 				<div className="flex space-x-2">

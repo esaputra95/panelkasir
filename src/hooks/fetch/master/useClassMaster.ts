@@ -48,7 +48,7 @@ export const useClassMaster = () => {
     useEffect(()=> {
         refetch()
     }, [page.page])
-      
+    
     const {data:dataClassMaster, isFetching, refetch} = useQuery<ApiResponseClassMaster, AxiosError>({ 
         queryKey: ['class-master'], 
         networkMode: 'always',
@@ -71,8 +71,11 @@ export const useClassMaster = () => {
 
     const optionClassMaster = async (data: string): Promise<OptionSelectInterface[]> => {
         const response = await getDataSelect(ClassMaster.getSelect, {name: data});
-        setDataOptionCLassMaster(response.data.class);
-        return response.data.class
+        if(response.status){
+            setDataOptionCLassMaster(response.data.class);
+            return response.data.class
+        }
+        return [OptionDummy]
     }
 
     const { mutate:mutateById } = useMutation({

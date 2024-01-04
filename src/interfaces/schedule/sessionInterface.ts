@@ -21,7 +21,7 @@ import { TutorInterface } from "../master/tutorInterface";
 
 export interface SessionInterface {
     id?: string;
-    scheduleType: scheduleTypeEnum
+    scheduleType: OptionSelectInterface
     studyGroupId?: string;
     date: string;
     tentorId?: string;
@@ -31,7 +31,7 @@ export interface SessionInterface {
     type: typeEnum;
     courseId?: string;
     course: OptionSelectInterface
-    method: methodeEnum;
+    method: methodEnum;
     status: string;
     userCreate?: string;
     createdAt?: Date;
@@ -42,8 +42,8 @@ export interface SessionInterface {
 export interface SessionForm {
     id?:string;
     studyGroupId?: string;
-    method: methodeEnum;
-    scheduleType: scheduleTypeEnum
+    method: methodEnum;
+    scheduleType?: OptionSelectInterface
 }
 
 export interface TimeForm {
@@ -77,7 +77,7 @@ export enum typeEnum {
     try_out='try_out'
 }
 
-export enum methodeEnum {
+export enum methodEnum {
     online='online', offline='offline'
 }
 
@@ -120,7 +120,9 @@ export type SessionFormProps = {
         value: string
     ) => void;
     handleOnChangeSessionDetail : (value: string, index: number) => void;
-    appendIdDeleteSessionDetail: UseFieldArrayAppend<SessionInputForm, "idDeleteSessionDetails">
+    appendIdDeleteSessionDetail: UseFieldArrayAppend<SessionInputForm, "idDeleteSessionDetails">;
+    dataOptionClassType: OptionSelectInterface[];
+    optionClassType: (data: string) => Promise<OptionSelectInterface[]>
 
 }
 
@@ -129,7 +131,7 @@ export interface Info {
     limit: number;
     total: number;
 }
-  
+
 export interface SessionTableInterface extends Omit<SessionInterface, 'tentor' | 'room' | 'course'> {
     courses: CourseInterface;
     rooms: RoomInterface;

@@ -10,6 +10,7 @@ import { useCourse } from '../../../../hooks/fetch/master/useCourse'
 import { useTutor } from '../../../../hooks/fetch/master/useTutor'
 import { useRoom } from '../../../../hooks/fetch/master/useRoom'
 import { t } from 'i18next'
+import { useClassType } from '../../../../hooks/fetch/master/useClassType'
 
 const SessionPage = () => {
     const {
@@ -67,6 +68,11 @@ const SessionPage = () => {
         dataOptionRoom
     } = useRoom()
 
+    const { 
+        dataOptionClassType,
+        optionClassType
+    } = useClassType()
+
     return (
         <div className='w-full'>
             <div className='w-full bg-green-100 rounded-md p-4'>
@@ -116,6 +122,8 @@ const SessionPage = () => {
                     handleOnChangeSession={handleOnChangeSession}
                     handleOnChangeSessionDetail={handleOnChangeSessionDetail}
                     appendIdDeleteSessionDetail={appendIdDeleteSessionDetail}
+                    dataOptionClassType={dataOptionClassType}
+                    optionClassType={optionClassType}
                 />
             </ModalForm>
             <div className='w-full'>

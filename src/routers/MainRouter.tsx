@@ -18,7 +18,7 @@ import {
     SchoolYearPage,
     SessionPage
 } from "../pages/admins/settings";
-import { RegistrationPage } from "../pages/admins/registers";
+import { RegistrationPage, StudentPage } from "../pages/admins/registers";
 import { 
     ClassInformationPage,
     SessionPage as SessionSchedule,
@@ -26,6 +26,8 @@ import {
 } from "../pages/admins/schedules";
 import StudyGroupPage from "../pages/admins/schedules/studyGroup";
 import { RecordMateriPage } from "../pages/admins/recordMateri";
+import { PayrollPage } from "../pages/admins/payroll";
+import { PayrollReportPage, RecordMateriReportPage, StudentReportPage } from "../pages/admins/reports";
 
 const MainRouters = [
     {
@@ -115,7 +117,27 @@ const MainRouters = [
             {
                 path: 'record-materi',
                 element: <RecordMateriPage />
-            }
+            },
+            {
+                path: 'payroll',
+                element: <PayrollPage />
+            },
+            {
+                path: 'students',
+                element: <StudentPage />
+            },
+            {
+                path: 'report/payroll-reports',
+                element: <PayrollReportPage />
+            },
+            {
+                path: 'report/record-materi-reports',
+                element: <RecordMateriReportPage />
+            },
+            {
+                path: 'report/student-reports',
+                element: <StudentReportPage />
+            },
         ], 
     }
 ];

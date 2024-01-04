@@ -91,7 +91,7 @@ const Table: FC<TableProps> = (props) => {
                                 </td>
                                 <td className="px-6 py-4">
                                     {
-                                        value.scheduleType
+                                        value.scheduleType.value
                                     }
                                 </td>
                                 <td className="px-6 py-4">

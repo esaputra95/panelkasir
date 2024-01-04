@@ -1,7 +1,7 @@
 import {  useMutation, useQuery } from "@tanstack/react-query"
 import { changeStatus, deleteData, getData, getDataById, postData } from "../../models/registers/registrationModel"
 import { useEffect, useState } from "react"
-import { ApiResponseRegistration, ApiResponseUpdateRegistration, RegistrationInterface } from "../../../interfaces/registers/registratioInterface"
+import { ApiResponseRegistration, ApiResponseUpdateRegistration, RegistrationInterface } from "../../../interfaces/registers/registrationInterface"
 import { SubmitHandler, useForm } from "react-hook-form"
 import url from "../../../services/url"
 import { AxiosError } from "axios"
@@ -12,6 +12,8 @@ import { modalConfirmState } from "../../../utils/modalConfirmState"
 import usePage from "../../../utils/pageState"
 import { DataMessageError } from "../../../interfaces/apiInfoInterface"
 import { handleMessageErrors } from "../../../services/handleErrorMessage"
+import RegisterSchema from "../../../schema/registers/registrationSchema"
+import { yupResolver } from "@hookform/resolvers/yup"
 
 export const useRegistration = () => {
     const [ query, setQuery ] = useState<RegistrationInterface>()
@@ -34,15 +36,18 @@ export const useRegistration = () => {
         register,
         handleSubmit,
         control,
+        setValue,
         formState: { errors },
-    } = useForm<RegistrationInterface>()
+    } = useForm<RegistrationInterface>({
+        resolver: yupResolver(RegisterSchema().schema)
+    })
 
     useEffect(()=> {
         refetch()
     }, [page.page])
-      
+    
     const {data:dataRegistration, isFetching, refetch} = useQuery<ApiResponseRegistration, AxiosError>({ 
-        queryKey: ['class-master'], 
+        queryKey: ['register-admin'], 
         networkMode: 'always',
         queryFn: async () => await getData(Registration.get, 
             {
@@ -88,16 +93,18 @@ export const useRegistration = () => {
 
     const { mutate, isLoading:isLoadingMutate } = useMutation({
         mutationFn: (data:RegistrationInterface)=> postData(Registration.post, data),
-        onSuccess: () => {
-            setModalForm((state)=>({
-                ...state,
-                visible: false
-            }))
-            refetch()
-            reset()
-            toast.success(t("success-save"), {
-                position: toast.POSITION.TOP_CENTER
-            });
+        onSuccess: (data) => {
+            console.log({data});
+            
+            // setModalForm((state)=>({
+            //     ...state,
+            //     visible: false
+            // }))
+            // refetch()
+            // reset()
+            // toast.success(t("success-save"), {
+            //     position: toast.POSITION.TOP_CENTER
+            // });
             
         },
         onError: async (errors) => {
@@ -213,7 +220,7 @@ export const useRegistration = () => {
             title: 'Update Status',
             message: 'Update status Register',
             type:'primary',
-            confirmLabel: state.confirmLabel,
+            confirmLabel: 'change-status',
             cancelLabel: state.cancelLabel,
             visible: true,
             onConfirm:()=>{
@@ -230,6 +237,10 @@ export const useRegistration = () => {
                 }))
             }
         }))
+    }
+
+    const handleOnChangeSelect = (key: keyof RegistrationInterface, data:string) => {
+        setValue(`${key}` as keyof RegistrationInterface, data)
     }
 
     return {
@@ -254,6 +265,7 @@ export const useRegistration = () => {
         control,
         optionRegistration,
         sendMessage,
-        changeStatusInvoice
+        changeStatusInvoice,
+        handleOnChangeSelect
     }
 }

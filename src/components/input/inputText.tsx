@@ -25,7 +25,7 @@ const InputText= forwardRef<HTMLInputElement, InputTextProps>((props, ref) => {
                 focus:outline-none focus:shadow-outline ${className}`}
             />
             <label className='text-red-500 text-sm font-light'>
-               {errors ? errors :""}
+                {errors ? errors :""}
             </label>
         </div>
     )

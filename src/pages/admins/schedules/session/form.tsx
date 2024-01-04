@@ -7,8 +7,7 @@ import {
 } from '../../../../components/input';
 import {
     SessionFormProps,
-    methodeEnum,
-    scheduleTypeEnum,
+    methodEnum,
     typeEnum
 } from '../../../../interfaces/schedule/sessionInterface';
 import { useTranslation } from 'react-i18next';
@@ -48,7 +47,9 @@ const FormSession: FC<SessionFormProps> = (props) => {
         handleOnChangeTime,
         handleOnChangeSession,
         handleOnChangeSessionDetail,
-        appendIdDeleteSessionDetail
+        appendIdDeleteSessionDetail,
+        // dataOptionClassType,
+        optionClassType
     } = props;
     const {t} = useTranslation()
     
@@ -64,22 +65,32 @@ const FormSession: FC<SessionFormProps> = (props) => {
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className='w-full grid grid-cols-3 gap-2'>
-                <SelectOption 
-                    {...register('schedule.scheduleType')}
-                    className='w-full'
-                    name='scheduleType'
-                    option={[
-                        {label:'Regular', value:'regular'},
-                        {label:'Private', value:'private'}
-                    ]}
-                    disabled={idDetail ? true : false}
-                    defaultValue={getValues('schedule.scheduleType')}
-                    errors={errors.schedule?.scheduleType?.message}
-                    onChange={(e:ChangeEvent<HTMLSelectElement>)=>
-                        handleOnChangeSession('schedule.scheduleType', e.target.value as scheduleTypeEnum)
+                <div className='w-full'>
+                    <LabelInput>
+                        {t('schedule-type')}
+                    </LabelInput>
+                    <Controller
+                        name={`schedule.scheduleType`}
+                        control={control}
+                            render={({ field }) => 
+                            <AsyncSelect
+                                className='w-full'
+                                {...field}
+                                cacheOptions
+                                loadOptions={optionClassType}
+                                isDisabled={idDetail? true : false}
+                                defaultOptions
+                                placeholder='Select...'
+                                ref={(ref)=> ref}
+                            />
+                        }
+                    />
+                    <span className='text-red-500 text-sm font-light'>
+                    {
+                        errors.schedule?.scheduleType?.message
                     }
-                    label={t('schedule-type')}
-                />
+                    </span>
+                </div>
                 <SelectOption 
                     {...register('schedule.method')}
                     className='w-full'
@@ -90,7 +101,7 @@ const FormSession: FC<SessionFormProps> = (props) => {
                     disabled={idDetail ? true : false}
                     errors={errors.schedule?.method?.message}
                     onChange={(e:ChangeEvent<HTMLSelectElement>)=>
-                        handleOnChangeSession('schedule.method', e.target.value as methodeEnum)
+                        handleOnChangeSession('schedule.method', e.target.value as methodEnum)
                     }
                     label={t('method')}
                 />

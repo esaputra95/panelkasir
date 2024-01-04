@@ -24,11 +24,12 @@ const FormRecordMateri: FC<RecordMateriFormProps> = (props) => {
         optionStudent,
         dataOptionStudent,
         optionCourse,
-        dataOptionCourse
+        dataOptionCourse,
+        dataOptionStudyGroup,
+        updateStatus
     } = props;
     const {t} = useTranslation()
-    console.log({errors});
-    
+
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className='w-full grid grid-cols-2 '>
@@ -38,7 +39,6 @@ const FormRecordMateri: FC<RecordMateriFormProps> = (props) => {
                     readOnly={idDetail?true:false} 
                     label={t("code")} 
                     type='date'
-                    name='date'
                     onChange={(event)=> 
                         handelOnChangeForm(event)
                     }
@@ -54,15 +54,20 @@ const FormRecordMateri: FC<RecordMateriFormProps> = (props) => {
                                 className='w-full'
                                 {...field}
                                 cacheOptions
+                                defaultOptions
                                 loadOptions={optionStudyGroup}
                                 placeholder='Select...'
+                                value={ updateStatus ? dataOptionStudyGroup.filter(value=> 
+                                    value.value === getValues(`studyGroupId`) 
+                                ) : undefined
+                            }
                                 ref={(ref)=>ref}
                             />
                         }
                     />
                     <span className='text-red-300'>
                     {
-                       errors.studyGroupId?.message
+                        errors.studyGroupId?.message
                     }
                     </span>
                 </div>
@@ -79,7 +84,7 @@ const FormRecordMateri: FC<RecordMateriFormProps> = (props) => {
                     Lihat Siswa
                 </Button>
             </div>
-            <div className="w-full relative overflow-x-auto">
+            <div className="w-full overflow-x-auto">
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
@@ -112,16 +117,12 @@ const FormRecordMateri: FC<RecordMateriFormProps> = (props) => {
                                                 name={`scheduleDetails.${index}.student`}
                                                 cacheOptions
                                                 loadOptions={optionStudent}
-                                                // isDisabled={idDetail? true : false}
                                                 isSearchable={false}
                                                 defaultOptions
-                                                // onChange={(e:SingleValue<OptionSelectInterface>)=>
-                                                //     handleOnChangeSessionDetail(e?.value ?? '', index)
-                                                // }
                                                 placeholder='Select...'
-                                                value={ dataOptionStudent.filter(value=> 
+                                                value={ dataOptionStudent ? dataOptionStudent.filter(value=> 
                                                         value.value === getValues(`detail.${index}.studentId`)
-                                                    )
+                                                    ) : null
                                                 }
                                                 ref={(ref)=> ref}
                                             />
@@ -146,12 +147,10 @@ const FormRecordMateri: FC<RecordMateriFormProps> = (props) => {
                                                 loadOptions={optionCourse}
                                                 isDisabled={idDetail? true : false}
                                                 defaultOptions
-                                                // onChange={(e:SingleValue<OptionSelectInterface>)=>
-                                                //     handleOnChangeSessionDetail(e?.value ?? '', index)
-                                                // }
-                                                value={ dataOptionCourse.filter(value=> 
+                                                value={ 
+                                                    dataOptionCourse ? dataOptionCourse.filter(value=> 
                                                     value.value === getValues(`detail.${index}.materiId`)
-                                                )
+                                                ) : null
                                             }
                                                 placeholder='Select...'
                                                 ref={(ref)=> ref}

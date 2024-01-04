@@ -2,7 +2,7 @@ import { FC, ReactNode } from 'react'
 import { cva, type VariantProps } from "class-variance-authority";
 import locatioanName from '../../../utils/location';
 
-const modalForm = cva("relative w-full max-h-screen overflow-auto", {
+const modalForm = cva("relative w-full max-h-screen py-12 ", {
 	variants: {
 		size: {
 			small: [
@@ -88,7 +88,7 @@ const ModalForm: FC<ModalProps> = ({
                     </button>
                 </div>
                 {/* Modal body */}
-                <div className="p-6 space-y-6">
+                <div className="p-6 space-y-6 overflow-auto max-h-120">
                     {children}
                 </div>
                 </div>

@@ -2,9 +2,9 @@ import { useTranslation } from "react-i18next";
 import * as yup from "yup"
 
 export enum MyEnum {
-    LakiLaki = "laki-laki",
+    LakiLaki = "laki_laki",
     Perempuan = "perempuan"
-  }
+}
 
 const RegisterSchema = () => {
     const {t} = useTranslation()

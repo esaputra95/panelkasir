@@ -1,22 +1,15 @@
 import { useTranslation } from "react-i18next";
 import * as yup from "yup"
-import { methodeEnum, scheduleTypeEnum, typeEnum } from "../../interfaces/schedule/sessionInterface";
+import { methodEnum, typeEnum } from "../../interfaces/schedule/sessionInterface";
 
 const SessionSchema = () => {
     const {t} = useTranslation()
     const schema = yup.object({
         schedule: yup.object().shape({
-            scheduleType: yup.string().required().oneOf(
-                [
-                    scheduleTypeEnum.private, 
-                    scheduleTypeEnum.regular
-                ], 
-                `${t("schedule-type")} ${t("required")}`
-            ),
             method: yup.string().required().oneOf(
                 [
-                    methodeEnum.offline,
-                    methodeEnum.online
+                    methodEnum.offline,
+                    methodEnum.online
                 ], 
                 `${t("method")} ${t("required")}`
             )
@@ -31,15 +24,7 @@ const SessionSchema = () => {
                     `${t("type")} ${t("required")}`
                 ),
             })
-        ).required(),
-        // scheduleDetails: yup.array().of(
-        //     yup.object().shape({
-        //         student: yup.object().shape({
-        //             label: yup.string().required(),
-        //             value: yup.string().required(),
-        //         }),
-        //     }),
-        // ).required()
+        ).required()
     });
 
     return {

@@ -7,8 +7,12 @@ import { Button } from '../../../../components/input'
 import locatioanName from '../../../../utils/location'
 import ModalConfirm from '../../../../components/ui/modal/ModalConfirm'
 import { useStudent } from '../../../../hooks/fetch/master/useStudent'
-import { useMaterial } from '../../../../hooks/fetch/master/useMaterial'
 import { useCourse } from '../../../../hooks/fetch/master/useCourse'
+import AsyncSelect from 'react-select/async';
+import { SingleValue } from 'react-select'
+import { OptionSelectInterface } from '../../../../interfaces/globalInterface'
+import { BsSearch } from "react-icons/bs";
+import { t } from 'i18next'
 
 const RecordMateriPage = () => {
     const { 
@@ -31,11 +35,13 @@ const RecordMateriPage = () => {
         page,
         control,
         handelOnChangeForm,
+        dataOptionStudyGroup,
         optionStudyGroup,
         getListStudents,
         fieldDetails,
-        appendDetail,
-        removeDetail
+        handleOnChangeStudents,
+        handleOnSearchStudent,
+        updateStatus
     } = useRecordMateri()
     
     const {
@@ -46,7 +52,7 @@ const RecordMateriPage = () => {
     const {
         optionCourse,
         dataOptionCourse
-    } = useCourse()
+    } = useCourse();
 
     return (
         <div className='w-full'>
@@ -75,15 +81,40 @@ const RecordMateriPage = () => {
                     dataOptionStudent={dataOptionStudent}
                     optionCourse={optionCourse}
                     dataOptionCourse={dataOptionCourse}
+                    dataOptionStudyGroup={dataOptionStudyGroup}
+                    updateStatus={updateStatus}
                 />
             </ModalForm>
             <div className='w-full'>
-                <div className='py-4'>
-                    <Button 
-                        onClick={()=>setModalForm((state)=> ({...state, visible:true}))} 
-                    >
-                        + {locatioanName().pathName}
-                    </Button>
+                <div className='gap-2 flex w-full items-center justify-between'>
+                    <div className='w-48'>
+                        <Button 
+                            onClick={()=>setModalForm((state)=> ({...state, visible:true}))} 
+                        >
+                            + {locatioanName().pathName}
+                        </Button>
+                    </div>
+                    <div className='w-4/12 flex items-center gap-2'>
+                        <div className='w-full'>
+                                <AsyncSelect 
+                                    className='w-full'
+                                    cacheOptions
+                                    defaultOptions
+                                    loadOptions={optionStudent}
+                                    onChange={(e: SingleValue<OptionSelectInterface>)=>handleOnChangeStudents(e?.value ?? '')}
+                                    placeholder={t('select-students')}
+                                    ref={(ref)=>ref}
+                                />
+                            <span className='text-red-300'>
+                            {
+                            errors.studyGroupId?.message
+                            }
+                            </span>
+                        </div>
+                        <Button type='submit' className='rounded-full' onClick={handleOnSearchStudent}>
+                            <BsSearch />
+                        </Button>
+                    </div>
                 </div>
                 <Table
                     data={dataRecordMateri?.data?.recordMateri ?? []}

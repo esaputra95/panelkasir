@@ -21,6 +21,7 @@ export const Indonesia = {
     "schedules": "Jadwal",
     "register": "Daftar",
     "registration": "Pendaftaran",
+    "registrations": "Pendaftaran",
     "session-quantities": "Jumlsh Sesi",
     "schedule-lists": "Daftar Jadwal",
     "schedule-not-available": "Jadwal Tidak Tersedia",
@@ -66,6 +67,7 @@ export const Indonesia = {
     "delete-message": "Apakah Anda yakin ingin menghapus data ini",
     "select-student-list": "Pilih Daftar Siswa",
     "student": "Siswa",
+    "students": "Siswa",
     "schedule-type": "Jenis Jadwal",
     "time": 'Waktu dan Tanggal',
     "study-types": "Jenis Belajar",
@@ -84,7 +86,18 @@ export const Indonesia = {
     "all": "Semua",
     "view-data": "Lihat Data",
     "class-information": "Informasi Kelas",
-    "record-materi": "Record Materi"
+    "record-materi": "Record Materi",
+    "advice": "Nasihat",
+    "select-students": "Pilih Siswa",
+    'payroll': "Penggajian",
+    "Press this button to calculate the salary for teaching sessions": "Tekan tombol ini untuk menghitung gaji dari sesi mengajar.",
+    "month": "Bulan",
+    "basic-salary": "Gaji Pokok",
+    "list of teaching times": "Daftar Waktu Mengajar",
+    "payroll-reports": "Laporan Penggajian",
+    "report": "Laporan",
+    "record-materi-reports": "Laporan Record Materi",
+    "student-reports": "Laporan Siswa"
 }
 
 export const English = {
@@ -110,6 +123,7 @@ export const English = {
     "schedules": "Schedules",
     "register": "Register",
     "registration": "Registration",
+    "registrations": "Registrations",
     "session-quantities": "Session Quantities",
     "schedule-lists": "Schedule Lists",
     "schedule-not-available": "Schedule Not Available",
@@ -155,6 +169,7 @@ export const English = {
     "delete-message": "Are you sure you want to delete this data",
     "select-student-list": "Select Student List",
     "student": "Student",
+    "students": "Students",
     "schedule-type": "Schedule Type",
     "time": "Date and Time",
     "study-types": "Study Types",
@@ -173,5 +188,16 @@ export const English = {
     "all": "All",
     "view-data": "View Data",
     "class-information": "Class Information",
-    "record-materi": "Material Record"
+    "record-materi": "Material Record",
+    "advice": "Advice",
+    "select-students": "Select Students",
+    'payroll': "Payroll",
+    "Press this button to calculate the salary for teaching sessions": "Press this button to calculate the salary for teaching sessions",
+    "month": "Motnh",
+    "basic-salary": "Basis Salary",
+    "list of teaching times": "List of teaching times",
+    "payroll-reports": "Payroll Reports",
+    "report": "Report",
+    "record-materi-reports": "Record Materi Report",
+    "student-reports": "Student Report"
 }

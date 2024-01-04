@@ -11,10 +11,11 @@ import { modalFormState } from "../../../utils/modalFormState"
 import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next"
 import { modalConfirmState } from "../../../utils/modalConfirmState"
-import { SchoolYearDummy } from './../../../utils/dummy/setting'
+import { OptionDummy, SchoolYearDummy } from './../../../utils/dummy/setting'
 import usePage from "../../../utils/pageState"
 import { DataMessageError } from "../../../interfaces/apiInfoInterface"
 import { handleMessageErrors } from "../../../services/handleErrorMessage"
+import { OptionSelectInterface } from "../../../interfaces/globalInterface"
 
 export const useSchoolYear = () => {
     const [ query, setQuery ] = useState<SchoolYearInterface>()
@@ -65,11 +66,12 @@ export const useSchoolYear = () => {
         }
     })
 
-    const optionSchoolYear = async (data:string) => {
+    const optionSchoolYear = async (data: string): Promise<OptionSelectInterface[]> => {
         const response = await getDataSelect(SchoolYear.getSelect, {name: data});
         if(response.status){
             return response.data.SchoolYear
         }
+        return [OptionDummy]
     }
 
     const { mutate:mutateById } = useMutation({
@@ -99,7 +101,7 @@ export const useSchoolYear = () => {
         },
         onError: async (errors) => {
             const err = errors as AxiosError<DataMessageError>
-            let message: any = `${errors}`
+            let message = `${errors}`
             if(err.response?.status === 400){
                 message = await handleMessageErrors(err.response?.data?.errors)
             }

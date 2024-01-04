@@ -1,5 +1,5 @@
 import moment from "moment"
-import { methodeEnum, scheduleTypeEnum, typeEnum } from "../../interfaces/schedule/sessionInterface"
+import { methodEnum, typeEnum } from "../../interfaces/schedule/sessionInterface"
 import { OptionDummy } from "./setting"
 
 export const TentorNotAvailableDummy = {
@@ -30,8 +30,8 @@ export const StudyGroupDummy = {
 
 export const SessionDummy = {
     schedule: {
-        method: methodeEnum.offline,
-        scheduleType: scheduleTypeEnum.regular
+        method: methodEnum.offline,
+        scheduleType: OptionDummy
     }, 
     time: [
         {

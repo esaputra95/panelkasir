@@ -2,10 +2,10 @@ import {
     BsEyeFill,
     BsFillTrashFill,
     BsFillSendFill,
-    BsArrowRightCircleFill
+    BsArrowRightCircleFill,
 } from "react-icons/bs";
 import { FC } from "react";
-import { RegistrationTableInterface } from "../../../../interfaces/registers/registratioInterface";
+import { RegistrationTableInterface } from "../../../../interfaces/registers/registrationInterface";
 import { useTranslation } from "react-i18next";
 import Skeleton from "../../../../components/ui/Skeleton";
 import { useNavigate } from "react-router-dom";
@@ -45,7 +45,7 @@ const Table: FC<TableProps> = (props) => {
         page,
         limit,
         onDelete,
-        sendMessage,
+        // sendMessage,
         changeStatusInvoice
     } = props;
     const { t } = useTranslation()
@@ -77,13 +77,13 @@ const Table: FC<TableProps> = (props) => {
                                     {(number+index+1)}
                                 </td>
                                 <td className="px-6 py-4">
-                                    { value.students.name }
+                                    {/* {  } */}
                                 </td>
                                 <td className="px-6 py-4">
-                                    { value.packages.name }
+                                    {/* { value.packages.name } */}
                                 </td>
                                 <td className="px-6 py-4">
-                                    { value.sessions.name }
+                                    {/* { value.sessions.name } */}
                                 </td>
                                 <td className="px-6 py-4">
                                     { value.status === 0 ? 
@@ -99,7 +99,7 @@ const Table: FC<TableProps> = (props) => {
                                     </span>
                                     <span title="Send Chat"
                                         className="p-1.5 bg-blue-50 hover:bg-blue-100 hover:cursor-pointer rounded-full"
-                                        onClick={()=>sendMessage(value.students.phone ?? '')}
+                                        // onClick={()=>sendMessage(value. ?? '')}
                                     >
                                         <BsFillSendFill className='text-blue-600' />
                                     </span>

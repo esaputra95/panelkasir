@@ -1,5 +1,5 @@
 import { api } from "../../../services";
-import { RecordMateriSearchInterface } from "../../../interfaces/recordMateri/RecordMateriInterface";
+import {  RecordMateriInterface, RecordMateriSearchInterface } from "../../../interfaces/recordMateri/RecordMateriInterface";
 import { AxiosError } from "axios";
 
 interface ParamRecordMateriInterface extends RecordMateriSearchInterface {
@@ -13,18 +13,14 @@ interface StudyGroupInterface {
 	tentorId: string;
 }
 
-
 const getData = async (url:string, params:ParamRecordMateriInterface) => {
 	const response = await api.get(url, { params: { ...params } });
 	return response.data
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const postData = async (url:string, data:any) => {
+const postData = async (url:string, data:RecordMateriInterface) => {
 	try {
 		if(data.id){
-			delete data.classType
-			data.method = data.method.value
 			const response = await api.put(`${url}/${data.id}`, data);
 			if(response.status === 200) return response.data
 			throw response;
@@ -40,6 +36,8 @@ const postData = async (url:string, data:any) => {
 
 const deleteData = async (url:string, id:string) => {
 	try {
+		console.log('dlete');
+		
 		const response = await api.delete(`${url}/${id}`)
 		if(response.status===204) return true
 	} catch (error) {
@@ -69,7 +67,7 @@ const getDataSelect = async (url:string, params: {name: string}) => {
 const getStudyGroup = async (url:string, data:StudyGroupInterface) => {
 	try {
 		const response = await api.get(url,{ params: data});
-		return response.data
+		return response.data.data.studyGroup
 	} catch (error) {
 		return error as AxiosError
 	}

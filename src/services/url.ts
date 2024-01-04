@@ -100,12 +100,12 @@ const url = {
         getSelect: 'sessions/select'
     },
     Registration: {
-        get: 'registers',
-        post: 'registers',
-        put: 'registers',
-        getById: 'registers',
-        delete: 'registers',
-        getSelect: 'registers/select'
+        get: 'register-admin',
+        post: 'register-admin',
+        put: 'register-admin',
+        getById: 'register-admin',
+        delete: 'register-admin',
+        getSelect: 'register-admin/select'
     },
     Tutor: {
         get: 'tutors',
@@ -142,7 +142,13 @@ const url = {
         getListStudent: 'record-materi/get-list-student'
     },
     Student: {
-        getSelect: 'students/select'
+        get: 'students',
+        post: 'students',
+        put: 'students',
+        getById: 'students',
+        delete: 'students',
+        getSelect: 'students/select',
+        getSelectAll: 'students/select-all'
     },
     SessionSchedule: {
         get: 'schedule/schedules',
@@ -156,6 +162,27 @@ const url = {
     },
     ClassInformation: {
         get: 'schedule/class-information'
+    },
+    Payroll: {
+        get: 'payrolls',
+        post: 'payrolls',
+        put: 'payrolls',
+        getById: 'payrolls',
+        delete: 'payrolls',
+        getDataPayrollSession: 'payrolls/data-payroll-session',
+        getPayrollDetail: 'payrolls/payroll-detail'
+    },
+    ReportPayroll: {
+        get: 'report/payroll-reports'
+    },
+    RecordMateriPayroll: {
+        get: 'report/record-materi-reports'
+    },
+    StudentReport: {
+        get: 'report/student-reports'
+    },
+    Dashboard: {
+        recordMateri: 'dashboard/record-materi'
     }
 };
 

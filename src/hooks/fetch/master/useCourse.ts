@@ -48,7 +48,7 @@ export const useCourse = () => {
     useEffect(()=> {
         refetch()
     }, [page.page])
-      
+    
     const {data:dataCourse, isFetching, refetch} = useQuery<ApiResponseCourse, AxiosError>({ 
         queryKey: ['get-Course'], 
         networkMode: 'always',

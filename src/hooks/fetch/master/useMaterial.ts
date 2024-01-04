@@ -15,6 +15,8 @@ import { MaterialDummy } from './../../../utils/dummy/master'
 import usePage from "../../../utils/pageState"
 import { DataMessageError } from "../../../interfaces/apiInfoInterface"
 import { handleMessageErrors } from "../../../services/handleErrorMessage"
+import { OptionSelectInterface } from "../../../interfaces/globalInterface"
+import { OptionDummy } from "../../../utils/dummy/setting"
 
 export const useMaterial = () => {
     const [ query, setQuery ] = useState<MaterialInterface>()
@@ -175,11 +177,12 @@ export const useMaterial = () => {
         mutateById(id)
     }
 
-    const optionMaterial = async (data:string) => {
+    const optionMaterial = async (data: string): Promise<OptionSelectInterface[]> => {
         const response = await getDataSelect(Material.getSelect, {name: data});
         if(response.status){
             return response.data.Material
         }
+        return [OptionDummy]
     }
 
     return {

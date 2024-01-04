@@ -6,8 +6,12 @@ import FormRegistration from './form'
 import { Button } from '../../../../components/input'
 import locatioanName from '../../../../utils/location'
 import ModalConfirm from '../../../../components/ui/modal/ModalConfirm'
-import { useClassType } from '../../../../hooks/fetch/master/useClassType'
-import { useNavigate } from 'react-router-dom'
+import { useClassMaster } from '../../../../hooks/fetch/master/useClassMaster'
+import { useStudent } from '../../../../hooks/fetch/master/useStudent'
+import { useSession } from '../../../../hooks/fetch/settings/useSession'
+import { usePackage } from '../../../../hooks/fetch/settings/usePackage'
+import { useGuidanceType } from '../../../../hooks/fetch/settings/useGuidanceType'
+import { useSchoolYear } from '../../../../hooks/fetch/settings/useSchoolYear'
 
 const RegistrationPage = () => {
     const { 
@@ -28,11 +32,35 @@ const RegistrationPage = () => {
         page,
         control,
         sendMessage,
-        changeStatusInvoice
+        changeStatusInvoice,
+        setModalForm,
+        handleOnChangeSelect
     } = useRegistration()
-    const navigation = useNavigate()
 
-    const { optionClassType } = useClassType()
+    const {
+        optionClassMaster,
+        // dataOptionClassMaster
+    } = useClassMaster();
+
+    const {
+        optionStudentAll
+    } = useStudent();
+
+    const {
+        optionSession
+    } = useSession()
+
+    const {
+        optionPackage
+    } = usePackage()
+
+    const {
+        optionGuidanceType
+    } = useGuidanceType()
+
+    const {
+        optionSchoolYear
+    } = useSchoolYear()
 
     return (
         <div className='w-full'>
@@ -49,16 +77,24 @@ const RegistrationPage = () => {
                     errors={errors}
                     idDetail={idDetail}
                     control={control}
-                    classTypeOption={optionClassType}
                     handleSubmit={handleSubmit}
                     register={register}
                     onSubmit={onSubmit}
+                    optionClassMaster={optionClassMaster}
+                    optionStudent={optionStudentAll}
+                    optionSession={optionSession}
+                    optionPackage={optionPackage}
+                    optionGuidanceType={optionGuidanceType}
+                    optionSchoolYear={optionSchoolYear}
+                    handleOnChangeSelect={handleOnChangeSelect}
                 />
             </ModalForm>
             <div className='w-full'>
                 <div className='py-4'>
                     <Button 
-                        onClick={()=> navigation('/register')} 
+                        onClick={()=>
+                            setModalForm((state)=> ({...state, visible:true}))
+                        } 
                     >
                         + {locatioanName().pathName}
                     </Button>

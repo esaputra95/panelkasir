@@ -13,6 +13,7 @@ const getData = async (url:string, params:ParamClassMasterInterface) => {
 	return response.data
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const postData = async (url:string, data:any) => {
 	try {
 		if(data.id){

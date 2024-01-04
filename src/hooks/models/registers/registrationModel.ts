@@ -1,5 +1,5 @@
 import { api } from "../../../services";
-import { RegistrationSearchInterface } from "../../../interfaces/registers/registratioInterface";
+import { RegistrationInterface, RegistrationSearchInterface } from "../../../interfaces/registers/registrationInterface";
 import { AxiosError } from "axios";
 
 interface ParamRegistrationInterface extends RegistrationSearchInterface {
@@ -13,17 +13,13 @@ const getData = async (url:string, params:ParamRegistrationInterface) => {
 	return response.data
 };
 
-const postData = async (url:string, data:any) => {
+const postData = async (url:string, data:RegistrationInterface) => {
 	try {
 		if(data.id){
-			delete data.classType
-			data.method = data.method.value
 			const response = await api.put(`${url}/${data.id}`, data);
 			if(response.status === 200) return response.data
 			throw response;
 		}else{
-			delete data.classType
-			data.method = data.method.value
 			const response = await api.post(url, data);
 			if(response.status === 200) return response.data
 			throw response;
@@ -51,6 +47,7 @@ const getDataById = async (url:string, id:string) => {
 	}
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const changeStatus = async (url:string, data:any) => {
 	try {
 		const response = await api.put(`${url}/${data.id}`, {

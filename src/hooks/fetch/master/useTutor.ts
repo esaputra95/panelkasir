@@ -74,12 +74,13 @@ export const useTutor = () => {
         }
     })
 
-    const optionTutor = async (data:string) => {
+    const optionTutor = async (data: string): Promise<OptionSelectInterface[]> => {
         const response = await getDataSelect(Tutor.getSelect, {name: data});
         if(response.status){
             setDataOptionTutor(response.data.tutor)
             return response.data.tutor
         }
+        return [OptionDummy];
     }
 
     const { mutate:mutateById } = useMutation({

@@ -105,7 +105,7 @@ export const useSession = () => {
     useEffect(()=> {
         refetch()
     }, [page.page])
-      
+    
     const {data:dataSession, isFetching, refetch} = 
     useQuery<ApiResponseSession, AxiosError>({ 
         queryKey: ['schedule'], 

@@ -3,6 +3,7 @@ import { FC } from "react";
 import { RecordMateriTableInterface } from "../../../../interfaces/recordMateri/RecordMateriInterface";
 import { useTranslation } from "react-i18next";
 import Skeleton from "../../../../components/ui/Skeleton";
+import moment from "moment";
 
 type TableProps = {
     data?: RecordMateriTableInterface[],
@@ -15,15 +16,16 @@ type TableProps = {
 }
 
 const header = [
-    { 
+    {
         label: 'No',
         align: 'left',
         width: 'w-4'
     },
-    { label: 'code' },
-    { label: 'name' },
-    { label: 'class-types' },
-    { label: 'study-method' },
+    { label: 'date' },
+    { label: 'tutors' },
+    { label: 'students' },
+    { label: 'materials' },
+    { label: 'advice' },
     { label: 'description' },
     { 
         label: 'Action',
@@ -57,28 +59,43 @@ const Table: FC<TableProps> = (props) => {
                                     {(number+index+1)}
                                 </th>
                                 <td className="px-6 py-4">
-                                    {value.date}
+                                    {moment(value.date).format('DD/MM/YYYY')}
                                 </td>
                                 <td className="px-6 py-4">
-                                    {value.date}
+                                    {value.userTentor?.name ?? ''}
                                 </td>
                                 <td className="px-6 py-4">
-                                    {value.classTypes.name}
+                                    {value.students.name}
                                 </td>
                                 <td className="px-6 py-4">
-                                    {value.date}
+                                    {value.materials.name}
                                 </td>
                                 <td className="px-6 py-4">
                                     {value.description}
                                 </td>
+                                <td className="px-6 py-4">
+                                    {value.advice}
+                                </td>
                                 <td className="px-6 py-4 flex">
-                                    <span title="Update" className="p-1.5 bg-green-50 hover:bg-green-100 hover:cursor-pointer rounded-full" onClick={()=>onUpdate(value.id ?? '')}>
+                                    <span 
+                                        title="Update"
+                                        className="p-1.5 bg-green-50 hover:bg-green-100 hover:cursor-pointer rounded-full" 
+                                        onClick={()=>onUpdate(value.id ?? '')}
+                                    >
                                         <BsPencilFill className='text-green-600' />
                                     </span>
-                                    <span title="Detail" className="p-1.5 bg-cyan-50 hover:bg-cyan-100 hover:cursor-pointer rounded-full" onClick={()=>onDetail(value.id ?? '')}>
+                                    <span 
+                                        title="Detail"
+                                        className="p-1.5 bg-cyan-50 hover:bg-cyan-100 hover:cursor-pointer rounded-full"
+                                        onClick={()=>onDetail(value.id ?? '')}
+                                    >
                                         <BsEyeFill className='text-cyan-600' />
                                     </span>
-                                    <span title={t("delete")} className="p-1.5 bg-red-50 hover:bg-red-100 hover:cursor-pointer rounded-full" onClick={()=>onDelete(value.id ?? '')}>
+                                    <span
+                                        title={t("delete")}
+                                        className="p-1.5 bg-red-50 hover:bg-red-100 hover:cursor-pointer rounded-full"
+                                        onClick={()=>onDelete(value.id ?? '')}
+                                    >
                                         <BsFillTrashFill className="text-red-600" />
                                     </span>
                                 </td>
@@ -89,7 +106,7 @@ const Table: FC<TableProps> = (props) => {
             </table>
             {
                 isFetching ? 
-                <Skeleton cols={4} rows={2} /> : null
+                <Skeleton cols={4} rows={4} /> : null
             }
             
         </div>

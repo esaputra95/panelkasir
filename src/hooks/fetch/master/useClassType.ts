@@ -15,10 +15,13 @@ import { classTypeDummy } from './../../../utils/dummy/master'
 import usePage from "../../../utils/pageState"
 import { DataMessageError } from "../../../interfaces/apiInfoInterface"
 import { handleMessageErrors } from "../../../services/handleErrorMessage"
+import { OptionSelectInterface } from "../../../interfaces/globalInterface"
+import { OptionDummy } from "../../../utils/dummy/setting"
 
 export const useClassType = () => {
     const [ query, setQuery ] = useState<ClassTypeFilter>()
     const [ idDetail, setIdDetail ] = useState<string | null>()
+    const [ dataOptionClassType, setDataOptionClassType ] = useState<OptionSelectInterface[]>([OptionDummy])
     const { classType } = url
     const { modalForm, setModalForm } = modalFormState()
     const { t } = useTranslation();
@@ -49,7 +52,7 @@ export const useClassType = () => {
     useEffect(()=> {
         refetch()
     }, [page.page]);
-      
+    
     const {data:dataClassType, isFetching, refetch} = useQuery<ApiResponseClassType, AxiosError>({ 
         queryKey: ['class-types', query], 
         networkMode: 'always',
@@ -70,11 +73,13 @@ export const useClassType = () => {
         }
     })
 
-    const optionClassType = async (data:string) => {
+    const optionClassType = async (data: string): Promise<OptionSelectInterface[]> => {
         const response = await getDataSelect(classType.getSelect, {name: data});
         if(response.status){
+            setDataOptionClassType(response.data.classType);
             return response.data.classType
         }
+        return [OptionDummy]
     }
 
     const { mutate:mutateById } = useMutation({
@@ -212,6 +217,7 @@ export const useClassType = () => {
         optionClassType,
         registerFilter,
         handleSubmitFilter,
-        onFilter
+        onFilter,
+        dataOptionClassType
     }
 }

@@ -4,7 +4,7 @@ interface Geolocation {
     lat: string;
     long: string;
 }
-  
+
 interface Address {
     geolocation: Geolocation;
     city: string;
@@ -12,7 +12,7 @@ interface Address {
     number: number;
     zipcode: string;
 }
-  
+
 export interface UserInterface {
     address?: Address;
     id: number;
@@ -37,4 +37,3 @@ export type UserFormProps = {
 	register: UseFormRegister<UserInterfaceForm>
     errors: FieldErrors<UserInterfaceForm>;
 }
-  

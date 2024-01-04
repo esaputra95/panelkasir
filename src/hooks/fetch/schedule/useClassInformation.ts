@@ -1,18 +1,22 @@
-import { ClassInformationInterface, StudyGroup, TableClassInformationInterface } from "../../../interfaces/schedule/ClassInformationInterface";
+import {
+    ClassInformationInterface,
+    StudyGroup,
+    TableClassInformationInterface
+} from "../../../interfaces/schedule/ClassInformationInterface";
 import url from "../../../services/url";
 import { ClassInformationDummy } from "../../../utils/dummy/scheduleDummy";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import { getData } from "../../models/schedule/classInformationModel";
 
 export const useClassInformation = () => {
     const { ClassInformation } = url
     const [ query, setQuery ] = useState<ClassInformationInterface>(ClassInformationDummy);
-    const [ dataClassInformation, setDataClassInformation] = useState<StudyGroup[][]>()
+    const [ dataClassInformation, setDataClassInformation] = useState<StudyGroup>({room:[], event:[]})
 
-    const handleOnChange = (e:ChangeEvent<HTMLInputElement>)=> {
+    const handleOnChange = (name:string, value:string)=> {
         setQuery({
             ...query,
-            [e.target.name]: e.target.value
+            [name]: value
         })
     }
 

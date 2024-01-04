@@ -41,23 +41,22 @@ export const MasterMenu = [
     // },
 ];
 
-export const ReportMaster = [
+export const ReportPayroll = [
     {
-        label: 'student-master-reports',
-        path: 'student-master-reports',
+        label: 'payroll-reports',
+        path: 'report/payroll-reports',
         active: false,
     },
     {
-        label: 'tutor-master-reports',
-        path: 'tutor-master-reports',
+        label: 'record-materi-reports',
+        path: 'report/record-materi-reports',
         active: false,
     },
     {
-        label: 'register-reports',
-        path: 'register-reports',
+        label: 'student-reports',
+        path: 'report/student-reports',
         active: false,
     },
-    
 ]
 
 export const ScheduleMenu = [
@@ -111,4 +110,28 @@ export const RecordMateri = [
         active: false,
         access: ['admin', 'tentor']
     },
+];
+
+export const Payroll = [
+    {
+        label: 'payroll',
+        path: 'payroll',
+        active: false,
+        access: ['admin', 'tentor']
+    }
+]
+
+export const Register = [
+    {
+        label: 'students',
+        path: 'students',
+        active: false,
+        access: ['admin']
+    },
+    {
+        label: 'registrations',
+        path: 'registrations',
+        active: false,
+        access: ['admin']
+    }
 ]
