@@ -178,12 +178,13 @@ export const useCourse = () => {
         mutateById(id)
     }
 
-    const optionCourse = async (data:string) => {
+    const optionCourse = async (data: string): Promise<OptionSelectInterface[]> => {
         const response = await getDataSelect(Course.getSelect, {name: data});
         if(response.status){
             setDataOptionCourse(response.data.course)
             return response.data.course
         }
+        return [OptionDummy]
     }
 
     return {

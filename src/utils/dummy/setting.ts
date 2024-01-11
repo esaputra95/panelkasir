@@ -23,6 +23,12 @@ export const SessionDummy = {
     quantity: 1,
 }
 
+export const SettingDummy = {
+    id: '',
+    name: '',
+    quantity: 1,
+}
+
 export const OptionDummy = {
     label: '',
     value: ''

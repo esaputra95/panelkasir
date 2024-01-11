@@ -10,6 +10,9 @@ const Data: FC<DataPayrollInterface> = (props) => {
                 <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
                     <tr>
                         <th className='p-2'>
+                            {t('no')}
+                        </th>
+                        <th className='p-2'>
                             {t('name')}
                         </th>
                         <th className='p-2'>
@@ -29,10 +32,13 @@ const Data: FC<DataPayrollInterface> = (props) => {
                 <tbody>
                     {
                         dataPayrollReport?.map((value)=>(
-                            <tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700'>
+                            <tr 
+                                key={Math.random().toString(4)}
+                                className='bg-white border-b dark:bg-gray-800 dark:border-gray-700'
+                            >
                                 {
                                     value.map((val)=> (
-                                        <td className='p-2'>
+                                        <td key={Math.random().toString(4)} className='p-2'>
                                             {val}
                                         </td> 
                                     ))

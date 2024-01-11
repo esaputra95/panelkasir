@@ -35,11 +35,17 @@ import { PayrollDetailInterface } from "../../../interfaces/payroll/payrollDetai
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import helperReport from "../../../utils/headerReport"
+import { ApiResponseSetting } from "../../../interfaces/settings/settingInterface"
+import { getData as getDataSetting}  from "../../models/settings/settingModel"
+import hexToRgb from "../../../utils/hexToRgb"
 
 export const usePayroll = () => {
     const [ query, setQuery ] = useState<PayrollInterface>()
     const [ idDetail, setIdDetail ] = useState<string | null>()
-    const { Payroll } = url
+    const { 
+        Payroll,
+        Setting
+    } = url
     const { modalForm, setModalForm } = modalFormState()
     const { t } = useTranslation();
     const modalConfirm = modalConfirmState()
@@ -251,51 +257,52 @@ export const usePayroll = () => {
 
     const printPayroll = async (id:string) => {
         const data = await getPayrollDetail(Payroll.getPayrollDetail, id)
-        
         if(data.status){
-            autoTable(doc, { html: '' })
+            const headerData:ApiResponseSetting = await getDataSetting(Setting.get);
+            const icon = headerData.data.setting.find(value=> value.label === "icon")
+            const hotline = headerData.data.setting.find(value=> value.label === "hotline")
+            const address = headerData.data.setting.find(value=> value.label === "address")
+            const city = headerData.data.setting.find(value=> value.label === "city")
+            const postalCode = headerData.data.setting.find(value=> value.label === "postal-code")
+            const website = headerData.data.setting.find(value=> value.label === "website")
+            const email = headerData.data.setting.find(value=> value.label === "email")
 
-            doc.setFontSize(10);
-            doc.setTextColor(40);
-            doc.text(
-                helperReport.headerReport, 
-                2, 2, 
-                { 
-                    baseline: 'top' ,
-                }
-            );
-            autoTable(doc, {
-                bodyStyles: { fillColor: '#FFFFFF' },
-                // styles: { fillColor: '#000000',  },
-                margin: { left:2, right:2},
-                styles: {
-                    halign:'center',
-                    lineColor: '#dfe2e4',
-                    fillColor: '#8d2049'
-                },
-                theme: 'grid',
-                body: [
-                    ['REKAPITULASI JUMLAH MENGAJAR TENTOR'],
-                    ['ESP BIMBEL YOGYAKARTA'],
+            doc.addImage(`${import.meta.env.VITE_API_URL}/images/${icon?.value}`, 'JPEG', 2, 2, 25, 25);
+            doc.setFontSize(9)
+            doc.text([
+                'REKAPITULASI JUMLAH MENGAJAR TENTOR', 
+                `Head Office: ${address?.value ?? ''}`,
+                `${city?.value ?? ''}, ${postalCode?.value ?? ''}`,
+                `hotline : ${hotline?.value ?? ''}`,
+                `Website: ${website?.value ?? ''}`,
+                `Email: ${email?.value ?? ''}`
+            ], 34, 6);
+            
+            const height = 10;
+            const textWidth=206
+            
+            const rgb = hexToRgb('#1bbd9d');
+            doc.setFillColor(rgb.r, rgb.g, rgb.b);
+            doc.rect(2, 34, textWidth, height, 'F');
+
+            doc.setTextColor('white');
+            doc.setFontSize(10)
+            doc.text([
+                `${data.tentor[0] ?? ''}`,
+                `${data.tentor[1] ?? ''}`,
+            ], 4, 34 + height - 6); 
+
+            let newHead:string[]=[];
+            for (const value of helperReport.headerPayroll) {
+                newHead=[...newHead,
+                    t(value)
                 ]
-            })
-            autoTable(doc, {
-                bodyStyles: { fillColor: '#FFFFFF' },
-                margin: { left:2, right:2},
-                styles: {
-                    halign:'left',
-                    fillColor: '#FFFFFF',
-                    lineColor: '#FFFFFF'
-                },
-                theme:'grid',
-
-                body: data.tentor??''
-            })
+            }
             autoTable(doc, {
                 head: [
-                    helperReport.headerPayroll
+                    newHead
                 ],
-                margin: { left:2, right:2 },
+                margin: { left:2, right:2, top:46 },
                 theme:'grid',
                 body: data.data??'',
             })

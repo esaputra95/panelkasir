@@ -36,8 +36,6 @@ const postData = async (url:string, data:RecordMateriInterface) => {
 
 const deleteData = async (url:string, id:string) => {
 	try {
-		console.log('dlete');
-		
 		const response = await api.delete(`${url}/${id}`)
 		if(response.status===204) return true
 	} catch (error) {
@@ -76,15 +74,13 @@ const getStudyGroup = async (url:string, data:StudyGroupInterface) => {
 type ListParamData = {
 	tentorId: string;
 	date: string;
-	groupId: string;
+	date2: string;
 }
 
 
 const getListStudent = async (url:string, data:ListParamData) => {
 	try {
 		const response = await api.post(url, data)
-		console.log({response});
-		
 		return response.data
 	} catch (error) {
 		return error as AxiosError

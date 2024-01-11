@@ -5,6 +5,7 @@ import { t } from 'i18next'
 import { Controller } from 'react-hook-form'
 import AsyncSelect from 'react-select/async';
 import { BsDownload } from "react-icons/bs";
+import Spinner from '../../../../components/ui/Spinner'
 
 const Filter: FC<PayrollReportFilter> = (props) => {
     const {
@@ -13,7 +14,8 @@ const Filter: FC<PayrollReportFilter> = (props) => {
         control,
         onSubmit,
         handleSubmit,
-        onDownload
+        onDownload,
+        isLoadingMutate
     } = props
     return (
         <form className='w-full' onSubmit={handleSubmit(onSubmit)}>
@@ -54,14 +56,23 @@ const Filter: FC<PayrollReportFilter> = (props) => {
                     type='button'
                     variant='success'
                     onClick={handleSubmit(onDownload)}
+                    disabled={isLoadingMutate? true : false}
                 >
-                    <BsDownload/>
+                    {
+                        isLoadingMutate ? 
+                        <Spinner /> : <BsDownload/>
+                    }
+                    
                 </Button>
                 <Button 
                     type='submit'
-                    children={t('view-data')}
-
-                />
+                    disabled={isLoadingMutate? true : false}
+                >
+                    {
+                        isLoadingMutate ? 
+                        <Spinner /> : t('view-data')
+                    }
+                </Button>
             </div>
         </form>
     )

@@ -9,7 +9,8 @@ const StudentReportPage = () => {
 		handleSubmit,
 		onSubmit,
 		dataStudentReport,
-		onDownload
+		onDownload,
+		isLoadingMutate
 	} = useStudentReport();
 
 	return (
@@ -20,6 +21,7 @@ const StudentReportPage = () => {
 				onSubmit={onSubmit}
 				handleSubmit={handleSubmit}
 				onDownload={onDownload}
+				isLoadingMutate={isLoadingMutate}
 			/>
 			<Data
 				dataStudentReport={dataStudentReport} 

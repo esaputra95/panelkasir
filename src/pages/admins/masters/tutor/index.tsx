@@ -4,7 +4,7 @@ import { useTutor } from '../../../../hooks/fetch/master/useTutor'
 import ModalForm from '../../../../components/ui/modal/ModalForm'
 import FormTutor from './form'
 import { Button, InputText } from '../../../../components/input'
-import locatioanName from '../../../../utils/location'
+import useLocatioanName from '../../../../utils/location'
 import ModalConfirm from '../../../../components/ui/modal/ModalConfirm'
 
 const TutorPage = () => {
@@ -27,7 +27,11 @@ const TutorPage = () => {
         page,
         registerFilter,
         handleSubmitFilter,
-        onFilter
+        onFilter,
+        fields,
+        append,
+        remove,
+        control
     } = useTutor()
 
     return (
@@ -47,6 +51,10 @@ const TutorPage = () => {
                     handleSubmit={handleSubmit}
                     register={register}
                     onSubmit={onSubmit}
+                    fields={fields}
+                    append={append}
+                    remove={remove}
+                    control={control}
                 />
             </ModalForm>
             <div className='w-full'>
@@ -54,7 +62,7 @@ const TutorPage = () => {
                     <Button 
                         onClick={()=>setModalForm((state)=> ({...state, visible:true}))} 
                     >
-                        + {locatioanName().pathName}
+                        + {useLocatioanName().pathName}
                     </Button>
                     <div className="w-4/12 relative text-gray-600">
                         <form onSubmit={handleSubmitFilter(onFilter)}>

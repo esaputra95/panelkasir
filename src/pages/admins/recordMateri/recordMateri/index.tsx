@@ -4,7 +4,7 @@ import { useRecordMateri } from '../../../../hooks/fetch/recordMateri/useRecordM
 import ModalForm from '../../../../components/ui/modal/ModalForm'
 import FormRecordMateri from './form'
 import { Button } from '../../../../components/input'
-import locatioanName from '../../../../utils/location'
+import useLocatioanName from '../../../../utils/location'
 import ModalConfirm from '../../../../components/ui/modal/ModalConfirm'
 import { useStudent } from '../../../../hooks/fetch/master/useStudent'
 import { useCourse } from '../../../../hooks/fetch/master/useCourse'
@@ -34,9 +34,6 @@ const RecordMateriPage = () => {
         idDetail,
         page,
         control,
-        handelOnChangeForm,
-        dataOptionStudyGroup,
-        optionStudyGroup,
         getListStudents,
         fieldDetails,
         handleOnChangeStudents,
@@ -72,8 +69,6 @@ const RecordMateriPage = () => {
                     handleSubmit={handleSubmit}
                     register={register}
                     onSubmit={onSubmit}
-                    handelOnChangeForm={handelOnChangeForm}
-                    optionStudyGroup={optionStudyGroup}
                     getListStudents={getListStudents}
                     getValues={getValues}
                     fieldDetails={fieldDetails}
@@ -81,7 +76,6 @@ const RecordMateriPage = () => {
                     dataOptionStudent={dataOptionStudent}
                     optionCourse={optionCourse}
                     dataOptionCourse={dataOptionCourse}
-                    dataOptionStudyGroup={dataOptionStudyGroup}
                     updateStatus={updateStatus}
                 />
             </ModalForm>
@@ -91,7 +85,7 @@ const RecordMateriPage = () => {
                         <Button 
                             onClick={()=>setModalForm((state)=> ({...state, visible:true}))} 
                         >
-                            + {locatioanName().pathName}
+                            + {useLocatioanName().pathName}
                         </Button>
                     </div>
                     <div className='w-4/12 flex items-center gap-2'>

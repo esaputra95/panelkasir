@@ -14,7 +14,8 @@ export interface PayrollReportFilter {
     control: Control<PayrollReport>;
     onSubmit: SubmitHandler<PayrollReport>;
     handleSubmit: UseFormHandleSubmit<PayrollReport>;
-    onDownload: (data: PayrollReport) => void
+    onDownload: (data: PayrollReport) => void,
+    isLoadingMutate: boolean
 }
 
 export interface DataPayrollInterface {

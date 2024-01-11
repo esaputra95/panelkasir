@@ -4,7 +4,7 @@ import { useRegistration } from '../../../../hooks/fetch/registers/useRegistrati
 import ModalForm from '../../../../components/ui/modal/ModalForm'
 import FormRegistration from './form'
 import { Button } from '../../../../components/input'
-import locatioanName from '../../../../utils/location'
+import useLocatioanName from '../../../../utils/location'
 import ModalConfirm from '../../../../components/ui/modal/ModalConfirm'
 import { useClassMaster } from '../../../../hooks/fetch/master/useClassMaster'
 import { useStudent } from '../../../../hooks/fetch/master/useStudent'
@@ -12,6 +12,7 @@ import { useSession } from '../../../../hooks/fetch/settings/useSession'
 import { usePackage } from '../../../../hooks/fetch/settings/usePackage'
 import { useGuidanceType } from '../../../../hooks/fetch/settings/useGuidanceType'
 import { useSchoolYear } from '../../../../hooks/fetch/settings/useSchoolYear'
+import DataConfirm from './dataConfirm'
 
 const RegistrationPage = () => {
     const { 
@@ -34,12 +35,16 @@ const RegistrationPage = () => {
         sendMessage,
         changeStatusInvoice,
         setModalForm,
-        handleOnChangeSelect
+        handleOnChangeSelect,
+        modelFormConfirmInvoice,
+        dataConfirmInvoice,
+        onCancelInvoice,
+        stateConfirm,
+        confirmChangeStatusInvoice
     } = useRegistration()
 
     const {
         optionClassMaster,
-        // dataOptionClassMaster
     } = useClassMaster();
 
     const {
@@ -96,7 +101,7 @@ const RegistrationPage = () => {
                             setModalForm((state)=> ({...state, visible:true}))
                         } 
                     >
-                        + {locatioanName().pathName}
+                        + {useLocatioanName().pathName}
                     </Button>
                 </div>
                 <Table
@@ -116,6 +121,18 @@ const RegistrationPage = () => {
                     handlePage={page.handlePage}
                 />
             </div>
+            <ModalForm 
+                visible={modelFormConfirmInvoice.visible}
+                onClose={onCancelInvoice}
+                title={modelFormConfirmInvoice.label}
+                size="medium"
+            >
+                <DataConfirm
+                    dataConfirmInvoice={dataConfirmInvoice}
+                    stateConfirm={stateConfirm}
+                    confirmChangeStatusInvoice={confirmChangeStatusInvoice}
+                />
+            </ModalForm>
         </div>
     )
 }

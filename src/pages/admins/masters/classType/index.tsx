@@ -4,7 +4,7 @@ import { useClassType } from '../../../../hooks/fetch/master/useClassType'
 import ModalForm from '../../../../components/ui/modal/ModalForm'
 import FormClassType from './form'
 import { Button, InputText } from '../../../../components/input'
-import locatioanName from '../../../../utils/location'
+import useLocatioanName from '../../../../utils/location'
 import ModalConfirm from '../../../../components/ui/modal/ModalConfirm'
 
 const ClassTypePage = () => {
@@ -54,7 +54,7 @@ const ClassTypePage = () => {
                     <Button 
                         onClick={()=>setModalForm((state)=> ({...state, visible:true}))} 
                     >
-                        + {locatioanName().pathName}
+                        + {useLocatioanName().pathName}
                     </Button>
                     <div className="w-4/12 relative text-gray-600">
                         <form onSubmit={handleSubmitFilter(onFilter)}>

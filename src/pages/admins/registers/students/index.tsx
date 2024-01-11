@@ -4,9 +4,10 @@ import { useStudent } from '../../../../hooks/fetch/registers/useStudent'
 import ModalForm from '../../../../components/ui/modal/ModalForm'
 import FormStudent from './form'
 import { Button } from '../../../../components/input'
-import locatioanName from '../../../../utils/location'
+import useLocatioanName from '../../../../utils/location'
 import ModalConfirm from '../../../../components/ui/modal/ModalConfirm'
 import { useClassType } from '../../../../hooks/fetch/master/useClassType'
+import RegisterTable from './RegisterTable'
 
 const StudentPage = () => {
     const { 
@@ -27,6 +28,9 @@ const StudentPage = () => {
         idDetail,
         page,
         control,
+        onOpenRegister,
+        dataRegister,
+        modalFormRegister
     } = useStudent()
 
     const { optionClassType } = useClassType()
@@ -52,12 +56,22 @@ const StudentPage = () => {
                     onSubmit={onSubmit}
                 />
             </ModalForm>
+            <ModalForm 
+                visible={modalFormRegister.visible}
+                onClose={onCancel}
+                title='List Pendaftaran'
+                size="medium"
+            >
+                <RegisterTable
+                    dataRegister={dataRegister}
+                />
+            </ModalForm>
             <div className='w-full'>
                 <div className='py-4'>
                     <Button 
                         onClick={()=>setModalForm((state)=> ({...state, visible:true}))} 
                     >
-                        + {locatioanName().pathName}
+                        + {useLocatioanName().pathName}
                     </Button>
                 </div>
                 <Table
@@ -68,6 +82,7 @@ const StudentPage = () => {
                     onDelete={onDelete}
                     onUpdate={onUpdate}
                     onDetail={onDetail}
+                    onOpenRegister={onOpenRegister}
                 />
                 <TablePaging
                     page={page.page}

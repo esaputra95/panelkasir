@@ -13,10 +13,20 @@ import { useState } from "react";
 import autoTable from "jspdf-autotable";
 import jsPDF from "jspdf";
 import helperReport from "../../../utils/headerReport";
+import { getData as getDataSetting}  from "../../models/settings/settingModel"
+import { ApiResponseSetting } from "../../../interfaces/settings/settingInterface";
+import icon from './../../../assets/icon.jpeg'
+import hexToRgb from "../../../utils/hexToRgb";
+import { ApiResponseUpdateStudent } from "../../../interfaces/registers/studentInterface";
+import { getDataById as getDataStudentById } from "./../../models/registers/studentModel"
 
 const useRecordMateriReport = () => {
     const [ dataRecordMateriReport, setDataRecordMateriReport ] = useState<[][]>()
-    const { RecordMateriPayroll } = url;
+    const { 
+        RecordMateriPayroll, 
+        Setting,
+        Student
+    } = url;
     const doc = new jsPDF();
     const {
         reset,
@@ -59,36 +69,55 @@ const useRecordMateriReport = () => {
         }
     })
 
-    const toPdf = (data:string[][]) => {
-        doc.setTextColor(40);
-        doc.setFontSize(16)
-        doc.text(
-            `LAPORAN RECORD MATERI` , 
-            2, 2, 
-            { 
-                baseline: 'top' ,
-                align: 'justify'
-            }
-        );
+    const toPdf = async (data:string[][]) => {
+        const headerData:ApiResponseSetting = await getDataSetting(Setting.get);
+        const hotline = headerData.data.setting.find(value=> value.label === "hotline")
+        const address = headerData.data.setting.find(value=> value.label === "address")
+        const city = headerData.data.setting.find(value=> value.label === "city")
+        const postalCode = headerData.data.setting.find(value=> value.label === "postal-code")
+        const website = headerData.data.setting.find(value=> value.label === "website")
+        const email = headerData.data.setting.find(value=> value.label === "email")
 
-        autoTable(doc, {
-            bodyStyles: { fillColor: '#FFFFFF' },
-            margin: { left:0, right:0},
-            styles: {
-                halign:'left',
-                fillColor: '#FFFFFF',
-                lineColor: '#FFFFFF'
-            },
-            theme:'grid',
-            body: [
-                [`Rentang Waktu ${moment(getValues('startDate')).format('DD-MM-YYYY')} - ${moment(getValues('endDate')).format('DD-MM-YYYY')}`]
+        doc.addImage(icon, 'JPEG', 2, 2, 30, 30);
+        doc.setFontSize(9)
+        doc.text([
+            'LAPORAN JADWAL ESP SISWA', 
+            `Head Office: ${address?.value ?? ''}`,
+            `${city?.value ?? ''}, ${postalCode?.value ?? ''}`,
+            `hotline : ${hotline?.value ?? ''}`,
+            `Website: ${website?.value ?? ''}`,
+            `Email: ${email?.value ?? ''}`
+        ], 34, 6);
+
+        if(getValues('student')){
+            const student:ApiResponseUpdateStudent = await getDataStudentById(Student.getById, getValues('student.value'));
+            const textWidth = doc.getStringUnitWidth(`Siswa : ${getValues('student.label')}`) * 23;
+            const height = 16;
+            // Draw filled rectangle as background
+            const rgb = hexToRgb('#1bbd9d');
+            doc.setFillColor(rgb.r, rgb.g, rgb.b);
+            doc.rect(2, 34, textWidth, height, 'F');
+            // Add the text
+            doc.setTextColor('white'); // Reset text color to black
+            doc.setFontSize(10)
+            doc.text([
+                `${t('name')} : ${getValues('student.label')}`,
+                `${t('major')} : ${student.data.student.studyProgram}`,
+                `${t('study-groups')} : ${student.data.student?.studyGroupDetails?.[0].studyGroups?.name}`
+            ], 4, 34 + height - 11); // subtract 3 for better alignment
+        }
+
+        let newHead:string[]=[];
+        for (const value of helperReport.headerRecordMateriReport) {
+            newHead=[...newHead,
+                t(value)
             ]
-        })
+        }
         autoTable(doc, {
             head: [
-                helperReport.headerRecordMateriReport
+                newHead
             ],
-            margin: { left:2, right:2 },
+            margin: { left:2, right:2, top:51 },
             theme:'grid',
             body: data??'',
         })

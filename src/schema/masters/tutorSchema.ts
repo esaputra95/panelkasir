@@ -8,7 +8,6 @@ const TentorSchema = () => {
         name: yup.string().required(`${t("name")} ${t("required")}`),
         email: yup.string().email(`Must be a valid email address`).required(`${t("email")} ${t("required")}`),
         username: yup.string().required(`${t("username")} ${t("required")}`),
-        password: yup.string().required(`${t("password")} ${t("required")}`),
         userType: yup.string().required().oneOf(
             [UserType.admin, UserType.tentor],
             `${t("user-type")} ${t("required")}`

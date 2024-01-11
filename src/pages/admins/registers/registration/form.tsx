@@ -63,7 +63,7 @@ const FormRegistration: FC<RegistrationFormProps> = (props) => {
                 </div>
                 <div className='w-full'>
                     <LabelInput>
-                        {t('total-sessions')}
+                        {t('sessions')}
                     </LabelInput>
                     <Controller
                         name={`class`}
@@ -88,11 +88,11 @@ const FormRegistration: FC<RegistrationFormProps> = (props) => {
                     }
                     </span>
                 </div>
-                <InputText 
+                {/* <InputText 
                     {...register('amount')}
                     label={t('amount')}
                     errors={errors.amount?.message}
-                />
+                /> */}
                 <div className='w-full'>
                     <LabelInput>
                         {t('sessions')}
@@ -176,10 +176,10 @@ const FormRegistration: FC<RegistrationFormProps> = (props) => {
                 </div>
                 <SelectOption 
                     {...register('location')}
-                    label='study-location'
+                    label={t('study-location')}
                     option={[
                         {label:'Online', value:'online'},
-                        {label:'Offline', value:'offline'}
+                        {label:'Dikantor ESP Bimbel', value:'offline'}
                     ]}
                     errors={errors.location?.message}
                 />
@@ -212,7 +212,7 @@ const FormRegistration: FC<RegistrationFormProps> = (props) => {
                 </div>
                 <InputText
                     {...register('university')}
-                    label='university'
+                    label={t('universities')}
                     errors={errors.university?.message}
                 />
             </div>

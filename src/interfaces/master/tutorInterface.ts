@@ -1,19 +1,21 @@
-import { FieldErrors, UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
+import { Control, FieldArrayWithId, FieldErrors, UseFieldArrayAppend, UseFieldArrayRemove, UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
 import { ApiResponse, InfoResponse } from "../apiInfoInterface";
+import { TutorSkillInterface } from "./tutorSkillInterface";
 
 export interface TutorInterface {
     id?: string
     name: string
     email: string
     username: string
-    password: string
+    password?: string
     token?: string
     refreshToken?: string
     roleId?: string
     userType: UserType
     nickname: string
     address?: string
-    phone: string
+    phone: string;
+    tentorSkills?: TutorSkillInterface[]
     userCreate?: string
     createdAt?: string
     updatedAt?: string
@@ -37,15 +39,18 @@ export type TutorFormProps = {
     onCancel: () => void;
     errors: FieldErrors<TutorInterface>;
     isLoading?: boolean;
-    idDetail?: string | null
+    idDetail?: string | null;
+    append: UseFieldArrayAppend<TutorInterface, "tentorSkills">;
+    fields: FieldArrayWithId<TutorInterface, "tentorSkills", "id">[];
+    remove: UseFieldArrayRemove;
+    control: Control<TutorInterface>
 }
 
 interface Info {
     page: number;
     limit: number;
     total: number;
-  }
-  
+}
 export interface ClassDataTypeInterface {
     tutor: TutorInterface[];
     info: Info;

@@ -1,4 +1,9 @@
-import { BsEyeFill, BsFillTrashFill, BsPencilFill } from "react-icons/bs";
+import {
+    BsEyeFill,
+    BsFillTrashFill,
+    BsPencilFill,
+    BsFileEarmarkArrowDownFill
+} from "react-icons/bs";
 import { FC } from "react";
 import { StudentTableInterface } from "../../../../interfaces/registers/studentInterface";
 import { useTranslation } from "react-i18next";
@@ -11,7 +16,8 @@ type TableProps = {
     limit: number,
     onDelete:(id:string)=>void,
     onUpdate:(id:string)=>void,
-    onDetail:(id:string)=>void
+    onDetail:(id:string)=>void,
+    onOpenRegister: (id: string) => Promise<void>
 }
 
 const header = [
@@ -25,6 +31,7 @@ const header = [
     { label: 'gender' },
     { label: 'study-program' },
     { label: 'school' },
+    { label: 'image' },
     { 
         label: 'Action',
         width: 'w-16'
@@ -32,11 +39,20 @@ const header = [
 ] 
 
 const Table: FC<TableProps> = (props) => {
-    const { data, isFetching, page, limit, onDelete, onUpdate, onDetail } = props;
+    const {
+        data,
+        isFetching,
+        page,
+        limit,
+        onDelete,
+        onUpdate,
+        onDetail,
+        onOpenRegister
+    } = props;
     const { t } = useTranslation()
     const number:number = ((page-1)*limit)
     return (
-        <div className="relative overflow-x-auto max-h-96">
+        <div className="relative overflow-x-auto max-h-100">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
@@ -71,14 +87,36 @@ const Table: FC<TableProps> = (props) => {
                                 <td className="px-6 py-4">
                                     {value.school}
                                 </td>
+                                <td className="px-6 py-4">
+                                    <img src={`http://localhost:3000/images/${value.image}`} className="h-16 w-16 rounded-full"/>
+                                </td>
                                 <td className="px-6 py-4 flex">
-                                    <span title="Update" className="p-1.5 bg-green-50 hover:bg-green-100 hover:cursor-pointer rounded-full" onClick={()=>onUpdate(value.id ?? '')}>
+                                    <span 
+                                        title="Update" 
+                                        className="p-1.5 bg-green-50 hover:bg-green-100 hover:cursor-pointer rounded-full" 
+                                        onClick={()=>onUpdate(value.id ?? '')}
+                                    >
                                         <BsPencilFill className='text-green-600' />
                                     </span>
-                                    <span title="Detail" className="p-1.5 bg-cyan-50 hover:bg-cyan-100 hover:cursor-pointer rounded-full" onClick={()=>onDetail(value.id ?? '')}>
+                                    <span 
+                                        title="Detail"
+                                        className="p-1.5 bg-cyan-50 hover:bg-cyan-100 hover:cursor-pointer rounded-full"
+                                        onClick={()=>onDetail(value.id ?? '')}
+                                    >
                                         <BsEyeFill className='text-cyan-600' />
                                     </span>
-                                    <span title={t("delete")} className="p-1.5 bg-red-50 hover:bg-red-100 hover:cursor-pointer rounded-full" onClick={()=>onDelete(value.id ?? '')}>
+                                    <span
+                                        title="Data Pendaftaran"
+                                        className="p-1.5 bg-cyan-50 hover:bg-cyan-100 hover:cursor-pointer rounded-full"
+                                        onClick={()=>onOpenRegister(value.id ?? '')}
+                                    >
+                                        <BsFileEarmarkArrowDownFill className='text-cyan-600' />
+                                    </span>
+                                    <span
+                                        title={t("delete")}
+                                        className="p-1.5 bg-red-50 hover:bg-red-100 hover:cursor-pointer rounded-full" 
+                                        onClick={()=>onDelete(value.id ?? '')}
+                                    >
                                         <BsFillTrashFill className="text-red-600" />
                                     </span>
                                 </td>

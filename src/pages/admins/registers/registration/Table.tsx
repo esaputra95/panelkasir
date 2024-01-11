@@ -45,14 +45,14 @@ const Table: FC<TableProps> = (props) => {
         page,
         limit,
         onDelete,
-        // sendMessage,
+        sendMessage,
         changeStatusInvoice
     } = props;
     const { t } = useTranslation()
     const navigate = useNavigate()
     const number:number = ((page-1)*limit)
     return (
-        <div className="relative overflow-x-auto max-h-96">
+        <div className="relative overflow-x-auto max-h-100">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
@@ -77,13 +77,13 @@ const Table: FC<TableProps> = (props) => {
                                     {(number+index+1)}
                                 </td>
                                 <td className="px-6 py-4">
-                                    {/* {  } */}
+                                    {value.students?.name}
                                 </td>
                                 <td className="px-6 py-4">
-                                    {/* { value.packages.name } */}
+                                    { value.packages?.name }
                                 </td>
                                 <td className="px-6 py-4">
-                                    {/* { value.sessions.name } */}
+                                    { value.sessions?.name }
                                 </td>
                                 <td className="px-6 py-4">
                                     { value.status === 0 ? 
@@ -99,7 +99,7 @@ const Table: FC<TableProps> = (props) => {
                                     </span>
                                     <span title="Send Chat"
                                         className="p-1.5 bg-blue-50 hover:bg-blue-100 hover:cursor-pointer rounded-full"
-                                        // onClick={()=>sendMessage(value. ?? '')}
+                                        onClick={()=>sendMessage(value.students?.phone ?? '')}
                                     >
                                         <BsFillSendFill className='text-blue-600' />
                                     </span>

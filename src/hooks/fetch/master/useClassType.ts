@@ -5,7 +5,7 @@ import { ApiResponseClassType, ClassTypeFilter, ClassTypeInterface } from "./../
 import { SubmitHandler, useForm } from "react-hook-form"
 import url from "./../../../services/url"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { classTypeSchema } from "./../../../schema/masters"
+import ClassTypeSchema from "./../../../schema/masters/classTypeSchema"
 import { AxiosError } from "axios"
 import { modalFormState } from "../../../utils/modalFormState"
 import { toast } from 'react-toastify';
@@ -41,7 +41,7 @@ export const useClassType = () => {
         handleSubmit,
         formState: { errors },
     } = useForm<ClassTypeInterface>({
-        resolver: yupResolver(classTypeSchema().schema)
+        resolver: yupResolver(ClassTypeSchema().schema)
     })
 
     const {

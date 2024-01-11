@@ -8,7 +8,7 @@ const MessagePage = () => {
                 </div>
                 <div className='p-4 bg-orange-100 rounded-b-lg'>
                     <h1 className='font-medium'>Hati-hati penipuan! jangan menerima tagihan selain dari no berikut</h1>
-                    <h1 className='font-medium'>WhatsApp : 0812 1232 1231</h1>
+                    <h1 className='font-medium'>WhatsApp : +6285271726006</h1>
                     <h1 className='font-medium'>Kami tidak bertanggung jawab atas tagihan yang dikirimkan selain no diatas</h1>
                     <h1 className='font-medium'>Terima Kasih</h1>
                 </div>

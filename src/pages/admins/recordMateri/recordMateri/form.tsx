@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { InputText, Button, LabelInput } from '../../../../components/input';
+import { InputText, Button } from '../../../../components/input';
 import { RecordMateriFormProps } from '../../../../interfaces/recordMateri/RecordMateriInterface';
 import { useTranslation } from 'react-i18next';
 import Spinner from '../../../../components/ui/Spinner';
@@ -17,16 +17,12 @@ const FormRecordMateri: FC<RecordMateriFormProps> = (props) => {
         isLoading,
         idDetail,
         control,
-        handelOnChangeForm,
-        optionStudyGroup,
         getListStudents,
         fieldDetails,
         optionStudent,
         dataOptionStudent,
         optionCourse,
-        dataOptionCourse,
-        dataOptionStudyGroup,
-        updateStatus
+        dataOptionCourse
     } = props;
     const {t} = useTranslation()
 
@@ -37,49 +33,28 @@ const FormRecordMateri: FC<RecordMateriFormProps> = (props) => {
                     {...register("date")}
                     errors={errors.date?.message} 
                     readOnly={idDetail?true:false} 
-                    label={t("code")} 
+                    label={t("start-date")} 
                     type='date'
-                    onChange={(event)=> 
-                        handelOnChangeForm(event)
-                    }
+                    max={new Date().toISOString().split('T')[0]}
                 />
-                
-                <div className='w-full pl-2'>
-                    <LabelInput>{t("study-groups")}</LabelInput>
-                    <Controller
-                        name="studyGroupId"
-                        control={control}
-                            render={({ field }) => 
-                            <AsyncSelect 
-                                className='w-full'
-                                {...field}
-                                cacheOptions
-                                defaultOptions
-                                loadOptions={optionStudyGroup}
-                                placeholder='Select...'
-                                value={ updateStatus ? dataOptionStudyGroup.filter(value=> 
-                                    value.value === getValues(`studyGroupId`) 
-                                ) : undefined
-                            }
-                                ref={(ref)=>ref}
-                            />
-                        }
-                    />
-                    <span className='text-red-300'>
-                    {
-                        errors.studyGroupId?.message
-                    }
-                    </span>
-                </div>
+                <InputText
+                    {...register("date2")}
+                    errors={errors.date?.message} 
+                    readOnly={idDetail?true:false} 
+                    label={t("until-date")} 
+                    type='date'
+                    max={new Date().toISOString().split('T')[0]}
+                />
             </div>
-            <div className='w-full flex justify-end'>
+            <div className='w-full flex justify-between py-2 items-end'>
+                <label className='text-sm font-normal text-gray-600'>Catatan : Kolom deskripsi dikosongkan jika siswa tidak hadir</label>
                 <Button
                     type='button'
                     variant='success'
                     onClick={()=> getListStudents(
                         getValues('date')??'', 
                         getValues('tentorId')??'', 
-                        getValues('studyGroupId')??'')}
+                        getValues('date2')??'')}
                 >
                     Lihat Siswa
                 </Button>
@@ -88,16 +63,13 @@ const FormRecordMateri: FC<RecordMateriFormProps> = (props) => {
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
-                            <th>
+                            <th className='p-2'>
                                 {t('students')}
                             </th>
-                            <th>
+                            <th className='p-2'>
                                 {t('materials')}
                             </th>
-                            <th>
-                                {t('advice')}
-                            </th>
-                            <th>
+                            <th className='p-2'>
                                 {t('description')}
                             </th>
                         </tr>
@@ -120,7 +92,7 @@ const FormRecordMateri: FC<RecordMateriFormProps> = (props) => {
                                                 isSearchable={false}
                                                 defaultOptions
                                                 placeholder='Select...'
-                                                value={ dataOptionStudent ? dataOptionStudent.filter(value=> 
+                                                defaultValue={ dataOptionStudent.length > 0 ? dataOptionStudent.filter(value=> 
                                                         value.value === getValues(`detail.${index}.studentId`)
                                                     ) : null
                                                 }
@@ -164,20 +136,15 @@ const FormRecordMateri: FC<RecordMateriFormProps> = (props) => {
                                     </span>
                                 </td>
                                 <td>
-                                <InputText
-                                    {
-                                        ...register(`detail.${index}.advice`)
-                                    }
-                                    errors={errors.detail?.[index]?.advice?.message ?? ''}
-                                /></td>
-                                <td>
-                                    
-                                <InputText
-                                    {
-                                        ...register(`detail.${index}.description`)
-                                    }
-                                    errors={errors.detail?.[index]?.description?.message ?? ''}
-                                />
+                                <Controller
+                                    name={`detail.${index}.description`}
+                                    control={control}
+                                    render={({ field }) => 
+                                        <textarea rows={3} 
+                                            className='resize-none block p-2.5 w-full text-sm text-gray-900  rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' 
+                                            {...field} 
+                                    />}
+                                    />
                                 </td>
                             </tr>
                         ) : null

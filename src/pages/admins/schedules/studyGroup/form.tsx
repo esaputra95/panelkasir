@@ -53,7 +53,7 @@ const FormStudyGroup: FC<StudyGroupFormProps> = (props) => {
                     errors={errors.studyGroup?.total?.message} 
                     readOnly={idDetail?true:false} 
                     type='number'
-                    label={t("total")} 
+                    label={t("session-quantities")} 
                 />
                 <div className='w-full'>
                     <LabelInput>{t("class-types")}</LabelInput>

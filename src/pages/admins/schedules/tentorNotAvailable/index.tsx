@@ -4,7 +4,7 @@ import { useTentorNotAvailable } from '../../../../hooks/fetch/schedule/useTento
 import ModalForm from '../../../../components/ui/modal/ModalForm'
 import FormTentorNotAvailable from './form'
 import { Button, InputText } from '../../../../components/input'
-import locatioanName from '../../../../utils/location'
+import useLocatioanName from '../../../../utils/location'
 import ModalConfirm from '../../../../components/ui/modal/ModalConfirm'
 import { useTutor } from '../../../../hooks/fetch/master/useTutor'
 
@@ -62,7 +62,7 @@ const TentorNotAvailablePage = () => {
                     <Button 
                         onClick={()=>setModalForm((state)=> ({...state, visible:true}))} 
                     >
-                        + {locatioanName().pathName}
+                        + {useLocatioanName().pathName}
                     </Button>
                     <div className="w-4/12 relative text-gray-600">
                         <form onSubmit={handleSubmitFilter(onFilter)}>

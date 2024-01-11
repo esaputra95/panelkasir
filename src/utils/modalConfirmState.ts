@@ -23,11 +23,9 @@ const dumyDeleteModal:ModalConfirmType = {
 }
 
 export const modalConfirmState = () => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [modalConfirm, setModalConfirm] = useState<ModalConfirmType>(dumyDeleteModal)
 
-    // const set = (value:ModalConfirmType) => {
-    //     setModal((state)=> ({...state, ...value}))
-    // }
 
     return {
         modalConfirm: {

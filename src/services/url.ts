@@ -181,9 +181,24 @@ const url = {
     StudentReport: {
         get: 'report/student-reports'
     },
+    ScheduleReport: {
+        get: 'report/schedule-reports'
+    },
+    RegisterReport: {
+        get: 'report/register-reports'
+    },
     Dashboard: {
-        recordMateri: 'dashboard/record-materi'
-    }
+        recordMateri: 'dashboard/record-materi',
+        studyGroup: 'dashboard/study-group'
+    },
+    Setting: {
+        get: 'settings',
+        post: 'settings',
+        put: 'settings',
+        getById: 'settings',
+        delete: 'settings',
+        getSelect: 'settings/one'
+    },
 };
 
 export default url

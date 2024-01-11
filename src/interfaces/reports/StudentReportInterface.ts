@@ -12,7 +12,8 @@ export interface StudentReportFilter {
     control: Control<StudentReport>;
     onSubmit: SubmitHandler<StudentReport>;
     handleSubmit: UseFormHandleSubmit<StudentReport>;
-    onDownload: (data: StudentReport) => void
+    onDownload: (data: StudentReport) => void;
+    isLoadingMutate: boolean
 }
 
 export interface DataStudentInterface {

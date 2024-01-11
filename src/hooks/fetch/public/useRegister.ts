@@ -12,6 +12,7 @@ import { handleMessageErrors } from "../../../services/handleErrorMessage"
 import { DataMessageError } from "../../../interfaces/apiInfoInterface"
 import { t } from "i18next"
 import { useNavigate } from "react-router-dom"
+import { ChangeEvent } from "react"
 
 const useRegister = () => {
     const { Register } = url;
@@ -22,6 +23,8 @@ const useRegister = () => {
         register,
         handleSubmit,
         control,
+        setValue,
+        getValues,
         formState: { errors },
     } = useForm<RegisterInterface>({
         resolver: yupResolver(RegisterSchema().schema)
@@ -41,7 +44,7 @@ const useRegister = () => {
         },
         onError: (errors) => {
             toast.error(errors.message, {
-                position: toast.POSITION.TOP_CENTER
+                position: toast.POSITION .TOP_CENTER
             });
         }
     })
@@ -73,7 +76,12 @@ const useRegister = () => {
         mutate({
             ...data
         })
-        
+    }
+
+    const handleOnChange = (event:ChangeEvent<HTMLInputElement>) => {
+        const image = event.target.files?.[0] ?? ''
+        setValue('imageUpload', event.target.files)
+        setValue('image', URL.createObjectURL(image as Blob))
     }
 
     return {
@@ -84,7 +92,9 @@ const useRegister = () => {
         onSubmit,
         isLoadingMutate,
         isFetching,
-        dataClassMaster
+        dataClassMaster,
+        handleOnChange,
+        getValues,
     }
 }
 

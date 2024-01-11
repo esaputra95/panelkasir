@@ -25,7 +25,6 @@ const header = [
     { label: 'tutors' },
     { label: 'students' },
     { label: 'materials' },
-    { label: 'advice' },
     { label: 'description' },
     { 
         label: 'Action',
@@ -38,7 +37,7 @@ const Table: FC<TableProps> = (props) => {
     const { t } = useTranslation()
     const number:number = ((page-1)*limit)
     return (
-        <div className="relative overflow-x-auto max-h-96">
+        <div className="relative overflow-x-auto max-h-100">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
@@ -72,9 +71,6 @@ const Table: FC<TableProps> = (props) => {
                                 </td>
                                 <td className="px-6 py-4">
                                     {value.description}
-                                </td>
-                                <td className="px-6 py-4">
-                                    {value.advice}
                                 </td>
                                 <td className="px-6 py-4 flex">
                                     <span 

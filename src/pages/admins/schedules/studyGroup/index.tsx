@@ -4,7 +4,7 @@ import { useStudyGroup } from '../../../../hooks/fetch/schedule//useStudyGroup'
 import ModalForm from '../../../../components/ui/modal/ModalForm'
 import FormStudyGroup from './form'
 import { Button } from '../../../../components/input'
-import locatioanName from '../../../../utils/location'
+import useLocatioanName from '../../../../utils/location'
 import ModalConfirm from '../../../../components/ui/modal/ModalConfirm'
 import { useStudent } from '../../../../hooks/fetch/master/useStudent'
 import { useClassMaster } from '../../../../hooks/fetch/master/useClassMaster'
@@ -91,7 +91,7 @@ const StudyGroupPage = () => {
                     <Button 
                         onClick={()=>setModalForm((state)=> ({...state, visible:true}))} 
                     >
-                        + {locatioanName().pathName}
+                        + {useLocatioanName().pathName}
                     </Button>
                 </div>
                 <Table

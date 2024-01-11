@@ -2,7 +2,7 @@ import {  useMutation, useQuery } from "@tanstack/react-query"
 import { deleteData, getData, getDataById, getDataSelect, postData } from "../../models/master/materialModel"
 import { useEffect, useState } from "react"
 import { ApiResponseTutor, TutorFilter, TutorInterface } from "../../../interfaces/master/tutorInterface"
-import { SubmitHandler, useForm } from "react-hook-form"
+import { SubmitHandler, useFieldArray, useForm } from "react-hook-form"
 import url from "../../../services/url"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { TutorSchema } from "../../../schema/masters"
@@ -39,6 +39,7 @@ export const useTutor = () => {
         reset,
         register,
         handleSubmit,
+        control,
         formState: { errors },
     } = useForm<TutorInterface>({
         resolver: yupResolver(TutorSchema().schema)
@@ -50,10 +51,15 @@ export const useTutor = () => {
         // formState: { errors:errorsFilter },
     } = useForm<TutorFilter>()
 
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: "tentorSkills"
+    });
+
     useEffect(()=> {
         refetch()
     }, [page.page]);
-      
+    
     const {data:dataTutor, isFetching, refetch} = useQuery<ApiResponseTutor, AxiosError>({ 
         queryKey: ['class-types', query], 
         networkMode: 'always',
@@ -100,16 +106,15 @@ export const useTutor = () => {
     const { mutate, isLoading:isLoadingMutate } = useMutation({
         mutationFn: (data:TutorInterface)=> postData(Tutor.post, data),
         onSuccess: () => {
-            setModalForm((state)=>({
-                ...state,
-                visible: false
-            }))
-            refetch()
-            reset()
-            toast.success(t("success-save"), {
-                position: toast.POSITION.TOP_CENTER
-            });
-            
+            // setModalForm((state)=>({
+            //     ...state,
+            //     visible: false
+            // }))
+            // refetch()
+            // reset()
+            // toast.success(t("success-save"), {
+            //     position: toast.POSITION.TOP_CENTER
+            // });
         },
         onError: async (errors) => {
             const err = errors as AxiosError<DataMessageError>
@@ -222,6 +227,10 @@ export const useTutor = () => {
         registerFilter,
         handleSubmitFilter,
         onFilter,
-        dataOptionTutor
+        dataOptionTutor,
+        fields,
+        append,
+        remove,
+        control
     }
 }

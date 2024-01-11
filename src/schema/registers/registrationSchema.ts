@@ -7,7 +7,7 @@ const RegisterSchema = () => {
         studentId: yup.string().required(`${t("students")} ${t("required")}`),
         classId: yup.string().required(`${t("class")} ${t("required")}`),
         university: yup.string().required(`${t("university")} ${t("required")}`),
-        amount: yup.number().required(`${t("amount")} ${t("required")}`),
+        // amount: yup.number().required(`${t("amount")} ${t("required")}`),
         sessionId: yup.string().required(`${t("sessions")} ${t("required")}`),
         packageId: yup.string().required(`${t("packages")} ${t("required")}`),
         guidanceTypeId: yup.string().required(`${t("guidanceType")} ${t("required")}`),

@@ -1,6 +1,6 @@
 import { FC, ReactNode } from 'react'
 import { cva, type VariantProps } from "class-variance-authority";
-import locatioanName from '../../../utils/location';
+import useLocatioanName from '../../../utils/location';
 
 const modalForm = cva("relative w-full max-h-screen py-12 ", {
 	variants: {
@@ -59,7 +59,7 @@ const ModalForm: FC<ModalProps> = ({
                 {/* Modal header */}
                 <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
                     <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                        {title} {locatioanName().pathName}
+                        {title} {useLocatioanName().pathName}
                     </h3>
                     <button
                         type="button"

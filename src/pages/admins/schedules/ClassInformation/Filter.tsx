@@ -9,6 +9,8 @@ import { ClassInformationInterface } from '../../../../interfaces/schedule/Class
 import { OptionSelectInterface } from '../../../../interfaces/globalInterface';
 import { t } from 'i18next';
 import AsyncSelect from 'react-select/async';
+import useAccess from '../../../../utils/useAccess';
+
 
 type FilterType = {
     handleOnChange: (name:string, value:string) => void;
@@ -25,24 +27,32 @@ const Filter: FC<FilterType> = (props) => {
         handleOnSearch
     } = props
 
+    const {
+        token
+    } = useAccess()
 
     return (
         <div className='w-full'>
             <div className='w-full grid grid-cols-4 gap-4'>
-                <div className='w-full'>
-                    <LabelInput>
-                        {t('tutors')}
-                    </LabelInput>
-                    <div className='flex items-center'>
-                        <AsyncSelect
-                            cacheOptions
-                            loadOptions={optionTutor}
-                            defaultOptions
-                            className='w-full'
-                            onChange={(e)=>handleOnChange('tentor', e?.value ?? '')}
-                        />
-                    </div>
-                </div>
+                {
+                    token?.userType === "admin" ? (
+                        <div className='w-full'>
+                            <LabelInput>
+                                {t('tutors')}
+                            </LabelInput>
+                            <div className='flex items-center'>
+                                <AsyncSelect
+                                    cacheOptions
+                                    loadOptions={optionTutor}
+                                    defaultOptions
+                                    className='w-full'
+                                    onChange={(e)=>handleOnChange('tentor', e?.value ?? '')}
+                                />
+                            </div>
+                        </div>
+                    ) : null
+                }
+                
                 <SelectOption 
                     option={[
                         {value: 'online', label: 'Online'},

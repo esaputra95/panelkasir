@@ -172,7 +172,6 @@ export const useRecordMateri = () => {
             toast.success(t("success-save"), {
                 position: toast.POSITION.TOP_CENTER
             });
-            
         },
         onError: async (errors) => {
             const err = errors as AxiosError<DataMessageError>
@@ -272,11 +271,11 @@ export const useRecordMateri = () => {
         )
     }
 
-    const getListStudents = async (date?:string|undefined, tentorId?:string|undefined, groupId?: string|undefined) => {
+    const getListStudents = async (date?:string|undefined, tentorId?:string|undefined, date2?: string|undefined) => {
         const data = await getListStudent(RecordMateri.getListStudent, {
             tentorId: tentorId??'',
             date: date??'',
-            groupId: groupId??''
+            date2: date2??''
         });
         const list = data.data?.listStudent ?? []
         

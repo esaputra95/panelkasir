@@ -2,8 +2,12 @@ import { Control, FieldErrors, UseFormHandleSubmit, UseFormRegister } from "reac
 import { ApiResponse, InfoResponse } from "../apiInfoInterface";
 import { ClassTypeInterface } from "../master/classTypeInterface";
 import { StudentInterface } from "../master/studentInterface";
+import { StudyGroupDetailInterface } from "../schedule/studyGroupDetailInterface";
+import { RegistrationInterface } from "./registrationInterface";
 
 export interface StudentRegisterInterface extends StudentInterface {
+    studyGroupDetails?: StudyGroupDetailInterface[];
+    registers?: RegistrationInterface[]
 }
 
 export interface StudentSearchInterface {
@@ -20,7 +24,11 @@ export type StudentFormProps = {
     isLoading?: boolean;
     idDetail?: string | null;
     control: Control<StudentInterface>;
-    classTypeOption: (data: string) => Promise<{label:string, value:string}[]>
+    classTypeOption: (data: string) => Promise<{label:string, value:string}[]>;
+}
+
+export interface RegisterTableInterface {
+    dataRegister: RegistrationInterface[]
 }
 
 export interface Info {
@@ -43,6 +51,6 @@ export interface ApiResponseStudent extends ApiResponse {
 export interface ApiResponseUpdateStudent extends ApiResponse {
     data: {
         info: InfoResponse,
-        student: StudentInterface
+        student: StudentRegisterInterface
     }
 }

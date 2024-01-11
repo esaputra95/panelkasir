@@ -4,7 +4,7 @@ import { useUniversity } from '../../../../hooks/fetch/master/useUniversity'
 import ModalForm from '../../../../components/ui/modal/ModalForm'
 import FormUniversity from './form'
 import { Button } from '../../../../components/input'
-import locatioanName from '../../../../utils/location'
+import useLocatioanName from '../../../../utils/location'
 import ModalConfirm from '../../../../components/ui/modal/ModalConfirm'
 
 const UniversityPage = () => {
@@ -51,7 +51,7 @@ const UniversityPage = () => {
                     <Button 
                         onClick={()=>setModalForm((state)=> ({...state, visible:true}))} 
                     >
-                        + {locatioanName().pathName}
+                        + {useLocatioanName().pathName}
                     </Button>
                 </div>
                 <Table

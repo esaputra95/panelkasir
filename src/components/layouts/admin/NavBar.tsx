@@ -23,7 +23,7 @@ const NavBar = () => {
 	}
 
 	return (
-		<div className="w-full bg-white sticky top-0 z-[1000] ">
+		<div className="w-full bg-white sticky top-0 z-[10] ">
 			<div className="w-full flex justify-between h-16 items-center px-8">
 				<div className="font-semibold ">{t(location.pathname.replace('/', '').split('/').slice(-1)[0])}</div>
 				<div className="flex space-x-2">

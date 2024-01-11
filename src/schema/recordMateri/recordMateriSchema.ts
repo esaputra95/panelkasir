@@ -4,7 +4,8 @@ import * as yup from "yup"
 const RecordMateriSchema = () => {
     const {t} = useTranslation()
     const schema = yup.object({
-        date: yup.string().required(`${t("date")} ${t("required")}`),
+        date: yup.string().required(`${t("start-date")} ${t("required")}`),
+        date2: yup.string().required(`${t("until-date")} ${t("required")}`),
         // studyGroupId: yup.string().required(`${t("study-groups")} ${t("required")}`),
         detail: yup.array().of(
             yup.object().shape({

@@ -4,7 +4,7 @@ import { useSession } from '../../../../hooks/fetch/settings/useSession'
 import ModalForm from '../../../../components/ui/modal/ModalForm'
 import FormSession from './form'
 import { Button } from '../../../../components/input'
-import locatioanName from '../../../../utils/location'
+import useLocatioanName from '../../../../utils/location'
 import ModalConfirm from '../../../../components/ui/modal/ModalConfirm'
 
 const SessionPage = () => {
@@ -51,7 +51,7 @@ const SessionPage = () => {
                     <Button 
                         onClick={()=>setModalForm((state)=> ({...state, visible:true}))} 
                     >
-                        + {locatioanName().pathName}
+                        + {useLocatioanName().pathName}
                     </Button>
                 </div>
                 <Table

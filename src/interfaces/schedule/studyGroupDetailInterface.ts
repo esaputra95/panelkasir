@@ -1,4 +1,5 @@
 import { OptionSelectInterface } from "../globalInterface"
+import { StudyGroupInterface } from "./studyGroupInterface"
 
 export interface StudyGroupDetailInterface {
     id?: string
@@ -6,6 +7,7 @@ export interface StudyGroupDetailInterface {
     studentId?: string
     student: OptionSelectInterface
     userCreate?: string | null
+    studyGroups?: StudyGroupInterface;
     createdAt?: Date | null
     updatedAt?: Date | null
     deletedAt?: Date | null

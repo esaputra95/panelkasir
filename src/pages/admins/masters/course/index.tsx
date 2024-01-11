@@ -4,7 +4,7 @@ import { useCourse } from '../../../../hooks/fetch/master/useCourse'
 import ModalForm from '../../../../components/ui/modal/ModalForm'
 import FormCourse from './form'
 import { Button } from '../../../../components/input'
-import locatioanName from '../../../../utils/location'
+import useLocatioanName from '../../../../utils/location'
 import ModalConfirm from '../../../../components/ui/modal/ModalConfirm'
 import { useMajor } from '../../../../hooks/fetch/master/useMajor'
 
@@ -57,7 +57,7 @@ const CoursePage = () => {
                     <Button 
                         onClick={()=>setModalForm((state)=> ({...state, visible:true}))} 
                     >
-                        + {locatioanName().pathName}
+                        + {useLocatioanName().pathName}
                     </Button>
                 </div>
                 <Table

@@ -13,10 +13,16 @@ import { useState } from "react";
 import autoTable from "jspdf-autotable";
 import jsPDF from "jspdf";
 import helperReport from "../../../utils/headerReport";
+import { ApiResponseSetting } from "../../../interfaces/settings/settingInterface";
+import { getData as getDataSetting}  from "../../models/settings/settingModel"
+import hexToRgb from "../../../utils/hexToRgb";
 
 const useStudentReport = () => {
     const [ dataStudentReport, setDataStudentReport ] = useState<[][]>()
-    const { StudentReport } = url;
+    const {
+        StudentReport,
+        Setting
+    } = url;
     const doc = new jsPDF();
     const {
         reset,
@@ -59,40 +65,55 @@ const useStudentReport = () => {
         }
     })
 
-    const toPdf = (data:string[][]) => {
-        doc.setTextColor(40);
-        doc.setFontSize(16)
-        doc.text(
-            `LAPORAN SISWA` , 
-            2, 2, 
-            { 
-                baseline: 'top' ,
-                align: 'justify'
-            }
-        );
+    const toPdf = async (data:string[][]) => {
+        const headerData:ApiResponseSetting = await getDataSetting(Setting.get);
+        const icon = headerData.data.setting.find(value=> value.label === "icon")
+        const hotline = headerData.data.setting.find(value=> value.label === "hotline")
+        const address = headerData.data.setting.find(value=> value.label === "address")
+        const city = headerData.data.setting.find(value=> value.label === "city")
+        const postalCode = headerData.data.setting.find(value=> value.label === "postal-code")
+        const website = headerData.data.setting.find(value=> value.label === "website")
+        const email = headerData.data.setting.find(value=> value.label === "email")
 
-        autoTable(doc, {
-            bodyStyles: { fillColor: '#FFFFFF' },
-            margin: { left:0, right:0},
-            styles: {
-                halign:'left',
-                fillColor: '#FFFFFF',
-                lineColor: '#FFFFFF'
-            },
-            theme:'grid',
-            body: [
-                [`Rentang Waktu ${moment(getValues('startDate')).format('DD-MM-YYYY')} - ${moment(getValues('endDate')).format('DD-MM-YYYY')}`]
+        doc.addImage(`${import.meta.env.VITE_API_URL}/images/${icon?.value}`, 'JPEG', 2, 2, 25, 25);
+        doc.setFontSize(9)
+        doc.text([
+            'LAPORAN PENGGAJIAN TENTOR', 
+            `Head Office: ${address?.value ?? ''}`,
+            `${city?.value ?? ''}, ${postalCode?.value ?? ''}`,
+            `hotline : ${hotline?.value ?? ''}`,
+            `Website: ${website?.value ?? ''}`,
+            `Email: ${email?.value ?? ''}`,
+        ], 34, 6);
+        if(getValues('status')){
+            const height = 7;
+            const textWidth=206
+            
+            const rgb = hexToRgb('#1bbd9d');
+            doc.setFillColor(rgb.r, rgb.g, rgb.b);
+            doc.rect(2, 34, textWidth, height, 'F');
+
+            doc.setTextColor('white');
+            doc.setFontSize(10)
+            doc.text([
+                `${t('Status')} : ${getValues('status') === "1" ? 'Aktif' : 'TIdak Aktif'}`,
+            ], 4, 34 + height - 3); 
+        }
+        let newHead:string[]=[];
+        for (const value of helperReport.headerReportStudent) {
+            newHead=[...newHead,
+                t(value)
             ]
-        })
+        }
         autoTable(doc, {
             head: [
-                helperReport.headerReportStudent
+                newHead
             ],
-            margin: { left:2, right:2 },
+            margin: { left:2, right:2, top:45 },
             theme:'grid',
             body: data??'',
         })
-        doc.save('Laporan Siswa.pdf')
+        doc.save('Laporan Master Siswa.pdf')
     }
 
     const onDownload: SubmitHandler<StudentReport> = (data) => {

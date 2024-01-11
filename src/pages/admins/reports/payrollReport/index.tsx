@@ -10,7 +10,8 @@ const PayrollReportPage = () => {
 		handleSubmit,
 		onSubmit,
 		dataPayrollReport,
-		onDownload
+		onDownload,
+		isLoadingMutate
 	} = usePayrollReport();
 
 	const {
@@ -25,6 +26,7 @@ const PayrollReportPage = () => {
 				onSubmit={onSubmit}
 				handleSubmit={handleSubmit}
 				onDownload={onDownload}
+				isLoadingMutate={isLoadingMutate}
 			/>
 			<Data
 				dataPayrollReport={dataPayrollReport} 

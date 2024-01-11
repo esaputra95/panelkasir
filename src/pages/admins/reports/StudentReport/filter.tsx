@@ -3,13 +3,15 @@ import { StudentReportFilter } from '../../../../interfaces/reports/StudentRepor
 import { Button, InputText, SelectOption } from '../../../../components/input'
 import { t } from 'i18next'
 import { BsDownload } from "react-icons/bs";
+import Spinner from '../../../../components/ui/Spinner';
 
 const Filter: FC<StudentReportFilter> = (props) => {
     const {
         register,
         onSubmit,
         handleSubmit,
-        onDownload
+        onDownload,
+        isLoadingMutate
     } = props
     return (
         <form className='w-full' onSubmit={handleSubmit(onSubmit)}>
@@ -39,13 +41,17 @@ const Filter: FC<StudentReportFilter> = (props) => {
                     variant='success'
                     onClick={handleSubmit(onDownload)}
                 >
-                    <BsDownload/>
+                    {
+                        isLoadingMutate ? <Spinner /> : <BsDownload/>
+                    }
                 </Button>
                 <Button 
                     type='submit'
-                    children={t('view-data')}
-
-                />
+                >
+                    {
+                        isLoadingMutate ? <Spinner /> : t('view-data')
+                    }
+                </Button>
             </div>
         </form>
     )

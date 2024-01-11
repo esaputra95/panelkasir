@@ -1,8 +1,6 @@
 import { Control, FieldArrayWithId, FieldErrors, UseFormGetValues, UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
 import { ApiResponse, InfoResponse } from "../apiInfoInterface";
 import { OptionSelectInterface } from "../globalInterface";
-import { ChangeEvent } from "react";
-// import { GroupBase, OptionsOrGroups } from "react-select";
 import { MaterialInterface } from "../master/materialInterface";
 import { StudentInterface } from "../master/studentInterface";
 import { UserInterface } from "../userInterface";
@@ -39,6 +37,7 @@ export interface RecordMateriSearchInterface {
 export interface RecordMateriFormInterface {
     id?: string;
     date: string;
+    date2: string;
     studyGroupId?: string;
     tentorId?:string;
     detail: RecordMateriInterface[];
@@ -53,9 +52,6 @@ export type RecordMateriFormProps = {
     isLoading?: boolean;
     idDetail?: string | null;
     control: Control<RecordMateriFormInterface>;
-    handelOnChangeForm: (event: ChangeEvent<HTMLInputElement>) => void;
-    optionStudyGroup: (data: string) => Promise<OptionSelectInterface[]>
-    dataOptionStudyGroup: OptionSelectInterface[];
     getListStudents: (date: string, tentorId: string, groupId: string) => Promise<void>;
     getValues: UseFormGetValues<RecordMateriFormInterface>;
     fieldDetails: FieldArrayWithId<RecordMateriFormInterface, "detail", "id">[];
@@ -71,7 +67,6 @@ export interface Info {
     limit: number;
     total: number;
 }
-  
 export interface RecordMateriTableInterface extends RecordMateriInterface {
     materials: MaterialInterface,
     students: StudentInterface,

@@ -1,7 +1,8 @@
-import { api } from "../../../services";
+import { RegisterInterface } from "../../../interfaces/public/registerInterface";
+import { api, apiImage } from "../../../services";
 
 interface ParamRegisterInterface{
-  	page?: number,
+	page?: number,
 	limit?: number,
 	order?: string
 }
@@ -11,19 +12,36 @@ const getData = async (url:string, params:ParamRegisterInterface) => {
 	return response.data
 };
 
-const postData = async (url:string, data:any) => {
+const postData = async (url:string, data:RegisterInterface) => {
 	try {
 		if(data.id){
-			const response = await api.put(`${url}/${data.id}`, data);
+			
+			const formData = new FormData();
+			formData.append("images", data.imageUpload[0]);
+
+			const upload = await apiImage.post('registers/images', formData);
+			const response = await api.put(`${url}/${data.id}`, {
+				...data,
+				image: upload.data.data
+			});
 			if(response.status === 200) return response.data
 			throw response;
 		}else{
-			const response = await api.post(url, data);
+			const formData = new FormData();
+			formData.append("images", data.imageUpload[0]);
+
+			const upload = await apiImage.post('registers/images', formData);
+			
+			const response = await api.post(url, {
+				...data,
+				image: upload.data.data
+			});
+
 			if(response.status === 200) return response.data
 			throw response;
 		}
 	} catch (error) {
-		throw error;
+		return error;
 	}
 }
 

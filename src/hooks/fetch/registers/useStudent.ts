@@ -17,13 +17,16 @@ import { DataMessageError } from "../../../interfaces/apiInfoInterface"
 import { handleMessageErrors } from "../../../services/handleErrorMessage"
 import { OptionSelectInterface } from "../../../interfaces/globalInterface"
 import { OptionDummy } from "../../../utils/dummy/setting"
+import { RegistrationInterface } from "../../../interfaces/registers/registrationInterface"
 
 export const useStudent = () => {
     const [ query, setQuery ] = useState<StudentRegisterInterface>()
     const [ idDetail, setIdDetail ] = useState<string | null>()
     const [ dataOptionStudent, setDataOptionStudent] = useState<OptionSelectInterface[]>([OptionDummy])
+    const [ dataRegister, setDataRegister ] = useState<RegistrationInterface[]>([])
     const { Student } = url
     const { modalForm, setModalForm } = modalFormState()
+    const { modalForm:modalFormRegister, setModalForm:setModelFormRegister } = modalFormState()
     const { t } = useTranslation();
     const modalConfirm = modalConfirmState()
     const page = usePage();
@@ -87,6 +90,28 @@ export const useStudent = () => {
                     ...state,
                     visible: true
                 }))
+            }
+        },
+        onError:(error:AxiosError)=> {
+            toast.error(error.message, {
+                position: toast.POSITION.TOP_CENTER
+            });
+        }
+    })
+
+    const { mutate:mutateOpenRegister } = useMutation({
+        mutationFn: (id:string) => getDataById(Student.getById, id),
+        onSuccess:(data:ApiResponseUpdateStudent)=>{
+            if(data.status){
+                setModelFormRegister((state)=>({
+                    ...state,
+                    title: 'List Pendaftaran',
+                    visible: true
+                }))
+
+                console.log('register : ', data.data.student.registers);
+                
+                setDataRegister(data.data?.student?.registers ?? [])
             }
         },
         onError:(error:AxiosError)=> {
@@ -183,10 +208,18 @@ export const useStudent = () => {
             ...state,
             visible: false
         }))
+        setModelFormRegister((state)=>({
+            ...state,
+            visible: false
+        }))
         reset({
             ...StudentDummy
         })
         setIdDetail(null)
+    }
+    
+    const onOpenRegister = async (id:string) => {
+        mutateOpenRegister(id)
     }
 
     const onDetail = async (id:string) => {
@@ -215,6 +248,9 @@ export const useStudent = () => {
         page: page,
         control,
         optionStudent,
-        dataOptionStudent
+        dataOptionStudent,
+        onOpenRegister,
+        dataRegister,
+        modalFormRegister
     }
 }

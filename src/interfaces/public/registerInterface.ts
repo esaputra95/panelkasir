@@ -1,10 +1,12 @@
-import { Control, FieldErrors, UseFormHandleSubmit, UseFormRegister } from "react-hook-form"
+import { Control, FieldErrors, UseFormGetValues, UseFormHandleSubmit, UseFormRegister } from "react-hook-form"
 import { StudentInterface } from "../master/studentInterface";
 import { ApiResponse, InfoResponse } from "../apiInfoInterface";
+import { OptionSelectInterface } from "../globalInterface";
+import { ChangeEvent } from "react";
 
 export interface RegisterInterface extends StudentInterface {
-    packageId?: any;
-    sessionId?: any;
+    packageId?: string;
+    sessionId?: string;
     status?: number;
 }
 
@@ -17,13 +19,15 @@ export interface RegisterFormInterface {
 	onSubmit: (data:RegisterInterface) => void;
 	register: UseFormRegister<RegisterInterface>;
     onCancel?: () => void;
-    optionPackage: (data: any) => Promise<any>
-    optionSession: (data: any) => Promise<any>
-    optionGuidanceType: (data: any) => Promise<any>
+    optionPackage: (data: string) => Promise<OptionSelectInterface[]>
+    optionSession: (data: string) => Promise<OptionSelectInterface[]>
+    optionGuidanceType: (data: string) => Promise<OptionSelectInterface[]>
     errors?: FieldErrors<RegisterInterface>;
     isLoading?: boolean;
     idDetail?: string | null;
-    control?: Control<RegisterInterface, any>
+    control?: Control<RegisterInterface>;
+    handleOnChange: (event: ChangeEvent<HTMLInputElement>) => void;
+    getValues: UseFormGetValues<RegisterInterface>
 }
 
 export interface RegisterSearchInterface extends RegisterInterface {

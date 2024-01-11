@@ -14,7 +14,6 @@ import {
 	Accordion
 } from "@material-tailwind/react";
 import {
-    UserCircleIcon,
     Cog6ToothIcon,
     InboxIcon,
 	HomeIcon,
@@ -128,14 +127,15 @@ const SideBarLayout = () => {
 					open={open === 'registration'}
 					icon={
 						<ChevronDownIcon
-							strokeWidth={2.5}
-							className={`mx-auto h-4 w-4 transition-transform 
-								${open === 'registration' ? "rotate-180" : ""}`
-							}
+						strokeWidth={2.5}
+						className={`mx-auto h-4 w-4 transition-transform 
+							${token?.userType==="admin" ? 'flex':'hidden'}
+							${open === 'registration' ? "rotate-180" : ""}`
+						}
 						/>
 					}
 				>
-					<ListItem className="p-0" selected={open === 'registration'}>
+					<ListItem className={`p-0 ${token?.userType==="admin" ? 'flex':'hidden'}`} selected={open === 'registration'}>
 						<AccordionHeader onClick={() => handleOpen('registration')} className="border-b-0 p-3">
 							<ListItemPrefix>
 								<ListBulletIcon className="h-5 w-5" />
@@ -331,12 +331,6 @@ const SideBarLayout = () => {
 						</List>
 					</AccordionBody>
 				</Accordion>
-				<ListItem>
-					<ListItemPrefix>
-						<UserCircleIcon className="h-5 w-5" />
-					</ListItemPrefix>
-					Profile
-				</ListItem>
 				<hr className="my-2 border-blue-gray-50" />
 				<Accordion
 					open={open === 'settings'}

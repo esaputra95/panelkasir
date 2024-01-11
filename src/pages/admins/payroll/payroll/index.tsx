@@ -4,11 +4,14 @@ import { usePayroll } from '../../../../hooks/fetch/payroll/usePayroll'
 import ModalForm from '../../../../components/ui/modal/ModalForm'
 import FormPayroll from './form'
 import { Button } from '../../../../components/input'
-import locatioanName from '../../../../utils/location'
+// import useLocatioanName from '../../../../utils/Language '
 import ModalConfirm from '../../../../components/ui/modal/ModalConfirm'
 import { useTutor } from '../../../../hooks/fetch/master/useTutor'
+import useAccess from '../../../../utils/useAccess'
+import useLocatioanName from '../../../../utils/location'
 
 const PayrollPage = () => {
+    const { token } = useAccess()
     const { 
         dataPayroll, 
         isFetching,
@@ -40,6 +43,8 @@ const PayrollPage = () => {
         optionTutor
     } = useTutor()
 
+    const location = useLocatioanName()
+
     return (
         <div className='w-full'>
             <ModalConfirm data={modalConfirm.modalConfirm}  />
@@ -68,13 +73,17 @@ const PayrollPage = () => {
                 />
             </ModalForm>
             <div className='w-full'>
-                <div className='py-4'>
-                    <Button 
-                        onClick={()=>setModalForm((state)=> ({...state, visible:true}))} 
-                    >
-                        + {locatioanName().pathName}
-                    </Button>
-                </div>
+                {
+                    token?.userType === "admin" ? (
+                        <div className='py-4'>
+                            <Button 
+                                onClick={()=>setModalForm((state)=> ({...state, visible:true}))} 
+                            >
+                                + {location.pathName}
+                            </Button>
+                        </div>
+                    ) : null
+                }
                 <Table
                     data={dataPayroll?.data?.payroll ?? []}
                     isFetching={isFetching}

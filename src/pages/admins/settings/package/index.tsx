@@ -4,7 +4,7 @@ import { usePackage } from '../../../../hooks/fetch/settings/usePackage'
 import ModalForm from '../../../../components/ui/modal/ModalForm'
 import FormPackage from './form'
 import { Button } from '../../../../components/input'
-import locatioanName from '../../../../utils/location'
+import useLocatioanName from '../../../../utils/location'
 import ModalConfirm from '../../../../components/ui/modal/ModalConfirm'
 
 const PackagePage = () => {
@@ -51,7 +51,7 @@ const PackagePage = () => {
                     <Button 
                         onClick={()=>setModalForm((state)=> ({...state, visible:true}))} 
                     >
-                        + {locatioanName().pathName}
+                        + {useLocatioanName().pathName}
                     </Button>
                 </div>
                 <Table

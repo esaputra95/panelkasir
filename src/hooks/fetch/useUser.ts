@@ -18,7 +18,6 @@ export const useUser = () => {
     } = useForm<UserInterfaceForm>({
         resolver: yupResolver(userSchema)
     })
-      
     
     const {data, isLoading} = useQuery({ 
         queryKey: ['users'], 
@@ -28,11 +27,6 @@ export const useUser = () => {
             }
         )
     })
-
-    // const { mutate } = useMutation({
-    //     mutationFn: ( data:UserInterface ) => postUser(users, data)
-    // })
-
     const onSubmit: SubmitHandler<UserInterfaceForm> = (data) => {
         console.log({data});
     }

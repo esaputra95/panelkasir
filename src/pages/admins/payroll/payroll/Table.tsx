@@ -8,6 +8,7 @@ import { PayrollTableInterface } from "../../../../interfaces/payroll/payrollInt
 import { useTranslation } from "react-i18next";
 import Skeleton from "../../../../components/ui/Skeleton";
 import moment from "moment";
+import useAccess from "../../../../utils/useAccess";
 
 type TableProps = {
     data?: PayrollTableInterface[],
@@ -39,6 +40,9 @@ const header = [
 
 const Table: FC<TableProps> = (props) => {
     const {
+        token
+    } = useAccess();
+    const {
         data,
         isFetching,
         page,
@@ -50,7 +54,7 @@ const Table: FC<TableProps> = (props) => {
     const { t } = useTranslation()
     const number:number = ((page-1)*limit)
     return (
-        <div className="relative overflow-x-auto max-h-96">
+        <div className="relative overflow-x-auto max-h-100">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
@@ -106,13 +110,18 @@ const Table: FC<TableProps> = (props) => {
                                     >
                                         <BsEyeFill className='text-cyan-600' />
                                     </span>
-                                    <span 
-                                        title={t("delete")} 
-                                        className="p-1.5 bg-red-50 hover:bg-red-100 hover:cursor-pointer rounded-full" 
-                                        onClick={()=>onDelete(value.id ?? '')}
-                                    >
-                                        <BsFillTrashFill className="text-red-600" />
-                                    </span>
+                                    {
+                                        token?.userType === "admin" ? (
+                                            <span 
+                                                title={t("delete")} 
+                                                className="p-1.5 bg-red-50 hover:bg-red-100 hover:cursor-pointer rounded-full" 
+                                                onClick={()=>onDelete(value.id ?? '')}
+                                            >
+                                                <BsFillTrashFill className="text-red-600" />
+                                            </span>
+                                        ) : null
+                                    }
+                                    
                                 </td>
                             </tr>
                         )) : null

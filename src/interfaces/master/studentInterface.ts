@@ -18,7 +18,10 @@ export interface StudentInterface {
     city: string;
     parentName: string;
     parentPhone: string;
-    // image: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    image?: any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    imageUpload?: any;
     agreement: number;
     email: string;
 }

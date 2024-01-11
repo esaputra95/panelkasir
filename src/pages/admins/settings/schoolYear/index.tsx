@@ -4,7 +4,7 @@ import { useSchoolYear } from '../../../../hooks/fetch/settings/useSchoolYear'
 import ModalForm from '../../../../components/ui/modal/ModalForm'
 import FormSchoolYear from './form'
 import { Button } from '../../../../components/input'
-import locatioanName from '../../../../utils/location'
+import useLocatioanName from '../../../../utils/location'
 import ModalConfirm from '../../../../components/ui/modal/ModalConfirm'
 
 const SchoolYearPage = () => {
@@ -51,7 +51,7 @@ const SchoolYearPage = () => {
                     <Button 
                         onClick={()=>setModalForm((state)=> ({...state, visible:true}))} 
                     >
-                        + {locatioanName().pathName}
+                        + {useLocatioanName().pathName}
                     </Button>
                 </div>
                 <Table

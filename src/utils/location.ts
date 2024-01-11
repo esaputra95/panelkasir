@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 
-const locatioanName = () => {
+const useLocatioanName = () => {
     const { t } = useTranslation();
     const location = useLocation()
     return {
@@ -9,4 +9,4 @@ const locatioanName = () => {
     }
 }
 
-export default locatioanName
+export default useLocatioanName

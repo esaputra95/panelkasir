@@ -10,7 +10,9 @@ const RegisterPage = () => {
         errors,
         handleSubmit,
         onSubmit,
-        control
+        control,
+        handleOnChange,
+        getValues
     } = useRegister();
 
     const { 
@@ -35,6 +37,8 @@ const RegisterPage = () => {
             control={control}
             optionSession={optionSession}
             optionGuidanceType={optionGuidanceType}
+            handleOnChange={handleOnChange}
+            getValues={getValues}
         />
     )
 }

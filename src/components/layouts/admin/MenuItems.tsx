@@ -1,4 +1,4 @@
-export const MasterMenu = [
+const MasterMenu = [
     {
         label: 'tutors',
         path: 'tutors',
@@ -33,33 +33,43 @@ export const MasterMenu = [
         label: 'courses',
         path: 'courses',
         active: false,
-    },
-    // {
-    //     label: 'materials',
-    //     path: 'materials',
-    //     active: false,
-    // },
+    }
 ];
 
-export const ReportPayroll = [
+const ReportPayroll = [
     {
         label: 'payroll-reports',
         path: 'report/payroll-reports',
         active: false,
+        access: ['admin']
     },
     {
         label: 'record-materi-reports',
         path: 'report/record-materi-reports',
         active: false,
+        access: ['admin']
     },
     {
         label: 'student-reports',
         path: 'report/student-reports',
         active: false,
+        access: ['admin']
+    },
+    {
+        label: 'schedule-reports',
+        path: 'report/schedule-reports',
+        active: false,
+        access: ['admin']
+    },
+    {
+        label: 'register-reports',
+        path: 'report/register-reports',
+        active: false,
+        access: ['admin']
     },
 ]
 
-export const ScheduleMenu = [
+const ScheduleMenu = [
     {
         label: 'tentor-not-available',
         path: 'schedule/tentor-not-available',
@@ -80,7 +90,7 @@ export const ScheduleMenu = [
     }
 ]
 
-export const SettingMenu = [
+const SettingMenu = [
     {
         label: 'guidance-types',
         path: 'setting/guidance-types',
@@ -100,10 +110,15 @@ export const SettingMenu = [
         label: 'sessions',
         path: 'setting/sessions',
         active: false
+    },
+    {
+        label: 'companies',
+        path: 'setting/companies',
+        active: false
     }
 ];
 
-export const RecordMateri = [
+const RecordMateri = [
     {
         label: 'record-materi',
         path: 'record-materi',
@@ -112,7 +127,7 @@ export const RecordMateri = [
     },
 ];
 
-export const Payroll = [
+const Payroll = [
     {
         label: 'payroll',
         path: 'payroll',
@@ -121,7 +136,7 @@ export const Payroll = [
     }
 ]
 
-export const Register = [
+const Register = [
     {
         label: 'students',
         path: 'students',
@@ -135,3 +150,13 @@ export const Register = [
         access: ['admin']
     }
 ]
+
+export {
+    Register,
+    Payroll,
+    RecordMateri,
+    MasterMenu,
+    SettingMenu,
+    ReportPayroll,
+    ScheduleMenu
+}

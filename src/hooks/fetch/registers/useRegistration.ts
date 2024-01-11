@@ -18,8 +18,11 @@ import { yupResolver } from "@hookform/resolvers/yup"
 export const useRegistration = () => {
     const [ query, setQuery ] = useState<RegistrationInterface>()
     const [ idDetail, setIdDetail ] = useState<string | null>()
+    const [ dataConfirmInvoice, setDataConfirmInvoice ] = useState<RegistrationInterface>()
+    const [ stateConfirm, setStateConfirm ] = useState<{id?:string; status?:number}>()
     const { Registration } = url
     const { modalForm, setModalForm } = modalFormState()
+    const { modalForm:modelFormConfirmInvoice, setModalForm:setModalFormConfirmInvoice } = modalFormState()
     const { t } = useTranslation();
     const modalConfirm = modalConfirmState()
     const page = usePage();
@@ -28,7 +31,7 @@ export const useRegistration = () => {
         setModalForm((state)=>({
             ...state,
             label: 'Form '
-        }))
+        }));
     }, [])
 
     const {
@@ -93,18 +96,16 @@ export const useRegistration = () => {
 
     const { mutate, isLoading:isLoadingMutate } = useMutation({
         mutationFn: (data:RegistrationInterface)=> postData(Registration.post, data),
-        onSuccess: (data) => {
-            console.log({data});
-            
-            // setModalForm((state)=>({
-            //     ...state,
-            //     visible: false
-            // }))
-            // refetch()
-            // reset()
-            // toast.success(t("success-save"), {
-            //     position: toast.POSITION.TOP_CENTER
-            // });
+        onSuccess: () => {
+            setModalForm((state)=>({
+                ...state,
+                visible: false
+            }))
+            refetch()
+            reset()
+            toast.success(t("success-save"), {
+                position: toast.POSITION.TOP_CENTER
+            });
             
         },
         onError: async (errors) => {
@@ -146,11 +147,10 @@ export const useRegistration = () => {
                 status: number 
             }) => changeStatus(Registration.put, {id:data.id, status:data.status}),
         onSuccess: () => {
-            modalConfirm.setModalConfirm({
-                ...modalConfirm.modalConfirm,
-                loading: false,
+            setModalFormConfirmInvoice(state=> ({
+                ...state,
                 visible: false
-            })
+            }))
             refetch()
             toast.success(t("success-update"), {
                 position: toast.POSITION.TOP_CENTER
@@ -205,6 +205,13 @@ export const useRegistration = () => {
         setIdDetail(null)
     }
 
+    const onCancelInvoice = () => {
+        setModalFormConfirmInvoice(state=> ({
+            ...state,
+            visible:false
+        }))
+    }
+
     const onDetail = async (id:string) => {
         setIdDetail(id)
         mutateById(id)
@@ -214,30 +221,23 @@ export const useRegistration = () => {
         window.open('https://wa.me/'+phone)
     }
 
-    const changeStatusInvoice = (id:string, status:number) => {
-        modalConfirm.setModalConfirm((state)=>({
-            ...state,
-            title: 'Update Status',
-            message: 'Update status Register',
-            type:'primary',
-            confirmLabel: 'change-status',
-            cancelLabel: state.cancelLabel,
-            visible: true,
-            onConfirm:()=>{
-                modalConfirm.setModalConfirm((state)=>({
-                    ...state,
-                    loading: true
-                }))
-                mutateUpdateStatus({id, status})
-            },
-            onCancel:()=>{
-                modalConfirm.setModalConfirm((state)=>({
-                    ...state,
-                    visible: false,
-                }))
-            }
-        }))
+    const changeStatusInvoice = async (id:string, status:number) => {
+        const data = await getDataById(Registration.getById, id);
+        if(data.status){
+            setStateConfirm({status: status, id: id})
+            setDataConfirmInvoice(data.data.register)
+            setModalFormConfirmInvoice(state=>({
+                ...state,
+                visible: true,
+                label: 'Konfirmasi'
+            }))
+        }
     }
+
+    const confirmChangeStatusInvoice = async (id:string, status:number) => {
+        mutateUpdateStatus({id, status})
+    }
+    
 
     const handleOnChangeSelect = (key: keyof RegistrationInterface, data:string) => {
         setValue(`${key}` as keyof RegistrationInterface, data)
@@ -266,6 +266,11 @@ export const useRegistration = () => {
         optionRegistration,
         sendMessage,
         changeStatusInvoice,
-        handleOnChangeSelect
+        handleOnChangeSelect,
+        modelFormConfirmInvoice,
+        dataConfirmInvoice,
+        onCancelInvoice,
+        stateConfirm,
+        confirmChangeStatusInvoice
     }
 }

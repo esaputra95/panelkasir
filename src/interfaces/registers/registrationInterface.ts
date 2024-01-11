@@ -1,24 +1,34 @@
 import { Control, FieldErrors, UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
 import { ApiResponse, InfoResponse } from "../apiInfoInterface";
 import { OptionSelectInterface } from "../globalInterface";
+import { StudentInterface } from "../master/studentInterface";
+import { PackageInterface } from "../settings/packageInterface";
+import { SessionInterface } from "../settings/sessionInterface";
+import { SchoolYearInterface } from "../settings/schoolYearInterface";
+import { GuidanceTypeInterface } from "../settings/guidanceTypeInterface";
 
 export interface RegistrationInterface {
     id?: string
     studentId: string;
     student?: OptionSelectInterface;
+    students?: StudentInterface;
+    packages?: PackageInterface;
+    sessions?: SessionInterface;
     classId: string;
     class?: OptionSelectInterface
     university: string;
-    amount: number;
+    amount?: number;
     sessionId: string;
     session?: OptionSelectInterface;
     packageId: string;
     package?: OptionSelectInterface;
     guidanceTypeId: string;
     guidanceType?: OptionSelectInterface;
+    guidanceTypes?: GuidanceTypeInterface;
     location: string;
     schoolYearId: string;
     schoolYear?: OptionSelectInterface;
+    schoolYears?: SchoolYearInterface;
     status?: number;
     userCreate?: string;
     createdAt?: string

@@ -12,7 +12,7 @@ const Data: FC<DataStudentInterface> = (props) => {
                     <tr>
                         {
                             helperReport.headerReportStudent.map((value)=> (
-                                <th className='p-2'>
+                                <th key={Math.random().toString(4)} className='p-2'>
                                     {t(value)}
                                 </th>
                             ))
@@ -22,10 +22,13 @@ const Data: FC<DataStudentInterface> = (props) => {
                 <tbody>
                     {
                         dataStudentReport?.map((value)=>(
-                            <tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700'>
+                            <tr 
+                                key={Math.random().toString(4)}
+                                className='bg-white border-b dark:bg-gray-800 dark:border-gray-700'
+                            >
                                 {
                                     value.map((val)=> (
-                                        <td className='p-2'>
+                                        <td key={Math.random().toString(4)} className='p-2'>
                                             {val}
                                         </td> 
                                     ))

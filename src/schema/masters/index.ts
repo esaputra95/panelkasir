@@ -1,5 +1,5 @@
 export { default as userSchema } from './UserSchema'
-export { default as classTypeSchema } from './classTypeSchema'
+export { default as ClassTypeSchema } from './classTypeSchema'
 export { default as ClassMasterSchema } from './classMasterSchema'
 export { default as RoomSchema } from './roomSchema'
 export { default as UniversitySchema } from './universitySchema'
