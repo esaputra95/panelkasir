@@ -58,5 +58,4 @@ const getDataSelect = async (url:string, params: {name: string}) => {
 	}
 }
 
-
 export { getData, postData, deleteData, getDataById, getDataSelect };

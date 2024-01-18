@@ -59,4 +59,18 @@ const getDataSelect = async (url:string, params: {name: string}) => {
 	}
 }
 
-export { getData, postData, deleteData, getDataById, getDataSelect };
+const getDataSelectSchedule = async (url:string, params: {
+	courseId: string, 
+	name: string;
+	date: string
+}) => {
+	try {
+		const response = await api.get(url, {params: {...params}})
+		return response.data
+	} catch (error) {
+		const err = error as AxiosError
+		throw err;
+	}
+}
+
+export { getData, postData, deleteData, getDataById, getDataSelect, getDataSelectSchedule };

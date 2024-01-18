@@ -62,5 +62,21 @@ const changeStatus = async (url:string, data:any) => {
 	}
 }
 
+const updateModule = async (url:string, data: {id:string, isModule: number}) => {
+	try {
+		const response = await api.put(`${url}/${data.id}`, data)
+		return response.data
+	} catch (error) {
+		return error as AxiosError
+	}
+}
 
-export { getData, postData, deleteData, getDataById, changeStatus };
+
+export {
+	getData,
+	postData,
+	deleteData,
+	getDataById,
+	changeStatus,
+	updateModule
+};

@@ -32,7 +32,7 @@ const header = [
 const Table: FC<TableProps> = (props) => {
     const { data, isFetching, page, limit, onDelete, onUpdate, onDetail } = props;
     const { t } = useTranslation()
-    let number:number = ((page-1)*limit)
+    const number:number = ((page-1)*limit)
     return (
         <div className="relative overflow-x-auto max-h-100">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -75,13 +75,17 @@ const Table: FC<TableProps> = (props) => {
                                     </span>
                                 </td>
                             </tr>
-                        )) : null
+                        )) : <tr>
+                            <td className="text-center" colSpan={5}>
+                                <span>{t("data-empty")}</span>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>
             {
                 isFetching ? 
-                <Skeleton cols={4} rows={2} /> : null
+                <Skeleton cols={4} rows={8} /> : null
             }
             
         </div>

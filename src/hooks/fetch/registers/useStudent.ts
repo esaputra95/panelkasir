@@ -7,7 +7,7 @@ import url from "../../../services/url"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { StudentSchema } from "../../../schema/registers"
 import { AxiosError } from "axios"
-import { modalFormState } from "../../../utils/modalFormState"
+import { ModalFormState } from "../../../utils/modalFormState"
 import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next"
 import { modalConfirmState } from "../../../utils/modalConfirmState"
@@ -18,15 +18,21 @@ import { handleMessageErrors } from "../../../services/handleErrorMessage"
 import { OptionSelectInterface } from "../../../interfaces/globalInterface"
 import { OptionDummy } from "../../../utils/dummy/setting"
 import { RegistrationInterface } from "../../../interfaces/registers/registrationInterface"
+import { getData as getDataSetting}  from "../../models/settings/settingModel"
+import jsPDF from "jspdf";
+import { ApiResponseSetting } from "../../../interfaces/settings/settingInterface"
 
 export const useStudent = () => {
-    const [ query, setQuery ] = useState<StudentRegisterInterface>()
+    const [ query, setQuery ] = useState<{name:string}>()
     const [ idDetail, setIdDetail ] = useState<string | null>()
     const [ dataOptionStudent, setDataOptionStudent] = useState<OptionSelectInterface[]>([OptionDummy])
     const [ dataRegister, setDataRegister ] = useState<RegistrationInterface[]>([])
-    const { Student } = url
-    const { modalForm, setModalForm } = modalFormState()
-    const { modalForm:modalFormRegister, setModalForm:setModelFormRegister } = modalFormState()
+    const {
+        Student,
+        Setting
+    } = url
+    const { modalForm, setModalForm } = ModalFormState()
+    const { modalForm:modalFormRegister, setModalForm:setModelFormRegister } = ModalFormState()
     const { t } = useTranslation();
     const modalConfirm = modalConfirmState()
     const page = usePage();
@@ -46,14 +52,26 @@ export const useStudent = () => {
         formState: { errors },
     } = useForm<StudentRegisterInterface>({
         resolver: yupResolver(StudentSchema().schema)
-    })
+    });
+
+    const {
+        register:registerFilter,
+        handleSubmit:handleSubmitFilter,
+    } = useForm<StudentRegisterInterface>();
+
+    const onFilter: SubmitHandler<{name:string}> = (data) => {
+        setQuery((state)=>({
+            ...state,
+            name: data.name
+        }));
+    };
 
     useEffect(()=> {
         refetch()
     }, [page.page])
     
     const {data:dataStudent, isFetching, refetch} = useQuery<ApiResponseStudent, AxiosError>({ 
-        queryKey: ['class-master'], 
+        queryKey: ['class-master', query], 
         networkMode: 'always',
         queryFn: async () => await getData(Student.get, 
             {
@@ -71,6 +89,53 @@ export const useStudent = () => {
             });
         }
     })
+
+    const printAddress = async (id:string) => {
+        const student:ApiResponseUpdateStudent = await getDataById(Student.getById, id);
+        if(student.status){
+            const headerData:ApiResponseSetting = await getDataSetting(Setting.get);
+            if(headerData.status){
+                const doc = new jsPDF({
+                    orientation: 'landscape',
+                    format:'a6'
+                });
+
+                const name = headerData.data.setting.find(value=> value.label === "company-name")
+                const hotline = headerData.data.setting.find(value=> value.label === "hotline")
+                const address = headerData.data.setting.find(value=> value.label === "address")
+                const city = headerData.data.setting.find(value=> value.label === "city")
+                const postalCode = headerData.data.setting.find(value=> value.label === "postal-code")
+                const website = headerData.data.setting.find(value=> value.label === "website")
+                const email = headerData.data.setting.find(value=> value.label === "email");
+                doc.setFontSize(12)
+                doc.setFont('', 'bold')
+                doc.text('INFORMASI PENGIRIM DAN PENERIMA', 
+                    2, 6
+                )
+                doc.setFontSize(9)
+                doc.setFont('', 'normal')
+                doc.text([
+                    'PENGIRIM', 
+                    `Nama: ${name?.value ?? ''}`,
+                    `Head Office: ${address?.value ?? ''}`,
+                    `${city?.value ?? ''}, ${postalCode?.value ?? ''}`,
+                    `Hotline : ${hotline?.value ?? ''}`,
+                    `Website: ${website?.value ?? ''}`,
+                    `Email: ${email?.value ?? ''}`,
+                ], 2, 16);
+                doc.text([
+                    'PENERIMA', 
+                    `Nama: ${student.data.student?.name}`,
+                    `Negara: ${student.data.student?.country}`,
+                    `Privinsi: ${student.data.student?.province}`,
+                    `Kota: ${student.data.student?.city}`,
+                    `Alamat: ${student.data.student?.address}`,
+                    `Hp: ${student.data.student?.phone}`,
+                ], 2, 44);
+                doc.save(`Alamat ${student.data.student.name}.pdf`)
+            }
+        }
+    }
 
     const optionStudent = async (data: string): Promise<OptionSelectInterface[]> => {
         const response = await getDataSelect(Student.getSelect, {name: data});
@@ -108,8 +173,6 @@ export const useStudent = () => {
                     title: 'List Pendaftaran',
                     visible: true
                 }))
-
-                console.log('register : ', data.data.student.registers);
                 
                 setDataRegister(data.data?.student?.registers ?? [])
             }
@@ -251,6 +314,10 @@ export const useStudent = () => {
         dataOptionStudent,
         onOpenRegister,
         dataRegister,
-        modalFormRegister
+        modalFormRegister,
+        registerFilter,
+        handleSubmitFilter,
+        onFilter,
+        printAddress
     }
 }

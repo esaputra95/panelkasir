@@ -3,7 +3,7 @@ import { TutorInterface, TutorSearchInterface } from "../../../interfaces/master
 import { AxiosError } from "axios";
 
 interface ParamTutorInterface extends TutorSearchInterface {
-  	page?: number,
+	page?: number,
 	limit?: number,
 	order?: string
 }
@@ -25,8 +25,7 @@ const postData = async (url:string, data:TutorInterface) => {
 			throw response;
 		}
 	} catch (error) {
-		let err = error as AxiosError
-		throw err;
+		return error as AxiosError
 	}
 }
 
@@ -35,8 +34,7 @@ const deleteData = async (url:string, id:string) => {
 		const response = await api.delete(`${url}/${id}`)
 		if(response.status===204) return true
 	} catch (error) {
-		let err = error as AxiosError
-		throw err;
+		return error as AxiosError
 	}
 }
 
@@ -45,8 +43,7 @@ const getDataById = async (url:string, id:string) => {
 		const response = await api.get(`${url}/${id}`)
 		if(response.status===200) return response.data.data.Tutor
 	} catch (error) {
-		let err = error as AxiosError
-		throw err;
+		return error as AxiosError
 	}
 }
 
@@ -55,8 +52,7 @@ const getDataSelect = async (url:string, params: {name: string}) => {
 		const response = await api.get(url, {params: {...params}})
 		return response.data
 	} catch (error) {
-		let err = error as AxiosError
-		throw err;
+		return error as AxiosError
 	}
 }
 

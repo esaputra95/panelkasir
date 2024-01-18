@@ -20,6 +20,7 @@ const postData = async (url:string, data:ClassTypeInterface) => {
 			if(response.status === 200) return response.data
 			throw response;
 		}else{
+			delete data.id
 			const response = await api.post(url, data);
 			if(response.status === 200) return response.data
 			throw response;

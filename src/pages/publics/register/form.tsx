@@ -270,6 +270,9 @@ const FormRegister: FC<RegisterFormInterface> = (props) => {
                                         name='packageId'
                                         label={t("guidance-packages")}
                                     />
+                                    <label className='text-red-500 text-sm font-light'>
+                                        {errors?.packageId?.message}
+                                    </label>
                                 </div>
                                 <div className="sm:col-span-4 w-6/12">
                                     <InputText
@@ -277,6 +280,9 @@ const FormRegister: FC<RegisterFormInterface> = (props) => {
                                         label={t('studyProgram')}
                                         type='text'
                                     />
+                                    <label className='text-red-500 text-sm font-light'>
+                                        {errors?.studyProgram?.message}
+                                    </label>
                                 </div>
                                 <div className="sm:col-span-4 w-6/12">
                                     <InputText
@@ -284,6 +290,9 @@ const FormRegister: FC<RegisterFormInterface> = (props) => {
                                         label={t('university')}
                                         type='text'
                                     />
+                                    <label className='text-red-500 text-sm font-light'>
+                                        {errors?.university?.message}
+                                    </label>
                                 </div>
                             </div>
                         </div>

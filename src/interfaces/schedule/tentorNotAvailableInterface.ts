@@ -4,7 +4,7 @@ import { OptionSelectInterface } from "../globalInterface";
 
 export interface TentorNotAvailableInterface {
     id?: string;
-    tentorId: string;
+    tentorId?: string;
     tentor?: OptionSelectInterface;
     startDate: string;
     untilDate: string;

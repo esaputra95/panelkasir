@@ -81,7 +81,7 @@ const Table: FC<TableProps> = (props) => {
                                     {(number+index+1)}
                                 </th>
                                 <td className="px-6 py-4">
-                                    {moment(value.month+'-01').format('MM-YYYY')}
+                                    {moment(value.month).format('MMM-YYYY')}
                                 </td>
                                 <td className="px-6 py-4">
                                     {value.userTentor.name}

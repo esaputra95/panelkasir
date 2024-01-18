@@ -19,7 +19,7 @@ import url from "../../../services/url"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { PayrollSchema } from "../../../schema/payroll"
 import { AxiosError } from "axios"
-import { modalFormState } from "../../../utils/modalFormState"
+import { ModalFormState } from "../../../utils/modalFormState"
 import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next"
 import { modalConfirmState } from "../../../utils/modalConfirmState"
@@ -46,7 +46,7 @@ export const usePayroll = () => {
         Payroll,
         Setting
     } = url
-    const { modalForm, setModalForm } = modalFormState()
+    const { modalForm, setModalForm } = ModalFormState()
     const { t } = useTranslation();
     const modalConfirm = modalConfirmState()
     const page = usePage();
@@ -140,17 +140,27 @@ export const usePayroll = () => {
 
     const { mutate, isLoading:isLoadingMutate } = useMutation({
         mutationFn: (data:PayrollInterface)=> postData(Payroll.post, data),
-        onSuccess: () => {
-            setModalForm((state)=>({
-                ...state,
-                visible: false
-            }))
-            refetch()
-            reset()
-            toast.success(t("success-save"), {
-                position: toast.POSITION.TOP_CENTER
-            });
-            
+        onSuccess: async (data) => {
+            if(data.status){
+                setModalForm((state)=>({
+                    ...state,
+                    visible: false
+                }))
+                refetch()
+                reset()
+                toast.success(t("success-save"), {
+                    position: toast.POSITION.TOP_CENTER
+                });
+            }else{
+                const err = data as AxiosError<DataMessageError>
+                let message = `${errors}`
+                if(err.response?.status === 400){
+                    message = await handleMessageErrors(err.response?.data?.errors)
+                }
+                toast.error(message, {
+                    position: toast.POSITION.TOP_CENTER
+                });
+            }
         },
         onError: async (errors) => {
             const err = errors as AxiosError<DataMessageError>
@@ -267,7 +277,7 @@ export const usePayroll = () => {
             const website = headerData.data.setting.find(value=> value.label === "website")
             const email = headerData.data.setting.find(value=> value.label === "email")
 
-            doc.addImage(`${import.meta.env.VITE_API_URL}/images/${icon?.value}`, 'JPEG', 2, 2, 25, 25);
+            doc.addImage(`${import.meta.env.VITE_API_URL}/images/${icon?.value}`, 'JPEG', 12, 2, 25, 25);
             doc.setFontSize(9)
             doc.text([
                 'REKAPITULASI JUMLAH MENGAJAR TENTOR', 
@@ -276,21 +286,22 @@ export const usePayroll = () => {
                 `hotline : ${hotline?.value ?? ''}`,
                 `Website: ${website?.value ?? ''}`,
                 `Email: ${email?.value ?? ''}`
-            ], 34, 6);
+            ], 44, 6);
             
-            const height = 10;
-            const textWidth=206
+            const height = 15;
+            const textWidth=186
             
             const rgb = hexToRgb('#1bbd9d');
             doc.setFillColor(rgb.r, rgb.g, rgb.b);
-            doc.rect(2, 34, textWidth, height, 'F');
+            doc.rect(12, 34, textWidth, height, 'F');
 
             doc.setTextColor('white');
             doc.setFontSize(10)
             doc.text([
                 `${data.tentor[0] ?? ''}`,
                 `${data.tentor[1] ?? ''}`,
-            ], 4, 34 + height - 6); 
+                `${data.tentor[2] ?? ''}`,
+            ], 14, 33 + height - 10); 
 
             let newHead:string[]=[];
             for (const value of helperReport.headerPayroll) {
@@ -302,13 +313,14 @@ export const usePayroll = () => {
                 head: [
                     newHead
                 ],
-                margin: { left:2, right:2, top:46 },
+                margin: { left:12, right:12, top:50 },
                 theme:'grid',
+                styles:{halign:'center'},
                 body: data.data??'',
             })
             autoTable(doc, {
                 bodyStyles: { fillColor: '#FFFFFF' },
-                margin: { left:2, right:2},
+                margin: { left:12, right:12},
                 styles: {
                     halign:'left',
                     fillColor: '#FFFFFF',

@@ -73,6 +73,7 @@ const Filter: FC<ScheduleReportFilter> = (props) => {
                                 className='w-full'
                                 {...field}
                                 cacheOptions
+                                placeholder={`${t('all')}...`}
                                 defaultOptions
                                 loadOptions={optionRoom}
                             />
@@ -90,6 +91,7 @@ const Filter: FC<ScheduleReportFilter> = (props) => {
                                 {...field}
                                 cacheOptions
                                 defaultOptions
+                                placeholder={`${t('all')}...`}
                                 loadOptions={optionClassType}
                             />
                         }
@@ -105,6 +107,7 @@ const Filter: FC<ScheduleReportFilter> = (props) => {
                                 className='w-full'
                                 {...field}
                                 cacheOptions
+                                placeholder={`${t('all')}...`}
                                 defaultOptions
                                 loadOptions={optionCourse}
                             />
@@ -121,6 +124,7 @@ const Filter: FC<ScheduleReportFilter> = (props) => {
                                 className='w-full'
                                 {...field}
                                 cacheOptions
+                                placeholder={`${t('all')}...`}
                                 defaultOptions
                                 loadOptions={optionStudentAll}
                             />
@@ -136,6 +140,7 @@ const Filter: FC<ScheduleReportFilter> = (props) => {
                             <AsyncSelect 
                                 className='w-full'
                                 {...field}
+                                placeholder={`${t('all')}...`}
                                 cacheOptions
                                 defaultOptions
                                 loadOptions={optionTutor}

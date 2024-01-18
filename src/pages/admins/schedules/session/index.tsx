@@ -7,7 +7,6 @@ import { Button } from '../../../../components/input'
 import ModalConfirm from '../../../../components/ui/modal/ModalConfirm'
 import { useStudent } from '../../../../hooks/fetch/master/useStudent'
 import { useCourse } from '../../../../hooks/fetch/master/useCourse'
-import { useTutor } from '../../../../hooks/fetch/master/useTutor'
 import { useRoom } from '../../../../hooks/fetch/master/useRoom'
 import { t } from 'i18next'
 import { useClassType } from '../../../../hooks/fetch/master/useClassType'
@@ -45,7 +44,9 @@ const SessionPage = () => {
         handleOnChangeSessionDetail,
         onCancelSession,
         appendIdDeleteSessionDetail,
-        dataGroup
+        dataGroup,
+        optionTutorSchedule,
+        dataOptionTutor
     } = useSession()
 
     const { 
@@ -57,11 +58,6 @@ const SessionPage = () => {
         optionCourse,
         dataOptionCourse
     } = useCourse()
-
-    const {
-        optionTutor,
-        dataOptionTutor
-    } = useTutor()
 
     const {
         optionRoom,
@@ -114,7 +110,7 @@ const SessionPage = () => {
                     updateStatus={updateStatus}
                     optionCourse={optionCourse}
                     dataOptionCourse={dataOptionCourse}
-                    optionTutor={optionTutor}
+                    optionTutorSchedule={optionTutorSchedule}
                     dataOptionTutor={dataOptionTutor}
                     optionRoom={optionRoom}
                     dataOptionRoom={dataOptionRoom}

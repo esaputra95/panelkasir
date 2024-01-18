@@ -5,10 +5,10 @@ export type modalState = {
     label: string
 }
 
-export const modalFormState = () => {
-    const [modalFormState, setModalFormState] = useState<modalState>({visible: false, label: ''});
+export const ModalFormState = () => {
+    const [ModalFormState, setModalFormState] = useState<modalState>({visible: false, label: ''});
     return {
-        modalForm: modalFormState,
+        modalForm: ModalFormState,
         setModalForm: setModalFormState
     }
 }

@@ -172,6 +172,7 @@ const SideBarLayout = () => {
 						<ChevronDownIcon
 							strokeWidth={2.5}
 							className={`mx-auto h-4 w-4 transition-transform 
+								${token?.userType==="admin" ? 'flex':'hidden'}
 								${open === 'schedule' ? "rotate-180" : ""}`
 							}
 						/>
@@ -214,6 +215,7 @@ const SideBarLayout = () => {
 						<ChevronDownIcon
 							strokeWidth={2.5}
 							className={`mx-auto h-4 w-4 transition-transform 
+								${token?.userType==="admin" || token?.userType==="tentor" ? 'flex':'hidden'}
 								${open === 'record-materi' ? "rotate-180" : ""}`
 							}
 						/>
@@ -257,6 +259,7 @@ const SideBarLayout = () => {
 						<ChevronDownIcon
 							strokeWidth={2.5}
 							className={`mx-auto h-4 w-4 transition-transform 
+								${token?.userType==="admin" || token?.userType==="tentor" ? 'flex':'hidden'}
 								${open === 'payroll' ? "rotate-180" : ""}`
 							}
 						/>
@@ -299,11 +302,14 @@ const SideBarLayout = () => {
 					icon={
 						<ChevronDownIcon
 						strokeWidth={2.5}
-						className={`mx-auto h-4 w-4 transition-transform ${open === 'master-reports'? "rotate-180" : ""}`}
+						className={`mx-auto h-4 w-4 transition-transform 
+							${token?.userType==="admin" ? 'flex':'hidden'}
+							${open === 'master-reports'? "rotate-180" : ""}
+						`}
 						/>
 					}
 				>
-					<ListItem className="p-0" selected={open === 'master-reports'}>
+					<ListItem className={`p-0 ${token?.userType==="admin" ? 'flex':'hidden'}`} selected={open === 'master-reports'}>
 						<AccordionHeader onClick={() => handleOpen('master-reports')} className="border-b-0 p-3">
 							<ListItemPrefix>
 								<DocumentTextIcon className="h-5 w-5" />
@@ -331,19 +337,22 @@ const SideBarLayout = () => {
 						</List>
 					</AccordionBody>
 				</Accordion>
-				<hr className="my-2 border-blue-gray-50" />
+				{
+					token?.userType === "admin" ? <hr className="my-2 border-blue-gray-50" /> : null 
+				}
 				<Accordion
 					open={open === 'settings'}
 					icon={
 						<ChevronDownIcon
 						strokeWidth={2.5}
 						className={`mx-auto h-4 w-4 transition-transform 
+							${token?.userType==="admin" ? 'flex':'hidden'}
 							${open === 'settings' ? "rotate-180" : ""}`
 						}
 						/>
 					}
 				>
-					<ListItem className="p-0" selected={open === 'settings'}>
+					<ListItem className={`p-0 ${token?.userType==="admin" ? 'flex':'hidden'}`} selected={open === 'settings'}>
 						<AccordionHeader onClick={() => handleOpen('settings')} className="border-b-0 p-3">
 							<ListItemPrefix>
 								<Cog6ToothIcon className="h-5 w-5" />

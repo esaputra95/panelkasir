@@ -44,7 +44,7 @@ const Filter: FC<PayrollReportFilter> = (props) => {
                                 cacheOptions
                                 loadOptions={optionTutor}
                                 defaultOptions
-                                placeholder='Select...'
+                                placeholder={`${t('all')}...`}
                                 ref={(ref)=> ref}
                             />
                         }

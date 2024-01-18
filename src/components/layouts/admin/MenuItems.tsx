@@ -3,36 +3,43 @@ const MasterMenu = [
         label: 'tutors',
         path: 'tutors',
         active: false,
+        access: ['admin']
     },
     {
         label: 'class-types',
         path: 'class-types',
         active: false,
+        access: ['admin']
     },
     {
         label: 'class',
         path: 'class',
         active: false,
+        access: ['admin']
     },
     {
         label: 'rooms',
         path: 'rooms',
         active: false,
+        access: ['admin']
     },
     {
         label: 'universities',
         path: 'universities',
         active: false,
+        access: ['admin']
     },
     {
         label: 'majors',
         path: 'majors',
         active: false,
+        access: ['admin']
     },
     {
         label: 'courses',
         path: 'courses',
         active: false,
+        access: ['admin']
     }
 ];
 
@@ -94,27 +101,32 @@ const SettingMenu = [
     {
         label: 'guidance-types',
         path: 'setting/guidance-types',
-        active: false
+        active: false,
+        access: ['admin']
     },
     {
         label: 'guidance-packages',
         path: 'setting/guidance-packages',
-        active: false
+        active: false,
+        access: ['admin']
     },
     {
         label: 'school-years',
         path: 'setting/school-years',
-        active: false
+        active: false,
+        access: ['admin']
     },
     {
         label: 'sessions',
         path: 'setting/sessions',
-        active: false
+        active: false,
+        access: ['admin']
     },
     {
         label: 'companies',
         path: 'setting/companies',
-        active: false
+        active: false,
+        access: ['admin']
     }
 ];
 

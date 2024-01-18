@@ -10,7 +10,7 @@ const RecordMateri:FC<RecordMateri> = (props) => {
         recordMateri
     } = props
     return (
-        <div className='w-full shadow-sm bg-gray-100 rounded-md p-4'>
+        <div className='w-full shadow-sm rounded-md '>
             <div className='w-full flex items-center justify-center'>
                 <label className='font-semibold w-full text-center'>Siswa belum mendapat Record Materi</label>
             </div>

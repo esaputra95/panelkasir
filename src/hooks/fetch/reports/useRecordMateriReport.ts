@@ -15,7 +15,6 @@ import jsPDF from "jspdf";
 import helperReport from "../../../utils/headerReport";
 import { getData as getDataSetting}  from "../../models/settings/settingModel"
 import { ApiResponseSetting } from "../../../interfaces/settings/settingInterface";
-import icon from './../../../assets/icon.jpeg'
 import hexToRgb from "../../../utils/hexToRgb";
 import { ApiResponseUpdateStudent } from "../../../interfaces/registers/studentInterface";
 import { getDataById as getDataStudentById } from "./../../models/registers/studentModel"
@@ -71,6 +70,7 @@ const useRecordMateriReport = () => {
 
     const toPdf = async (data:string[][]) => {
         const headerData:ApiResponseSetting = await getDataSetting(Setting.get);
+        const icon = headerData.data.setting.find(value=> value.label === "icon")
         const hotline = headerData.data.setting.find(value=> value.label === "hotline")
         const address = headerData.data.setting.find(value=> value.label === "address")
         const city = headerData.data.setting.find(value=> value.label === "city")
@@ -78,25 +78,26 @@ const useRecordMateriReport = () => {
         const website = headerData.data.setting.find(value=> value.label === "website")
         const email = headerData.data.setting.find(value=> value.label === "email")
 
-        doc.addImage(icon, 'JPEG', 2, 2, 30, 30);
+        doc.addImage(`${import.meta.env.VITE_API_URL}/images/${icon?.value}`, 'JPEG', 12, 2, 25, 25);
         doc.setFontSize(9)
         doc.text([
-            'LAPORAN JADWAL ESP SISWA', 
+            'LAPORAN RECORD MATERI', 
             `Head Office: ${address?.value ?? ''}`,
             `${city?.value ?? ''}, ${postalCode?.value ?? ''}`,
             `hotline : ${hotline?.value ?? ''}`,
             `Website: ${website?.value ?? ''}`,
             `Email: ${email?.value ?? ''}`
-        ], 34, 6);
-
+        ], 44, 6);
+        let topTableContent=38;
         if(getValues('student')){
+            topTableContent=51;
             const student:ApiResponseUpdateStudent = await getDataStudentById(Student.getById, getValues('student.value'));
-            const textWidth = doc.getStringUnitWidth(`Siswa : ${getValues('student.label')}`) * 23;
+            const textWidth = 186;
             const height = 16;
             // Draw filled rectangle as background
             const rgb = hexToRgb('#1bbd9d');
             doc.setFillColor(rgb.r, rgb.g, rgb.b);
-            doc.rect(2, 34, textWidth, height, 'F');
+            doc.rect(12, 34, textWidth, height, 'F');
             // Add the text
             doc.setTextColor('white'); // Reset text color to black
             doc.setFontSize(10)
@@ -104,7 +105,7 @@ const useRecordMateriReport = () => {
                 `${t('name')} : ${getValues('student.label')}`,
                 `${t('major')} : ${student.data.student.studyProgram}`,
                 `${t('study-groups')} : ${student.data.student?.studyGroupDetails?.[0].studyGroups?.name}`
-            ], 4, 34 + height - 11); // subtract 3 for better alignment
+            ], 14, 34 + height - 11); // subtract 3 for better alignment
         }
 
         let newHead:string[]=[];
@@ -117,8 +118,9 @@ const useRecordMateriReport = () => {
             head: [
                 newHead
             ],
-            margin: { left:2, right:2, top:51 },
+            margin: { left:12, right:12, top:topTableContent },
             theme:'grid',
+            styles:{halign:'center'},
             body: data??'',
         })
         doc.save('LAPORAN RECORD MATERI.pdf')

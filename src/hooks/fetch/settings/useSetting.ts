@@ -18,7 +18,7 @@ import {
 } from "../../../interfaces/settings/settingInterface"
 import url from "../../../services/url"
 import { AxiosError } from "axios"
-import { modalFormState } from "../../../utils/modalFormState"
+import { ModalFormState } from "../../../utils/modalFormState"
 import { toast } from 'react-toastify';
 import usePage from "../../../utils/pageState"
 import {
@@ -35,14 +35,14 @@ export const useSetting = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [ imageUpload, setImageUpload ] = useState<any>()
     const { Setting } = url
-    const { modalForm, setModalForm } = modalFormState()
+    const { modalForm, setModalForm } = ModalFormState()
     const page = usePage();
     
     const { 
         control,
         register,
         handleSubmit,
-        reset
+        reset,
     } = useForm<FormSetting>();
 
     const { fields} = useFieldArray({
@@ -94,7 +94,10 @@ export const useSetting = () => {
     }
 
     const handleOnUpload = async () => {
-        upload(Setting.post, imageUpload)
+        await upload(Setting.post, imageUpload)
+        toast.success(t("success-save"), {
+            position: toast.POSITION.TOP_CENTER
+        });
     }
 
     return {

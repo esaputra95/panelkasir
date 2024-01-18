@@ -89,7 +89,7 @@ const Table: FC<tableProps> = (props) => {
             </table>
             {
                 isFetching ? 
-                <Skeleton cols={4} rows={2} /> : null
+                <Skeleton cols={4} rows={4} /> : null
             }
             
         </div>

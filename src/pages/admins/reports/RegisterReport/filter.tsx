@@ -63,6 +63,7 @@ const Filter: FC<RegisterReportFilter> = (props) => {
                                 className='w-full'
                                 {...field}
                                 cacheOptions
+                                placeholder={`${t('all')}...`}
                                 defaultOptions
                                 loadOptions={optionRoom}
                             />
@@ -79,6 +80,7 @@ const Filter: FC<RegisterReportFilter> = (props) => {
                                 className='w-full'
                                 {...field}
                                 cacheOptions
+                                placeholder={`${t('all')}...`}
                                 defaultOptions
                                 loadOptions={optionClassType}
                             />
@@ -94,6 +96,7 @@ const Filter: FC<RegisterReportFilter> = (props) => {
                             <AsyncSelect 
                                 className='w-full'
                                 {...field}
+                                placeholder={`${t('all')}...`}
                                 cacheOptions
                                 defaultOptions
                                 loadOptions={optionCourse}

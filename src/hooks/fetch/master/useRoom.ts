@@ -13,7 +13,7 @@ import url from "./../../../services/url"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { RoomSchema } from "./../../../schema/masters"
 import { AxiosError } from "axios"
-import { modalFormState } from "../../../utils/modalFormState"
+import { ModalFormState } from "../../../utils/modalFormState"
 import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next"
 import { modalConfirmState } from "../../../utils/modalConfirmState"
@@ -29,7 +29,7 @@ export const useRoom = () => {
     const [ idDetail, setIdDetail ] = useState<string | null>()
     const [ dataOptionRoom, setDataOptionRoom] = useState<OptionSelectInterface[]>([OptionDummy])
     const { Room } = url
-    const { modalForm, setModalForm } = modalFormState()
+    const { modalForm, setModalForm } = ModalFormState()
     const { t } = useTranslation();
     const modalConfirm = modalConfirmState()
     const page = usePage();
@@ -48,14 +48,19 @@ export const useRoom = () => {
         formState: { errors },
     } = useForm<RoomInterface>({
         resolver: yupResolver(RoomSchema().schema)
-    })
+    });
+
+    const {
+        register:registerFilter,
+        handleSubmit:handleSubmitFilter,
+    } = useForm<RoomInterface>()
 
     useEffect(()=> {
         refetch()
     }, [page.page])
-      
+    
     const {data:dataRoom, isFetching, refetch} = useQuery<ApiResponseRoom, AxiosError>({ 
-        queryKey: ['rooms'], 
+        queryKey: ['rooms', query], 
         networkMode: 'always',
         queryFn: async () => await getData(Room.get, 
             {
@@ -188,6 +193,13 @@ export const useRoom = () => {
         }
     }
 
+    const onFilter: SubmitHandler<RoomInterface> = (data) => {
+        setQuery((state)=>({
+            ...state,
+            name: data.name
+        }));
+    }
+
     return {
         dataRoom,
         isFetching,
@@ -208,6 +220,9 @@ export const useRoom = () => {
         idDetail,
         page: page,
         optionRoom,
-        dataOptionRoom
+        dataOptionRoom,
+        registerFilter,
+        handleSubmitFilter,
+        onFilter
     }
 }

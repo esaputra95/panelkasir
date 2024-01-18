@@ -22,7 +22,7 @@ import url from "../../../services/url"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { StudyGroupSchema } from "../../../schema/schedule"
 import { AxiosError } from "axios"
-import { modalFormState } from "../../../utils/modalFormState"
+import { ModalFormState } from "../../../utils/modalFormState"
 import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next"
 import { modalConfirmState } from "../../../utils/modalConfirmState"
@@ -40,7 +40,7 @@ export const useStudyGroup = () => {
     const [ updateStatus, setUpdateState] = useState<boolean>(false)
     const [ dataOptionStudyGroup, setDataOptionStudyGroup] = useState<OptionSelectInterface[]>([OptionDummy])
     const { StudyGroup } = url
-    const { modalForm, setModalForm } = modalFormState()
+    const { modalForm, setModalForm } = ModalFormState()
     const { t } = useTranslation();
     const modalConfirm = modalConfirmState()
     const page = usePage();
@@ -75,11 +75,10 @@ export const useStudyGroup = () => {
     useEffect(()=> {
         refetch()
     }, [page.page])
-      
+    
     const {data:dataStudyGroup, isFetching, refetch} = 
     useQuery<ApiResponseStudyGroup, AxiosError>({ 
         queryKey: ['study-group'], 
-        networkMode: 'always',
         queryFn: async () => await getData(StudyGroup.get, 
             {
                 ...query, 

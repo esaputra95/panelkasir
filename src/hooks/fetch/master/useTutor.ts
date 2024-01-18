@@ -7,7 +7,7 @@ import url from "../../../services/url"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { TutorSchema } from "../../../schema/masters"
 import { AxiosError } from "axios"
-import { modalFormState } from "../../../utils/modalFormState"
+import { ModalFormState } from "../../../utils/modalFormState"
 import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next"
 import { modalConfirmState } from "../../../utils/modalConfirmState"
@@ -23,7 +23,7 @@ export const useTutor = () => {
     const [ idDetail, setIdDetail ] = useState<string | null>()
     const [ dataOptionTutor, setDataOptionTutor] = useState<OptionSelectInterface[]>([OptionDummy])
     const { Tutor } = url
-    const { modalForm, setModalForm } = modalFormState()
+    const { modalForm, setModalForm } = ModalFormState()
     const { t } = useTranslation();
     const modalConfirm = modalConfirmState()
     const page = usePage();
@@ -106,15 +106,15 @@ export const useTutor = () => {
     const { mutate, isLoading:isLoadingMutate } = useMutation({
         mutationFn: (data:TutorInterface)=> postData(Tutor.post, data),
         onSuccess: () => {
-            // setModalForm((state)=>({
-            //     ...state,
-            //     visible: false
-            // }))
-            // refetch()
-            // reset()
-            // toast.success(t("success-save"), {
-            //     position: toast.POSITION.TOP_CENTER
-            // });
+            setModalForm((state)=>({
+                ...state,
+                visible: false
+            }))
+            refetch()
+            reset()
+            toast.success(t("success-save"), {
+                position: toast.POSITION.TOP_CENTER
+            });
         },
         onError: async (errors) => {
             const err = errors as AxiosError<DataMessageError>

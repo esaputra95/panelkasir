@@ -105,7 +105,8 @@ const url = {
         put: 'register-admin',
         getById: 'register-admin',
         delete: 'register-admin',
-        getSelect: 'register-admin/select'
+        getSelect: 'register-admin/select',
+        putModule: 'register-admin/module'
     },
     Tutor: {
         get: 'tutors',
@@ -113,7 +114,8 @@ const url = {
         put: 'tutors',
         getById: 'tutors',
         delete: 'tutors',
-        getSelect: 'tutors/select'
+        getSelect: 'tutors/select',
+        getSelectSchedule: 'tutors/select-schedule'
     },
     TentorNotAvailable: {
         get: 'schedule/tentor-not-available',
@@ -189,7 +191,11 @@ const url = {
     },
     Dashboard: {
         recordMateri: 'dashboard/record-materi',
-        studyGroup: 'dashboard/study-group'
+        studyGroup: 'dashboard/study-group',
+        studyModule: 'dashboard/study-module',
+        studySchedule: 'dashboard/study-schedule',
+        studyFinish: 'dashboard/study-finish',
+        total: 'dashboard/total',
     },
     Setting: {
         get: 'settings',

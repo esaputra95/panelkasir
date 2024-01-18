@@ -80,7 +80,7 @@ const RecordMateriPage = () => {
                 />
             </ModalForm>
             <div className='w-full'>
-                <div className='gap-2 flex w-full items-center justify-between'>
+                <div className='gap-2 flex w-full items-center mb-4 justify-between'>
                     <div className='w-48'>
                         <Button 
                             onClick={()=>setModalForm((state)=> ({...state, visible:true}))} 

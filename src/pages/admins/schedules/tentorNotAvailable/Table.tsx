@@ -72,10 +72,10 @@ const Table: FC<tableProps> = (props) => {
                                     {value.userTentor?.name ?? ''}
                                 </td>
                                 <td className="px-6 py-4">
-                                    {moment(value.startDate).tz("Asia/Jakarta").format('YYYY-MM-DD hh:mm:ss')}
+                                    {moment(value.startDate).tz("Asia/Jakarta").format('YYYY-MM-DD HH:mm:ss')}
                                 </td>
                                 <td className="px-6 py-4">
-                                    {moment(value.untilDate).tz("Asia/Jakarta").format('YYYY-MM-DD hh:mm:ss')}
+                                    {moment(value.untilDate).tz("Asia/Jakarta").format('YYYY-MM-DD HH:mm:ss')}
                                 </td>
                                 <td className="px-6 py-4">
                                     {value.description}

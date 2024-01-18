@@ -34,7 +34,7 @@ const header = [
 const Table: FC<TableProps> = (props) => {
     const { data, isFetching, page, limit, onDelete, onUpdate, onDetail } = props;
     const { t } = useTranslation()
-    let number:number = ((page-1)*limit)
+    const number:number = ((page-1)*limit)
     return (
         <div className="relative overflow-x-auto max-h-100">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -53,9 +53,9 @@ const Table: FC<TableProps> = (props) => {
                     {
                         !isFetching && data && data.length > 0 ? data.map((value, index)=>(
                             <tr key={value.id} className="overflow-auto bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                <td scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {(number+index+1)}
-                                </th>
+                                </td>
                                 <td className="px-6 py-4">
                                     {value.code}
                                 </td>
@@ -83,13 +83,17 @@ const Table: FC<TableProps> = (props) => {
                                     </span>
                                 </td>
                             </tr>
-                        )) : null
+                        )) : <tr>
+                                <td className="text-center" colSpan={7}>
+                                    <span>{t("data-empty")}</span>
+                                </td>
+                            </tr>
                     }
                 </tbody>
             </table>
             {
                 isFetching ? 
-                <Skeleton cols={4} rows={2} /> : null
+                <Skeleton cols={4} rows={4} /> : null
             }
             
         </div>

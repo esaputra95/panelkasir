@@ -18,6 +18,7 @@ export interface StudentInterface {
     city: string;
     parentName: string;
     parentPhone: string;
+    isModule?: number;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     image?: any;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

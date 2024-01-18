@@ -7,7 +7,7 @@ import url from "../../../services/url"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { ClassMasterSchema } from "../../../schema/masters"
 import { AxiosError } from "axios"
-import { modalFormState } from "../../../utils/modalFormState"
+import { ModalFormState } from "../../../utils/modalFormState"
 import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next"
 import { modalConfirmState } from "../../../utils/modalConfirmState"
@@ -19,11 +19,13 @@ import { OptionSelectInterface } from "../../../interfaces/globalInterface"
 import { OptionDummy } from "../../../utils/dummy/setting"
 
 export const useClassMaster = () => {
-    const [ query, setQuery ] = useState<ClassMasterInterface>()
+    const [ query, setQuery ] = useState({
+        name: ''
+    })
     const [ idDetail, setIdDetail ] = useState<string | null>()
     const [ dataOptionClassMaster, setDataOptionCLassMaster] = useState<OptionSelectInterface[]>([OptionDummy])
     const { ClassMaster } = url
-    const { modalForm, setModalForm } = modalFormState()
+    const { modalForm, setModalForm } = ModalFormState()
     const { t } = useTranslation();
     const modalConfirm = modalConfirmState()
     const page = usePage();
@@ -43,14 +45,19 @@ export const useClassMaster = () => {
         formState: { errors },
     } = useForm<ClassMasterInterface>({
         resolver: yupResolver(ClassMasterSchema().schema)
-    })
+    });
+
+    const {
+        register:registerFilter,
+        handleSubmit:handleSubmitFilter,
+    } = useForm<ClassMasterInterface>()
 
     useEffect(()=> {
         refetch()
     }, [page.page])
     
     const {data:dataClassMaster, isFetching, refetch} = useQuery<ApiResponseClassMaster, AxiosError>({ 
-        queryKey: ['class-master'], 
+        queryKey: ['class-master', query], 
         networkMode: 'always',
         queryFn: async () => await getData(ClassMaster.get, 
             {
@@ -195,6 +202,13 @@ export const useClassMaster = () => {
         mutateById(id)
     }
 
+    const onFilter: SubmitHandler<ClassMasterInterface> = (data) => {
+        setQuery((state)=>({
+            ...state,
+            name: data.name
+        }));
+    }
+
     return {
         dataClassMaster,
         isFetching,
@@ -216,6 +230,9 @@ export const useClassMaster = () => {
         page: page,
         control,
         optionClassMaster,
-        dataOptionClassMaster
+        dataOptionClassMaster,
+        onFilter,
+        registerFilter,
+        handleSubmitFilter,
     }
 }

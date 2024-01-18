@@ -40,7 +40,7 @@ const FormSession: FC<SessionFormProps> = (props) => {
         optionCourse,
         dataOptionCourse,
         updateStatus,
-        optionTutor,
+        optionTutorSchedule,
         dataOptionTutor,
         optionRoom,
         dataOptionRoom,
@@ -76,7 +76,6 @@ const FormSession: FC<SessionFormProps> = (props) => {
                             <AsyncSelect
                                 className='w-full'
                                 {...field}
-                                cacheOptions
                                 loadOptions={optionClassType}
                                 isDisabled={idDetail? true : false}
                                 defaultOptions
@@ -175,7 +174,6 @@ const FormSession: FC<SessionFormProps> = (props) => {
                                             <AsyncSelect
                                                 className='w-full'
                                                 {...field}
-                                                cacheOptions
                                                 loadOptions={optionCourse}
                                                 isDisabled={idDetail? true : false}
                                                 defaultOptions
@@ -209,8 +207,7 @@ const FormSession: FC<SessionFormProps> = (props) => {
                                             <AsyncSelect
                                                 className='w-full'
                                                 {...field}
-                                                cacheOptions
-                                                loadOptions={optionTutor}
+                                                loadOptions={(e)=> optionTutorSchedule(e, index)}
                                                 defaultOptions
                                                 isDisabled={idDetail? true : false}
                                                 placeholder='Select...'

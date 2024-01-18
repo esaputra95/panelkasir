@@ -75,7 +75,7 @@ const useStudentReport = () => {
         const website = headerData.data.setting.find(value=> value.label === "website")
         const email = headerData.data.setting.find(value=> value.label === "email")
 
-        doc.addImage(`${import.meta.env.VITE_API_URL}/images/${icon?.value}`, 'JPEG', 2, 2, 25, 25);
+        doc.addImage(`${import.meta.env.VITE_API_URL}/images/${icon?.value}`, 'JPEG', 12, 2, 25, 25);
         doc.setFontSize(9)
         doc.text([
             'LAPORAN PENGGAJIAN TENTOR', 
@@ -84,20 +84,22 @@ const useStudentReport = () => {
             `hotline : ${hotline?.value ?? ''}`,
             `Website: ${website?.value ?? ''}`,
             `Email: ${email?.value ?? ''}`,
-        ], 34, 6);
+        ], 42, 6);
+        let topTableContent=38;
         if(getValues('status')){
+            topTableContent=42
             const height = 7;
-            const textWidth=206
+            const textWidth=186
             
             const rgb = hexToRgb('#1bbd9d');
             doc.setFillColor(rgb.r, rgb.g, rgb.b);
-            doc.rect(2, 34, textWidth, height, 'F');
+            doc.rect(12, 34, textWidth, height, 'F');
 
             doc.setTextColor('white');
             doc.setFontSize(10)
             doc.text([
                 `${t('Status')} : ${getValues('status') === "1" ? 'Aktif' : 'TIdak Aktif'}`,
-            ], 4, 34 + height - 3); 
+            ], 14, 34 + height - 3); 
         }
         let newHead:string[]=[];
         for (const value of helperReport.headerReportStudent) {
@@ -109,8 +111,9 @@ const useStudentReport = () => {
             head: [
                 newHead
             ],
-            margin: { left:2, right:2, top:45 },
+            margin: { left:12, right:12, top:topTableContent },
             theme:'grid',
+            styles:{halign:'center'},
             body: data??'',
         })
         doc.save('Laporan Master Siswa.pdf')

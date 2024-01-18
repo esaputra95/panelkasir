@@ -9,7 +9,6 @@ import {
     UniversityPage,
     MajorPage,
     CoursePage,
-    MaterialPage,
     TutorPage
 } from "../pages/admins/masters";
 import {
@@ -70,10 +69,6 @@ const MainRouters = [
             {
                 path: 'courses',
                 element: <CoursePage />
-            },
-            {
-                path: 'materials',
-                element: <MaterialPage />
             },
             {
                 path: 'setting/guidance-packages',

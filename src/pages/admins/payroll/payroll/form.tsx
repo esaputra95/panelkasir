@@ -161,6 +161,7 @@ const FormPayroll: FC<PayrollFormProps> = (props) => {
                     <thead>
                         <tr>
                             <th className='font-semibold text-sm'> {t('time')} </th>
+                            <th> {t('student-quantity')} </th>
                             <th> {t('price')} </th>
                         </tr>
                     </thead>
@@ -174,7 +175,12 @@ const FormPayroll: FC<PayrollFormProps> = (props) => {
                                             readOnly
                                         />
                                     </td>
-                                    
+                                    <td>
+                                        <InputText 
+                                            {...register(`payrollDetails.${index}.totalStudent`)}
+                                            readOnly
+                                        />
+                                    </td>
                                     <td>
                                         <Controller
                                             name={`payrollDetails.${index}.price`}

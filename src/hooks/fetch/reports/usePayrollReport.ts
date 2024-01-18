@@ -75,7 +75,7 @@ const usePayrollReport = () => {
         const website = headerData.data.setting.find(value=> value.label === "website")
         const email = headerData.data.setting.find(value=> value.label === "email")
 
-        doc.addImage(`${import.meta.env.VITE_API_URL}/images/${icon?.value}`, 'JPEG', 2, 2, 25, 25);
+        doc.addImage(`${import.meta.env.VITE_API_URL}/images/${icon?.value}`, 'JPEG', 12, 2, 25, 25);
         doc.setFontSize(9)
         doc.text([
             'LAPORAN PENGGAJIAN TENTOR', 
@@ -83,23 +83,23 @@ const usePayrollReport = () => {
             `${city?.value ?? ''}, ${postalCode?.value ?? ''}`,
             `hotline : ${hotline?.value ?? ''}`,
             `Website: ${website?.value ?? ''}`,
-            `Email: ${email?.value ?? ''}`,
-            `Rentang Waktu ${moment(getValues('startDate')).format('DD-MM-YYYY')} - ${moment(getValues('endDate')).format('DD-MM-YYYY')}`,
-        ], 34, 6);
+            `Email: ${email?.value ?? ''}`
+        ], 44, 6);
 
         if(getValues('tentor')){
-            const height = 8;
-            const textWidth=206
+            const height = 11;
+            const textWidth=186
             
             const rgb = hexToRgb('#1bbd9d');
             doc.setFillColor(rgb.r, rgb.g, rgb.b);
-            doc.rect(2, 34, textWidth, height, 'F');
+            doc.rect(12, 34, textWidth, height, 'F');
 
             doc.setTextColor('white');
             doc.setFontSize(10)
             doc.text([
                 `${t('tutors')} : ${getValues('tentor.label')}`,
-            ], 4, 34 + height - 4); 
+                `Rentang Waktu ${moment(getValues('startDate')).format('DD/MM/YYYY')} - ${moment(getValues('endDate')).format('DD/MM/YYYY')}`,
+            ], 14, 34 + height - 7); 
         }
         let newHead:string[]=[];
         for (const value of helperReport.headerReportPayroll) {
@@ -107,12 +107,17 @@ const usePayrollReport = () => {
                 t(value)
             ]
         }
+        let top=36
+        if(getValues('tentor.value')){
+            top=46;
+        }
         autoTable(doc, {
             head: [
                 newHead
             ],
-            margin: { left:2, right:2, top:44 },
+            margin: { left:12, right:12, top:top },
             theme:'grid',
+            styles:{halign:'center'},
             body: data??'',
         })
         doc.save('Laporan Penggajian.pdf')

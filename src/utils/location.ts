@@ -5,7 +5,8 @@ const useLocatioanName = () => {
     const { t } = useTranslation();
     const location = useLocation()
     return {
-        pathName: t(location.pathname.replace('/', '').split('/').slice(-1)[0])
+        pathName: t(location.pathname.replace('/', '').split('/').slice(-1)[0]),
+        pathNameOriginal: location.pathname.replace('/', '').split('/').slice(-1)[0]
     }
 }
 

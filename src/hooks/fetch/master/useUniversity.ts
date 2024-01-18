@@ -7,7 +7,7 @@ import url from "./../../../services/url"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { UniversitySchema } from "./../../../schema/masters"
 import { AxiosError } from "axios"
-import { modalFormState } from "../../../utils/modalFormState"
+import { ModalFormState } from "../../../utils/modalFormState"
 import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next"
 import { modalConfirmState } from "../../../utils/modalConfirmState"
@@ -20,7 +20,7 @@ export const useUniversity = () => {
     const [ query, setQuery ] = useState<UniversityInterface>()
     const [ idDetail, setIdDetail ] = useState<string | null>()
     const { University } = url
-    const { modalForm, setModalForm } = modalFormState()
+    const { modalForm, setModalForm } = ModalFormState()
     const { t } = useTranslation();
     const modalConfirm = modalConfirmState()
     const page = usePage();
@@ -39,14 +39,19 @@ export const useUniversity = () => {
         formState: { errors },
     } = useForm<UniversityInterface>({
         resolver: yupResolver(UniversitySchema().schema)
-    })
+    });
+
+    const {
+        register:registerFilter,
+        handleSubmit:handleSubmitFilter,
+    } = useForm<UniversityInterface>()
 
     useEffect(()=> {
         refetch()
     }, [page.page])
-      
+    
     const {data:dataUniversity, isFetching, refetch} = useQuery<ApiResponseUniversity, AxiosError>({ 
-        queryKey: ['get-university'], 
+        queryKey: ['get-university', query], 
         networkMode: 'always',
         queryFn: async () => await getData(University.get, 
             {
@@ -178,6 +183,13 @@ export const useUniversity = () => {
         }
     }
 
+    const onFilter: SubmitHandler<UniversityInterface> = (data) => {
+        setQuery((state)=>({
+            ...state,
+            name: data.name
+        }));
+    }
+
     return {
         dataUniversity,
         isFetching,
@@ -197,6 +209,9 @@ export const useUniversity = () => {
         onDetail,
         idDetail,
         page: page,
-        optionUniversity
+        optionUniversity,
+        registerFilter,
+        handleSubmitFilter,
+        onFilter
     }
 }

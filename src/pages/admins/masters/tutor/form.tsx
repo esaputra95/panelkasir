@@ -123,7 +123,7 @@ const FormTutor: FC<TutorFormProps> = (props) => {
                                     <tr key={fields.id}>
                                         <td>
                                             <Controller
-                                                name={`tentorSkills.${index}.tentor`}
+                                                name={`tentorSkills.${index}.course`}
                                                 control={control}
                                                     render={({ field }) => 
                                                     <AsyncSelect 

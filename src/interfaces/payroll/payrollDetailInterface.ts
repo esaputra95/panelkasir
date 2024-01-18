@@ -6,7 +6,8 @@ export interface PayrollDetailInterface {
     scheduleId:string;
     price: string;
     time?: string;
-    schedules?: SessionInterface
+    schedules?: SessionInterface;
+    totalStudent?: number;
     userCreate?: string | null;
     createdAt?: Date | null;
     updatedAt?: Date | null;

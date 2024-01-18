@@ -17,7 +17,7 @@ import url from "./../../../services/url"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { TentorNotAvailableSchema } from "./../../../schema/schedule"
 import { AxiosError } from "axios"
-import { modalFormState } from "../../../utils/modalFormState"
+import { ModalFormState } from "../../../utils/modalFormState"
 import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next"
 import { modalConfirmState } from "../../../utils/modalConfirmState"
@@ -37,7 +37,7 @@ export const useTentorNotAvailable = () => {
     const [ query, setQuery ] = useState<TentorNotAvailableFilter>()
     const [ idDetail, setIdDetail ] = useState<string | null>()
     const { TentorNotAvailable } = url
-    const { modalForm, setModalForm } = modalFormState()
+    const { modalForm, setModalForm } = ModalFormState()
     const { t } = useTranslation();
     const modalConfirm = modalConfirmState()
     const page = usePage();
@@ -76,7 +76,7 @@ export const useTentorNotAvailable = () => {
         register:registerFilter,
         handleSubmit:handleSubmitFilter,
     } = useForm<TentorNotAvailableFilter>()
-      
+    
     const {data:dataTentorNotAvailable, isFetching, refetch} = 
     useQuery<ApiResponseTentorNotAvailable, AxiosError>({ 
         queryKey: ['class-types', query], 

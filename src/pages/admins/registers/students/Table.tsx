@@ -2,7 +2,8 @@ import {
     BsEyeFill,
     BsFillTrashFill,
     BsPencilFill,
-    BsFileEarmarkArrowDownFill
+    BsFileEarmarkArrowDownFill,
+    BsPrinterFill
 } from "react-icons/bs";
 import { FC } from "react";
 import { StudentTableInterface } from "../../../../interfaces/registers/studentInterface";
@@ -17,7 +18,8 @@ type TableProps = {
     onDelete:(id:string)=>void,
     onUpdate:(id:string)=>void,
     onDetail:(id:string)=>void,
-    onOpenRegister: (id: string) => Promise<void>
+    onOpenRegister: (id: string) => Promise<void>;
+    printAddress: (id: string) => Promise<void>;
 }
 
 const header = [
@@ -47,7 +49,8 @@ const Table: FC<TableProps> = (props) => {
         onDelete,
         onUpdate,
         onDetail,
-        onOpenRegister
+        onOpenRegister,
+        printAddress,
     } = props;
     const { t } = useTranslation()
     const number:number = ((page-1)*limit)
@@ -68,7 +71,10 @@ const Table: FC<TableProps> = (props) => {
                 <tbody>
                     {
                         !isFetching && data && data.length > 0 ? data.map((value, index)=>(
-                            <tr key={value.id} className="overflow-auto bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <tr 
+                                key={value.id} 
+                                className="overflow-auto bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
                                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {(number+index+1)}
                                 </th>
@@ -93,7 +99,7 @@ const Table: FC<TableProps> = (props) => {
                                 <td className="px-6 py-4 flex">
                                     <span 
                                         title="Update" 
-                                        className="p-1.5 bg-green-50 hover:bg-green-100 hover:cursor-pointer rounded-full" 
+                                        className="p-1.5 flex bg-green-50 hover:bg-green-100 hover:cursor-pointer rounded-full" 
                                         onClick={()=>onUpdate(value.id ?? '')}
                                     >
                                         <BsPencilFill className='text-green-600' />
@@ -107,11 +113,19 @@ const Table: FC<TableProps> = (props) => {
                                     </span>
                                     <span
                                         title="Data Pendaftaran"
-                                        className="p-1.5 bg-cyan-50 hover:bg-cyan-100 hover:cursor-pointer rounded-full"
+                                        className="p-1.5 bg-deep-purple-50 hover:bg-cyan-100 hover:cursor-pointer rounded-full"
                                         onClick={()=>onOpenRegister(value.id ?? '')}
                                     >
-                                        <BsFileEarmarkArrowDownFill className='text-cyan-600' />
+                                        <BsFileEarmarkArrowDownFill className='text-deep-purple-300' />
                                     </span>
+                                    <span
+                                        title="Cetak alamat"
+                                        className="p-1.5 bg-blue-50 hover:bg-cyan-100 hover:cursor-pointer rounded-full"
+                                        onClick={()=>printAddress(value.id ?? '')}
+                                    >
+                                        <BsPrinterFill className='text-blue-600' />
+                                    </span>
+                                    
                                     <span
                                         title={t("delete")}
                                         className="p-1.5 bg-red-50 hover:bg-red-100 hover:cursor-pointer rounded-full" 

@@ -5,6 +5,7 @@ export interface TutorSkillInterface {
     tentorId: string;
     tentor?: OptionSelectInterface
     courseId: string;
+    course?: OptionSelectInterface;
     description?: string;
     userCreate?: string;
     createdAt?: string;

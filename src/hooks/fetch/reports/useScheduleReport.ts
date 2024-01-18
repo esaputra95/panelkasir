@@ -77,7 +77,7 @@ const useScheduleReport = () => {
         const website = headerData.data.setting.find(value=> value.label === "website")
         const email = headerData.data.setting.find(value=> value.label === "email")
 
-        doc.addImage(`${import.meta.env.VITE_API_URL}/images/${icon?.value}`, 'JPEG', 2, 2, 25, 25);
+        doc.addImage(`${import.meta.env.VITE_API_URL}/images/${icon?.value}`, 'JPEG', 12, 2, 25, 25);
         doc.setFontSize(9)
         doc.text([
             'LAPORAN JADWAL ESP SISWA', 
@@ -86,7 +86,7 @@ const useScheduleReport = () => {
             `hotline : ${hotline?.value ?? ''}`,
             `Website: ${website?.value ?? ''}`,
             `Email: ${email?.value ?? ''}`
-        ], 34, 6);
+        ], 42, 6);
 
         const hexToRgb = (hex: string) => {
             hex = hex.replace(/^#/, '');
@@ -97,26 +97,46 @@ const useScheduleReport = () => {
             // Return as an object
             return { r: r, g: g, b: b };
         };
-
+        let topTableContent=42;
         if(getValues('student')){
+            topTableContent+=17
             const student:ApiResponseUpdateStudent = await getDataStudentById(Student.getById, getValues('student.value'));
-            const textWidth = doc.getStringUnitWidth(`Siswa : ${getValues('student.label')}`) * 23;
-            const height = 16;
+            const textWidth = 186;
+            const height = 23;
             // Draw filled rectangle as background
             const rgb = hexToRgb('#1bbd9d');
             doc.setFillColor(rgb.r, rgb.g, rgb.b);
-            doc.rect(2, 34, textWidth, height, 'F');
+            doc.rect(12, 34, textWidth, height, 'F');
             // Add the text
             doc.setTextColor('white'); // Reset text color to black
-            doc.setFontSize(10)
+            doc.setFontSize(10);
+            const packageData = student.data.student.registers?.find(value=> value.status === 1 );
             doc.text([
-                `${t('name')} : ${getValues('student.label')}`,
+                `Nama Siswa /Grup Belajar : ${getValues('student.label')}`,
                 `${t('major')} : ${student.data.student.studyProgram}`,
+                `${t('packages')} : ${packageData?.packages?.name}`,
+                `${t('type')} : ${student.data.student.registers?.map(val=>val.guidanceTypes?.name)}`,
                 `${t('sessions')} : ${data.length}`
-            ], 4, 34 + height - 11); // subtract 3 for better alignment
+            ], 14, 34 + height-19); // subtract 3 for better alignment
         }
         if(getValues('tentor')){
-            doc.text(`Tentor : ${getValues('tentor.label')}`,2, 45)
+            topTableContent+=10
+            let topTentor=45;
+            let topbgTentor=40;
+            if(getValues('student')){
+                topTentor+=19
+                topbgTentor+=19;
+            }
+            // Draw filled rectangle as background
+            const rgb = hexToRgb('#1bbd9d');
+            doc.setFillColor(rgb.r, rgb.g, rgb.b);
+            doc.rect(12, topbgTentor, 186, 8, 'F');
+            // doc.rect(12, 53, 186, 10, 'F');
+            // Add the text
+            doc.setTextColor('white'); // Reset text color to black
+            doc.setFontSize(10);
+            // doc.text(`Tentor : ${getValues('tentor.label')}`,14, 60)
+            doc.text(`Tentor : ${getValues('tentor.label')}`,14, topTentor)
         }
 
         let newHead:string[]=[];
@@ -129,8 +149,9 @@ const useScheduleReport = () => {
             head: [
                 newHead
             ],
-            margin: { left:2, right:2, top:51 },
+            margin: { left:12, right:12, top:topTableContent },
             theme:'grid',
+            styles:{halign:'center'},
             body: data??'',
         })
         doc.save('Laporan Jadwal Siswa.pdf')

@@ -10,6 +10,8 @@ export interface ClassMasterInterface {
     classType: OptionSelectInterface;
     classTypeId?: string;
     method?: 'online' | 'offline';
+    quantity: number;
+    price: number;
     description?: string;
     userCreate?: string | null,
     createdAt?: Date | null,

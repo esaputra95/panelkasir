@@ -44,7 +44,7 @@ const Filter: FC<RecordMateriReportFilter> = (props) => {
                                 cacheOptions
                                 loadOptions={optionTutor}
                                 defaultOptions
-                                placeholder='Select...'
+                                placeholder={`${t('all')}...`}
                                 ref={(ref)=> ref}
                             />
                         }
@@ -64,7 +64,7 @@ const Filter: FC<RecordMateriReportFilter> = (props) => {
                                 cacheOptions
                                 loadOptions={optionStudentAll}
                                 defaultOptions
-                                placeholder='Select...'
+                                placeholder={`${t('all')}...`}
                                 ref={(ref)=> ref}
                             />
                         }
@@ -84,7 +84,7 @@ const Filter: FC<RecordMateriReportFilter> = (props) => {
                                 cacheOptions
                                 loadOptions={optionCourse}
                                 defaultOptions
-                                placeholder='Select...'
+                                placeholder={`${t('all')}...`}
                                 ref={(ref)=> ref}
                             />
                         }

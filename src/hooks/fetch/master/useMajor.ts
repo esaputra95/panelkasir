@@ -7,7 +7,7 @@ import url from "./../../../services/url"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { MajorSchema } from "./../../../schema/masters"
 import { AxiosError } from "axios"
-import { modalFormState } from "../../../utils/modalFormState"
+import { ModalFormState } from "../../../utils/modalFormState"
 import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next"
 import { modalConfirmState } from "../../../utils/modalConfirmState"
@@ -20,7 +20,7 @@ export const useMajor = () => {
     const [ query, setQuery ] = useState<MajorInterface>()
     const [ idDetail, setIdDetail ] = useState<string | null>()
     const { Major } = url
-    const { modalForm, setModalForm } = modalFormState()
+    const { modalForm, setModalForm } = ModalFormState()
     const { t } = useTranslation();
     const modalConfirm = modalConfirmState()
     const page = usePage();
@@ -40,14 +40,19 @@ export const useMajor = () => {
         formState: { errors },
     } = useForm<MajorInterface>({
         resolver: yupResolver(MajorSchema().schema)
-    })
+    });
+
+    const {
+        register:registerFilter,
+        handleSubmit:handleSubmitFilter,
+    } = useForm<MajorInterface>();
 
     useEffect(()=> {
         refetch()
     }, [page.page])
-      
+    
     const {data:dataMajor, isFetching, refetch} = useQuery<ApiResponseMajor, AxiosError>({ 
-        queryKey: ['get-Major'], 
+        queryKey: ['get-Major', query], 
         networkMode: 'always',
         queryFn: async () => await getData(Major.get, 
             {
@@ -182,6 +187,13 @@ export const useMajor = () => {
         }
     }
 
+    const onFilter: SubmitHandler<MajorInterface> = (data) => {
+        setQuery((state)=>({
+            ...state,
+            name: data.name
+        }));
+    }
+
     return {
         dataMajor,
         isFetching,
@@ -202,6 +214,9 @@ export const useMajor = () => {
         idDetail,
         page: page,
         control,
-        optionMajor
+        optionMajor,
+        registerFilter,
+        handleSubmitFilter,
+        onFilter
     }
 }

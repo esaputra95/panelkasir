@@ -108,7 +108,7 @@ export type SessionFormProps = {
     updateStatus: boolean;
     optionCourse:  (data: string) => Promise<OptionSelectInterface[]>;
     dataOptionCourse: OptionSelectInterface[];
-    optionTutor:  (data: string) => Promise<OptionSelectInterface[]>;
+    optionTutorSchedule:  (e: string, index: number) => Promise<OptionSelectInterface[]>;
     dataOptionTutor: OptionSelectInterface[];
     optionRoom:  (data: string) => Promise<OptionSelectInterface[]>;
     dataOptionRoom: OptionSelectInterface[];

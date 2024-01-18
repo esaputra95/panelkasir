@@ -24,7 +24,7 @@ import url from "../../../services/url"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { RecordMateriSchema } from "../../../schema/recordMateri"
 import { AxiosError } from "axios"
-import { modalFormState } from "../../../utils/modalFormState"
+import { ModalFormState } from "../../../utils/modalFormState"
 import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next"
 import { modalConfirmState } from "../../../utils/modalConfirmState"
@@ -45,7 +45,7 @@ export const useRecordMateri = () => {
     const [ dataOptionRecordMateri, setDataOptionRecordMateri] = useState<OptionSelectInterface[]>([OptionDummy])
     const [ dataOptionStudyGroup, setDataOptionStudyGroup] = useState<OptionSelectInterface[]>([OptionDummy])
     const { RecordMateri } = url
-    const { modalForm, setModalForm } = modalFormState()
+    const { modalForm, setModalForm } = ModalFormState()
     const { t } = useTranslation();
     const modalConfirm = modalConfirmState()
     const page = usePage();

@@ -1,11 +1,11 @@
 import {  useMutation, useQuery } from "@tanstack/react-query"
-import { changeStatus, deleteData, getData, getDataById, postData } from "../../models/registers/registrationModel"
+import { changeStatus, deleteData, getData, getDataById, postData, updateModule } from "../../models/registers/registrationModel"
 import { useEffect, useState } from "react"
 import { ApiResponseRegistration, ApiResponseUpdateRegistration, RegistrationInterface } from "../../../interfaces/registers/registrationInterface"
 import { SubmitHandler, useForm } from "react-hook-form"
 import url from "../../../services/url"
 import { AxiosError } from "axios"
-import { modalFormState } from "../../../utils/modalFormState"
+import { ModalFormState } from "../../../utils/modalFormState"
 import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next"
 import { modalConfirmState } from "../../../utils/modalConfirmState"
@@ -16,13 +16,13 @@ import RegisterSchema from "../../../schema/registers/registrationSchema"
 import { yupResolver } from "@hookform/resolvers/yup"
 
 export const useRegistration = () => {
-    const [ query, setQuery ] = useState<RegistrationInterface>()
+    const [ query, setQuery ] = useState<{name:string}>()
     const [ idDetail, setIdDetail ] = useState<string | null>()
     const [ dataConfirmInvoice, setDataConfirmInvoice ] = useState<RegistrationInterface>()
     const [ stateConfirm, setStateConfirm ] = useState<{id?:string; status?:number}>()
     const { Registration } = url
-    const { modalForm, setModalForm } = modalFormState()
-    const { modalForm:modelFormConfirmInvoice, setModalForm:setModalFormConfirmInvoice } = modalFormState()
+    const { modalForm, setModalForm } = ModalFormState()
+    const { modalForm:modelFormConfirmInvoice, setModalForm:setModalFormConfirmInvoice } = ModalFormState()
     const { t } = useTranslation();
     const modalConfirm = modalConfirmState()
     const page = usePage();
@@ -45,12 +45,17 @@ export const useRegistration = () => {
         resolver: yupResolver(RegisterSchema().schema)
     })
 
+    const {
+        register:registerFilter,
+        handleSubmit:handleSubmitFilter,
+    } = useForm<{name:string}>();
+
     useEffect(()=> {
         refetch()
     }, [page.page])
     
     const {data:dataRegistration, isFetching, refetch} = useQuery<ApiResponseRegistration, AxiosError>({ 
-        queryKey: ['register-admin'], 
+        queryKey: ['register-admin', query], 
         networkMode: 'always',
         queryFn: async () => await getData(Registration.get, 
             {
@@ -243,6 +248,48 @@ export const useRegistration = () => {
         setValue(`${key}` as keyof RegistrationInterface, data)
     }
 
+    const updateModuleStatus = async (id:string) => {
+        modalConfirm.setModalConfirm((state)=>({
+            ...state,
+            title: state.title,
+            message: 'Apakah kamu yakin sudah mengirim modul siswa?',
+            confirmLabel: 'Ya, Kirim',
+            cancelLabel: state.cancelLabel,
+            visible: true,
+            onConfirm:async ()=>{
+                modalConfirm.setModalConfirm((state)=>({
+                    ...state,
+                    loading: true
+                }))
+                const update = await updateModule(Registration.putModule, {id:id, isModule: 1})
+                if(update.status){
+                    toast.success(t("success-save"), {
+                        position: toast.POSITION.TOP_CENTER
+                    });
+                }
+                modalConfirm.setModalConfirm((state)=>({
+                    ...state,
+                    visible: false,
+                    loading: false
+                }));
+                refetch()
+            },
+            onCancel:()=>{
+                modalConfirm.setModalConfirm((state)=>({
+                    ...state,
+                    visible: false,
+                }))
+            }
+        }))
+    }
+
+    const onFilter: SubmitHandler<{name:string}> = (data) => {
+        setQuery((state)=>({
+            ...state,
+            name: data.name
+        }));
+    }
+
     return {
         dataRegistration,
         isFetching,
@@ -271,6 +318,10 @@ export const useRegistration = () => {
         dataConfirmInvoice,
         onCancelInvoice,
         stateConfirm,
-        confirmChangeStatusInvoice
+        confirmChangeStatusInvoice,
+        updateModuleStatus,
+        registerFilter,
+        handleSubmitFilter,
+        onFilter
     }
 }

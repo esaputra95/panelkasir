@@ -19,6 +19,9 @@ const Data: FC<DataPayrollInterface> = (props) => {
                             {t('month')}
                         </th>
                         <th className='p-2'>
+                            {t('student-quantity')}
+                        </th>
+                        <th className='p-2'>
                             {t('basic-salary')}
                         </th>
                         <th className='p-2'>
@@ -39,7 +42,7 @@ const Data: FC<DataPayrollInterface> = (props) => {
                                 {
                                     value.map((val)=> (
                                         <td key={Math.random().toString(4)} className='p-2'>
-                                            {val}
+                                            {t(val)}
                                         </td> 
                                     ))
                                 }

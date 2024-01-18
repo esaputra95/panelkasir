@@ -4,7 +4,7 @@ import Spinner from '../../../components/ui/Spinner'
 import { useUser } from '../../../hooks/fetch/useUser'
 import ModalForm from '../../../components/ui/modal/ModalForm'
 import FormUser from './form'
-import { modalFormState } from '../../../utils/modalFormState'
+import { ModalFormState } from '../../../utils/modalFormState'
 import { useEffect } from 'react'
 import { Button } from '../../../components/input'
 
@@ -18,7 +18,7 @@ const UserPage = () => {
         handleSubmit
     } = useUser()
 
-    const {modalForm, setModalForm} = modalFormState()
+    const {modalForm, setModalForm} = ModalFormState()
     
     useEffect(()=> {
         setModalForm((state)=>({

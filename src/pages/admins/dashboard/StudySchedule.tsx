@@ -1,17 +1,17 @@
 import { FC } from "react"
-import { StudyGroupDashboardInterface } from "../../../interfaces/dashboard/DashboardInterface"
 import { t } from "i18next"
-type StudyGroup = {
-    studyGroup: StudyGroupDashboardInterface[] | undefined
+import { StudentInterface } from "../../../interfaces/master/studentInterface"
+type StudySchedule = {
+    studySchedule: StudentInterface[] | undefined
 }
-const StudyGroup:FC<StudyGroup> = (props) => {
+const StudySchedule:FC<StudySchedule> = (props) => {
     const {
-        studyGroup
+        studySchedule
     } = props
     return (
         <div className='w-full shadow-sm'>
             <div className='w-full flex items-center justify-center'>
-                <label className='font-semibold w-full text-center'>Siswa belum mendapat Group Belajar</label>
+                <label className='font-semibold w-full text-center'>Siswa belum mendapat jadwal belajar</label>
             </div>
             
             <table className='w-full text-sm rounded-md text-left rtl:text-right text-gray-500 dark:text-gray-400 mt-4'>
@@ -25,7 +25,7 @@ const StudyGroup:FC<StudyGroup> = (props) => {
                 </thead>
                 <tbody>
             {
-                studyGroup && studyGroup.length> 0 ? studyGroup?.map((value, index)=> (
+                studySchedule && studySchedule.length> 0 ? studySchedule?.map((value, index)=> (
                     <tr key={Math.random().toString(4)} className='bg-white border-b dark:bg-gray-800 dark:border-gray-700'>
                         <td className='p-3'>
                             {
@@ -57,4 +57,4 @@ const StudyGroup:FC<StudyGroup> = (props) => {
     )
 }
 
-export default StudyGroup
+export default StudySchedule

@@ -75,13 +75,17 @@ const Table: FC<TableProps> = (props) => {
                                     </span>
                                 </td>
                             </tr>
-                        )) : null
+                        )) : <tr>
+                            <td className="text-center" colSpan={5}>
+                                <span>{t("data-empty")}</span>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>
             {
                 isFetching ? 
-                <Skeleton cols={4} rows={2} /> : null
+                <Skeleton cols={4} rows={4} /> : null
             }
             
         </div>

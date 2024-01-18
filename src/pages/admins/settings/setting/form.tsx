@@ -35,19 +35,19 @@ const FormSetting: FC<SettingFormProps> = (props) => {
                         ))
                     }
                 </div>
-                
+                <div className='w-full flex justify-end space-x-2'>
+                    <Button
+                        variant="primary"
+                        type='submit'
+                        size="medium"
+                        onClick={()=>onSubmit}
+                        className='my-4' 
+                    >
+                        {t('update')}
+                    </Button>
+                </div>
             </form>
-            <div className='w-full flex justify-end space-x-2'>
-                <Button
-                    variant="primary"
-                    type='submit'
-                    size="medium"
-                    onClick={()=>onSubmit}
-                    className='my-4' 
-                >
-                    {t('update')}
-                </Button>
-            </div>
+            
             <div className='w-full grid grid-cols-3 gap-1 items-end'>
                 <div className='w-full'>
                     <InputText

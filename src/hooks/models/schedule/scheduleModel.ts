@@ -12,7 +12,7 @@ interface ParamSessionInterface extends StudentGroupQueryInterface {
 	order?: string
 }
 
-type BodyCheckSessionInterface = Omit<TimeForm, 'courseId' | 'type'>
+type BodyCheckSessionInterface = Omit<TimeForm, 'type'>
 
 const getData = async (url:string, params:ParamSessionInterface) => {
 	if(params.studyGroupId){
@@ -66,8 +66,7 @@ const getDataSelect = async (url:string, params: {name: string}) => {
 
 const checkSession = async (url:string, data:BodyCheckSessionInterface) => {
 	try {
-		const response = await api.post(`${url}`, data
-		)
+		const response = await api.post(`${url}`, data)
 		return response.data.status
 	} catch (error) {
 		return error as AxiosError

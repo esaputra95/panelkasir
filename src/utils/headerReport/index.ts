@@ -27,6 +27,7 @@ const helperReport = {
         'no',
         'name',
         'month',
+        'study-total',
         'basic-salary',
         'session-salary',
         'total'

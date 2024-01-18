@@ -1,8 +1,9 @@
 import { 
     BsEyeFill,
     BsFillTrashFill,
-    BsFillSendFill,
     BsArrowRightCircleFill,
+    BsWhatsapp,
+    BsFillSendFill,
 } from "react-icons/bs";
 import { FC } from "react";
 import { RegistrationTableInterface } from "../../../../interfaces/registers/registrationInterface";
@@ -19,7 +20,8 @@ type TableProps = {
     onUpdate:(id:string)=>void,
     onDetail:(id:string)=>void,
     sendMessage: (phone: string)=> void,
-    changeStatusInvoice: (id:string, status:number) => void
+    changeStatusInvoice: (id:string, status:number) => void;
+    updateModuleStatus: (id: string) => Promise<void>
 }
 
 const header = [
@@ -32,6 +34,7 @@ const header = [
     { label: 'packages' },
     { label: 'sessions'},
     { label: 'status'},
+    { label: 'module'},
     { 
         label: 'Action',
         width: 'w-16'
@@ -46,7 +49,8 @@ const Table: FC<TableProps> = (props) => {
         limit,
         onDelete,
         sendMessage,
-        changeStatusInvoice
+        changeStatusInvoice,
+        updateModuleStatus
     } = props;
     const { t } = useTranslation()
     const navigate = useNavigate()
@@ -90,25 +94,31 @@ const Table: FC<TableProps> = (props) => {
                                     (<span className="bg-red-200 p-1 rounded-md text-white">non-active</span>) : 
                                     (<span className="bg-green-200 p-1 rounded-md text-white">active</span>) }
                                 </td>
+                                <td className="px-6 py-4">
+                                    { value.isModule === 1 ? 
+                                    (<span className="bg-green-200 p-1 rounded-md text-white">dikirim</span>) : 
+                                    (<span className="bg-red-200 p-1 rounded-md text-white">tertunda</span>) }
+                                </td>
                                 <td className="px-6 py-4 flex">
                                     <span title="Change Status" 
-                                        className="p-1.5 bg-blue-50 hover:bg-blue-100 hover:cursor-pointer rounded-full" 
+                                        className="p-1.5 bg-cyan-100 hover:bg-cyan-200 hover:cursor-pointer rounded-full" 
                                         onClick={()=> changeStatusInvoice(value.id ?? '', value.status ?? 0)}
                                     >
-                                            <BsArrowRightCircleFill className='text-blue-600' />
+                                            <BsArrowRightCircleFill className='text-cyan-600' />
                                     </span>
                                     <span title="Send Chat"
-                                        className="p-1.5 bg-blue-50 hover:bg-blue-100 hover:cursor-pointer rounded-full"
+                                        className="p-1.5 bg-green-100 hover:bg-green-200 hover:cursor-pointer rounded-full"
                                         onClick={()=>sendMessage(value.students?.phone ?? '')}
                                     >
-                                        <BsFillSendFill className='text-blue-600' />
+                                        <BsWhatsapp className='text-green-700' />
                                     </span>
-                                    {/* <span title="Update"
-                                        className="p-1.5 bg-green-50 hover:bg-green-100 hover:cursor-pointer rounded-full"
-                                        onClick={()=>onUpdate(value.id ?? '')}
+                                    <span
+                                        title="Kirim module"
+                                        className="p-1.5 bg-yellow-100 hover:bg-yellow-200 hover:cursor-pointer rounded-full"
+                                        onClick={()=>updateModuleStatus(value.id ?? '')}
                                     >
-                                        <BsPencilFill className='text-green-600' />
-                                    </span> */}
+                                        <BsFillSendFill className='text-yellow-800' />
+                                    </span>
                                     <span title="Detail"
                                         className="p-1.5 bg-cyan-50 hover:bg-cyan-100 hover:cursor-pointer rounded-full"
                                         onClick={()=>navigate(`/register?id=${value.id}`)}

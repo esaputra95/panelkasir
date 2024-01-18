@@ -29,9 +29,11 @@ const Filter: FC<StudentReportFilter> = (props) => {
                 <SelectOption 
                     {...register('status')}
                     option={[
+                        {label: t('all'), value:''},
                         {label: t('active'), value:'1'},
                         {label: t('in-active'), value:'0'},
                     ]}
+                    allowNull={false}
                     label={t('status')}
                 />
             </div>

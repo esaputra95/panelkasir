@@ -7,7 +7,7 @@ import url from "./../../../services/url"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { PackageSchema } from "./../../../schema/settings"
 import { AxiosError } from "axios"
-import { modalFormState } from "../../../utils/modalFormState"
+import { ModalFormState } from "../../../utils/modalFormState"
 import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next"
 import { modalConfirmState } from "../../../utils/modalConfirmState"
@@ -21,7 +21,7 @@ export const usePackage = () => {
     const [ query, setQuery ] = useState<PackageInterface>()
     const [ idDetail, setIdDetail ] = useState<string | null>()
     const { Package } = url
-    const { modalForm, setModalForm } = modalFormState()
+    const { modalForm, setModalForm } = ModalFormState()
     const { t } = useTranslation();
     const modalConfirm = modalConfirmState()
     const page = usePage();

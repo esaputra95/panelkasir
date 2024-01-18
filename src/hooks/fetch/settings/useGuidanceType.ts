@@ -19,7 +19,7 @@ import url from "./../../../services/url"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { GuidanceTypeSchema } from "./../../../schema/settings"
 import { AxiosError } from "axios"
-import { modalFormState } from "../../../utils/modalFormState"
+import { ModalFormState } from "../../../utils/modalFormState"
 import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next"
 import { modalConfirmState } from "../../../utils/modalConfirmState"
@@ -34,7 +34,7 @@ export const useGuidanceType = () => {
     const [ idDetail, setIdDetail ] = useState<string | null>()
     const [ dataOptionGuidanceType, setDataOptionGuidanceType ] = useState<OptionSelectInterface[]>([OptionDummy])
     const { GuidanceType } = url
-    const { modalForm, setModalForm } = modalFormState()
+    const { modalForm, setModalForm } = ModalFormState()
     const { t } = useTranslation();
     const modalConfirm = modalConfirmState()
     const page = usePage();

@@ -7,7 +7,7 @@ import url from "./../../../services/url"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { CourseSchema } from "./../../../schema/masters"
 import { AxiosError } from "axios"
-import { modalFormState } from "../../../utils/modalFormState"
+import { ModalFormState } from "../../../utils/modalFormState"
 import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next"
 import { modalConfirmState } from "../../../utils/modalConfirmState"
@@ -23,7 +23,7 @@ export const useCourse = () => {
     const [ idDetail, setIdDetail ] = useState<string | null>()
     const [ dataOptionCourse, setDataOptionCourse] = useState<OptionSelectInterface[]>([OptionDummy])
     const { Course } = url
-    const { modalForm, setModalForm } = modalFormState()
+    const { modalForm, setModalForm } = ModalFormState()
     const { t } = useTranslation();
     const modalConfirm = modalConfirmState()
     const page = usePage();
@@ -43,14 +43,19 @@ export const useCourse = () => {
         formState: { errors },
     } = useForm<CourseInterface>({
         resolver: yupResolver(CourseSchema().schema)
-    })
+    });
+
+    const {
+        register:registerFilter,
+        handleSubmit:handleSubmitFilter,
+    } = useForm<CourseInterface>();
 
     useEffect(()=> {
         refetch()
     }, [page.page])
     
     const {data:dataCourse, isFetching, refetch} = useQuery<ApiResponseCourse, AxiosError>({ 
-        queryKey: ['get-Course'], 
+        queryKey: ['get-Course', query], 
         networkMode: 'always',
         queryFn: async () => await getData(Course.get, 
             {
@@ -187,6 +192,13 @@ export const useCourse = () => {
         return [OptionDummy]
     }
 
+    const onFilter: SubmitHandler<CourseInterface> = (data) => {
+        setQuery((state)=>({
+            ...state,
+            name: data.name
+        }));
+    }
+
     return {
         dataCourse,
         isFetching,
@@ -208,6 +220,9 @@ export const useCourse = () => {
         page: page,
         control,
         optionCourse,
-        dataOptionCourse
+        dataOptionCourse,
+        registerFilter,
+        handleSubmitFilter,
+        onFilter
     }
 }

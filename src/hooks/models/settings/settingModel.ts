@@ -33,8 +33,6 @@ const upload = async (url:string, data:any) => {
 
 const getDataOne = async (url:string, query:string) => {
 	try {
-		console.log({query});
-		
 		const response = await api.get(url, {
 			params: {
 				name: query

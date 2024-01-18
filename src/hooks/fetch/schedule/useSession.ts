@@ -32,7 +32,7 @@ import url from "../../../services/url"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { SessionSchema } from "../../../schema/schedule"
 import { AxiosError } from "axios"
-import { modalFormState } from "../../../utils/modalFormState"
+import { ModalFormState } from "../../../utils/modalFormState"
 import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next"
 import { modalConfirmState } from "../../../utils/modalConfirmState"
@@ -46,14 +46,18 @@ import {
 import { SessionDummy } from "../../../utils/dummy/scheduleDummy"
 import moment from "moment"
 import { useSearchParams } from "react-router-dom"
+import { getDataSelectSchedule } from "../../models/master/materialModel"
+import { OptionSelectInterface } from "../../../interfaces/globalInterface"
+import { OptionDummy } from "../../../utils/dummy/setting"
 
 export const useSession = () => {
     const [ query, setQuery ] = useState<StudentGroupQueryInterface>()
     const [ idDetail, setIdDetail ] = useState<string | null>()
+    const [ dataOptionTutor, setDataOptionTutor] = useState<OptionSelectInterface[]>([OptionDummy])
     const [ updateStatus, setUpdateState] = useState<boolean>(false)
     const [ , setRerender ] = useState(0)
-    const { SessionSchedule, StudyGroup } = url
-    const { modalForm, setModalForm } = modalFormState()
+    const { SessionSchedule, StudyGroup, Tutor } = url
+    const { modalForm, setModalForm } = ModalFormState()
     const { t } = useTranslation();
     const modalConfirm = modalConfirmState()
     const page = usePage();
@@ -163,6 +167,19 @@ export const useSession = () => {
         if(response.status){
             return response.data.Session
         }
+    }
+
+    const optionTutorSchedule = async (name: string, index:number): Promise<OptionSelectInterface[]> => {
+        const response = await getDataSelectSchedule(Tutor.getSelectSchedule, {
+            courseId: getValues(`time.${index}.courseId`),
+            name: name,
+            date: getValues(`time.${index}.date`)
+        });
+        if(response.status){
+            setDataOptionTutor(response.data.tutor)
+            return response.data.tutor
+        }
+        return [OptionDummy];
     }
 
     const { mutate:mutateById } = useMutation({
@@ -355,7 +372,8 @@ export const useSession = () => {
         const status = await checkSession(SessionSchedule.checkSchedule, {
             date: getValues(`time.${index}.date`),
             tentorId: getValues(`time.${index}.tentorId`),
-            roomId: getValues(`time.${index}.roomId`)
+            roomId: getValues(`time.${index}.roomId`),
+            courseId : getValues(`time.${index}.courseId`) 
         });
         if(status){
             setError(`time.${index}.date`, {
@@ -435,6 +453,8 @@ export const useSession = () => {
         handleOnChangeSessionDetail,
         onCancelSession,
         appendIdDeleteSessionDetail,
-        dataGroup
+        dataGroup,
+        optionTutorSchedule,
+        dataOptionTutor
     }
 }

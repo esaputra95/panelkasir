@@ -30,6 +30,7 @@ export interface RegistrationInterface {
     schoolYear?: OptionSelectInterface;
     schoolYears?: SchoolYearInterface;
     status?: number;
+    isModule?: number | null
     userCreate?: string;
     createdAt?: string
     updatedAt?: string

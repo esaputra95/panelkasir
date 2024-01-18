@@ -15,7 +15,7 @@ export const Indonesia = {
     "university": "Universitas",
     "majors": "Jurusan",
     "major": "Jurusan",
-    "courses": "Mata Pelajaran",
+    "courses": "Subject",
     "locations": "Lokasi",
     "packages": "Paket Bimbingan",
     "sessions": "Jumlah Sesi",
@@ -37,6 +37,7 @@ export const Indonesia = {
     "city": "Kabupaten /Kota",
     "address": "Alamat",
     "study-program": "Program Studi",
+    "studyProgram": "Program Studi",
     "school": "Sekolah Asal",
     "place-birth": "Tempat Lahir",
     "date-birth": "Tanggal Lahir",
@@ -91,7 +92,8 @@ export const Indonesia = {
     "advice": "Nasihat",
     "select-students": "Pilih Siswa",
     'payroll': "Penggajian",
-    "Press this button to calculate the salary for teaching sessions": "Tekan tombol ini untuk menghitung gaji dari sesi mengajar.",
+    "Press this button to calculate the salary for teaching sessions": 
+    "Tekan tombol ini untuk menghitung gaji dari sesi mengajar.",
     "month": "Bulan",
     "basic-salary": "Gaji Pokok",
     "list of teaching times": "Daftar Waktu Mengajar",
@@ -111,7 +113,12 @@ export const Indonesia = {
     "footnote": "Catatan Kaki",
     "update": "Update",
     "no": "No",
-    "study-total" : "Jumlah Siswa"
+    "study-total" : "Jumlah Siswa",
+    "student-quantity": "Jumlah Siswa",
+    "data-empty": "Tak ada data yang tersedia pada tabel ini",
+    "search-name": "Cari nama...",
+    "student-name": "Nama siswa...",
+    "session-salary": "Gaji Persesi"
 }
 
 export const English = {
@@ -131,7 +138,7 @@ export const English = {
     "university": "University",
     "majors": "Majors",
     "major": "Major",
-    "courses": "Courses",
+    "courses": "Subject",
     "locations": "Locations",
     "packages": "Packages",
     "sessions": "sessions",
@@ -153,6 +160,7 @@ export const English = {
     "city": "City",
     "address": 'Address',
     "study-program": "Study Program",
+    "studyProgram": "Study Program",
     "school": "School",
     "place-birth": "Place Birth",
     "date-birth": "Date Birth",
@@ -207,7 +215,8 @@ export const English = {
     "advice": "Advice",
     "select-students": "Select Students",
     'payroll': "Payroll",
-    "Press this button to calculate the salary for teaching sessions": "Press this button to calculate the salary for teaching sessions",
+    "Press this button to calculate the salary for teaching sessions": 
+    "Press this button to calculate the salary for teaching sessions",
     "month": "Motnh",
     "basic-salary": "Basis Salary",
     "list of teaching times": "List of teaching times",
@@ -227,5 +236,10 @@ export const English = {
     "footnote": "Footnote",
     "update": "Update",
     "no": "No",
-    "study-total": "Student Total"
+    "study-total": "Student Total",
+    "student-quantity": "Student Quantity",
+    "data-empty": "No data available in table",
+    "search-name": "Search name...",
+    "student-name": "Student's name...",
+    "session-salary": "Session Salary"
 }

@@ -1,17 +1,17 @@
 import { FC } from "react"
-import { StudyGroupDashboardInterface } from "../../../interfaces/dashboard/DashboardInterface"
 import { t } from "i18next"
-type StudyGroup = {
-    studyGroup: StudyGroupDashboardInterface[] | undefined
+import { RegistrationInterface } from "../../../interfaces/registers/registrationInterface"
+type StudyModule = {
+    studyModule: RegistrationInterface[] | undefined
 }
-const StudyGroup:FC<StudyGroup> = (props) => {
+const StudyModule:FC<StudyModule> = (props) => {
     const {
-        studyGroup
+        studyModule
     } = props
     return (
         <div className='w-full shadow-sm'>
             <div className='w-full flex items-center justify-center'>
-                <label className='font-semibold w-full text-center'>Siswa belum mendapat Group Belajar</label>
+                <label className='font-semibold w-full text-center'>Siswa belum mendapat Module materi</label>
             </div>
             
             <table className='w-full text-sm rounded-md text-left rtl:text-right text-gray-500 dark:text-gray-400 mt-4'>
@@ -19,13 +19,13 @@ const StudyGroup:FC<StudyGroup> = (props) => {
                     <tr>
                         <th className='px-3 py-3'>{t('No')}</th>
                         <th className='px-3 py-3'>{t('name')}</th>
-                        <th className='px-3 py-3'>{t('phone')}</th>
-                        <th className='px-3 py-3'>{t('image')}</th>
+                        <th className='px-3 py-3'>{t('packages')}</th>
+                        <th className='px-3 py-3'>{t('address')}</th>
                     </tr>
                 </thead>
                 <tbody>
             {
-                studyGroup && studyGroup.length> 0 ? studyGroup?.map((value, index)=> (
+                studyModule && studyModule.length> 0 ? studyModule?.map((value, index)=> (
                     <tr key={Math.random().toString(4)} className='bg-white border-b dark:bg-gray-800 dark:border-gray-700'>
                         <td className='p-3'>
                             {
@@ -34,19 +34,18 @@ const StudyGroup:FC<StudyGroup> = (props) => {
                         </td>
                         <td className='p-3'>
                             {
-                                value.name ?? ''
+                                value.students?.name ?? ''
                             }
                         </td>
                         <td className='p-3'>
                             {
-                                value.phone ?? ''
+                                value.packages?.name ?? ''
                             }
                         </td>
                         <td className='p-3'>
-                            <img 
-                                className="h-10 w-10 rounded-full"
-                                src={`http://localhost:3000/images/${value.image}`}
-                            />
+                            {
+                                value.students?.address ?? ''
+                            }
                         </td>
                     </tr>
                 )) : null
@@ -57,4 +56,4 @@ const StudyGroup:FC<StudyGroup> = (props) => {
     )
 }
 
-export default StudyGroup
+export default StudyModule
