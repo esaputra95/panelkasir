@@ -33,7 +33,7 @@ const Filter: FC<FilterType> = (props) => {
 
     return (
         <div className='w-full'>
-            <div className='w-full grid grid-cols-4 gap-4'>
+            <div className='w-full lg:grid lg:grid-cols-4 lg:gap-4'>
                 {
                     token?.userType === "admin" ? (
                         <div className='w-full'>

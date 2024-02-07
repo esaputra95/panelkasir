@@ -118,7 +118,9 @@ export const Indonesia = {
     "data-empty": "Tak ada data yang tersedia pada tabel ini",
     "search-name": "Cari nama...",
     "student-name": "Nama siswa...",
-    "session-salary": "Gaji Persesi"
+    "session-salary": "Gaji Persesi",
+    "skill": "Keahlian",
+    "profile": "Profile"
 }
 
 export const English = {
@@ -241,5 +243,7 @@ export const English = {
     "data-empty": "No data available in table",
     "search-name": "Search name...",
     "student-name": "Student's name...",
-    "session-salary": "Session Salary"
+    "session-salary": "Session Salary",
+    "skill": "Skills",
+    "profile": "Profile"
 }

@@ -2,10 +2,21 @@ import { useTranslation } from "react-i18next";
 import { Language } from "../../../utils/Language"
 import { useLocation, useNavigate } from "react-router-dom";
 import { Menu, MenuHandler, MenuItem, MenuList, Typography } from "@material-tailwind/react";
-import { BsPersonCircle } from "react-icons/bs";
+import { BsList, BsPersonCircle, BsXLg } from "react-icons/bs";
 import useAccess from "../../../utils/useAccess";
+import { FC } from "react";
 
-const NavBar = () => {
+type NavBarType = {
+	menu:boolean;
+	handleOpenMenu: () => void
+}
+
+const NavBar:FC<NavBarType> = (props) => {
+	const {
+		menu,
+		handleOpenMenu
+	} = props
+
 	const location = useLocation()
 	const { t, i18n } = useTranslation();
 	const navigate = useNavigate()
@@ -24,8 +35,16 @@ const NavBar = () => {
 
 	return (
 		<div className="w-full bg-white sticky top-0 z-[10] ">
-			<div className="w-full flex justify-between h-16 items-center px-8">
-				<div className="font-semibold ">{t(location.pathname.replace('/', '').split('/').slice(-1)[0])}</div>
+			<div className="w-full flex justify-between h-16 items-center px-4">
+				<div className="font-semibold flex items-center gap-2">
+					<span onClick={handleOpenMenu}>
+						{
+							menu ? <BsXLg className='font-semibold h-5 w-5 hover:cursor-pointer' /> :
+							<BsList className='font-semibold h-5 w-5 hover:cursor-pointer' />
+						}
+					</span>
+					{t(location.pathname.replace('/', '').split('/').slice(-1)[0])}
+					</div>
 				<div className="flex space-x-2">
 					<div className="flex gap-x-2 bg-gray-50 rounded-lg px-2 items-center">
 						<Menu>
@@ -35,7 +54,9 @@ const NavBar = () => {
 								</div>
 							</MenuHandler>
 							<MenuList>
-								<MenuItem className="flex items-center gap-2">
+								<MenuItem className="flex items-center gap-2"
+									onClick={()=> navigate('/profile')}
+								>
 								<svg
 									width="8"
 									height="8"

@@ -44,7 +44,7 @@ const Filter: FC<ScheduleReportFilter> = (props) => {
 
     return (
         <form className='w-full' onSubmit={handleSubmit(onSubmit)}>
-            <div className='w-full grid grid-cols-4 gap-2'>
+            <div className='w-full flex flex-col lg:grid lg:grid-cols-3 lg:gap-2'>
                 <InputText
                     {...register('startDate')}
                     type='date'

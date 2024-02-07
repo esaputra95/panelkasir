@@ -3,6 +3,7 @@ const url = {
         login:'auth/login'
     },
     users: 'users',
+    profiles: 'profiles',
     classType: {
         get: 'class-types',
         post: 'class-types',

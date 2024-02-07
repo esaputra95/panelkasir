@@ -101,7 +101,7 @@ const HomePage = () => {
                         </div>
                         {
                             token?.userType === "admin" ? (
-                                <div className='w-full flex flex-col h-36 rounded-lg shadow-md justify-between bg-green-500 hover:cursor-pointer'>
+                                <div className='w-full flex flex-col h-36 rounded-lg shadow-md justify-between bg-green-500'>
                                     <div className='flex items-center '>
                                         <div className='w-full flex flex-col m-4'>
                                             <label className='font-semibold text-3xl text-white'>{total.studyGroup}</label>
@@ -111,7 +111,7 @@ const HomePage = () => {
                                             className='h-16 w-16 text-white mr-4'
                                         />
                                     </div>
-                                    <div onClick={()=>getStudyGroup()} className='w-full border-t h-8 flex justify-center items-center'>
+                                    <div onClick={()=>getStudyGroup()} className='w-full border-t h-8 flex justify-center items-center hover:cursor-pointer'>
                                         <label 
                                             className='font-medium text-sm text-white hover:cursor-pointer'
                                         >Lihat data</label>
@@ -121,7 +121,7 @@ const HomePage = () => {
                         }
                         {
                             token?.userType === "admin" ? ( 
-                                <div className='w-full flex flex-col h-36 rounded-lg shadow-md justify-between bg-blue-500 hover:cursor-pointer'>
+                                <div className='w-full flex flex-col h-36 rounded-lg shadow-md justify-between bg-blue-500'>
                                     <div className='flex items-center '>
                                         <div className='w-full flex flex-col m-4'>
                                             <label className='font-semibold text-3xl text-white'>{total.studySchedule}</label>
@@ -131,7 +131,7 @@ const HomePage = () => {
                                             className='h-16 w-16 text-white mr-4'
                                         />
                                     </div>
-                                    <div onClick={()=>getStudySchedule()} className='w-full border-t h-8 flex justify-center items-center'>
+                                    <div onClick={()=>getStudySchedule()} className='w-full border-t h-8 flex justify-center items-center hover:cursor-pointer'>
                                         <label 
                                             className='font-medium text-sm text-white hover:cursor-pointer'
                                         >Lihat data</label>
@@ -141,7 +141,7 @@ const HomePage = () => {
                         }
                         {
                             token?.userType === "admin" ? ( 
-                                <div className='w-full flex flex-col h-36 rounded-lg shadow-md justify-between bg-lime-600 hover:cursor-pointer'>
+                                <div className='w-full flex flex-col h-36 rounded-lg shadow-md justify-between bg-lime-600'>
                                     <div className='flex items-center '>
                                         <div className='w-full flex flex-col m-4'>
                                             <label className='font-semibold text-3xl text-white'>{total.studyModule}</label>
@@ -151,7 +151,7 @@ const HomePage = () => {
                                             className='h-16 w-16 text-white mr-4'
                                         />
                                     </div>
-                                    <div onClick={()=>getStudyModule()} className='w-full border-t h-8 flex justify-center items-center'>
+                                    <div onClick={()=>getStudyModule()} className='w-full border-t h-8 flex justify-center items-center hover:cursor-pointer'>
                                         <label
                                             className='font-medium text-sm text-white hover:cursor-pointer'
                                         >Lihat data</label>
@@ -161,7 +161,7 @@ const HomePage = () => {
                         }
                         {
                             token?.userType === "admin" ? ( 
-                                <div className='w-full flex flex-col h-36 rounded-lg shadow-md justify-between bg-purple-300 hover:cursor-pointer'>
+                                <div className='w-full flex flex-col h-36 rounded-lg shadow-md justify-between bg-purple-300'>
                                     <div className='flex items-center '>
                                         <div className='w-full flex flex-col m-4'>
                                             <label className='font-semibold text-3xl text-white'>{total.studentWillFinish}</label>
@@ -171,7 +171,7 @@ const HomePage = () => {
                                             className='h-16 w-16 text-white mr-4'
                                         />
                                     </div>
-                                    <div onClick={()=>getStudyFinish()} className='w-full border-t h-8 flex justify-center items-center'>
+                                    <div onClick={()=>getStudyFinish()} className='w-full border-t h-8 flex justify-center items-center hover:cursor-pointer'>
                                         <label
                                             className='font-medium text-sm text-white hover:cursor-pointer'
                                         >Lihat data</label>

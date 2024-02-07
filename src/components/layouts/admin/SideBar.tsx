@@ -36,6 +36,7 @@ import { RootState } from '../../../redux/store';
 import useAccess from '../../../utils/useAccess';
 
 const SideBarLayout = () => {
+
     const navigate = useNavigate();
     const location = useLocation()
     const selector = useSelector((state: RootState) => state.menu)
@@ -172,7 +173,6 @@ const SideBarLayout = () => {
 						<ChevronDownIcon
 							strokeWidth={2.5}
 							className={`mx-auto h-4 w-4 transition-transform 
-								${token?.userType==="admin" ? 'flex':'hidden'}
 								${open === 'schedule' ? "rotate-180" : ""}`
 							}
 						/>

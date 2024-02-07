@@ -28,6 +28,7 @@ import StudyGroupPage from "../pages/admins/schedules/studyGroup";
 import { RecordMateriPage } from "../pages/admins/recordMateri";
 import { PayrollPage } from "../pages/admins/payroll";
 import { PayrollReportPage, RecordMateriReportPage, RegisterReportPage, ScheduleReportPage, StudentReportPage } from "../pages/admins/reports";
+import ProfilePage from "../pages/auth/ProfilePage";
 
 const MainRouters = [
     {
@@ -41,6 +42,10 @@ const MainRouters = [
             {
                 path: 'dashboard',
                 element: <HomePage />
+            },
+            {
+                path: 'profile',
+                element: <ProfilePage />
             },
             {
                 path: 'user',

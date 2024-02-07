@@ -10,7 +10,7 @@ type Token = {
 
 type AccessUserTpe = {
     loading: boolean,
-    status: boolean
+    status: number
 }
 
 const access = {
@@ -40,7 +40,8 @@ const access = {
         'guidance-packages',
         'school-years',
         'sessions',
-        'companies'
+        'companies',
+        'profile'
     ],
     tentor: [
         '',
@@ -49,13 +50,14 @@ const access = {
         'payroll',
         'tentor-not-available',
         'dashboard',
+        'profile'
     ]
 }
 const useAccess = () => {
     const [token, setToken] = useState<Token>()
     const [accessUser, setAccessUser] = useState<AccessUserTpe>({
         loading: false, 
-        status: false
+        status: 0
     })
     const { pathNameOriginal } = useLocatioanName()
     
@@ -66,15 +68,10 @@ const useAccess = () => {
     const parseToken = () => {
         const token_ = window.localStorage.getItem('token')??'';
         const newToken = jwtDecode<Token>(token_);
-        console.log('user', newToken.userType);
-        console.log('path', pathNameOriginal);
-        
         if(access[newToken.userType].includes(pathNameOriginal)){
-            console.log('ya');
-            
-            setAccessUser({loading: false, status: true})
+            setAccessUser({loading: false, status: 1})
         } else{
-            setAccessUser({loading: false, status: false})
+            setAccessUser({loading: false, status: -1})
         }
         setToken(newToken);
         

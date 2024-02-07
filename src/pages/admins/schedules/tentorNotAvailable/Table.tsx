@@ -15,6 +15,7 @@ const header = [
     { label: 'tutor' },
     { label: 'start-date' },
     { label: 'until-date' },
+    { label: 'description' },
     { 
         label: 'Action',
         width: 'w-16'

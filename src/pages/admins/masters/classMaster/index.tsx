@@ -64,7 +64,7 @@ const ClassMasterPage = () => {
                     >
                         + {useLocatioanName().pathName}
                     </Button>
-                    <div className="w-4/12 relative text-gray-600">
+                    <div className="w-6/12 md:w-4/12 relative text-gray-600">
                         <form onSubmit={handleSubmitFilter(onFilter)}>
                             <InputText
                                 className='rounded-xl'

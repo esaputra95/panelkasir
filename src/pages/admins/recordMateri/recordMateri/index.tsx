@@ -88,7 +88,7 @@ const RecordMateriPage = () => {
                             + {useLocatioanName().pathName}
                         </Button>
                     </div>
-                    <div className='w-4/12 flex items-center gap-2'>
+                    <div className="w-6/12 md:w-4/12 flex items-center relative text-gray-600">
                         <div className='w-full'>
                                 <AsyncSelect 
                                     className='w-full'

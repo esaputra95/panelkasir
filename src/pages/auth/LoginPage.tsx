@@ -10,8 +10,8 @@ const LoginPage = () => {
     } = useLogin()
     return (
         <div className='w-full h-screen flex bg-gray-100 justify-center items-center'>
-            <div className='w-6/12 rounded-lg bg-blue-200 flex justify-between'>
-                <div className='w-6/12 flex flex-col p-8 gap-y-4 justify-center items-center'>
+            <div className='w-full lg:w-6/12 rounded-lg bg-blue-200 lg:flex lg:justify-between'>
+                <div className='w-full lg:w-6/12 flex flex-col p-8 gap-y-4 justify-center items-center'>
                     <label className='font-semibold text-lg text-gray-700'>
                         Selamat Datang
                     </label>
@@ -19,9 +19,9 @@ const LoginPage = () => {
                         Selamat datang kembali, Silahkan masukkan Username dan Password untuk mengakses Aplikasi 
                     </label>
                 </div>
-                <div className='w-6/12 bg-white shadow-md rounded-r-lg p-8 space-y-4'>
+                <div className='w-full lg:w-6/12 bg-white shadow-md rounded-r-lg p-8 space-y-4'>
                     <label className='flex justify-center font-bold text-3xl  text-gray-700'>
-                        WELCOME
+                        MASUK
                     </label>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className='flex flex-col gap-y-4'>
