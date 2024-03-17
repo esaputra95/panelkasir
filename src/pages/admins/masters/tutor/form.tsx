@@ -6,7 +6,6 @@ import Spinner from '../../../../components/ui/Spinner';
 import { BsFillTrashFill } from 'react-icons/bs';
 import { Controller } from 'react-hook-form';
 import AsyncSelect from 'react-select/async';
-import { useCourse } from '../../../../hooks/fetch/master/useCourse';
 
 const FormTutor: FC<TutorFormProps> = (props) => {
     const { 
@@ -20,15 +19,16 @@ const FormTutor: FC<TutorFormProps> = (props) => {
         fields,
         append,
         remove,
-        control
+        control,
+        dataOptionCourse,
+        optionCourse,
+        getValues
     } = props;
 
-    const {t} = useTranslation()
+    console.log({dataOptionCourse});
+    
 
-    const {
-        optionCourse,
-        dataOptionCourse
-    } = useCourse()
+    const {t} = useTranslation()
     
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -117,7 +117,9 @@ const FormTutor: FC<TutorFormProps> = (props) => {
                                 </th>
                             </tr>
                         </thead>
+                        
                         <tbody>
+                        
                             {
                                 fields.map((fields, index)=> (
                                     <tr key={fields.id}>
@@ -129,15 +131,14 @@ const FormTutor: FC<TutorFormProps> = (props) => {
                                                     <AsyncSelect 
                                                         className='w-full'
                                                         {...field}
-                                                        isDisabled={idDetail?true:false}
                                                         cacheOptions
-                                                        defaultOptions
+                                                        defaultOptions={true}
                                                         loadOptions={optionCourse}
                                                         ref={(ref)=>ref}
                                                         defaultValue={ 
                                                             dataOptionCourse.filter(value=> 
-                                                                value.value === '1f0beda1-6dce-4e3c-aa71-5119284accbc'
-                                                            ) 
+                                                                value.value === getValues(`tentorSkills.${index}.courseId`)
+                                                            )
                                                         }
                                                     />
                                                 }

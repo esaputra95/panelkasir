@@ -42,7 +42,7 @@ const deleteData = async (url:string, id:string) => {
 const getDataById = async (url:string, id:string) => {
 	try {
 		const response = await api.get(`${url}/${id}`)
-		if(response.status===200) return response.data.data.course
+		if(response.status===200) return response.data.data.Course
 	} catch (error) {
 		return error
 	}

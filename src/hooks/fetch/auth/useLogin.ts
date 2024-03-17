@@ -45,11 +45,16 @@ export const useLogin = () => {
         mutate(data)
     }
 
+    const onForgotPassword = () => {
+        console.log('ayam');
+        
+    }
 
     return {
         onSubmit,
         errors,
         register,
-        handleSubmit
+        handleSubmit,
+        onForgotPassword
     }
 }

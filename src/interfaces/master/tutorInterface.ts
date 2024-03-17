@@ -1,6 +1,7 @@
-import { Control, FieldArrayWithId, FieldErrors, UseFieldArrayAppend, UseFieldArrayRemove, UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
+import { Control, FieldArrayWithId, FieldErrors, UseFieldArrayAppend, UseFieldArrayRemove, UseFormGetValues, UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
 import { ApiResponse, InfoResponse } from "../apiInfoInterface";
 import { TutorSkillInterface } from "./tutorSkillInterface";
+import { OptionSelectInterface } from "../globalInterface";
 
 export interface TutorInterface {
     id?: string
@@ -43,7 +44,10 @@ export type TutorFormProps = {
     append: UseFieldArrayAppend<TutorInterface, "tentorSkills">;
     fields: FieldArrayWithId<TutorInterface, "tentorSkills", "id">[];
     remove: UseFieldArrayRemove;
-    control: Control<TutorInterface>
+    control: Control<TutorInterface>;
+    getValues: UseFormGetValues<TutorInterface>;
+    dataOptionCourse: OptionSelectInterface[];
+    optionCourse: (data: string) => Promise<OptionSelectInterface[]>
 }
 
 interface Info {

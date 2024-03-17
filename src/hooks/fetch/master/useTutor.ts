@@ -39,16 +39,19 @@ export const useTutor = () => {
         reset,
         register,
         handleSubmit,
+        getValues,
         control,
         formState: { errors },
     } = useForm<TutorInterface>({
-        resolver: yupResolver(TutorSchema().schema)
+        resolver: yupResolver(TutorSchema().schema),
+        defaultValues:{
+            ...TutorDummy
+        }
     })
 
     const {
         register:registerFilter,
         handleSubmit:handleSubmitFilter,
-        // formState: { errors:errorsFilter },
     } = useForm<TutorFilter>()
 
     const { fields, append, remove } = useFieldArray({
@@ -105,16 +108,18 @@ export const useTutor = () => {
 
     const { mutate, isLoading:isLoadingMutate } = useMutation({
         mutationFn: (data:TutorInterface)=> postData(Tutor.post, data),
-        onSuccess: () => {
+        onSuccess: (data) => {
             setModalForm((state)=>({
                 ...state,
                 visible: false
             }))
-            refetch()
-            reset()
-            toast.success(t("success-save"), {
-                position: toast.POSITION.TOP_CENTER
-            });
+            console.log({data});
+            
+            // refetch()
+            // reset()
+            // toast.success(t("success-save"), {
+            //     position: toast.POSITION.TOP_CENTER
+            // });
         },
         onError: async (errors) => {
             const err = errors as AxiosError<DataMessageError>
@@ -214,6 +219,7 @@ export const useTutor = () => {
         reset,
         register,
         handleSubmit,
+        getValues,
         modalForm, 
         setModalForm,
         onDelete,

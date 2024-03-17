@@ -1,4 +1,5 @@
 import AuthLayout from "../components/layouts/AuthLayout";
+import ForgotPassword from "../pages/auth/ForgotPassword";
 import LoginPage from "../pages/auth/LoginPage";
 
 const AuthRouters = [
@@ -9,7 +10,11 @@ const AuthRouters = [
 			{
 				path: "/login",
 				element: <LoginPage />
-			}
+			},
+			{
+				path: "/forgot-password",
+				element: <ForgotPassword />
+			},
         ],
     },
 ]

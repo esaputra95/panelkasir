@@ -7,6 +7,8 @@ import { Button, InputText } from '../../../../components/input'
 import useLocatioanName from '../../../../utils/location'
 import ModalConfirm from '../../../../components/ui/modal/ModalConfirm'
 import { t } from 'i18next'
+import { useCourse } from '../../../../hooks/fetch/master/useCourse'
+import { useEffect } from 'react'
 
 const TutorPage = () => {
     const { 
@@ -16,6 +18,7 @@ const TutorPage = () => {
         isLoadingMutate,
         register,
         onSubmit,
+        getValues,
         handleSubmit,
         modalForm,
         setModalForm,
@@ -35,6 +38,16 @@ const TutorPage = () => {
         control
     } = useTutor()
 
+
+    const {
+        optionCourse,
+        dataOptionCourse
+    } = useCourse()
+
+    useEffect(()=> {
+        optionCourse
+    },[])
+
     return (
         <div className='w-full'>
             <ModalConfirm data={modalConfirm.modalConfirm}  />
@@ -52,10 +65,13 @@ const TutorPage = () => {
                     handleSubmit={handleSubmit}
                     register={register}
                     onSubmit={onSubmit}
+                    getValues={getValues}
                     fields={fields}
                     append={append}
                     remove={remove}
                     control={control}
+                    optionCourse={optionCourse}
+                    dataOptionCourse={dataOptionCourse}
                 />
             </ModalForm>
             <div className='w-full'>

@@ -68,7 +68,7 @@ const useAccess = () => {
     const parseToken = () => {
         const token_ = window.localStorage.getItem('token')??'';
         const newToken = jwtDecode<Token>(token_);
-        if(access[newToken.userType].includes(pathNameOriginal)){
+        if(access[newToken.userType]?.includes(pathNameOriginal)){
             setAccessUser({loading: false, status: 1})
         } else{
             setAccessUser({loading: false, status: -1})

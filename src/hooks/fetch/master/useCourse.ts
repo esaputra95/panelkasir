@@ -77,6 +77,8 @@ export const useCourse = () => {
     const { mutate:mutateById } = useMutation({
         mutationFn: (id:string) => getDataById(Course.getById, id),
         onSuccess:(data:CourseInterface)=>{
+            console.log({data});
+            
             reset(data)
             setModalForm((state)=>({
                 ...state,

@@ -43,6 +43,11 @@ const LoginPage = () => {
                             >
                                 Login
                             </Button>
+                            <label
+                                onClick={()=>{}}
+                                className='font-light text-sm text-gray-700'>
+                                Lupa password?
+                            </label>
                         </div>
                     </form>
                 </div>

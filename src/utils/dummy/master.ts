@@ -1,7 +1,16 @@
 export const TutorDummy = {
     name: '',
-    username:'',
-    password:''
+    email: '',
+    username: '',
+    // userType: 'tentor',
+    nickname: '',
+    phone: '',
+    tentorSkills: [
+        {
+            id: '',
+            tentorId: '',
+        }
+    ]
 }
 
 export const classTypeDummy = {

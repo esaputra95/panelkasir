@@ -38,13 +38,13 @@ const FormMajor: FC<MajorFormProps> = (props) => {
                     {...register("name")}
                     errors={errors.code?.message} 
                     readOnly={idDetail?true:false} 
-                    label={t("code")} 
+                    label={t("name")} 
                 />
                 <InputText
                     {...register("description")}
                     errors={errors.code?.message} 
                     readOnly={idDetail?true:false} 
-                    label={t("code")} 
+                    label={t("description")} 
                 />
             </div>
             <div className='w-full flex justify-end space-x-2'>
