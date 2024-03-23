@@ -1,4 +1,4 @@
-import { Control, SubmitHandler, UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
+import { Control, SubmitHandler, UseFormGetValues, UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
 import { OptionSelectInterface } from "../globalInterface";
 
 export interface RecordMateriReport {
@@ -22,7 +22,8 @@ export interface RecordMateriReportFilter {
 }
 
 export interface DataRecordMateriInterface {
-    dataRecordMateriReport: [][] | undefined
+    dataRecordMateriReport: [][] | undefined;
+    getValues: UseFormGetValues<RecordMateriReport>
 }
 
 export interface ResponseApi {

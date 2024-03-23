@@ -1,4 +1,4 @@
-import {  useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import { changeStatus, deleteData, getData, getDataById, postData, updateModule } from "../../models/registers/registrationModel"
 import { useEffect, useState } from "react"
 import { ApiResponseRegistration, ApiResponseUpdateRegistration, RegistrationInterface } from "../../../interfaces/registers/registrationInterface"
@@ -16,7 +16,7 @@ import RegisterSchema from "../../../schema/registers/registrationSchema"
 import { yupResolver } from "@hookform/resolvers/yup"
 
 export const useRegistration = () => {
-    const [ query, setQuery ] = useState<{name:string}>()
+    const [ query, setQuery ] = useState<{name:string, status?:string}>()
     const [ idDetail, setIdDetail ] = useState<string | null>()
     const [ dataConfirmInvoice, setDataConfirmInvoice ] = useState<RegistrationInterface>()
     const [ stateConfirm, setStateConfirm ] = useState<{id?:string; status?:number}>()
@@ -48,7 +48,7 @@ export const useRegistration = () => {
     const {
         register:registerFilter,
         handleSubmit:handleSubmitFilter,
-    } = useForm<{name:string}>();
+    } = useForm<{name:string, status?:string}>();
 
     useEffect(()=> {
         refetch()
@@ -74,11 +74,23 @@ export const useRegistration = () => {
         }
     })
 
+    const onSort = async (label:string) => {
+        console.log({label});
+        
+    }
+
     const optionRegistration = async () => {
         // const response = await getDataSelect(Registration.getSelect, {name: data});
         // if(response.status){
         //     return response.data.classType
         // }
+    }
+
+    const onChangeFilter = async (name:string, value:string) => {
+        setQuery((state)=>({
+            ...state,
+            [name]:value
+        }));
     }
 
     const { mutate:mutateById } = useMutation({
@@ -322,6 +334,8 @@ export const useRegistration = () => {
         updateModuleStatus,
         registerFilter,
         handleSubmitFilter,
-        onFilter
+        onFilter,
+        onSort,
+        onChangeFilter
     }
 }

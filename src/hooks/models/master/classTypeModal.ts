@@ -9,8 +9,13 @@ interface ParamClassTypeInterface extends ClassTypeSearchInterface {
 }
 
 const getData = async (url:string, params:ParamClassTypeInterface) => {
-	const response = await api.get(url, { params: { ...params } });
-	return response.data
+	try {
+		const response = await api.get(url, { params: { ...params } });
+		return response.data
+	} catch (error) {
+		throw error as AxiosError
+	}
+	
 };
 
 const postData = async (url:string, data:ClassTypeInterface) => {

@@ -25,9 +25,6 @@ const FormTutor: FC<TutorFormProps> = (props) => {
         getValues
     } = props;
 
-    console.log({dataOptionCourse});
-    
-
     const {t} = useTranslation()
     
     return (

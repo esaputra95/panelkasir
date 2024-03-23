@@ -12,7 +12,8 @@ const RecordMateriReportPage = () => {
 		handleSubmit,
 		onSubmit,
 		dataRecordMateriReport,
-		onDownload
+		onDownload,
+		getValues
 	} = useRecordMateriReport();
 
 	const {
@@ -41,6 +42,7 @@ const RecordMateriReportPage = () => {
 			/>
 			<Data
 				dataRecordMateriReport={dataRecordMateriReport} 
+				getValues={getValues}
 			/>
 		</div>
 	)

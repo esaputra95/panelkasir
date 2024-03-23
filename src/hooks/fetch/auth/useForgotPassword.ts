@@ -24,9 +24,7 @@ const useForgotPassword = () => {
     const { mutate } = useMutation({
         mutationFn: async ( data:ForgotPasswordInterface ) => await forgotPasswordModel(auth.forgotPassword, data),
         onSuccess: (data)=> {
-            if(data.status){
-                
-            }else{
+            if(!data.status){
                 setError('email', {
                     message:'Kamu memasukkan email yang salah'
                 })

@@ -64,7 +64,7 @@ const StudyWillFInish:FC<StudyWillFinishProps> = (props) => {
                             }
                         </td>
                         <td className='p-3'>
-                            <a href={`https://wa.me/${value.students.phone}`} target="_blank">
+                            <a href={`https://wa.me/${value?.students?.phone}`} target="_blank">
                                 <BsWhatsapp 
                                     className='text-green-500 h-6 w-6'
                                 />

@@ -108,18 +108,16 @@ export const useTutor = () => {
 
     const { mutate, isLoading:isLoadingMutate } = useMutation({
         mutationFn: (data:TutorInterface)=> postData(Tutor.post, data),
-        onSuccess: (data) => {
+        onSuccess: () => {
             setModalForm((state)=>({
                 ...state,
                 visible: false
             }))
-            console.log({data});
-            
-            // refetch()
-            // reset()
-            // toast.success(t("success-save"), {
-            //     position: toast.POSITION.TOP_CENTER
-            // });
+            refetch()
+            reset()
+            toast.success(t("success-save"), {
+                position: toast.POSITION.TOP_CENTER
+            });
         },
         onError: async (errors) => {
             const err = errors as AxiosError<DataMessageError>

@@ -10,6 +10,7 @@ import { RegistrationTableInterface } from "../../../../interfaces/registers/reg
 import { useTranslation } from "react-i18next";
 import Skeleton from "../../../../components/ui/Skeleton";
 import { useNavigate } from "react-router-dom";
+import { SelectOption } from "../../../../components/input";
 
 type TableProps = {
     data?: RegistrationTableInterface[],
@@ -21,7 +22,9 @@ type TableProps = {
     onDetail:(id:string)=>void,
     sendMessage: (phone: string)=> void,
     changeStatusInvoice: (id:string, status:number) => void;
-    updateModuleStatus: (id: string) => Promise<void>
+    updateModuleStatus: (id: string) => Promise<void>;
+    onSort: (label: string) => Promise<void>;
+    onChangeFilter: (name: string, value: string) => Promise<void>
 }
 
 const header = [
@@ -33,8 +36,14 @@ const header = [
     { label: 'name' },
     { label: 'packages' },
     { label: 'sessions'},
-    { label: 'status'},
-    { label: 'module'},
+    { 
+        label: 'status',
+        sort: true
+    },
+    {
+        label: 'module',
+        sort: true
+    },
     { 
         label: 'Action',
         width: 'w-16'
@@ -50,26 +59,56 @@ const Table: FC<TableProps> = (props) => {
         onDelete,
         sendMessage,
         changeStatusInvoice,
-        updateModuleStatus
+        updateModuleStatus,
+        onSort,
+        onChangeFilter
     } = props;
     const { t } = useTranslation()
     const navigate = useNavigate()
     const number:number = ((page-1)*limit)
     return (
-        <div className="relative overflow-x-auto max-h-100">
+        <div className="relative overflow-x-auto max-h-screen">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         {
                             header.map((value)=>(
                                 <th key={Math.random()} scope="col" className={`px-6 py-3 ${value.width ?? ''}`}>
-                                    {t(value.label)}
+                                    {
+                                        value.sort? (<span className="hover:cursor-pointer" onClick={()=>onSort(value.label)}>{t(value.label)}</span>) : t(value.label)
+                                    }
+                                    
                                 </th>
                             ))
                         }
                     </tr>
                 </thead>
                 <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td className="px-4">
+                            <SelectOption
+                                option={[
+                                    {label:'active', value:'active'},
+                                    {label:'non-active', value:'non-active'},
+                                ]}
+                                onChange={(e)=>onChangeFilter('status', e.target.value)}
+                            />
+                        </td>
+                        <td className="px-4">
+                            <SelectOption
+                                option={[
+                                    {label:'Dikirim', value:'send'},
+                                    {label:'Ditunda', value:'pending'},
+                                ]}
+                                onChange={(e)=>onChangeFilter('isModule', e.target.value)}
+                            />
+                        </td>
+                        <td></td>
+                    </tr>
                     {
                         !isFetching && data && data.length > 0 ? data.map((value, index)=>(
                             <tr key={value.id} 
@@ -99,14 +138,20 @@ const Table: FC<TableProps> = (props) => {
                                     (<span className="bg-green-200 p-1 rounded-md text-white">dikirim</span>) : 
                                     (<span className="bg-red-200 p-1 rounded-md text-white">tertunda</span>) }
                                 </td>
-                                <td className="px-6 py-4 flex">
+                                <td className="grid grid-cols-3 gap-1">
                                     <span title="Change Status" 
-                                        className="p-1.5 bg-cyan-100 hover:bg-cyan-200 hover:cursor-pointer rounded-full" 
+                                        className="p-1.5 bg-cyan-100 hover:bg-cyan-200 hover:cursor-pointer rounded-full flex justify-center items-center" 
                                         onClick={()=> changeStatusInvoice(value.id ?? '', value.status ?? 0)}
                                     >
                                             <BsArrowRightCircleFill className='text-cyan-600' />
                                     </span>
                                     <span title="Send Chat"
+                                        className="p-1.5 bg-deep-purple-100 hover:bg-purple-200 hover:cursor-pointer rounded-full"
+                                        onClick={()=>sendMessage(value.students?.parentPhone ?? '')}
+                                    >
+                                        <BsWhatsapp className='text-purple-700' />
+                                    </span>
+                                    <span title="Chat Orang Tua"
                                         className="p-1.5 bg-green-100 hover:bg-green-200 hover:cursor-pointer rounded-full"
                                         onClick={()=>sendMessage(value.students?.phone ?? '')}
                                     >

@@ -39,9 +39,10 @@ const postData = async (url:string, data:SessionInputForm) => {
 const deleteData = async (url:string, id:string) => {
 	try {
 		const response = await api.delete(`${url}/${id}`)
-		if(response.status===204) return true
+		if(response.status===204) return response
 	} catch (error) {
-		return error
+		const err = error as AxiosError
+		throw err
 	}
 }
 

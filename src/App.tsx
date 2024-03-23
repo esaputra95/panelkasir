@@ -10,7 +10,7 @@ const queryClient = new QueryClient()
 const App = () => {
     return (
         <QueryClientProvider client={queryClient}>
-            <ToastContainer autoClose={3000} draggable={true} />
+            <ToastContainer className='w-6/12' autoClose={3000} draggable={true} />
             <ThemeRouters />
         </QueryClientProvider>
     )

@@ -134,7 +134,7 @@ export const useClassType = () => {
         },
         onError:(error) => {
             const err = error as AxiosError
-            toast.success(`${err}`, {
+            toast.error(`${err}`, {
                 position: toast.POSITION.TOP_CENTER
             });
         }

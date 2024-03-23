@@ -7,7 +7,7 @@ const getData = async (url:string) => {
         const response = await api.get(url);
         return response.data
     } catch (error) {
-        return error as AxiosError
+        throw error as AxiosError
     }
 }
 

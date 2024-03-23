@@ -110,6 +110,7 @@ const useRecordMateriReport = () => {
 
         let newHead:string[]=[];
         for (const value of helperReport.headerRecordMateriReport) {
+            if(value==="students" && getValues('student')) continue
             newHead=[...newHead,
                 t(value)
             ]
@@ -120,7 +121,7 @@ const useRecordMateriReport = () => {
             ],
             margin: { left:12, right:12, top:topTableContent },
             theme:'grid',
-            styles:{halign:'center'},
+            styles:{halign:'left'},
             body: data??'',
         })
         doc.save('LAPORAN RECORD MATERI.pdf')
@@ -149,7 +150,8 @@ const useRecordMateriReport = () => {
         onSubmit,
         isLoadingMutate,
         dataRecordMateriReport,
-        onDownload
+        onDownload,
+        getValues
     }
 }
 

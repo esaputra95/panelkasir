@@ -114,6 +114,7 @@ export const useSession = () => {
     useQuery<ApiResponseSession, AxiosError>({ 
         queryKey: ['schedule'], 
         networkMode: 'always',
+        refetchOnWindowFocus: false,
         queryFn: async () => await getData(SessionSchedule.get, 
             {
                 ...query, 
@@ -140,6 +141,7 @@ export const useSession = () => {
 
     const {data:dataGroup} = useQuery({
         queryKey: ['group'],
+        refetchOnWindowFocus: false,
         queryFn: async () => {
             const data:ApiResponseUpdateStudyGroup = await getDataByIdGroup(StudyGroup.getById, queryUrl.get('id')??'')
             return data.data
@@ -251,28 +253,65 @@ export const useSession = () => {
     const {mutate:mutateDelete} = useMutation({
         mutationFn: (id:string) => deleteData(SessionSchedule.delete, id),
         onSuccess: () => {
+            refetch()
+            toast.success(t("success-delete"), {
+                position: toast.POSITION.TOP_CENTER
+            });
             modalConfirm.setModalConfirm({
                 ...modalConfirm.modalConfirm,
                 loading: false,
                 visible: false
             })
-            refetch()
-            toast.success(t("success-delete"), {
-                position: toast.POSITION.TOP_CENTER
-            });
         },
         onError:(error) => {
-            const err = error as AxiosError
-            toast.success(`${err}`, {
+            modalConfirm.setModalConfirm({
+                ...modalConfirm.modalConfirm,
+                loading: false,
+                visible: false
+            })
+            const err = error as AxiosError<DataMessageError>
+            toast.error(`${err.response?.data?.errors[0].msg}`, {
                 position: toast.POSITION.TOP_CENTER
             });
         }
     })
 
-    const onSubmit: SubmitHandler<SessionInputForm> = (data) => {
-        mutate({
-            ...data,
-        })
+    const onSubmit: SubmitHandler<SessionInputForm> = async (data) => {
+        const check = await checkOverlap(data.time);
+        if(check.status){
+            setError(`time.${check.index??0}.date`, {
+                message: 'Jadwal ini bentrok'
+            })
+            setError(`time.${check.index2??0}.date`, {
+                message: 'Jadwal ini bentrok'
+            })
+        }else{
+            mutate({
+                ...data,
+            })
+        }
+    }
+
+    const checkOverlap = async (data:TimeForm[]) =>{
+        for (let i = 0; i < data.length; i++) {
+            for (let j = i + 1; j < data.length; j++) {
+                const check = await isOverlap(data[i].date, data[j].date)
+                if(check) return {status:true, index:i, index2:j}
+            }
+        }
+        return {
+            status:false
+        };
+    }
+
+    const isOverlap = async (time1:string, time2:string) => {
+        const start1 = new Date(time1);
+        const end1 = new Date(new Date(time1).getTime() + 90 * 60000);
+        const start2 = new Date(time2);
+        const end2 = new Date(new Date(time2).getTime() + 90 * 60000);
+    
+        // Memeriksa apakah ada tumpang tindih
+        return !(end1 <= start2 || start1 >= end2);
     }
 
     const onDelete = (id: string) => {
@@ -375,6 +414,7 @@ export const useSession = () => {
             roomId: getValues(`time.${index}.roomId`),
             courseId : getValues(`time.${index}.courseId`) 
         });
+        
         if(status){
             setError(`time.${index}.date`, {
                 type:'value',

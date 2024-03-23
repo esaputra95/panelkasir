@@ -146,7 +146,7 @@ const FormSession: FC<SessionFormProps> = (props) => {
                                             {label:'Try-Out', value:'try_out'}
                                         ]}
                                         label={t('study-types')}
-                                        value={getValues(`time.${index}.type`)}
+                                        // value={getValues(`time.${index}.type`)}
                                     />
                                 </div>
                                 <div className='w-full'>

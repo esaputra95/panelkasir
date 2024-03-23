@@ -67,6 +67,7 @@ const FormStudent: FC<StudentFormProps> = (props) => {
                 />
                 <SelectOption 
                     {...register('gender')}
+                    label={t('gender')}
                     option={[
                         {value:'laki_laki', label:'Laki-Laki'},
                         {value:'perempuan', label:'Perempuan'},

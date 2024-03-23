@@ -134,7 +134,7 @@ export interface Info {
 
 export interface SessionTableInterface extends Omit<SessionInterface, 'tentor' | 'room' | 'course'> {
     courses: CourseInterface;
-    rooms: RoomInterface;
+    rooms?: RoomInterface;
     tentor: TutorInterface;
     scheduleDetails: SessionDetailTableInterface
 }

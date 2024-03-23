@@ -9,8 +9,12 @@ interface ParamMaterialInterface extends MaterialSearchInterface {
 }
 
 const getData = async (url:string, params:ParamMaterialInterface) => {
-	const response = await api.get(url, { params: { ...params } });
-	return response.data
+	try {
+		const response = await api.get(url, { params: { ...params } });
+		return response.data
+	} catch (error) {
+		throw error as AxiosError
+	}
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -27,7 +31,7 @@ const postData = async (url:string, data:any) => {
 			throw response;
 		}
 	} catch (error) {
-		return error;
+		throw error as AxiosError
 	}
 }
 
@@ -36,7 +40,7 @@ const deleteData = async (url:string, id:string) => {
 		const response = await api.delete(`${url}/${id}`)
 		if(response.status===204) return true
 	} catch (error) {
-		return error
+		throw error as AxiosError
 	}
 }
 
@@ -45,7 +49,7 @@ const getDataById = async (url:string, id:string) => {
 		const response = await api.get(`${url}/${id}`)
 		if(response.status===200) return response.data.data.tutor
 	} catch (error) {
-		return error
+		throw error as AxiosError
 	}
 }
 

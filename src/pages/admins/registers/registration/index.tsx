@@ -46,6 +46,8 @@ const RegistrationPage = () => {
         registerFilter,
         handleSubmitFilter,
         onFilter,
+        onSort,
+        onChangeFilter
     } = useRegistration()
 
     const {
@@ -146,6 +148,8 @@ const RegistrationPage = () => {
                     sendMessage={sendMessage}
                     changeStatusInvoice={changeStatusInvoice}
                     updateModuleStatus={updateModuleStatus}
+                    onSort={onSort}
+                    onChangeFilter={onChangeFilter}
                 />
                 <TablePaging
                     page={page.page}
