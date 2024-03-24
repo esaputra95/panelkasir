@@ -79,7 +79,7 @@ const FormStudyGroup: FC<StudyGroupFormProps> = (props) => {
                     />
                     <span className='text-red-300'>
                     {
-                        errors.studyGroup?.classId?.message ?? null
+                        errors.studyGroup?.guidanceTypeId?.message ?? null
                     }
                     </span>
                 </div>

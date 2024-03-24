@@ -69,9 +69,6 @@ export const useStudyGroup = () => {
         defaultValues:  StudyGroupDummy
     });
 
-    console.log({errors});
-    
-
     const { fields, append, remove } = useFieldArray({
         control,
         name: "studyGroupDetails"
