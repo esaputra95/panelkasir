@@ -33,6 +33,7 @@ import { handleMessageErrors } from "../../../services/handleErrorMessage"
 import { OptionSelectInterface } from "../../../interfaces/globalInterface"
 import { OptionDummy } from "../../../utils/dummy/setting"
 import { useNavigate } from "react-router-dom"
+import { SingleValue } from "react-select"
 
 export const useStudyGroup = () => {
     const [ query, setQuery ] = useState<StudentGroupQueryInterface>()
@@ -60,12 +61,16 @@ export const useStudyGroup = () => {
         control,
         setValue,
         getValues,
+
+        trigger,
         formState: { errors },
     } = useForm<StudyGroupInputForm>({
         resolver: yupResolver(StudyGroupSchema().schema),
         defaultValues:  StudyGroupDummy
-        
     });
+
+    console.log({errors});
+    
 
     const { fields, append, remove } = useFieldArray({
         control,
@@ -125,25 +130,19 @@ export const useStudyGroup = () => {
 
     const { mutate, isLoading:isLoadingMutate } = useMutation({
         mutationFn: (data:StudyGroupInputForm)=> postData(StudyGroup.post, data),
-        onSuccess: async (data) => {
-            if(data.status){
-                setModalForm((state)=>({
-                    ...state,
-                    visible: false
-                }))
-                refetch()
-                reset({
-                    ...StudyGroupDummy
-                })
-                toast.success(t("success-save"), {
-                    position: toast.POSITION.TOP_CENTER
-                });
-            }else{
-                const message = await handleMessageErrors(data.response.data.errors)
-                toast.error(message, {
-                    position: toast.POSITION.TOP_CENTER
-                });
-            }
+        onSuccess: async () => {
+            setModalForm((state)=>({
+                ...state,
+                visible: false
+            }))
+            refetch()
+            reset({
+                ...StudyGroupDummy
+            })
+            toast.success(t("success-save"), {
+                position: toast.POSITION.TOP_CENTER
+            });
+            
         },
         onError: async (errors) => {
             const err = errors as AxiosError<DataMessageError>
@@ -171,14 +170,21 @@ export const useStudyGroup = () => {
             });
         },
         onError:(error) => {
-            const err = error as AxiosError
-            toast.success(`${err}`, {
+            modalConfirm.setModalConfirm({
+                ...modalConfirm.modalConfirm,
+                loading: false,
+                visible: false
+            })
+            const err = error as AxiosError<DataMessageError>
+            toast.error(`${err.response?.data?.errors[0].msg}`, {
                 position: toast.POSITION.TOP_CENTER
             });
         }
     })
     
     const onSubmit: SubmitHandler<StudyGroupInputForm> = (data) => {
+        console.log({data});
+        
         if(data.studyGroup.total<data.studyGroupDetails.length){
             toast.error('Jumlah siswa melebihi jumlah total kuota', {
                 position: toast.POSITION.TOP_CENTER
@@ -240,6 +246,19 @@ export const useStudyGroup = () => {
         navigate(`/schedule/sessions?id=${id}`)
     }
 
+    const onChangeStudyGroupDetail = (key: 'studentId', index:number, event: SingleValue<OptionSelectInterface>)=> {
+        setValue(`studyGroupDetails.${index}.${key}`, event?.value??'')
+        if(key==="studentId"){
+            setValue(`studyGroupDetails.${index}.student`, {label: event?.label??'', value:event?.value??''})
+        }
+    }
+
+    const onChangeStudyGroup = (key: 'classId' | 'guidanceTypeId', event: SingleValue<OptionSelectInterface>)=> {
+        setValue(`studyGroup.${key}`, event?.value??'')
+        trigger('studyGroup.classId')
+        trigger('studyGroup.guidanceTypeId')
+    }
+
     return {
         dataStudyGroup,
         isFetching,
@@ -268,6 +287,8 @@ export const useStudyGroup = () => {
         remove,
         updateStatus,
         dataOptionStudyGroup,
-        openSchedule
+        openSchedule,
+        onChangeStudyGroup,
+        onChangeStudyGroupDetail
     }
 }

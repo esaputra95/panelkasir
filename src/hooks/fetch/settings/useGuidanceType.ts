@@ -78,12 +78,10 @@ export const useGuidanceType = () => {
         }
     })
 
-    const optionGuidanceType = async (data:string) => {
+    const optionGuidanceType = async (data: string): Promise<OptionSelectInterface[]> => {
         const response = await getDataSelect(GuidanceType.getSelect, {name: data});
-        if(response.status){
-            setDataOptionGuidanceType(response.data.guidanceType)
-            return response.data.guidanceType
-        }
+        setDataOptionGuidanceType(response.data.guidanceType)
+        return response.data.guidanceType
     }
 
     const { mutate:mutateById } = useMutation({

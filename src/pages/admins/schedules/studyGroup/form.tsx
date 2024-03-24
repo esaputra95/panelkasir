@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 import { 
     InputText,
     Button,
@@ -32,12 +32,12 @@ const FormStudyGroup: FC<StudyGroupFormProps> = (props) => {
         getValues,
         dataOptionGuidanceType,
         dataOptionStudent,
-        updateStatus
+        updateStatus,
+        onChangeStudyGroup,
+        onChangeStudyGroupDetail,
     } = props;
     const {t} = useTranslation()
-    useEffect(()=> {
 
-    }, [optionClassMaster])
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className='grid grid-cols-2 gap-2'>
@@ -65,8 +65,9 @@ const FormStudyGroup: FC<StudyGroupFormProps> = (props) => {
                                 {...field}
                                 cacheOptions
                                 loadOptions={optionGuidanceType}
+                                onChange={(e)=>onChangeStudyGroup('guidanceTypeId', e)}
                                 defaultOptions
-                                defaultValue={ updateStatus ?
+                                value={ updateStatus ?
                                     dataOptionGuidanceType.filter(
                                         value=> value.value === getValues('studyGroup.guidanceTypeId')) 
                                     : undefined
@@ -88,21 +89,23 @@ const FormStudyGroup: FC<StudyGroupFormProps> = (props) => {
                         name="studyGroup.class"
                         control={control}
                         render={({ field }) => 
-                        <AsyncSelect  className='w-full'
-                            {...field}
-                            cacheOptions
-                            loadOptions={optionClassMaster}
-                            defaultOptions
-                            placeholder='Select...'
-                            defaultValue={ updateStatus ?
-                                dataOptionClassMaster.filter(
-                                    value=> value.value === getValues('studyGroup.classId')) 
-                                : undefined
-                            }
-                            ref={(ref)=>ref}
-                        />
+                            <AsyncSelect
+                                className='w-full'
+                                {...field}
+                                cacheOptions
+                                defaultOptions={true}
+                                loadOptions={optionClassMaster}
+                                onChange={(e)=>onChangeStudyGroup('classId', e)}
+                                placeholder='Select...'
+                                value={dataOptionClassMaster.filter(value=> 
+                                        value.value === getValues(`studyGroup.classId`)
+                                    )
+                                }
+                                ref={(ref)=> ref}
+                            />
                         }
                     />
+                    
                     <span className='text-red-300'>
                     {
                         errors.studyGroup?.classId?.message ?? null
@@ -140,6 +143,7 @@ const FormStudyGroup: FC<StudyGroupFormProps> = (props) => {
                                             {...field}
                                             cacheOptions
                                             loadOptions={optionStudent}
+                                            onChange={(e)=> onChangeStudyGroupDetail('studentId', index, e)}
                                             defaultOptions
                                             placeholder='Select...'
                                             defaultValue={ updateStatus ? dataOptionStudent.filter(value=> 
@@ -152,7 +156,7 @@ const FormStudyGroup: FC<StudyGroupFormProps> = (props) => {
                                 />
                                 <span className='text-red-300'>
                                 {
-                                    errors.studyGroupDetails?.[index]?.student?.message ?? null
+                                    errors.studyGroupDetails?.[index]?.studentId?.message ?? null
                                 }
                                 </span>
                             </div>

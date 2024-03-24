@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from 'react'
 import { Controller } from 'react-hook-form';
 import { GroupBase, OptionsOrGroups } from 'react-select';

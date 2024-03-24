@@ -136,6 +136,7 @@ export const useRecordMateri = () => {
                 reset({
                     id: recordMateri.id,
                     date: moment(recordMateri.date).format('YYYY-MM-DD'),
+                    date2: moment(recordMateri.date).format('YYYY-MM-DD'),
                     studyGroupId: recordMateri.scheduleDetails?.schedules.studyGroupId,
                     tentorId: recordMateri.tentorId,
                     detail: [

@@ -402,6 +402,11 @@ export const useSession = () => {
         }
     })
 
+    const isWeekday = (date:Date) => {
+        const day = date.getDay();
+        return day === 0;
+    };
+
     const handleOnChangeTime = async (
         index:number,
         key: keyof TimeForm,
@@ -414,13 +419,28 @@ export const useSession = () => {
             roomId: getValues(`time.${index}.roomId`),
             courseId : getValues(`time.${index}.courseId`) 
         });
-        
-        if(status){
-            setError(`time.${index}.date`, {
-                type:'value',
-                message: 'Jadwal sudah digunakan'
-            })
-        }else{
+        try {
+            if(status){
+                setError(`time.${index}.date`, {
+                    type:'value',
+                    message: 'Jadwal sudah digunakan'
+                })
+            }else{
+                if(key==='date'){
+                    const checkDate = isWeekday(new Date(value));
+                    if(checkDate){
+                        setError(`time.${index}.date`, {
+                            type:'value',
+                            message: 'Hari libur tidak boleh dipilih'
+                        })
+                    }else{
+                        throw new Error()
+                    }
+                }else{
+                    throw new Error()
+                }
+            }
+        } catch (error) {
             clearErrors(`time.${index}.date`)
         }
     }

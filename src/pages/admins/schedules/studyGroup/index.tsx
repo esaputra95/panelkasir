@@ -9,6 +9,7 @@ import ModalConfirm from '../../../../components/ui/modal/ModalConfirm'
 import { useStudent } from '../../../../hooks/fetch/master/useStudent'
 import { useClassMaster } from '../../../../hooks/fetch/master/useClassMaster'
 import { useGuidanceType } from '../../../../hooks/fetch/settings/useGuidanceType'
+import { useEffect } from 'react'
 
 const StudyGroupPage = () => {
     const { 
@@ -35,7 +36,9 @@ const StudyGroupPage = () => {
         setValue,
         getValues,
         updateStatus,
-        openSchedule
+        openSchedule,
+        onChangeStudyGroup,
+        onChangeStudyGroupDetail
     } = useStudyGroup()
 
     const { 
@@ -52,7 +55,10 @@ const StudyGroupPage = () => {
         optionClassMaster,
         dataOptionClassMaster
     } = useClassMaster()
-    
+
+    useEffect(()=> {
+        optionClassMaster
+    },[])
 
     return (
         <div className='w-full'>
@@ -84,6 +90,8 @@ const StudyGroupPage = () => {
                     dataOptionGuidanceType={dataOptionGuidanceType}
                     dataOptionStudent={dataOptionStudent}
                     updateStatus={updateStatus}
+                    onChangeStudyGroup={onChangeStudyGroup}
+                    onChangeStudyGroupDetail={onChangeStudyGroupDetail}
                 />
             </ModalForm>
             <div className='w-full'>

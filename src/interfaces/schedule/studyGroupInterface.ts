@@ -14,14 +14,15 @@ import { OptionSelectInterface } from "../globalInterface";
 import { StudyGroupDetailInterface } from "./studyGroupDetailInterface";
 import { ClassMasterInterface } from "../master/classMasterInterface";
 import { GuidanceTypeInterface } from "../settings/guidanceTypeInterface";
+import { SingleValue } from "react-select";
 
 export interface StudyGroupInterface {
     id?: string
     name: string
-    classId?: string | null
-    class: OptionSelectInterface
-    guidanceTypeId?: string | null
-    guidanceType: OptionSelectInterface
+    classId: string
+    class?: OptionSelectInterface
+    guidanceTypeId: string
+    guidanceType?: OptionSelectInterface
     total: number
     userCreate?: string | null
     createdAt?: Date | null
@@ -58,7 +59,9 @@ export type StudyGroupFormProps = {
     dataOptionClassMaster: OptionSelectInterface[];
     setValue: UseFormSetValue<StudyGroupInputForm>;
     getValues: UseFormGetValues<StudyGroupInputForm>;
-    updateStatus: boolean
+    updateStatus: boolean,
+    onChangeStudyGroup: (key: 'classId' | 'guidanceTypeId', event: SingleValue<OptionSelectInterface>) => void
+    onChangeStudyGroupDetail: (key: 'studentId', index:number, event: SingleValue<OptionSelectInterface>) => void
 }
 
 export interface Info {
@@ -66,7 +69,7 @@ export interface Info {
     limit: number;
     total: number;
 }
-  
+
 export interface StudyGroupTableInterface extends Omit<StudyGroupInterface, 'classType' | 'classTypeId'> {
     classMaster: ClassMasterInterface;
     guidanceTypes: GuidanceTypeInterface;

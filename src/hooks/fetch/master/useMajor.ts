@@ -74,6 +74,8 @@ export const useMajor = () => {
     const { mutate:mutateById } = useMutation({
         mutationFn: (id:string) => getDataById(Major.getById, id),
         onSuccess:(data:MajorInterface)=>{
+            console.log({data});
+            
             reset(data)
             setModalForm((state)=>({
                 ...state,

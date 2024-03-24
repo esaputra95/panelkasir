@@ -51,8 +51,9 @@ const FormSession: FC<SessionFormProps> = (props) => {
         // dataOptionClassType,
         optionClassType
     } = props;
+
     const {t} = useTranslation()
-    
+
     const removeSessionDetail = (id:string, index:number) => {
         if(updateStatus){
             appendIdDeleteSessionDetail({

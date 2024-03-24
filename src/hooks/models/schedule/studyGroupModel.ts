@@ -14,15 +14,20 @@ type StudyGroupDetailPostInterface = Omit<StudyGroupDetailInterface, 'student'>
 type StudyGroupPostInterface = Omit<StudyGroupInterface, 'class' | 'guidanceType'>
 
 const getData = async (url:string, params:ParamStudyGroupInterface) => {
-	const response = await api.get(url, { params: { ...params } });
-	return response.data
+	try {
+		const response = await api.get(url, { params: { ...params } });
+		return response.data
+	} catch (error) {
+		throw error as AxiosError
+	}
 };
 
 const postData = async (url:string, data:StudyGroupInputForm) => {
 	try {
 		const studyGroup:StudyGroupPostInterface = {
-			classId: data.studyGroup.class.value,
-			guidanceTypeId: data.studyGroup.guidanceType.value,
+			...data.studyGroup,
+			classId: data.studyGroup.classId,
+			guidanceTypeId: data.studyGroup.guidanceTypeId,
 			name: data.studyGroup.name,
 			total: data.studyGroup.total
 		}
@@ -30,17 +35,24 @@ const postData = async (url:string, data:StudyGroupInputForm) => {
 		for (let index = 0; index < data.studyGroupDetails.length; index++) {
 			studyGroupDetail=[...studyGroupDetail,
 				{
-					studentId: data.studyGroupDetails[index].student.value
+					...data.studyGroupDetails[index],
+					studentId: data.studyGroupDetails[index].studentId
 				}
 			]
 		}
-		const response = await api.post(url, {
-			studyGroup: studyGroup,
-			studyGroupDetails: studyGroupDetail
-		});
-		return response.data
+		if(data.studyGroup.id){
+			return await api.put(`${url}/${data.studyGroup.id}`, {
+				studyGroup: studyGroup,
+				studyGroupDetails: studyGroupDetail
+			});
+		}else{
+			return await api.post(url, {
+				studyGroup: studyGroup,
+				studyGroupDetails: studyGroupDetail
+			});
+		}
 	} catch (error) {
-		return error;
+		throw error as AxiosError;
 	}
 }
 
@@ -49,7 +61,7 @@ const deleteData = async (url:string, id:string) => {
 		const response = await api.delete(`${url}/${id}`)
 		if(response.status===204) return true
 	} catch (error) {
-		return error
+		throw error as AxiosError
 	}
 }
 
@@ -58,7 +70,7 @@ const getDataById = async (url:string, id:string) => {
 		const response = await api.get(`${url}/${id}`)
 		if(response.status===200) return response.data
 	} catch (error) {
-		return error
+		throw error as AxiosError
 	}
 }
 
