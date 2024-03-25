@@ -5,11 +5,17 @@ import 'react-phone-number-input/style.css'
 import "./i18n";
 import { ToastContainer } from 'react-toastify';
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false
+        }
+    }
+})
 
 const App = () => {
     return (
-        <QueryClientProvider client={queryClient}>
+        <QueryClientProvider  client={queryClient} >
             <ToastContainer className='w-6/12' autoClose={3000} draggable={true} />
             <ThemeRouters />
         </QueryClientProvider>
