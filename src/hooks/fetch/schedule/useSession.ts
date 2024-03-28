@@ -98,8 +98,6 @@ export const useSession = () => {
         control,
         name: 'time'
     });
-    console.log({fieldDate});
-    
 
     const {
         append: appendIdDeleteSessionDetail
@@ -149,6 +147,8 @@ export const useSession = () => {
             return data.data
         },
         onSuccess: (data:StudyGroupInputForm)=> {
+            console.log('sampai sini');
+            
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             let detail:any=[]
             for (let index = 0; index < data.studyGroup.total; index++) {
@@ -482,6 +482,7 @@ export const useSession = () => {
 
     const handleOpenForm = () => {
         refetchForm()
+        checkSessions(queryUrl.get('id') ?? '')
         setModalForm((state)=> ({...state, visible:true}))
     }
 
