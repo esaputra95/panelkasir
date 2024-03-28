@@ -23,7 +23,6 @@ const SessionPage = () => {
         fields,
         fieldDate,
         modalForm,
-        setModalForm,
         onDelete,
         modalConfirm,
         onUpdate,
@@ -46,7 +45,8 @@ const SessionPage = () => {
         appendIdDeleteSessionDetail,
         dataGroup,
         optionTutorSchedule,
-        dataOptionTutor
+        dataOptionTutor,
+        handleOpenForm
     } = useSession()
 
     const { 
@@ -125,7 +125,7 @@ const SessionPage = () => {
             <div className='w-full'>
                 <div className='py-4'>
                     <Button 
-                        onClick={()=>setModalForm((state)=> ({...state, visible:true}))} 
+                        onClick={()=> handleOpenForm()} 
                     >
                         + {t('session')}
                     </Button>

@@ -97,7 +97,9 @@ export const useSession = () => {
     } = useFieldArray({
         control,
         name: 'time'
-    })
+    });
+    console.log({fieldDate});
+    
 
     const {
         append: appendIdDeleteSessionDetail
@@ -139,7 +141,7 @@ export const useSession = () => {
         checkSessions(queryUrl.get('id')??'')
     }, [])
 
-    const {data:dataGroup} = useQuery({
+    const {data:dataGroup, refetch:refetchForm} = useQuery({
         queryKey: ['group'],
         refetchOnWindowFocus: false,
         queryFn: async () => {
@@ -478,6 +480,11 @@ export const useSession = () => {
         setRerender(state=>state+1)
     }
 
+    const handleOpenForm = () => {
+        refetchForm()
+        setModalForm((state)=> ({...state, visible:true}))
+    }
+
     return {
         dataSession,
         isFetching,
@@ -515,6 +522,7 @@ export const useSession = () => {
         appendIdDeleteSessionDetail,
         dataGroup,
         optionTutorSchedule,
-        dataOptionTutor
+        dataOptionTutor,
+        handleOpenForm
     }
 }
