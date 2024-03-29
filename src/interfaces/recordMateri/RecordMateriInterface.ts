@@ -40,6 +40,7 @@ export interface RecordMateriFormInterface {
     date2: string;
     studyGroupId?: string;
     tentorId?:string;
+    tentor?:OptionSelectInterface,
     detail: RecordMateriInterface[];
 }
 
@@ -59,7 +60,9 @@ export type RecordMateriFormProps = {
     dataOptionStudent: OptionSelectInterface[];
     dataOptionCourse: OptionSelectInterface[];
     optionCourse:  (data: string) => Promise<OptionSelectInterface[]>
-    updateStatus: boolean
+    updateStatus: boolean;
+    optionTutor:  (data: string) => Promise<OptionSelectInterface[]>
+    dataOptionTutor: OptionSelectInterface[];
 }
 
 export interface Info {

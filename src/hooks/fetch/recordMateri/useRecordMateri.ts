@@ -168,8 +168,15 @@ export const useRecordMateri = () => {
                 ...state,
                 visible: false
             }))
+            reset({
+                date: '',
+                date2: '',
+                tentor: OptionDummy,
+                detail: [],
+                tentorId: '',
+            })
             refetch()
-            reset()
+
             toast.success(t("success-save"), {
                 position: toast.POSITION.TOP_CENTER
             });

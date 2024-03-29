@@ -13,6 +13,7 @@ import { SingleValue } from 'react-select'
 import { OptionSelectInterface } from '../../../../interfaces/globalInterface'
 import { BsSearch } from "react-icons/bs";
 import { t } from 'i18next'
+import { useTutor } from '../../../../hooks/fetch/master/useTutor'
 
 const RecordMateriPage = () => {
     const { 
@@ -51,6 +52,11 @@ const RecordMateriPage = () => {
         dataOptionCourse
     } = useCourse();
 
+    const {
+        optionTutor,
+        dataOptionTutor
+    } = useTutor()
+
     return (
         <div className='w-full'>
             <ModalConfirm data={modalConfirm.modalConfirm}  />
@@ -77,6 +83,8 @@ const RecordMateriPage = () => {
                     optionCourse={optionCourse}
                     dataOptionCourse={dataOptionCourse}
                     updateStatus={updateStatus}
+                    optionTutor={optionTutor}
+                    dataOptionTutor={dataOptionTutor}
                 />
             </ModalForm>
             <div className='w-full'>

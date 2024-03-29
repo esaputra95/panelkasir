@@ -1,10 +1,11 @@
 import { FC } from 'react'
-import { InputText, Button } from '../../../../components/input';
+import { InputText, Button, LabelInput } from '../../../../components/input';
 import { RecordMateriFormProps } from '../../../../interfaces/recordMateri/RecordMateriInterface';
 import { useTranslation } from 'react-i18next';
 import Spinner from '../../../../components/ui/Spinner';
 import { Controller } from 'react-hook-form';
 import AsyncSelect from 'react-select/async'
+import useAccess from '../../../../utils/useAccess';
 
 const FormRecordMateri: FC<RecordMateriFormProps> = (props) => {
     const { 
@@ -22,9 +23,15 @@ const FormRecordMateri: FC<RecordMateriFormProps> = (props) => {
         optionStudent,
         dataOptionStudent,
         optionCourse,
-        dataOptionCourse
+        dataOptionCourse,
+        optionTutor
     } = props;
+
     const {t} = useTranslation()
+
+    const {
+        token
+    } = useAccess()
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -45,6 +52,32 @@ const FormRecordMateri: FC<RecordMateriFormProps> = (props) => {
                     type='date'
                     max={new Date().toISOString().split('T')[0]}
                 />
+                {
+                    token?.userType === "admin" ? (
+                        <div className='w-full'>
+                            <LabelInput>{t("tutors")}</LabelInput>
+                            <Controller
+                                name="tentor"
+                                control={control}
+                                    render={({ field }) => 
+                                    <AsyncSelect 
+                                        className='w-full'
+                                        {...field}
+                                        defaultOptions
+                                        loadOptions={optionTutor}
+                                        placeholder='Pilih...'
+                                        ref={(ref)=>ref}
+                                    />
+                                }
+                            />
+                            <span className='text-red-300'>
+                            {
+                                errors.tentorId?.message ?? null
+                            }
+                            </span>
+                        </div>
+                    ) : null
+                }
             </div>
             <div className='w-full flex justify-between py-2 items-end'>
                 <label className='text-sm font-normal text-gray-600'>Catatan : Kolom deskripsi dikosongkan jika siswa tidak hadir</label>
@@ -53,7 +86,7 @@ const FormRecordMateri: FC<RecordMateriFormProps> = (props) => {
                     variant='success'
                     onClick={()=> getListStudents(
                         getValues('date')??'', 
-                        getValues('tentorId')??'', 
+                        getValues('tentor.value')??'', 
                         getValues('date2')??'')}
                 >
                     Lihat Siswa
