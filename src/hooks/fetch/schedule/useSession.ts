@@ -147,8 +147,6 @@ export const useSession = () => {
             return data.data
         },
         onSuccess: (data:StudyGroupInputForm)=> {
-            console.log('sampai sini');
-            
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             let detail:any=[]
             for (let index = 0; index < data.studyGroup.total; index++) {

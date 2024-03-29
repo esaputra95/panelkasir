@@ -32,7 +32,7 @@ const postData = async (url:string, data:SessionInputForm) => {
 			return response.data
 		}
 	} catch (error) {
-		return error;
+		throw error as AxiosError;
 	}
 }
 
@@ -51,7 +51,7 @@ const getDataById = async (url:string, id:string) => {
 		const response = await api.get(`${url}/${id}`)
 		if(response.status===200) return response.data
 	} catch (error) {
-		return error
+		throw error as  AxiosError
 	}
 }
 
@@ -70,7 +70,7 @@ const checkSession = async (url:string, data:BodyCheckSessionInterface) => {
 		const response = await api.post(`${url}`, data)
 		return response.data.status
 	} catch (error) {
-		return error as AxiosError
+		throw error as AxiosError
 	}
 }
 
@@ -79,7 +79,7 @@ const cancelSession = async (url:string, id:string) => {
 		const response = await api.post(`${url}?id=${id}`)
 		return response.data
 	} catch (error) {
-		return error as AxiosError
+		throw error as AxiosError
 	}
 }
 

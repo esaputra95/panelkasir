@@ -28,7 +28,7 @@ const FormRecordMateri: FC<RecordMateriFormProps> = (props) => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <div className='w-full grid grid-cols-2 '>
+            <div className='w-full grid grid-cols-2 gap-2 '>
                 <InputText
                     {...register("date")}
                     errors={errors.date?.message} 
@@ -90,6 +90,7 @@ const FormRecordMateri: FC<RecordMateriFormProps> = (props) => {
                                                 cacheOptions
                                                 loadOptions={optionStudent}
                                                 isSearchable={false}
+                                                isDisabled={true}
                                                 defaultOptions
                                                 placeholder='Select...'
                                                 defaultValue={ dataOptionStudent.length > 0 ? dataOptionStudent.filter(value=> 
@@ -117,7 +118,7 @@ const FormRecordMateri: FC<RecordMateriFormProps> = (props) => {
                                                 name={`scheduleDetails.${index}.material`}
                                                 cacheOptions
                                                 loadOptions={optionCourse}
-                                                isDisabled={idDetail? true : false}
+                                                isDisabled={true}
                                                 defaultOptions
                                                 value={ 
                                                     dataOptionCourse ? dataOptionCourse.filter(value=> 

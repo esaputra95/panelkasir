@@ -180,8 +180,6 @@ export const useStudyGroup = () => {
     })
     
     const onSubmit: SubmitHandler<StudyGroupInputForm> = (data) => {
-        console.log({data});
-        
         if(data.studyGroup.total<data.studyGroupDetails.length){
             toast.error('Jumlah siswa melebihi jumlah total kuota', {
                 position: toast.POSITION.TOP_CENTER
