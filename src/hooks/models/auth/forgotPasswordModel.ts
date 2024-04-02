@@ -7,6 +7,6 @@ export const forgotPasswordModel = async (url:string, data:ForgotPasswordInterfa
         const response = await api.post(url, data);
         return response.data
     } catch (error) {
-        return error as AxiosError
+        throw error as AxiosError
     }
 }

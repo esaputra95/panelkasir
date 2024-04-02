@@ -25,7 +25,7 @@ const postData = async (url:string, data:RegistrationInterface) => {
 			throw response;
 		}
 	} catch (error) {
-		return error;
+		throw error as AxiosError;
 	}
 }
 
@@ -34,7 +34,7 @@ const deleteData = async (url:string, id:string) => {
 		const response = await api.delete(`${url}/${id}`)
 		if(response.status===204) return true
 	} catch (error) {
-		return error
+		throw error as AxiosError
 	}
 }
 
@@ -43,7 +43,7 @@ const getDataById = async (url:string, id:string) => {
 		const response = await api.get(`${url}/${id}`)
 		if(response.status===200) return response.data
 	} catch (error) {
-		return error
+		throw error as AxiosError
 	}
 }
 
@@ -67,7 +67,7 @@ const updateModule = async (url:string, data: {id:string, isModule: number}) => 
 		const response = await api.put(`${url}/${data.id}`, data)
 		return response.data
 	} catch (error) {
-		return error as AxiosError
+		throw error as AxiosError
 	}
 }
 

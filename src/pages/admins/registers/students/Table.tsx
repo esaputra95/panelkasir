@@ -55,7 +55,7 @@ const Table: FC<TableProps> = (props) => {
     const { t } = useTranslation()
     const number:number = ((page-1)*limit)
     return (
-        <div className="relative overflow-x-auto max-h-100">
+        <div className="relative overflow-x-auto">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
@@ -94,7 +94,7 @@ const Table: FC<TableProps> = (props) => {
                                     {value.school}
                                 </td>
                                 <td className="px-6 py-4">
-                                    <img src={`http://localhost:3000/images/${value.image}`} className="h-16 w-16 rounded-full"/>
+                                    <img src={import.meta.env.VITE_API_URL+`/static/${value.image}`} className="h-16 w-16 rounded-full"/>
                                 </td>
                                 <td className="px-6 py-4 flex">
                                     <span 

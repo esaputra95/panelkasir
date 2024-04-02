@@ -14,7 +14,7 @@ const updateData = async (url:string, data:FormSetting) => {
 		if(response.status === 200) return response.data
 		return response.data;
 	} catch (error) {
-		return error as AxiosError
+		throw error as AxiosError
 	}
 }
 
@@ -27,7 +27,7 @@ const upload = async (url:string, data:any) => {
 		const update = await api.put(url, {image : upload.data.data})
 		return update.data
 	} catch (error) {
-		return error as AxiosError
+		throw error as AxiosError
 	}
 }
 
@@ -40,7 +40,7 @@ const getDataOne = async (url:string, query:string) => {
 		})
 		return response.data
 	} catch (error) {
-		return error as AxiosError
+		throw error as AxiosError
 	}
 }
 

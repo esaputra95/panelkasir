@@ -7,7 +7,7 @@ const getData = async (url:string, query:ClassInformationInterface) => {
         const response = await api.post(url, query)
         return response.data
     } catch (error) {
-        return error as AxiosError
+        throw error as AxiosError
     }
 }
 

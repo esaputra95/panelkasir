@@ -9,7 +9,7 @@ const getData = async (url:string, data:StudentReport) => {
         });
         return response.data
     } catch (error) {
-        return error as AxiosError
+        throw error as AxiosError
     }
 }
 
