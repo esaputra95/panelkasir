@@ -68,7 +68,7 @@ const FormSetting: FC<SettingFormProps> = (props) => {
                 
             </div>
             <div className='w-full'>
-                <img src={`${import.meta.env.VITE_API_URL}/images/${imageIcon}`} className='h-24 w-24 rounded-full' />
+                <img src={`${import.meta.env.VITE_API_URL}/static/${imageIcon}`} className='h-24 w-24 rounded-full' />
             </div>
         </Fragment>
     )

@@ -24,7 +24,7 @@ const FormRegister: FC<RegisterFormInterface> = (props) => {
     return (
         <div className='w-full min-h-screen bg-gray-100 py:2 xl:py-4 lg:py-4 md:py-4'>
             <div className='xl:flex lg:flex md:flex justify-center w-10/12 bg-white p-2 xl:p-8 lg:p-8 md:p-8  m-auto space-x-4 rounded-md mb-4'>
-                <img src="https://api.espbimbel.com/images/images_1711332970885.png" className='h-16 w-16' alt="Logo" />
+                <img src="https://api.espbimbel.com/images/images_1712021986835.png" className='h-16 w-16' alt="Logo" />
                 <div className='w-full flex flex-col'>
                     <span className='w-full text-3xl font-bold text-left'>Halaman Pendaftaran ESP BIMBEL</span>
                     <span className='w-full text-xl font-semibold text-left'>Tahun Ajaran 2024/2025</span>
