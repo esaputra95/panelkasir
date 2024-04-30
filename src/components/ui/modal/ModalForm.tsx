@@ -45,7 +45,6 @@ const ModalForm: FC<ModalProps> = ({
 }) => {
     return (
         <div
-        id="defaultModal"
         tabIndex={-1}
         aria-hidden="true"
         className={`${visible ? 'flex' : 'hidden'} 

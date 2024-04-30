@@ -29,8 +29,10 @@ export const useLogin = () => {
         onSuccess: (data)=> {
             if(data.status){
                 window.localStorage.setItem('token', data.data.token)
-                navigate('/dashboard')
+                navigate('/')
             }
+        },
+        onError:()=> {
             setError('password', {
                 type: 'validate',
                 message: 'Password tidak valid'

@@ -14,22 +14,18 @@ import {
 	Accordion
 } from "@material-tailwind/react";
 import {
-    Cog6ToothIcon,
     InboxIcon,
 	HomeIcon,
-	CalendarDaysIcon,
-	DocumentTextIcon,
-	ListBulletIcon
+	DocumentChartBarIcon,
+	BuildingLibraryIcon,
+	Cog6ToothIcon
 } from "@heroicons/react/24/solid";
 import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { useTranslation } from 'react-i18next';
 import {
+	DonationMenu,
 	MasterMenu,
-	Payroll,
-	RecordMateri,
-	Register,
-	ReportPayroll,
-	ScheduleMenu,
+	ArticleMenu,
 	SettingMenu
 } from './MenuItems';
 import { RootState } from '../../../redux/store';
@@ -67,7 +63,7 @@ const SideBarLayout = () => {
 		>
 			<div className="mb-2 p-4 bg-white">
 				<Typography variant="h5" color="blue-gray">
-					ESP BIMBEL
+					BERBAGI MASJID
 				</Typography>
 			</div>
 			<List>
@@ -125,207 +121,37 @@ const SideBarLayout = () => {
 					</AccordionBody>
 				</Accordion>
 				<Accordion
-					open={open === 'registration'}
+					open={open === 'donations'}
 					icon={
 						<ChevronDownIcon
 						strokeWidth={2.5}
 						className={`mx-auto h-4 w-4 transition-transform 
 							${token?.userType==="admin" ? 'flex':'hidden'}
-							${open === 'registration' ? "rotate-180" : ""}`
+							${open === 'donations' ? "rotate-180" : ""}`
 						}
 						/>
 					}
 				>
-					<ListItem className={`p-0 ${token?.userType==="admin" ? 'flex':'hidden'}`} selected={open === 'registration'}>
-						<AccordionHeader onClick={() => handleOpen('registration')} className="border-b-0 p-3">
+					<ListItem className={`p-0 ${token?.userType==="admin" ? 'flex':'hidden'}`} selected={open === 'donations'}>
+						<AccordionHeader onClick={() => handleOpen('donations')} className="border-b-0 p-3">
 							<ListItemPrefix>
-								<ListBulletIcon className="h-5 w-5" />
+								<BuildingLibraryIcon className="h-5 w-5" />
 							</ListItemPrefix>
 							<Typography color="blue-gray" className="mr-auto font-normal">
-								{t("registrations")}
-							</Typography>
-						</AccordionHeader>
-					</ListItem>
-					<AccordionBody className="py-1">
-						<List className="p-0">
-						{
-								Register.map((value)=> (
-									<ListItem 
-										selected={
-											selector.menu === value.path ? true : false
-										}
-										className={`${value.access.includes(token?.userType??'') ? 'flex': 'hidden'}`}
-										key={Math.random()}
-										onClick={()=>handleOnClickMenu(value.path)}>
-										<ListItemPrefix>
-											<ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-										</ListItemPrefix>
-										{t(value.label)}
-									</ListItem>
-								))
-							}
-						</List>
-					</AccordionBody>
-				</Accordion>
-				<Accordion
-					open={open === 'schedule'}
-					icon={
-						<ChevronDownIcon
-							strokeWidth={2.5}
-							className={`mx-auto h-4 w-4 transition-transform 
-								${open === 'schedule' ? "rotate-180" : ""}`
-							}
-						/>
-					}
-				>
-					<ListItem className="p-0" selected={open === 'schedule'}>
-						<AccordionHeader onClick={() => handleOpen('schedule')} className="border-b-0 p-3">
-							<ListItemPrefix>
-								<CalendarDaysIcon className="h-5 w-5" />
-							</ListItemPrefix>
-							<Typography color="blue-gray" className="mr-auto font-normal">
-								{t("schedules")}
-							</Typography>
-						</AccordionHeader>
-					</ListItem>
-					<AccordionBody className="py-1">
-						<List className="p-0">
-						{
-								ScheduleMenu.map((value)=> (
-									<ListItem 
-										selected={
-											selector.menu === value.path ? true : false
-										}
-										className={`${value.access.includes(token?.userType??'') ? 'flex': 'hidden'}`}
-										key={Math.random()}
-										onClick={()=>handleOnClickMenu(value.path)}>
-										<ListItemPrefix>
-											<ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-										</ListItemPrefix>
-										{t(value.label)}
-									</ListItem>
-								))
-							}
-						</List>
-					</AccordionBody>
-				</Accordion>
-				<Accordion
-					open={open === 'record-materi'}
-					icon={
-						<ChevronDownIcon
-							strokeWidth={2.5}
-							className={`mx-auto h-4 w-4 transition-transform 
-								${token?.userType==="admin" || token?.userType==="tentor" ? 'flex':'hidden'}
-								${open === 'record-materi' ? "rotate-180" : ""}`
-							}
-						/>
-					}
-				>
-					<ListItem className="p-0" selected={open === 'record-materi'}>
-						<AccordionHeader onClick={() => handleOpen('record-materi')} className="border-b-0 p-3">
-							<ListItemPrefix>
-								<CalendarDaysIcon className="h-5 w-5" />
-							</ListItemPrefix>
-							<Typography color="blue-gray" className="mr-auto font-normal">
-								{t("record-materi")}
-							</Typography>
-						</AccordionHeader>
-					</ListItem>
-					<AccordionBody className="py-1">
-						<List className="p-0">
-						{
-								RecordMateri.map((value)=> (
-									<ListItem 
-										selected={
-											selector.menu === value.path ? true : false
-										}
-										className={`${value.access.includes(token?.userType??'') ? 'flex': 'hidden'}`}
-										key={Math.random()}
-										onClick={()=>handleOnClickMenu(value.path)}>
-										<ListItemPrefix>
-											<ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-										</ListItemPrefix>
-										{t(value.label)}
-									</ListItem>
-								))
-							}
-						</List>
-					</AccordionBody>
-				</Accordion>
-				<hr className="my-2 border-blue-gray-50" />
-				<Accordion
-					open={open === 'payroll'}
-					icon={
-						<ChevronDownIcon
-							strokeWidth={2.5}
-							className={`mx-auto h-4 w-4 transition-transform 
-								${token?.userType==="admin" || token?.userType==="tentor" ? 'flex':'hidden'}
-								${open === 'payroll' ? "rotate-180" : ""}`
-							}
-						/>
-					}
-				>
-					<ListItem className="p-0" selected={open === 'payroll'}>
-						<AccordionHeader onClick={() => handleOpen('payroll')} className="border-b-0 p-3">
-							<ListItemPrefix>
-								<CalendarDaysIcon className="h-5 w-5" />
-							</ListItemPrefix>
-							<Typography color="blue-gray" className="mr-auto font-normal">
-								{t("payroll")}
-							</Typography>
-						</AccordionHeader>
-					</ListItem>
-					<AccordionBody className="py-1">
-						<List className="p-0">
-						{
-								Payroll.map((value)=> (
-									<ListItem 
-										selected={
-											selector.menu === value.path ? true : false
-										}
-										className={`${value.access.includes(token?.userType??'') ? 'flex': 'hidden'}`}
-										key={Math.random()}
-										onClick={()=>handleOnClickMenu(value.path)}>
-										<ListItemPrefix>
-											<ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-										</ListItemPrefix>
-										{t(value.label)}
-									</ListItem>
-								))
-							}
-						</List>
-					</AccordionBody>
-				</Accordion>
-				<hr className="my-2 border-blue-gray-50" />
-				<Accordion
-					open={open === 'master-reports'}
-					icon={
-						<ChevronDownIcon
-						strokeWidth={2.5}
-						className={`mx-auto h-4 w-4 transition-transform 
-							${token?.userType==="admin" ? 'flex':'hidden'}
-							${open === 'master-reports'? "rotate-180" : ""}
-						`}
-						/>
-					}
-				>
-					<ListItem className={`p-0 ${token?.userType==="admin" ? 'flex':'hidden'}`} selected={open === 'master-reports'}>
-						<AccordionHeader onClick={() => handleOpen('master-reports')} className="border-b-0 p-3">
-							<ListItemPrefix>
-								<DocumentTextIcon className="h-5 w-5" />
-							</ListItemPrefix>
-							<Typography color="blue-gray" className="mr-auto font-normal">
-								{t('report')}
+								{t('donations')}
 							</Typography>
 						</AccordionHeader>
 					</ListItem>
 					<AccordionBody className="py-1">
 						<List className="p-0">
 							{
-								ReportPayroll.map((value)=> (
-									<ListItem 
-										selected={selector.menu === value.path ? true : false} 
-										key={Math.random()} onClick={()=>handleOnClickMenu(value.path)}
+								DonationMenu.map((value)=> (
+									<ListItem
+										selected={
+											selector.menu === value.path ? true : false
+										} 
+										key={Math.random()} 
+										onClick={()=>handleOnClickMenu(value.path)}
 									>
 										<ListItemPrefix>
 											<ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
@@ -337,9 +163,49 @@ const SideBarLayout = () => {
 						</List>
 					</AccordionBody>
 				</Accordion>
-				{
-					token?.userType === "admin" ? <hr className="my-2 border-blue-gray-50" /> : null 
-				}
+				<Accordion
+					open={open === 'articles'}
+					icon={
+						<ChevronDownIcon
+						strokeWidth={2.5}
+						className={`mx-auto h-4 w-4 transition-transform 
+							${token?.userType==="admin" ? 'flex':'hidden'}
+							${open === 'articles' ? "rotate-180" : ""}`
+						}
+						/>
+					}
+				>
+					<ListItem className={`p-0 ${token?.userType==="admin" ? 'flex':'hidden'}`} selected={open === 'articles'}>
+						<AccordionHeader onClick={() => handleOpen('articles')} className="border-b-0 p-3">
+							<ListItemPrefix>
+								<DocumentChartBarIcon className="h-5 w-5" />
+							</ListItemPrefix>
+							<Typography color="blue-gray" className="mr-auto font-normal">
+								{t('articles')}
+							</Typography>
+						</AccordionHeader>
+					</ListItem>
+					<AccordionBody className="py-1">
+						<List className="p-0">
+							{
+								ArticleMenu.map((value)=> (
+									<ListItem
+										selected={
+											selector.menu === value.path ? true : false
+										} 
+										key={Math.random()} 
+										onClick={()=>handleOnClickMenu(value.path)}
+									>
+										<ListItemPrefix>
+											<ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+										</ListItemPrefix>
+										{t(value.label)}
+									</ListItem>
+								))
+							}
+						</List>
+					</AccordionBody>
+				</Accordion>
 				<Accordion
 					open={open === 'settings'}
 					icon={
@@ -366,13 +232,15 @@ const SideBarLayout = () => {
 						<List className="p-0">
 							{
 								SettingMenu.map((value)=> (
-									<ListItem 
-										selected={selector.menu === value.path ? true : false}
+									<ListItem
+										selected={
+											selector.menu === value.path ? true : false
+										} 
 										key={Math.random()} 
 										onClick={()=>handleOnClickMenu(value.path)}
 									>
 										<ListItemPrefix>
-											<ChevronRightIcon strokeWidth={4} className="h-3 w-5" />
+											<ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
 										</ListItemPrefix>
 										{t(value.label)}
 									</ListItem>

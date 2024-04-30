@@ -1,68 +1,47 @@
-export const TutorDummy = {
+import { BankStatusEnum, BankTypeEnum } from "../../interfaces/masters/BankInterface"
+
+export const BankDummy = {
+    name: '',
+    account_name:'',
+    branch:'',
+    code:'',
+    account_number:'',
+    bank:'',
+    bank_account_name:'',
+    description:'',
+    status:'draft' as BankStatusEnum.draft,
+    type: 'va' as BankTypeEnum.va,
+}
+
+export const CustomerDummy = {
     name: '',
     email: '',
-    username: '',
-    // userType: 'tentor',
-    nickname: '',
-    phone: '',
-    tentorSkills: [
-        {
-            id: '',
-            tentorId: '',
-        }
-    ]
+    address: ''
 }
 
-export const classTypeDummy = {
-    id: '',
-    code: '',
+export const MosqueDummy = {
     name: '',
-    price: 0,
-    description: ''
+    email: '',
+    address: ''
 }
 
-export const ClassMasterDummy = {
-    id: '',
-    code: '',
-    name: '',
-    price: 0,
-    description: ''
-}
+export const BankTypeDummy = [
+    {label: 'Virtual Account', value:'va'}, 
+    {label: 'Transfer', value:'transfer'},
+    {label: 'Ewallet', value:'ewallet'},
+    {label: 'Retail', value:'retail'},
+    {label: 'QR', value:'qr'},
+]
 
-export const roomDummy = {
-    id: '',
-    code: '',
-    name: '',
-    description: '',
-}
+export const MosqueTypeDummy = [
+    {label: 'Virtual Account', value:'va'}, 
+    {label: 'Transfer', value:'transfer'},
+    {label: 'Ewallet', value:'ewallet'},
+    {label: 'Retail', value:'retail'},
+    {label: 'QR', value:'qr'},
+]
 
-export const UniversityDummy = {
-    id: '',
-    code: '',
-    name: '',
-    description: '',
-}
-
-export const MajorDummy = {
-    id: '',
-    code: '',
-    name: '',
-    description: '',
-    universityId: ''
-}
-
-export const CourseDummy = {
-    id: '',
-    code: '',
-    name: '',
-    description: '',
-    majorId: ''
-}
-
-export const MaterialDummy = {
-    id: '',
-    code: '',
-    name: '',
-    description: '',
-    courseId: ''
-}
+export const StatusDummy = [
+    {label: 'Draft', value:'draft'},
+    {label: 'Publish', value:'publish'}
+]

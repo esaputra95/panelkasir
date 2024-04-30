@@ -1,6 +1,6 @@
 import { ApiResponse, InfoResponse } from "./apiInfoInterface"
-import { TutorSkillInterface } from "./master/tutorSkillInterface"
-import { UserInterface } from "./master/userInterface"
+import { TutorSkillInterface } from "./masters/tutorSkillInterface"
+import { UserInterface } from "./masters/userInterface"
 
 interface userInter extends UserInterface {
     tentorSkills: TutorSkillInterface[]

@@ -1,34 +1,15 @@
 import AdminLayout from "../components/layouts/admin/AdminLayout";
+import { ArticleCategoryPage, ArticlePage } from "../pages/admins/articles";
 import HomePage from "../pages/admins/dashboard/HomePage";
-import UserPage from "../pages/admins/users";
-import Middleware from "./MiddlewareRouter";
+import { DonationCategoryPage, DonationPage } from "../pages/admins/donations";
 import { 
-    ClassTypePage,
-    ClassMasterPage,
-    RoomPage,
-    UniversityPage,
-    MajorPage,
-    CoursePage,
-    TutorPage
+    BankPage,
+    CustomerPage,
+    MosquePage
 } from "../pages/admins/masters";
-import {
-    PackagePage,
-    GuidanceTypePage,
-    SchoolYearPage,
-    SessionPage,
-    SettingPage
-} from "../pages/admins/settings";
-import { RegistrationPage, StudentPage } from "../pages/admins/registers";
-import { 
-    ClassInformationPage,
-    SessionPage as SessionSchedule,
-    TentorNotAvailablePage 
-} from "../pages/admins/schedules";
-import StudyGroupPage from "../pages/admins/schedules/studyGroup";
-import { RecordMateriPage } from "../pages/admins/recordMateri";
-import { PayrollPage } from "../pages/admins/payroll";
-import { PayrollReportPage, RecordMateriReportPage, RegisterReportPage, ScheduleReportPage, StudentReportPage } from "../pages/admins/reports";
-import ProfilePage from "../pages/auth/ProfilePage";
+import { DonationReport } from "../pages/admins/reports";
+import { UserPage } from "../pages/admins/settings";
+import Middleware from "./MiddlewareRouter";
 
 const MainRouters = [
     {
@@ -40,117 +21,44 @@ const MainRouters = [
                 element: <HomePage />
             },
             {
+                path: 'users',
+                element: <UserPage />
+            },
+            {
                 path: 'dashboard',
                 element: <HomePage />
             },
             {
-                path: 'profile',
-                element: <ProfilePage />
+                path: 'banks',
+                element: <BankPage />
             },
             {
-                path: 'user',
-                element: <UserPage />
+                path: 'customers',
+                element: <CustomerPage />
             },
             {
-                path: 'class-types',
-                element: <ClassTypePage />
+                path: 'mosques',
+                element: <MosquePage />
             },
             {
-                path: 'class',
-                element: <ClassMasterPage />
+                path: 'donations',
+                element: <DonationPage />
             },
             {
-                path: 'rooms',
-                element: <RoomPage />
+                path: 'donation-categories',
+                element: <DonationCategoryPage />
             },
             {
-                path: 'universities',
-                element: <UniversityPage />
+                path: 'articles',
+                element: <ArticlePage />
             },
             {
-                path: 'majors',
-                element: <MajorPage />
+                path: 'article-categories',
+                element: <ArticleCategoryPage />
             },
             {
-                path: 'courses',
-                element: <CoursePage />
-            },
-            {
-                path: 'setting/guidance-packages',
-                element: <PackagePage />
-            },
-            {
-                path: 'setting/guidance-types',
-                element: <GuidanceTypePage />
-            },
-            {
-                path: 'setting/school-years',
-                element: <SchoolYearPage />
-            },
-            {
-                path: 'setting/sessions',
-                element: <SessionPage />
-            },
-
-            {
-                path: 'setting/companies',
-                element: <SettingPage />
-            },
-            {
-                path: 'registrations',
-                element: <RegistrationPage />
-            },
-            {
-                path: 'tutors',
-                element: <TutorPage />
-            },
-            {
-                path: 'schedule/tentor-not-available',
-                element: <TentorNotAvailablePage />
-            },
-            {
-                path: 'schedule/study-groups',
-                element: <StudyGroupPage />
-            },
-            {
-                path: 'schedule/sessions',
-                element: <SessionSchedule />
-            },
-            {
-                path: 'schedule/class-information',
-                element: <ClassInformationPage />
-            },
-            {
-                path: 'record-materi',
-                element: <RecordMateriPage />
-            },
-            {
-                path: 'payroll',
-                element: <PayrollPage />
-            },
-            {
-                path: 'students',
-                element: <StudentPage />
-            },
-            {
-                path: 'report/payroll-reports',
-                element: <PayrollReportPage />
-            },
-            {
-                path: 'report/record-materi-reports',
-                element: <RecordMateriReportPage />
-            },
-            {
-                path: 'report/student-reports',
-                element: <StudentReportPage />
-            },
-            {
-                path: 'report/schedule-reports',
-                element: <ScheduleReportPage />
-            },
-            {
-                path: 'report/register-reports',
-                element: <RegisterReportPage />
+                path: 'donation-reports',
+                element: <DonationReport />
             },
         ], 
     }

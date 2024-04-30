@@ -1,174 +1,67 @@
 const MasterMenu = [
     {
-        label: 'tutors',
-        path: 'tutors',
+        label: 'banks',
+        path: 'banks',
         active: false,
         access: ['admin']
     },
     {
-        label: 'class-types',
-        path: 'class-types',
+        label: 'mosques',
+        path: 'mosques',
         active: false,
         access: ['admin']
     },
     {
-        label: 'class',
-        path: 'class',
+        label: 'customers',
+        path: 'customers',
         active: false,
         access: ['admin']
     },
-    {
-        label: 'rooms',
-        path: 'rooms',
-        active: false,
-        access: ['admin']
-    },
-    {
-        label: 'universities',
-        path: 'universities',
-        active: false,
-        access: ['admin']
-    },
-    {
-        label: 'majors',
-        path: 'majors',
-        active: false,
-        access: ['admin']
-    },
-    {
-        label: 'courses',
-        path: 'courses',
-        active: false,
-        access: ['admin']
-    }
+    
 ];
 
-const ReportPayroll = [
+const DonationMenu = [
     {
-        label: 'payroll-reports',
-        path: 'report/payroll-reports',
+        label: 'donation-categories',
+        path: 'donation-categories',
         active: false,
         access: ['admin']
     },
     {
-        label: 'record-materi-reports',
-        path: 'report/record-materi-reports',
-        active: false,
-        access: ['admin']
-    },
-    {
-        label: 'student-reports',
-        path: 'report/student-reports',
-        active: false,
-        access: ['admin']
-    },
-    {
-        label: 'schedule-reports',
-        path: 'report/schedule-reports',
-        active: false,
-        access: ['admin']
-    },
-    {
-        label: 'register-reports',
-        path: 'report/register-reports',
+        label: 'donations',
+        path: 'donations',
         active: false,
         access: ['admin']
     },
 ]
 
-const ScheduleMenu = [
+const ArticleMenu = [
     {
-        label: 'tentor-not-available',
-        path: 'schedule/tentor-not-available',
-        active: false,
-        access: ['admin', 'tentor']
-    },
-    {
-        label: 'study-groups',
-        path: 'schedule/study-groups',
+        label: 'article-categories',
+        path: 'article-categories',
         active: false,
         access: ['admin']
     },
     {
-        label: 'class-information',
-        path: 'schedule/class-information',
+        label: 'articles',
+        path: 'articles',
         active: false,
-        access: ['admin', 'tentor']
-    }
+        access: ['admin']
+    },
 ]
 
 const SettingMenu = [
     {
-        label: 'guidance-types',
-        path: 'setting/guidance-types',
-        active: false,
-        access: ['admin']
-    },
-    {
-        label: 'guidance-packages',
-        path: 'setting/guidance-packages',
-        active: false,
-        access: ['admin']
-    },
-    {
-        label: 'school-years',
-        path: 'setting/school-years',
-        active: false,
-        access: ['admin']
-    },
-    {
-        label: 'sessions',
-        path: 'setting/sessions',
-        active: false,
-        access: ['admin']
-    },
-    {
-        label: 'companies',
-        path: 'setting/companies',
-        active: false,
-        access: ['admin']
-    }
-];
-
-const RecordMateri = [
-    {
-        label: 'record-materi',
-        path: 'record-materi',
-        active: false,
-        access: ['admin', 'tentor']
-    },
-];
-
-const Payroll = [
-    {
-        label: 'payroll',
-        path: 'payroll',
-        active: false,
-        access: ['admin', 'tentor']
-    }
-]
-
-const Register = [
-    {
-        label: 'students',
-        path: 'students',
-        active: false,
-        access: ['admin']
-    },
-    {
-        label: 'registrations',
-        path: 'registrations',
+        label: 'users',
+        path: 'users',
         active: false,
         access: ['admin']
     }
 ]
 
 export {
-    Register,
-    Payroll,
-    RecordMateri,
     MasterMenu,
-    SettingMenu,
-    ReportPayroll,
-    ScheduleMenu
+    DonationMenu,
+    ArticleMenu,
+    SettingMenu
 }

@@ -1,6 +1,6 @@
 import { FC } from "react"
 import { t } from "i18next"
-import { StudentInterface } from "../../../interfaces/master/studentInterface"
+import { StudentInterface } from "../../../interfaces/masters/studentInterface"
 type StudySchedule = {
     studySchedule: StudentInterface[] | undefined
 }

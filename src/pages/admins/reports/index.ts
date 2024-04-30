@@ -1,5 +1,1 @@
-export { default as PayrollReportPage } from './payrollReport'
-export { default as RecordMateriReportPage } from './RecordMateriReport'
-export { default as StudentReportPage } from './StudentReport'
-export { default as ScheduleReportPage } from './ScheduleReport'
-export { default as RegisterReportPage } from './RegisterReport'
+export { default as DonationReport } from './donationReport'

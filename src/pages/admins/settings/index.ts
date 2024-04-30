@@ -1,5 +1,1 @@
-export { default as PackagePage } from './package'
-export { default as GuidanceTypePage } from './guidanceTypes'
-export { default as SchoolYearPage } from './schoolYear'
-export { default as SessionPage } from './session'
-export { default as SettingPage } from './setting'
+export { default as UserPage } from './users'

@@ -21,7 +21,7 @@ const SelectOption= forwardRef<HTMLSelectElement, SelectOptionProps>((props, ref
                     {...rest} 
                     id="gender"
                     autoComplete="gender"
-                    className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 "
+                    className="block w-full rounded-md border-0 py-2 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 "
                 >
                     {
                         allowNull ? <option></option> : null 

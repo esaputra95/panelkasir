@@ -8,6 +8,7 @@ interface MiddlewareProps {
 const Middleware: React.FC<MiddlewareProps> = ({ page }) => {
   const location = useLocation();
   const token = localStorage.getItem("token");
+  // const token = true;
 
   if (!token) {
     return <Navigate to="/login" state={{ from: location }} replace />;

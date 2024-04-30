@@ -1,4 +1,4 @@
-import { StudentInterface } from "../master/studentInterface";
+import { StudentInterface } from "../masters/studentInterface";
 import { StudentRegisterInterface } from "../registers/studentInterface";
 import { scheduleDetailInterface } from "../schedule/sessionDetailInterface";
 import { SessionInterface } from "../schedule/sessionInterface";

@@ -33,8 +33,6 @@ const useForgotPassword = () => {
     })
 
     const onSubmit: SubmitHandler<ForgotPasswordInterface> = (data) => {
-        console.log({data});
-        
         mutate(data)
     }
 
