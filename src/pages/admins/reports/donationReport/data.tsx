@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import { DataDonationInterface } from '../../../../interfaces/reports/DonationReport'
 import { t } from 'i18next';
+import helperReport from '../../../../utils/headerReport';
 
 const Data: FC<DataDonationInterface> = (props) => {
     const { dataDonationReport } = props;
@@ -9,27 +10,14 @@ const Data: FC<DataDonationInterface> = (props) => {
             <table className='w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400'>
                 <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
                     <tr>
-                        <th className='p-2'>
-                            {t('no')}
-                        </th>
-                        <th className='p-2'>
-                            {t('name')}
-                        </th>
-                        <th className='p-2'>
-                            {t('month')}
-                        </th>
-                        <th className='p-2'>
-                            {t('student-quantity')}
-                        </th>
-                        <th className='p-2'>
-                            {t('basic-salary')}
-                        </th>
-                        <th className='p-2'>
-                            {t('session-salary')}
-                        </th>
-                        <th className='p-2'>
-                            {t('total')}
-                        </th>
+                        {
+                            helperReport.headerDonation.map(value=>(
+                                <th className='p-2'>
+                                    {t(value)}
+                                </th>
+                            ))
+                        }
+                        
                     </tr>
                 </thead>
                 <tbody>

@@ -59,9 +59,19 @@ const SettingMenu = [
     }
 ]
 
+const ReportMenu = [
+    {
+        label: 'donation-reports',
+        path: 'donation-reports',
+        active: false,
+        access: ['admin']
+    }
+]
+
 export {
     MasterMenu,
     DonationMenu,
     ArticleMenu,
-    SettingMenu
+    SettingMenu,
+    ReportMenu
 }

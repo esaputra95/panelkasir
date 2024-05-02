@@ -141,6 +141,8 @@ export const Indonesia = {
     "mosque": "Masjid",
     "article-categories": "Kategori Artikel",
     "users": "Pengguna",
+    "reports":"Laporan",
+    "donation-reports":"Laporan Donasi",
 }
 
 export const English = {
@@ -285,5 +287,7 @@ export const English = {
     "publish": "Publish",
     "mosque": "Mosque",
     "article-categories": "Article Categories",
-    "users": "Users"
+    "users": "Users",
+    "reports":"Reports",
+    "donation-reports":"Donation Reports",
 }

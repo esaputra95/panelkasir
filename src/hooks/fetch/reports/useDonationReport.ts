@@ -63,10 +63,14 @@ const useDonationReport = () => {
     })
 
     const toPdf = async (data:string[][]) => {
-        
+        doc.addImage(`${import.meta.env.VITE_API_URL}/images/assets/icon.png`, 'JPEG', 12, 2, 25, 25);
         doc.setFontSize(9)
         doc.text([
-            'LAPORAN DONASI'
+            'LAPORAN DONASI',
+            'Berbagi Masjid',
+            'Masjid Pedia',
+            'Jalan Sukarno Hatta No. 2 Komplek Sekolah Islman Terpadu Imam Syafii 2',
+            'Pekanbaru, Riau'
         ], 44, 6);
 
         if(getValues('tentor')){
@@ -103,7 +107,7 @@ const useDonationReport = () => {
             styles:{halign:'center'},
             body: data??'',
         })
-        doc.save('Laporan Penggajian.pdf')
+        doc.save('Laporan Donasi.pdf')
     }
 
     const onDownload: SubmitHandler<DonationReport> = (data) => {

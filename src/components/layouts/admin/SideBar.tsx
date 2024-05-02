@@ -18,7 +18,8 @@ import {
 	HomeIcon,
 	DocumentChartBarIcon,
 	BuildingLibraryIcon,
-	Cog6ToothIcon
+	Cog6ToothIcon,
+	Square2StackIcon
 } from "@heroicons/react/24/solid";
 import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { useTranslation } from 'react-i18next';
@@ -26,7 +27,8 @@ import {
 	DonationMenu,
 	MasterMenu,
 	ArticleMenu,
-	SettingMenu
+	SettingMenu,
+	ReportMenu
 } from './MenuItems';
 import { RootState } from '../../../redux/store';
 import useAccess from '../../../utils/useAccess';
@@ -178,7 +180,7 @@ const SideBarLayout = () => {
 					<ListItem className={`p-0 ${token?.userType==="admin" ? 'flex':'hidden'}`} selected={open === 'articles'}>
 						<AccordionHeader onClick={() => handleOpen('articles')} className="border-b-0 p-3">
 							<ListItemPrefix>
-								<DocumentChartBarIcon className="h-5 w-5" />
+								<Square2StackIcon className="h-5 w-5" />
 							</ListItemPrefix>
 							<Typography color="blue-gray" className="mr-auto font-normal">
 								{t('articles')}
@@ -206,6 +208,51 @@ const SideBarLayout = () => {
 						</List>
 					</AccordionBody>
 				</Accordion>
+				<hr className="my-2 border-blue-gray-50" />
+				<Accordion
+					open={open === 'reports'}
+					icon={
+						<ChevronDownIcon
+						strokeWidth={2.5}
+						className={`mx-auto h-4 w-4 transition-transform 
+							${token?.userType==="admin" ? 'flex':'hidden'}
+							${open === 'reports' ? "rotate-180" : ""}`
+						}
+						/>
+					}
+				>
+					<ListItem className={`p-0 ${token?.userType==="admin" ? 'flex':'hidden'}`} selected={open === 'reports'}>
+						<AccordionHeader onClick={() => handleOpen('reports')} className="border-b-0 p-3">
+							<ListItemPrefix>
+								<DocumentChartBarIcon className="h-5 w-5" />
+							</ListItemPrefix>
+							<Typography color="blue-gray" className="mr-auto font-normal">
+								{t('reports')}
+							</Typography>
+						</AccordionHeader>
+					</ListItem>
+					<AccordionBody className="py-1">
+						<List className="p-0">
+							{
+								ReportMenu.map((value)=> (
+									<ListItem
+										selected={
+											selector.menu === value.path ? true : false
+										} 
+										key={Math.random()} 
+										onClick={()=>handleOnClickMenu(value.path)}
+									>
+										<ListItemPrefix>
+											<ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+										</ListItemPrefix>
+										{t(value.label)}
+									</ListItem>
+								))
+							}
+						</List>
+					</AccordionBody>
+				</Accordion>
+				<hr className="my-2 border-blue-gray-50" />
 				<Accordion
 					open={open === 'settings'}
 					icon={

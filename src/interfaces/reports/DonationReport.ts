@@ -5,7 +5,8 @@ export interface DonationReport {
     tentor?: OptionSelectInterface;
     startDate?: string;
     endDate?: string;
-    type?: 'view' | 'download'
+    type?: 'view' | 'download',
+    status?: string
 }
 
 export interface DonationReportFilter {

@@ -3,10 +3,12 @@ import moment from "moment"
 const helperReport = {
     headerDonation: [
         'no',
-        'Nama',
-        'Nominal',
-        'Status',
-        'Keterangan'
+        'name',
+        'target',
+        'category',
+        'status',
+        'start-date',
+        'until-date'
     ],
     signature: [
         ['Manajer', '', '', `Yogyakarta, ${moment().format('DD MMMM YYYY')}`],
