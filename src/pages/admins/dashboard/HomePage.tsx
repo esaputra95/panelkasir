@@ -49,7 +49,9 @@ const HomePage = () => {
                         </div>
                     </div>
                 ) : (
-                    <div>Oke</div>
+                    <div className='flex h-full w-full bg-white items-center justify-center'>
+                        <span>SELAMAT DATANG</span>
+                    </div>
                 )
             }
         </div>

@@ -29,6 +29,7 @@ import { OptionSelectInterface } from "../../../interfaces/globalInterface"
 import { DonationDummy } from "../../../utils/dummy/donation"
 
 export const useDonation = () => {
+    const [loading, setLoading] = useState(false)
     const [ query, setQuery ] = useState({name: ''})
     const [ image, setImage ] = useState<string|undefined>(undefined)
     const [ imageUpload, setImageUpload ] = useState<Blob|undefined>(undefined)
@@ -102,7 +103,28 @@ export const useDonation = () => {
         mutationFn: (id:number) => getDataById(Donation.getById, id),
         onSuccess:(data:ApiResponseUpdateDonation)=>{
             if(data.status){
-                reset(data.data.Donations)
+                const value = data.data.Donations
+                reset({
+                    id: value.id,
+                    name: value.name,
+                    target: value.target,
+                    status: value.status,
+                    publish: value.publish,
+                    place_type: value.place_type,
+                    category_id: value.category_id,
+                    categoryOption: {
+                        value: value.category?.id,
+                        label: value.category?.name
+                    },
+                    place_id: value.place_id,
+                    placeOption: {
+                        value: value.place?.id,
+                        label: value.place?.name
+                    },
+                    text: value.text,
+                    image: value.image
+                });
+                setImage(value.image)
                 setModalForm((state)=>({
                     ...state,
                     visible: true
@@ -116,13 +138,16 @@ export const useDonation = () => {
         }
     })
 
-    const { mutate, isLoading:isLoadingMutate } = useMutation({
-        mutationFn: (data:DonationInterface)=> postData(Donation.post, data),
+    const { mutate } = useMutation({
+        mutationFn: async (data:DonationInterface)=> {
+            return await postData(Donation.post, data)
+        },
         onSuccess: () => {
             setModalForm((state)=>({
                 ...state,
                 visible: false
             }))
+            setLoading(false);
             refetch()
             reset(DonationDummy)
             toast.success(t("success-save"), {
@@ -141,6 +166,7 @@ export const useDonation = () => {
                 loading: false,
                 visible: false
             })
+            setLoading(false)
             toast.error(message, {
                 position: toast.POSITION.TOP_CENTER
             });
@@ -178,11 +204,21 @@ export const useDonation = () => {
     })
 
     const onSubmit: SubmitHandler<DonationInterface> = async (data) => {
-        const upload = await uploadImage(Donation.image, imageUpload);
-        mutate({
-            image: upload,
+        setLoading(true)
+        let upload:string='';
+        let newData={
             ...data
-        })
+        }
+        if(image !== data.image){
+            upload = await uploadImage(Donation.image, imageUpload);
+            newData={
+                ...newData,
+                image: upload
+            }
+        }else{
+            delete newData.image;
+        }
+        mutate(newData)
         
     }
 
@@ -221,6 +257,7 @@ export const useDonation = () => {
             visible: false
         }))
         reset(DonationDummy)
+        setImage('')
         setIdDetail(null)
     }
 
@@ -236,8 +273,9 @@ export const useDonation = () => {
         }));
     }
 
-    const handleOnChange = (key: 'category_id' | 'place_id', value?:string ) => {
-        setValue(key, parseInt(value+''))
+    const handleOnChange = (key:keyof DonationInterface, keyOption:keyof DonationInterface, data?: OptionSelectInterface ) => {
+        setValue(key, parseInt(data?.value+''))
+        setValue(keyOption, data)
     }
 
     const handleOnChangeImage = (e:ChangeEvent<HTMLInputElement>) => {
@@ -253,7 +291,7 @@ export const useDonation = () => {
         isFetching,
         setQuery,
         onSubmit,
-        isLoadingMutate,
+        loading,
         errors,
         reset,
         register,
@@ -278,6 +316,6 @@ export const useDonation = () => {
         handleOnChangeImage,
         image,
         setImage,
-        handleOnChange
+        handleOnChange,
     }
 }

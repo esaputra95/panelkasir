@@ -58,7 +58,7 @@ export type ArticleFormProps = {
     optionArticleCategory: (data: string) => Promise<OptionSelectInterface[]>
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     control: Control<ArticleInterface, any>;
-    handleOnChange: (key: "category_id", value?: string) => void;
+    handleOnChange: (key: "category_id", key2:'categorySelect', value?: OptionSelectInterface) => void;
     handleOnChangeImage: (e: ChangeEvent<HTMLInputElement>) => void
     image: string | undefined;
     setImage: Dispatch<SetStateAction<string | undefined>>

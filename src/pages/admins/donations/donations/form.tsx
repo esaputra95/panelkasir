@@ -8,6 +8,8 @@ import AsyncSelect from 'react-select/async';
 import { Editor } from '@tinymce/tinymce-react';
 import { apiKey, plugins, toolbar } from '../../../../utils/textEditorConfig';
 import { BsXCircleFill } from 'react-icons/bs';
+import { SingleValue } from 'react-select';
+import { OptionSelectInterface } from '../../../../interfaces/globalInterface';
 
 const FormDonation: FC<DonationFormProps> = (props) => {
     const { 
@@ -16,7 +18,6 @@ const FormDonation: FC<DonationFormProps> = (props) => {
         register,
         onCancel,
         errors,
-        isLoading,
         idDetail,
         control,
         setValue,
@@ -26,9 +27,10 @@ const FormDonation: FC<DonationFormProps> = (props) => {
         image,
         setImage,
         handleOnChange,
-        getValues
+        getValues,
+        isLoadingMutate,
     } = props;
-    const {t} = useTranslation()
+    const {t} = useTranslation();
     
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -58,8 +60,7 @@ const FormDonation: FC<DonationFormProps> = (props) => {
                                     {...field}
                                     defaultOptions
                                     loadOptions={optionMosque}
-                                    defaultValue={{label:'', value:''}}
-                                    onChange={(value)=>handleOnChange('place_id', value?.value as string)}
+                                    onChange={(value)=>handleOnChange('place_id', 'placeOption', value as OptionSelectInterface)}
                                     ref={(ref)=>ref}
                                 />
                             }
@@ -81,10 +82,11 @@ const FormDonation: FC<DonationFormProps> = (props) => {
                                     className='w-full'
                                     {...field}
                                     defaultOptions
+                                    value={field.value}
                                     loadOptions={optionDonationCategory}
                                     placeholder='Pilih...'
                                     defaultValue={{label:'', value:''}}
-                                    onChange={(value)=>handleOnChange('category_id', value?.value as string)}
+                                    onChange={(value: SingleValue<OptionSelectInterface>)=>handleOnChange('category_id', 'categoryOption', value as OptionSelectInterface)}
                                     ref={(ref)=>ref}
                                 />
                             }
@@ -146,6 +148,7 @@ const FormDonation: FC<DonationFormProps> = (props) => {
                         />
                     </div>
                     <div className='w-3/12 ml-2'>
+                        
                         {
                             image ? (
                                 <div className='relative'>
@@ -156,7 +159,7 @@ const FormDonation: FC<DonationFormProps> = (props) => {
                                             onClick={()=>setImage('')}
                                         />
                                     </div>
-                                    <img src={image} className='w-full' />
+                                    <img src={`${image}&sz=w200`}  alt="" className='w-full' />
                                 </div>
                             ):(
                                 <div className="flex items-center justify-center text-center w-full">
@@ -207,12 +210,12 @@ const FormDonation: FC<DonationFormProps> = (props) => {
                     </Button>
                 {!idDetail ? 
                     <Button 
-                        disabled={isLoading?true:false} 
+                        disabled={isLoadingMutate?true:false} 
                         variant="primary" 
                         type='submit' 
                         size="medium" 
                         className='my-4' >
-                            {t('save')} {isLoading?<Spinner />:null}
+                            {t('save')} {isLoadingMutate?<Spinner />:null} {isLoadingMutate}
                     </Button>
                 : null}
             </div>

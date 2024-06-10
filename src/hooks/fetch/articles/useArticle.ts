@@ -17,7 +17,6 @@ import {
 } from "react"
 import { 
     ApiResponseArticle,
-    ApiResponseUpdateArticle,
     ArticleInterface
 } from "../../../interfaces/articles/ArticleInterface"
 import { SubmitHandler, useForm } from "react-hook-form"
@@ -107,14 +106,23 @@ export const useArticle = () => {
 
     const { mutate:mutateById } = useMutation({
         mutationFn: (id:number) => getDataById(Article.getById, id),
-        onSuccess:(data:ApiResponseUpdateArticle)=>{
-            if(data.status){
-                reset(data.data.Articles)
-                setModalForm((state)=>({
-                    ...state,
-                    visible: true
-                }))
+        onSuccess:(data:ArticleInterface)=>{
+            const resetData:ArticleInterface = {
+                id: data.id,
+                category_id: data.category_id,
+                type: data.type,
+                title: data.title,
+                content: data.content,
+                status: data.status,
+                categorySelect: {
+                    value: data.category_id, label: data.category?.name??''
+                }
             }
+            reset(resetData)
+            setModalForm((state)=>({
+                ...state,
+                visible: true
+            }))
         },
         onError:(error:AxiosError)=> {
             toast.error(error.message, {
@@ -243,8 +251,9 @@ export const useArticle = () => {
         }));
     }
 
-    const handleOnChange = (key: 'category_id', value?:string ) => {
-        setValue(key, parseInt(value+''))
+    const handleOnChange = (key: 'category_id', key2: 'categorySelect', value?:OptionSelectInterface ) => {
+        setValue(key, parseInt(value?.value+''))
+        setValue(key2, value);
     }
 
     const handleOnChangeImage = (e:ChangeEvent<HTMLInputElement>) => {

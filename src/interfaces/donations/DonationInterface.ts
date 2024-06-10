@@ -70,7 +70,9 @@ export type DonationFormProps = {
     handleOnChangeImage: (e: ChangeEvent<HTMLInputElement>) => void;
     image: string | undefined;
     setImage: Dispatch<SetStateAction<string | undefined>>;
-    handleOnChange: (key: "category_id" | "place_id", value?: string | undefined) => void
+    handleOnChange: (key:keyof DonationInterface, keyOption:keyof DonationInterface, data?: OptionSelectInterface ) => void;
+    isLoadingMutate: boolean;
+    status: string
 }
 
 export interface Info {

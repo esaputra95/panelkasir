@@ -8,6 +8,7 @@ import { Controller } from 'react-hook-form';
 import AsyncSelect from 'react-select/async';
 import { BsXCircleFill } from "react-icons/bs";
 import { apiKey, plugins, toolbar } from '../../../../utils/textEditorConfig';
+import { OptionSelectInterface } from '../../../../interfaces/globalInterface';
 
 const FormArticle: FC<ArticleFormProps> = (props) => {
     const { 
@@ -39,7 +40,7 @@ const FormArticle: FC<ArticleFormProps> = (props) => {
                         readOnly={idDetail?true:false} 
                         label={t("title")} 
                     />
-                    <div className='w-full'>
+                    <div className='w-full z-10'>
                         <LabelInput>{t('category')}</LabelInput>
                         <Controller
                             name='categorySelect'
@@ -50,9 +51,7 @@ const FormArticle: FC<ArticleFormProps> = (props) => {
                                     {...field}
                                     defaultOptions
                                     loadOptions={optionArticleCategory}
-                                    placeholder='Pilih...'
-                                    defaultValue={{label:'', value:''}}
-                                    onChange={(value)=>handleOnChange('category_id', value?.value as string)}
+                                    onChange={(value)=>handleOnChange('category_id', 'categorySelect', value as OptionSelectInterface)}
                                     ref={(ref)=>ref}
                                 />
                             }

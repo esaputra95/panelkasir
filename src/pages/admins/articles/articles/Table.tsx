@@ -66,7 +66,7 @@ const Table: FC<TableProps> = (props) => {
                                     {value?.status}
                                 </td>
                                 <td className="px-6 py-4">
-                                    <img src={`${import.meta.env.VITE_API_URL}/images/${value.image}`} />
+                                    <img className="h-16 w-16" src={`${import.meta.env.VITE_API_URL}/images/articles/${value.image}`} />
                                 </td>
                                 <td className="px-6 py-4 flex">
                                     <span title="Update" className="p-1.5 bg-green-50 hover:bg-green-100 hover:cursor-pointer rounded-full" onClick={()=>onUpdate(value?.id ?? 0)}>

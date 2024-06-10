@@ -5,7 +5,10 @@ export const DonationDummy = {
     target: 0,
     text: '',
     categoryOption: OptionDummy,
-    placeOption: OptionDummy
+    placeOption: OptionDummy,
+    place_id: undefined,
+    category_id: undefined,
+    status: undefined,
 }
 export const DonationCategoryDummy = {
     name: '',

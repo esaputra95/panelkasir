@@ -94,8 +94,8 @@ export const useArticleCategory = () => {
     const optionArticleCategory = async (data: string): Promise<OptionSelectInterface[]> => {
         const response = await getDataSelect(ArticleCategory.getSelect, {name: data});
         if(response.status){
-            setDataOptionArticleCategory(response.data.class);
-            return response.data.donationCategory
+            setDataOptionArticleCategory(response.data.articleCategories);
+            return response.data.articleCategories
         }
         return [{value:'', label:''}]
     }

@@ -45,7 +45,7 @@ const deleteData = async (url:string, id:number) => {
 const getDataById = async (url:string, id:number) => {
 	try {
 		const response = await api.get(`${url}/${id}`)
-		if(response.status===200) return response.data
+		if(response.status===200) return response.data.data.Articles
 	} catch (error) {
 		throw error as AxiosError
 	}

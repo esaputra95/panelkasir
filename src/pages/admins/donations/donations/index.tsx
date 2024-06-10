@@ -16,7 +16,7 @@ const DonationPage = () => {
         dataDonation, 
         isFetching,
         errors,
-        isLoadingMutate,
+        loading,
         register,
         onSubmit,
         handleSubmit,
@@ -38,7 +38,7 @@ const DonationPage = () => {
         handleOnChangeImage,
         image,
         setImage,
-        handleOnChange
+        handleOnChange,
     } = useDonation()
 
     const {
@@ -62,7 +62,6 @@ const DonationPage = () => {
             >
                 <FormDonation
                     onCancel={onCancel}
-                    isLoading={isLoadingMutate}
                     errors={errors}
                     idDetail={idDetail}
                     control={control}
@@ -79,6 +78,8 @@ const DonationPage = () => {
                     handleOnChangeImage={handleOnChangeImage}
                     setImage={setImage}
                     handleOnChange={handleOnChange}
+                    isLoadingMutate={loading}
+                    status={status}
                 />
             </ModalForm>
             <div className='w-full'>
