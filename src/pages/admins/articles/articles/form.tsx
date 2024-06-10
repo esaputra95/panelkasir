@@ -86,7 +86,7 @@ const FormArticle: FC<ArticleFormProps> = (props) => {
                     <div className='w-9/12 space-x-2'>
                         <Editor
                             apiKey={apiKey}
-                            onBlur={(a, b)=> {
+                            onBlur={(_a, b)=> {
                                 setValue('content', b.getContent())
                             }}
                             init={{

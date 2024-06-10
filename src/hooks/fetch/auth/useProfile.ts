@@ -1,13 +1,12 @@
 import { useQuery } from "@tanstack/react-query"
 import { getData } from "../../models/auth/profileModel"
 import url from "../../../services/url"
-import { ApiResponseProfile } from "../../../interfaces/profileInterface";
 
 const useProfile = () => {
-    const {profiles} = url;
-    const { data, isLoading } = useQuery<ApiResponseProfile>({
+    const {User} = url;
+    const { data, isLoading } = useQuery({
         queryKey: ['get-profile'],
-        queryFn: ()=> getData(profiles)
+        queryFn: ()=> getData(User.get)
     })
 
     return {

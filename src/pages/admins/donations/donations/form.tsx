@@ -132,7 +132,7 @@ const FormDonation: FC<DonationFormProps> = (props) => {
                     <div className='w-9/12 gap-4'>
                         <Editor
                             apiKey={apiKey}
-                            onBlur={(a, b)=> {
+                            onBlur={(_a, b)=> {
                                 setValue('text', b.getContent())
                             }}
                             value={getValues('text')}
