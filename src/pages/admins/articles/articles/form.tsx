@@ -3,11 +3,9 @@ import { InputText, Button, LabelInput, SelectOption } from '../../../../compone
 import { ArticleFormProps } from '../../../../interfaces/articles/ArticleInterface';
 import { useTranslation } from 'react-i18next';
 import Spinner from '../../../../components/ui/Spinner';
-import { Editor } from '@tinymce/tinymce-react';
 import { Controller } from 'react-hook-form';
 import AsyncSelect from 'react-select/async';
 import { BsXCircleFill } from "react-icons/bs";
-import { apiKey, plugins, toolbar } from '../../../../utils/textEditorConfig';
 import { OptionSelectInterface } from '../../../../interfaces/globalInterface';
 
 const FormArticle: FC<ArticleFormProps> = (props) => {
@@ -21,11 +19,11 @@ const FormArticle: FC<ArticleFormProps> = (props) => {
         idDetail,
         control,
         optionArticleCategory,
-        setValue,
         handleOnChange,
         handleOnChangeImage,
         image,
-        setImage
+        setImage,
+        quillRef
     } = props;
     const {t} = useTranslation()
     
@@ -83,22 +81,8 @@ const FormArticle: FC<ArticleFormProps> = (props) => {
                     />
                 </div>
                 <div className='flex'>
-                    <div className='w-9/12 space-x-2'>
-                        <Editor
-                            apiKey={apiKey}
-                            onBlur={(_a, b)=> {
-                                setValue('content', b.getContent())
-                            }}
-                            init={{
-                                height: 500,
-                                menubar: true,
-                                plugins: [
-                                    ...plugins
-                                ],
-                                toolbar: toolbar,
-                                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-                            }}
-                        />
+                    <div className='w-9/12'>
+                        <div ref={quillRef} />
                     </div>
                     <div className='w-3/12 ml-2'>
                         {

@@ -37,7 +37,8 @@ const ArticlePage = () => {
         handleOnChange,
         handleOnChangeImage,
         image,
-        setImage
+        setImage,
+        quillRef
     } = useArticle()
 
     const { 
@@ -69,6 +70,7 @@ const ArticlePage = () => {
                     handleOnChangeImage={handleOnChangeImage}
                     image={image}
                     setImage={setImage}
+                    quillRef={quillRef}
                 />
             </ModalForm>
             <div className='w-full'>

@@ -33,6 +33,7 @@ import { DataMessageError } from "../../../interfaces/apiInfoInterface"
 import { handleMessageErrors } from "../../../services/handleErrorMessage"
 import { OptionSelectInterface } from "../../../interfaces/globalInterface"
 import { ArticleDummy } from "../../../utils/dummy/article"
+import { useQuill } from 'react-quilljs';
 
 export const useArticle = () => {
     const [ query, setQuery ] = useState({title: ''})
@@ -40,6 +41,7 @@ export const useArticle = () => {
     const [ imageUpload, setImageUpload ] = useState<Blob|undefined>(undefined)
     const [ idDetail, setIdDetail ] = useState<number|null>()
     const [ dataOptionArticle, setDataOptionArticle] = useState<OptionSelectInterface[]>([{value:'', label:''}])
+    const { quillRef, quill } = useQuill();
     const { Article } = url
     const { modalForm, setModalForm } = ModalFormState()
     const { t } = useTranslation();
@@ -144,7 +146,7 @@ export const useArticle = () => {
             toast.success(t("success-save"), {
                 position: toast.POSITION.TOP_CENTER
             });
-            
+            quill?.clipboard.dangerouslyPasteHTML('')
         },
         onError: async (errors) => {
             const err = errors as AxiosError<DataMessageError>
@@ -197,7 +199,8 @@ export const useArticle = () => {
         const upload = await uploadImage(Article.image, imageUpload);
         mutate({
             ...data,
-            image: upload
+            image: upload,
+            content: quill?.root.innerHTML ?? '',
         })
     }
 
@@ -237,6 +240,7 @@ export const useArticle = () => {
         }))
         reset(ArticleDummy)
         setIdDetail(null)
+        quill?.clipboard.dangerouslyPasteHTML('')
     }
 
     const onDetail = async (id:number) => {
@@ -294,6 +298,7 @@ export const useArticle = () => {
         handleOnChange,
         handleOnChangeImage,
         image,
-        setImage
+        setImage,
+        quillRef
     }
 }

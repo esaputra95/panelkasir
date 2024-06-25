@@ -1,7 +1,17 @@
-import {  useMutation, useQuery } from "@tanstack/react-query"
-import { deleteData, getData, getDataById, getDataSelect, postData } from "../../models/masters/MosqueModel"
-import { useEffect, useState } from "react"
-import { ApiResponseMosque, ApiResponseUpdateMosque, MosqueInterface} from "../../../interfaces/masters/MosqueInterface"
+import { useMutation, useQuery } from "@tanstack/react-query"
+import {
+    deleteData,
+    getData,
+    getDataById,
+    getDataSelect,
+    postData
+} from "../../models/masters/MosqueModel"
+import { ChangeEvent, useEffect, useState } from "react"
+import { 
+    ApiResponseMosque, 
+    ApiResponseUpdateMosque,
+    MosqueInterface
+} from "../../../interfaces/masters/MosqueInterface"
 import { SubmitHandler, useForm } from "react-hook-form"
 import url from "../../../services/url"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -16,11 +26,14 @@ import { DataMessageError } from "../../../interfaces/apiInfoInterface"
 import { handleMessageErrors } from "../../../services/handleErrorMessage"
 import { OptionSelectInterface } from "../../../interfaces/globalInterface"
 import { MosqueDummy } from "../../../utils/dummy/master"
+import { uploadImage } from "../../models/articles/ArticleModel"
 
 export const useMosque = () => {
+    const [loading, setLoading] = useState(false)
     const [ query, setQuery ] = useState({
         name: ''
     })
+    const [ imageUpload, setImageUpload ] = useState<Blob|undefined>(undefined)
     const [ idDetail, setIdDetail ] = useState<number|null>()
     const [ dataOptionMosque, setDataOptionMosque] = useState<OptionSelectInterface[]>([{value:'', label:''}])
     const { Mosque } = url
@@ -43,6 +56,7 @@ export const useMosque = () => {
         control,
         setValue,
         getValues,
+        watch,
         formState: { errors },
     } = useForm<MosqueInterface>({
         resolver: yupResolver(MosqueSchema().schema)
@@ -90,8 +104,30 @@ export const useMosque = () => {
     const { mutate:mutateById } = useMutation({
         mutationFn: (id:number) => getDataById(Mosque.getById, id),
         onSuccess:(data:ApiResponseUpdateMosque)=>{
+            const mosque = data.data.Mosques;
             if(data.status){
-                reset(data.data.Mosques)
+                reset({
+                    id: mosque.id,
+                    name: mosque.name,
+                    province: mosque.province,
+                    provinceOption: {
+                        value: mosque.provinces?.id,
+                        label: mosque.provinces?.province_name
+                    },
+                    city: mosque.city,
+                    cityOption: {
+                        value: mosque.cities?.id,
+                        label: mosque.cities?.city_name
+                    },
+                    district: mosque.district,
+                    districtOption: {
+                        value : mosque.districts?.id,
+                        label: mosque.districts?.district_name
+                    },
+                    address: mosque.address,
+                    bankAccount: mosque.bankAccount,
+                    phone: mosque.phone
+                })
                 setModalForm((state)=>({
                     ...state,
                     visible: true
@@ -117,7 +153,7 @@ export const useMosque = () => {
             toast.success(t("success-save"), {
                 position: toast.POSITION.TOP_CENTER
             });
-            
+            setLoading(false)
         },
         onError: async (errors) => {
             const err = errors as AxiosError<DataMessageError>
@@ -125,6 +161,7 @@ export const useMosque = () => {
             if(err.response?.status === 400){
                 message = await handleMessageErrors(err.response?.data?.errors)
             }
+            setLoading(false)
             modalConfirm.setModalConfirm({
                 ...modalConfirm.modalConfirm,
                 loading: false,
@@ -166,11 +203,16 @@ export const useMosque = () => {
         }
     })
 
-    const onSubmit: SubmitHandler<MosqueInterface> = (data) => {
+    const onSubmit: SubmitHandler<MosqueInterface> = async (data) => {
+        setLoading(true)
+        let upload:string='';
+        if(imageUpload){
+            upload = await uploadImage(Mosque.image, imageUpload);
+        }
         mutate({
-            ...data
+            ...data,
+            image: upload ?? data.image
         })
-        
     }
 
     const onDelete = (id: number) => {
@@ -224,6 +266,17 @@ export const useMosque = () => {
         }));
     }
 
+    const handleOnChangeSelect = (key: keyof MosqueInterface, value: OptionSelectInterface) => {
+        setValue(key, value.value)
+    }
+
+    const handleOnChangeImage = (e:ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setImageUpload(file)
+        }
+    }
+
     return {
         dataMosque,
         isFetching,
@@ -250,6 +303,10 @@ export const useMosque = () => {
         registerFilter,
         handleSubmitFilter,
         setValue,
-        getValues
+        getValues,
+        watch,
+        handleOnChangeSelect,
+        handleOnChangeImage,
+        loading
     }
 }

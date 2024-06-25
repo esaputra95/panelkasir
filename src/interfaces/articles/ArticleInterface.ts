@@ -8,7 +8,7 @@ import {
 } from "react-hook-form";
 import { ApiResponse, InfoResponse } from "../apiInfoInterface";
 import { OptionSelectInterface } from "../globalInterface";
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { ChangeEvent, Dispatch, RefObject, SetStateAction } from "react";
 import { ArticleCategoryInterface } from "./ArticleCategoryInterface";
 
 export enum ArticleTypeEnum {
@@ -62,6 +62,8 @@ export type ArticleFormProps = {
     handleOnChangeImage: (e: ChangeEvent<HTMLInputElement>) => void
     image: string | undefined;
     setImage: Dispatch<SetStateAction<string | undefined>>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    quillRef: RefObject<any>
 }
 
 export interface Info {

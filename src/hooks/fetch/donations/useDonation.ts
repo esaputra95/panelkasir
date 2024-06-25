@@ -27,6 +27,7 @@ import { DataMessageError } from "../../../interfaces/apiInfoInterface"
 import { handleMessageErrors } from "../../../services/handleErrorMessage"
 import { OptionSelectInterface } from "../../../interfaces/globalInterface"
 import { DonationDummy } from "../../../utils/dummy/donation"
+import { useQuill } from 'react-quilljs';
 
 export const useDonation = () => {
     const [loading, setLoading] = useState(false)
@@ -35,6 +36,7 @@ export const useDonation = () => {
     const [ imageUpload, setImageUpload ] = useState<Blob|undefined>(undefined)
     const [ idDetail, setIdDetail ] = useState<number|null>()
     const [ dataOptionDonation, setDataOptionDonation] = useState<OptionSelectInterface[]>([{value:'', label:''}])
+    const { quillRef, quill } = useQuill();
     const { Donation } = url
     const { modalForm, setModalForm } = ModalFormState()
     const { t } = useTranslation();
@@ -110,20 +112,21 @@ export const useDonation = () => {
                     target: value.target,
                     status: value.status,
                     publish: value.publish,
-                    place_type: value.place_type,
+                    mosque_type: value.mosque_type,
                     category_id: value.category_id,
                     categoryOption: {
-                        value: value.category?.id,
-                        label: value.category?.name
+                        value: value.categories?.id,
+                        label: value.categories?.name
                     },
-                    place_id: value.place_id,
-                    placeOption: {
-                        value: value.place?.id,
-                        label: value.place?.name
+                    mosque_id: value.mosque_id,
+                    mosqueOption: {
+                        value: value.mosques?.id,
+                        label: value.mosques?.name
                     },
                     text: value.text,
                     image: value.image
                 });
+                quill?.clipboard.dangerouslyPasteHTML(value.text??'')
                 setImage(value.image)
                 setModalForm((state)=>({
                     ...state,
@@ -153,6 +156,7 @@ export const useDonation = () => {
             toast.success(t("success-save"), {
                 position: toast.POSITION.TOP_CENTER
             });
+            quill?.clipboard.dangerouslyPasteHTML('')
             
         },
         onError: async (errors) => {
@@ -207,7 +211,8 @@ export const useDonation = () => {
         setLoading(true)
         let upload:string='';
         let newData={
-            ...data
+            ...data,
+            text: quill?.root.innerHTML
         }
         if(image !== data.image){
             upload = await uploadImage(Donation.image, imageUpload);
@@ -219,7 +224,6 @@ export const useDonation = () => {
             delete newData.image;
         }
         mutate(newData)
-        
     }
 
     const onDelete = (id: number) => {
@@ -259,6 +263,7 @@ export const useDonation = () => {
         reset(DonationDummy)
         setImage('')
         setIdDetail(null)
+        quill?.clipboard.dangerouslyPasteHTML('')
     }
 
     const onDetail = async (id:number) => {
@@ -317,5 +322,6 @@ export const useDonation = () => {
         image,
         setImage,
         handleOnChange,
+        quillRef
     }
 }

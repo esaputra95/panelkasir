@@ -1,11 +1,16 @@
 import { 
+    Control,
     FieldErrors,
     UseFormGetValues,
     UseFormHandleSubmit,
     UseFormRegister,
-    UseFormSetValue
+    UseFormSetValue,
+    UseFormWatch
 } from "react-hook-form";
 import { ApiResponse, InfoResponse } from "../apiInfoInterface";
+import { OptionSelectInterface } from "../globalInterface";
+import { CityInterface, DistrictInterface, ProvinceInterface } from "./AddressInterface";
+import { ChangeEvent } from "react";
 
 export enum MosqueTypeEnum {
     transfer= 'transfer',
@@ -34,11 +39,15 @@ export interface MosqueInterface {
     phone: string;
     description?: string;
     address: string;
+    bankAccount?: string;
     street?: string;
     subdistrict?: string;
     district?: string;
+    districtOption?: OptionSelectInterface
+    cityOption?: OptionSelectInterface
     city?: string;
     province?: string;
+    provinceOption?: OptionSelectInterface
     country?: string;
     lat?: number;
     lng?: number;
@@ -53,6 +62,10 @@ export interface MosqueInterface {
     published_at?: Date;
     created_at?: Date;
     updated_at?: Date;
+    provinces?: ProvinceInterface;
+    cities?: CityInterface;
+    districts?: DistrictInterface;
+    image?: string;
 }
 
 export interface MosqueSearchInterface {
@@ -69,7 +82,12 @@ export type MosqueFormProps = {
     isLoading?: boolean;
     idDetail?: number|null
     setValue: UseFormSetValue<MosqueInterface>;
-    getValues: UseFormGetValues<MosqueInterface>
+    getValues: UseFormGetValues<MosqueInterface>;
+    control: Control<MosqueInterface>;
+    watch: UseFormWatch<MosqueInterface>;
+    handleOnChangeSelect: (key: keyof MosqueInterface, value: OptionSelectInterface) => void;
+    handleOnChangeImage: (e: ChangeEvent<HTMLInputElement>) => void;
+    loading: boolean
 }
 
 export interface Info {

@@ -15,6 +15,7 @@ const MosquePage = () => {
         isFetching,
         errors,
         isLoadingMutate,
+        control,
         register,
         onSubmit,
         handleSubmit,
@@ -31,7 +32,11 @@ const MosquePage = () => {
         handleSubmitFilter,
         onFilter,
         setValue,
-        getValues
+        getValues,
+        watch,
+        handleOnChangeSelect,
+        loading,
+        handleOnChangeImage
     } = useMosque()
 
     return (
@@ -53,7 +58,11 @@ const MosquePage = () => {
                     onSubmit={onSubmit}
                     setValue={setValue}
                     getValues={getValues}
-
+                    control={control}
+                    watch={watch}
+                    handleOnChangeSelect={handleOnChangeSelect}
+                    loading={loading}
+                    handleOnChangeImage={handleOnChangeImage}
                 />
             </ModalForm>
             <div className='w-full'>

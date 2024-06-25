@@ -143,6 +143,8 @@ export const Indonesia = {
     "users": "Pengguna",
     "reports":"Laporan",
     "donation-reports":"Laporan Donasi",
+    "bank-account": "Akun Bank",
+    "district": "Kecamatan"
 }
 
 export const English = {
@@ -290,4 +292,6 @@ export const English = {
     "users": "Users",
     "reports":"Reports",
     "donation-reports":"Donation Reports",
+    "bank-account": "Bank Account",
+    "district": "District"
 }

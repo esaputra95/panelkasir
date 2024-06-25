@@ -39,6 +39,7 @@ const DonationPage = () => {
         image,
         setImage,
         handleOnChange,
+        quillRef
     } = useDonation()
 
     const {
@@ -80,6 +81,7 @@ const DonationPage = () => {
                     handleOnChange={handleOnChange}
                     isLoadingMutate={loading}
                     status={status}
+                    quillRef={quillRef}
                 />
             </ModalForm>
             <div className='w-full'>

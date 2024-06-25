@@ -22,7 +22,11 @@ const header = [
     },
     { label: 'name' },
     { label: 'phone' },
+    { label: 'province' },
+    { label: 'city' },
+    { label: 'district' },
     { label: 'address' },
+    { label: 'status' },
     { 
         label: 'Action',
         width: 'w-16'
@@ -62,7 +66,19 @@ const Table: FC<TableProps> = (props) => {
                                     {value?.phone}
                                 </td>
                                 <td className="px-6 py-4">
+                                    {value?.provinces?.province_name}
+                                </td>
+                                <td className="px-6 py-4">
+                                    {value?.cities?.city_name}
+                                </td>
+                                <td className="px-6 py-4">
+                                    {value?.districts?.district_name}
+                                </td>
+                                <td className="px-6 py-4">
                                     {value?.address}
+                                </td>
+                                <td className="px-6 py-4">
+                                    {value?.verified ? 'verifikasi': 'non-active'}
                                 </td>
                                 <td className="px-6 py-4 flex">
                                     <span title="Update" className="p-1.5 bg-green-50 hover:bg-green-100 hover:cursor-pointer rounded-full" onClick={()=>onUpdate(value?.id ?? 0)}>

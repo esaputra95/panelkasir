@@ -34,6 +34,7 @@ const url = {
         getById: 'mosques',
         delete: 'mosques',
         getSelect: 'mosques/get-select',
+        image: 'donations/images',
     },
     Donation: {
         get: 'donations',
@@ -68,6 +69,11 @@ const url = {
         getById: 'article-categories',
         delete: 'article-categories',
         getSelect: 'article-categories/get-select',
+    },
+    Address: {
+        province: 'address/province',
+        city: 'address/city',
+        district: 'address/district',
     },
     Dashboard: {
         mosque: 'mosque'

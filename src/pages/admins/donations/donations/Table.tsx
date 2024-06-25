@@ -61,10 +61,10 @@ const Table: FC<TableProps> = (props) => {
                                     {value?.name}
                                 </td>
                                 <td className="px-6 py-4">
-                                    {value?.place?.name}
+                                    {value?.mosques?.name}
                                 </td>
                                 <td className="px-6 py-4">
-                                    {value?.category?.name}
+                                    {value?.categories?.name}
                                 </td>
                                 <td className="px-6 py-4">
                                     {value?.status}

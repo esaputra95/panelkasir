@@ -5,8 +5,6 @@ import { useTranslation } from 'react-i18next';
 import Spinner from '../../../../components/ui/Spinner';
 import { Controller } from 'react-hook-form';
 import AsyncSelect from 'react-select/async';
-import { Editor } from '@tinymce/tinymce-react';
-import { apiKey, plugins, toolbar } from '../../../../utils/textEditorConfig';
 import { BsXCircleFill } from 'react-icons/bs';
 import { SingleValue } from 'react-select';
 import { OptionSelectInterface } from '../../../../interfaces/globalInterface';
@@ -20,17 +18,17 @@ const FormDonation: FC<DonationFormProps> = (props) => {
         errors,
         idDetail,
         control,
-        setValue,
         optionDonationCategory,
         optionMosque,
         handleOnChangeImage,
         image,
         setImage,
         handleOnChange,
-        getValues,
         isLoadingMutate,
+        quillRef
     } = props;
     const {t} = useTranslation();
+
     
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -43,6 +41,12 @@ const FormDonation: FC<DonationFormProps> = (props) => {
                         label={t("name")} 
                     />
                     <InputText
+                        {...register("code")}
+                        errors={errors.name?.message} 
+                        readOnly={idDetail?true:false} 
+                        label={t("code")} 
+                    />
+                    <InputText
                         {...register("target")}
                         errors={errors.target?.message} 
                         readOnly={idDetail?true:false} 
@@ -52,7 +56,7 @@ const FormDonation: FC<DonationFormProps> = (props) => {
                     <div className='w-full z-10'>
                         <LabelInput>{t('mosque')}</LabelInput>
                         <Controller
-                            name='placeOption'
+                            name='mosqueOption'
                             control={control}
                             render={({ field }) => 
                                 <AsyncSelect 
@@ -60,7 +64,7 @@ const FormDonation: FC<DonationFormProps> = (props) => {
                                     {...field}
                                     defaultOptions
                                     loadOptions={optionMosque}
-                                    onChange={(value)=>handleOnChange('place_id', 'placeOption', value as OptionSelectInterface)}
+                                    onChange={(value)=>handleOnChange('mosque_id', 'mosqueOption', value as OptionSelectInterface)}
                                     ref={(ref)=>ref}
                                 />
                             }
@@ -68,7 +72,7 @@ const FormDonation: FC<DonationFormProps> = (props) => {
                         />
                         <span className='text-red-300'>
                             {
-                                errors.place_id?.message ?? null
+                                errors.mosque_id?.message ?? null
                             }
                         </span>
                     </div>
@@ -109,7 +113,7 @@ const FormDonation: FC<DonationFormProps> = (props) => {
                         ]}
                     />
                     <SelectOption
-                        {...register('place_type')}
+                        {...register('mosque_type')}
                         label={t('place_type')}
                         errors={errors.publish?.message}
                         option={[
@@ -130,22 +134,7 @@ const FormDonation: FC<DonationFormProps> = (props) => {
                 </div>
                 <div className='flex mt-4'>
                     <div className='w-9/12 gap-4'>
-                        <Editor
-                            apiKey={apiKey}
-                            onBlur={(_a, b)=> {
-                                setValue('text', b.getContent())
-                            }}
-                            value={getValues('text')}
-                            init={{
-                                height: 500,
-                                menubar: true,
-                                plugins: [
-                                    ...plugins
-                                ],
-                                toolbar: toolbar,
-                                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-                            }}
-                        />
+                        <div ref={quillRef} />
                     </div>
                     <div className='w-3/12 ml-2'>
                         

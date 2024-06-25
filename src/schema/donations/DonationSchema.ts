@@ -18,7 +18,7 @@ const DonationSchema = () => {
             DonationsPublish.publish
         ]),
         category_id : yup.number().required(`${t("category")} ${t("required")}`),
-        place_type: yup.string().required(`${t("name")} ${t("required")}`),
+        mosque_type: yup.string().required(`${t("name")} ${t("required")}`),
     });
 
     return {

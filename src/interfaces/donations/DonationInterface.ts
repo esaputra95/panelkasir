@@ -9,7 +9,7 @@ import {
 import { ApiResponse, InfoResponse } from "../apiInfoInterface";
 import { OptionSelectInterface } from "../globalInterface";
 import { ApiResponseDonationCategory, DonationCategoryInterface } from "./DonationCategoryInterface";
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { ChangeEvent, Dispatch, RefObject, SetStateAction } from "react";
 import { MosqueInterface } from "../masters/MosqueInterface";
 
 export enum DonationStatusEnum {
@@ -26,19 +26,20 @@ export enum DonationsPublish {
 
 export interface DonationInterface {
     id?: number;
-    place_id?: number;
-    place?: MosqueInterface
-    placeOption?:OptionSelectInterface; 
+    mosque_id?: number;
+    mosques?: MosqueInterface
+    mosqueOption?:OptionSelectInterface; 
     category_id: number;
-    category?: DonationCategoryInterface;
+    categories?: DonationCategoryInterface;
     categoryOption?: OptionSelectInterface
     name: string;
+    code?: string;
     image?: string;
     text?: string;
     target: number;
     publish: DonationsPublish;
     status: DonationStatusEnum;
-    place_type: string;
+    mosque_type: string;
     start_date?: Date;
     end_date?: Date;
     created_by?: number;
@@ -72,7 +73,9 @@ export type DonationFormProps = {
     setImage: Dispatch<SetStateAction<string | undefined>>;
     handleOnChange: (key:keyof DonationInterface, keyOption:keyof DonationInterface, data?: OptionSelectInterface ) => void;
     isLoadingMutate: boolean;
-    status: string
+    status: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    quillRef: RefObject<any>
 }
 
 export interface Info {
