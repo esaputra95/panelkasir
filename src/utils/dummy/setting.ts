@@ -6,5 +6,12 @@ export const OptionDummy = {
 export const UserDummy = {
     name: '',
     email: '',
-    address: ''
+    address: '',
+    stockist: 0
+}
+
+export const WarehouseDummy = {
+    name: '',
+    address: '',
+    phone: ''
 }

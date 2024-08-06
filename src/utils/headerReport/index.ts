@@ -1,74 +1,45 @@
-import moment from "moment"
-
 const helperReport = {
-    headerDonation: [
+    headerSalesReport: [
         'no',
-        'name',
-        'target',
-        'category',
-        'status',
+        'invoice',
+        'date',
+        'total',
+        'users',
+        'status'
+    ],
+    headerPointsReport: [
+        'no',
+        'users',
+        'invoice',
+        'date',
+        'points',
+    ],
+    headerUserPointsReport: [
+        'no',
+        'seller',
+        'points',
+    ],
+    headerClaimPointsReport: [
+        'no',
+        'seller',
         'start-date',
-        'until-date'
+        'until-date',
+        'points',
+        'price',
+        'total',
     ],
-    signature: [
-        ['Manajer', '', '', `Yogyakarta, ${moment().format('DD MMMM YYYY')}`],
-        ['', '', '', 'Esp'],
-        ['', '', '',  ''],
-        ['', '', '', ''],
-        ['Ary Diah Puspita Sari', '', '', 'Admin'],
-    ],
-    headerReportPayroll: [
+    headerClaimRewardReport: [
         'no',
-        'name',
-        'month',
-        'study-total',
-        'basic-salary',
-        'session-salary',
-        'total'
+        'seller',
+        'points',
+        'rewards',
     ],
-    headerRecordMateriReport: [
+    headerClaimReward: [
         'no',
-        'tutors',
-        'students',
-        'materials',
-        'time',
-        'description'
+        'seller',
+        'points',
+        'rewards',
     ],
-    headerReportStudent: [
-        'no',
-        'name',
-        'gender',
-        'phone',
-        'address',
-        'city',
-        'country'
-    ],
-    headerReportSchedule: [
-        'no',
-        'tutors',
-        'group-name',
-        'time',
-        'materials',
-        'rooms',
-        'type',
-        'method',
-        'schedule-type'
-    ],
-    headerReportRegister: [
-        'no',
-        'name',
-        'class',
-        'university',
-        'major',
-        'school',
-        'place-birth',
-        'date-birth',
-        // 'amount',
-        'session',
-        'package',
-        'location',
-        'school-year',
-    ]
 }
 
 export default helperReport

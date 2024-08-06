@@ -3,10 +3,10 @@ import { useLocation } from "react-router-dom";
 
 const useLocatioanName = () => {
     const { t } = useTranslation();
-    const location = useLocation()
+    const location = useLocation();
     return {
-        pathName: t(location.pathname.replace('/', '').split('/').slice(-1)[0]),
-        pathNameOriginal: location.pathname.replace('/', '').split('/').slice(-1)[0]
+        pathName: t(location.pathname.split('/')[1]),
+        pathNameOriginal: location.pathname.split('/')[1]
     }
 }
 

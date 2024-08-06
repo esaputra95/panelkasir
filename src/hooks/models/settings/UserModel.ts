@@ -2,18 +2,13 @@ import { api } from "../../../services";
 import { UserInterface } from "../../../interfaces/settings/UserInterface";
 import { AxiosError } from "axios";
 
-interface ParamUserInterface extends UserInterface {
-	page?: number,
-	limit?: number,
-	order?: string
-}
 
-const getData = async (url:string, params:ParamUserInterface) => {
+const getData = async <T>(url: string, params: T) => {
 	try {
 		const response = await api.get(url, { params: { ...params } });
-		return response.data
+		return response.data;
 	} catch (error) {
-		throw error as AxiosError
+		throw error as AxiosError;
 	}
 };
 

@@ -5,7 +5,7 @@ type Token = {
     id: string;
     username: string;
     name: string;
-    userType: 'admin' | 'tentor'
+    userType: 'admin' | 'agent' | "superadmin"
 }
 
 type AccessUserTpe = {
@@ -16,17 +16,54 @@ type AccessUserTpe = {
 const access = {
     admin: [
         '',
-        'mosques',
-        'dashboard',
-        'banks',
-        'mosques',
-        'customers',
-        'donation-categories',
-        'donations',
-        'article-categories',
-        'articles',
+        'rewards',
+        'agen-types',
         'users',
-        'donation-reports'
+        'product-categories',
+        'products',
+        'warehouses',
+        'sales',
+        'sales-report',
+        'settings',
+        'points-report',
+        'user-points-report',
+        'claim-points',
+        'claim-points-report',
+        'claim-rewards',
+        'claim-rewards-report',
+        'bank-accounts',
+        'bank-accounts-report',
+        'dashboard',
+        'sale-stockists',
+        'members'
+    ],
+    agent: [
+        '',
+        'sales',
+        'sales-report'
+    ],
+    superadmin:[
+        '',
+        'rewards',
+        'agen-types',
+        'users',
+        'product-categories',
+        'products',
+        'warehouses',
+        'sales',
+        'sales-report',
+        'settings',
+        'points-report',
+        'user-points-report',
+        'claim-points',
+        'claim-points-report',
+        'claim-rewards',
+        'claim-rewards-report',
+        'bank-accounts',
+        'bank-accounts-report',
+        'dashboard',
+        'sale-stockists',
+        'members'
     ]
 }
 
@@ -41,12 +78,12 @@ const useAccess = () => {
     useEffect(()=>{
         parseToken()
     },[])
-
+    
     const parseToken = () => {
         const token_ = window.localStorage.getItem('token')??'';
         if(token_){
             const newToken = jwtDecode<Token>(token_);
-            if(access['admin']?.includes(pathNameOriginal)){
+            if(access[newToken.userType]?.includes(pathNameOriginal.split('/')[0]) || newToken.userType === "superadmin"){
                 setAccessUser({loading: false, status: 1})
             } else{
                 setAccessUser({loading: false, status: -1})
@@ -55,8 +92,6 @@ const useAccess = () => {
         }else{
             setAccessUser({loading: false, status: -1})
         }
-        
-        
         // setToken({
         //     id:'1',
         //     name: 'Admin',

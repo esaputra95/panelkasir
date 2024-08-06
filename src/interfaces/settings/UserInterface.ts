@@ -1,30 +1,50 @@
 import { 
+    Control,
     FieldErrors,
     UseFormGetValues,
     UseFormHandleSubmit,
     UseFormRegister,
-    UseFormSetValue
+    UseFormSetValue,
+    UseFormWatch
 } from "react-hook-form";
 import { ApiResponse, InfoResponse } from "../apiInfoInterface";
+import { OptionSelectInterface } from "../globalInterface";
 
 export enum UserRoleEnum {
     superadmin= 'superadmin',
-    // content= 'content',
-    // customer_service= 'customer_service',
-    // finance= 'finance',
-    // operation= 'operation'
+    admin= 'admin',
+    cashier= 'cashier',
+    agent= 'agent',
+    afiliator= 'afiliator',
+    leader= 'leader'
 }
 
+
+
 export interface UserInterface {
-    id?: number
-    name: string
-    email: string
-    email_verified_at?: Date | null
-    password?: string
-    role?: UserRoleEnum | null
-    remember_token?: string | null
-    created_at?: Date | null
-    updated_at?: Date | null
+    id?: number;
+    name: string;
+    email: string;
+    phone: string;
+    address: string;
+    agentTypeId: number;
+    agentTypeOption?: OptionSelectInterface;
+    role: UserRoleEnum;
+    leaderId?: number;
+    leaderOption?: OptionSelectInterface;
+    password?: string;
+    warehouseId?: number;
+    ktpImage?: string;
+    kkImage?: string;
+    profileImage?: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+    deletedAt?: Date;
+    userCreate?: number;
+    token?: string;
+    refreshToken?: string;
+    status?: number;
+    stockist?: number;
 }
 
 export interface UserSearchInterface {
@@ -41,7 +61,9 @@ export type UserFormProps = {
     isLoading?: boolean;
     idDetail?: number|null
     setValue: UseFormSetValue<UserInterface>;
-    getValues: UseFormGetValues<UserInterface>
+    getValues: UseFormGetValues<UserInterface>;
+    control: Control<UserInterface>;
+    watch: UseFormWatch<UserInterface>
 }
 
 export interface Info {

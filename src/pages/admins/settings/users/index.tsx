@@ -32,6 +32,8 @@ const UserPage = () => {
         onFilter,
         setValue,
         getValues,
+        control,
+        watch
     } = useUser()
 
     return (
@@ -53,6 +55,8 @@ const UserPage = () => {
                     onSubmit={onSubmit}
                     setValue={setValue}
                     getValues={getValues}
+                    control={control}
+                    watch={watch}
                 />
             </ModalForm>
             <div className='w-full'>

@@ -1,15 +1,17 @@
 import { forwardRef } from 'react';
-import { NumericFormat, NumericFormatProps } from 'react-number-format';
+import CurrencyInput, { CurrencyInputProps } from 'react-currency-input-field';
 
-interface  InputTextProps extends NumericFormatProps {
+interface  InputTextProps extends CurrencyInputProps {
     label?: string;
     errors?: string;
-    thousandSeparator?: ',' | '.';
+    groupSeparator?: '.' | ',';
     decimalSeparator?: ',' | '.';
+    value: number;
+    error?: string
 }
 
 const InputNumeric = forwardRef<HTMLInputElement, InputTextProps>((props, ref) => {
-    const { thousandSeparator, className, decimalSeparator, label, ...rest } = props
+    const { groupSeparator, className, decimalSeparator, label, value, error, ...rest } = props
     return (
         <div className='w-full'>
             {
@@ -19,16 +21,21 @@ const InputNumeric = forwardRef<HTMLInputElement, InputTextProps>((props, ref) =
                     </label>
                 ) : null
             }
-            <NumericFormat
-                thousandSeparator={thousandSeparator}
-                decimalSeparator={decimalSeparator}
-                decimalScale={2}
+            <CurrencyInput 
+                ref={ref}
+                groupSeparator={groupSeparator}
                 className={`appearance-none border rounded
                 w-full py-2 px-3 text-gray-700 leading-tight 
-                focus:outline-none focus:shadow-outline ${className}`}
-                getInputRef={ref}
+                focus:outline-none focus:shadow-outline ${className}`}  
+                decimalSeparator={decimalSeparator} 
+                value={value}
                 {...rest}
             />
+            <span className='text-red-300'>
+            {
+                error
+            }
+            </span>
         </div>
     )
 })

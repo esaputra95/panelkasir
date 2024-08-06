@@ -1,77 +1,134 @@
 const MasterMenu = [
     {
-        label: 'banks',
-        path: 'banks',
+        label: 'rewards',
+        path: 'rewards',
         active: false,
-        access: ['admin']
+        access: ['admin', 'superadmin']
     },
     {
-        label: 'mosques',
-        path: 'mosques',
+        label: 'agen-types',
+        path: 'agen-types',
         active: false,
-        access: ['admin']
+        access: ['admin', 'superadmin']
     },
     {
-        label: 'customers',
-        path: 'customers',
+        label: 'members',
+        path: 'members',
         active: false,
-        access: ['admin']
+        access: ['admin', 'superadmin', 'stockist']
     },
-    
+    {
+        label: 'product-categories',
+        path: 'product-categories',
+        active: false,
+        access: ['admin', 'superadmin']
+    },
+    {
+        label: 'products',
+        path: 'products',
+        active: false,
+        access: ['admin', 'superadmin']
+    },
+    {
+        label: 'bank-accounts',
+        path: 'bank-accounts',
+        active: false,
+        access: ['admin', 'superadmin']
+    }
 ];
-
-const DonationMenu = [
-    {
-        label: 'donation-categories',
-        path: 'donation-categories',
-        active: false,
-        access: ['admin']
-    },
-    {
-        label: 'donations',
-        path: 'donations',
-        active: false,
-        access: ['admin']
-    },
-]
-
-const ArticleMenu = [
-    {
-        label: 'article-categories',
-        path: 'article-categories',
-        active: false,
-        access: ['admin']
-    },
-    {
-        label: 'articles',
-        path: 'articles',
-        active: false,
-        access: ['admin']
-    },
-]
 
 const SettingMenu = [
     {
         label: 'users',
         path: 'users',
         active: false,
-        access: ['admin']
-    }
+        access: ['admin', 'superadmin']
+    },
+    {
+        label: 'warehouses',
+        path: 'warehouses',
+        active: false,
+        access: ['admin', 'superadmin']
+    },
+    {
+        label: 'settings',
+        path: 'settings',
+        active: false,
+        access: ['admin', 'superadmin']
+    },
 ]
+
+const SalesMenu = [
+    {
+        label: 'sales',
+        path: 'sales',
+        active: false,
+        access: ['admin', 'agent', 'superadmin']
+    },
+    {
+        label: 'sale-stockists',
+        path: 'sale-stockists',
+        active: false,
+        access: ['admin', 'superadmin']
+    },
+];
+
+const PointMenu = [
+    {
+        label: 'claim-points',
+        path: 'claim-points',
+        active: false,
+        access: ['admin', 'superadmin']
+    },
+];
+
+const RewardMenu = [
+    {
+        label: 'claim-rewards',
+        path: 'claim-rewards',
+        active: false,
+        access: ['admin', 'superadmin']
+    },
+];
 
 const ReportMenu = [
     {
-        label: 'donation-reports',
-        path: 'donation-reports',
+        label: 'sales-report',
+        path: 'sales-report',
         active: false,
-        access: ['admin']
-    }
+        access: ['admin', 'agent', 'superadmin']
+    },
+    {
+        label: 'points-report',
+        path: 'points-report',
+        active: false,
+        access: ['admin', 'superadmin']
+    },
+    {
+        label: 'user-points-report',
+        path: 'user-points-report',
+        active: false,
+        access: ['admin', 'superadmin']
+    },
+    {
+        label: 'claim-points-report',
+        path: 'claim-points-report',
+        active: false,
+        access: ['admin', 'superadmin']
+    },
+    {
+        label: 'claim-rewards-report',
+        path: 'claim-rewards-report',
+        active: false,
+        access: ['admin', 'superadmin']
+    },
 ]
 
 export {
     MasterMenu,
-    DonationMenu,
-    ArticleMenu,
     SettingMenu,
-    ReportMenu
+    SalesMenu,
+    ReportMenu,
+    PointMenu,
+    RewardMenu
 }

@@ -1,47 +1,27 @@
-import { BankStatusEnum, BankTypeEnum } from "../../interfaces/masters/BankInterface"
-
-export const BankDummy = {
+export const RewardDummy = {
     name: '',
-    account_name:'',
-    branch:'',
-    code:'',
-    account_number:'',
-    bank:'',
-    bank_account_name:'',
-    description:'',
-    status:'draft' as BankStatusEnum.draft,
-    type: 'va' as BankTypeEnum.va,
+    quantity: 0,
+    agenTypeId: 0,
 }
-
-export const CustomerDummy = {
+export const ProductCategoryDummy = {
     name: '',
-    email: '',
-    address: ''
+    description: '',
 }
-
-export const MosqueDummy = {
+export const BankAccountDummy = {
     name: '',
-    email: '',
-    address: ''
+    description: '',
 }
-
-export const BankTypeDummy = [
-    {label: 'Virtual Account', value:'va'}, 
-    {label: 'Transfer', value:'transfer'},
-    {label: 'Ewallet', value:'ewallet'},
-    {label: 'Retail', value:'retail'},
-    {label: 'QR', value:'qr'},
-]
-
-export const MosqueTypeDummy = [
-    {label: 'Virtual Account', value:'va'}, 
-    {label: 'Transfer', value:'transfer'},
-    {label: 'Ewallet', value:'ewallet'},
-    {label: 'Retail', value:'retail'},
-    {label: 'QR', value:'qr'},
-]
-
-export const StatusDummy = [
-    {label: 'Draft', value:'draft'},
-    {label: 'Publish', value:'publish'}
-]
+export const ProductDummy = {
+    name: '',
+    description: '',
+}
+export const AgenTypeDummy = {
+    name: '',
+    quantity: 0,
+    agenTypeId: 0,
+}
+export const MemberDummy = {
+    name: '',
+    quantity: 0,
+    agenTypeId: 0,
+}

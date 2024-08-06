@@ -1,14 +1,31 @@
 import AdminLayout from "../components/layouts/admin/AdminLayout";
-import { ArticleCategoryPage, ArticlePage } from "../pages/admins/articles";
-import HomePage from "../pages/admins/dashboard/HomePage";
-import { DonationCategoryPage, DonationPage } from "../pages/admins/donations";
-import { 
-    BankPage,
-    CustomerPage,
-    MosquePage
+import {
+    AgenTypePage,
+    BankAccountPage,
+    DashboardPage,
+    ProductCategoryPage,
+    ProductPage,
+    RewardPage,
+    MemberPage
 } from "../pages/admins/masters";
-import { DonationReport } from "../pages/admins/reports";
-import { UserPage } from "../pages/admins/settings";
+import { ClaimPointPage } from "../pages/admins/points";
+import {
+    ClaimPointsReportPage,
+    ClaimRewardsReportPage,
+    PointsReportPage,
+    SalesReport,
+    UserPointsReportPage
+} from "../pages/admins/reports";
+import { ClaimRewardPage } from "../pages/admins/rewards";
+import {
+    SalePage,
+    FormSalePage,
+    InvoicePage,
+    SaleStockistPage,
+    FormSaleStockist,
+    InvoiceSaleStockist
+} from "../pages/admins/sales";
+import { SettingPage, UserPage, WarehousePage } from "../pages/admins/settings";
 import Middleware from "./MiddlewareRouter";
 
 const MainRouters = [
@@ -18,47 +35,107 @@ const MainRouters = [
         children: [
             {
                 index: true,
-                element: <HomePage />
+                element: <DashboardPage />
+            },
+            {
+                path: 'dashboard',
+                element: <DashboardPage />
+            },
+            {
+                path: 'rewards',
+                element: <RewardPage />
+            },
+            {
+                path: 'agen-types',
+                element: <AgenTypePage />
             },
             {
                 path: 'users',
                 element: <UserPage />
             },
             {
-                path: 'dashboard',
-                element: <HomePage />
+                path: 'product-categories',
+                element: <ProductCategoryPage />
             },
             {
-                path: 'banks',
-                element: <BankPage />
+                path: 'products',
+                element: <ProductPage />
             },
             {
-                path: 'customers',
-                element: <CustomerPage />
+                path: 'bank-accounts',
+                element: <BankAccountPage />
             },
             {
-                path: 'mosques',
-                element: <MosquePage />
+                path: 'members',
+                element: <MemberPage />
             },
             {
-                path: 'donations',
-                element: <DonationPage />
+                path: 'warehouses',
+                element: <WarehousePage />
             },
             {
-                path: 'donation-categories',
-                element: <DonationCategoryPage />
+                path: 'sales',
+                element: <SalePage />
             },
             {
-                path: 'articles',
-                element: <ArticlePage />
+                path: 'sales/create',
+                element: <FormSalePage />
             },
             {
-                path: 'article-categories',
-                element: <ArticleCategoryPage />
+                path: 'sales/create/:id',
+                element: <FormSalePage />
             },
             {
-                path: 'donation-reports',
-                element: <DonationReport />
+                path: 'sales/invoice/:id',
+                element: <InvoicePage />
+            },
+            {
+                path: 'sale-stockists',
+                element: <SaleStockistPage />
+            },
+            {
+                path: 'sale-stockists/create',
+                element: <FormSaleStockist />
+            },
+            {
+                path: 'sale-stockists/create/:id',
+                element: <FormSaleStockist />
+            },
+            {
+                path: 'sales/invoice/:id',
+                element: <InvoiceSaleStockist />
+            },
+            {
+                path: 'sales-report',
+                element: <SalesReport />
+            },
+            {
+                path: 'points-report',
+                element: <PointsReportPage />
+            },
+            {
+                path: 'user-points-report',
+                element: <UserPointsReportPage />
+            },
+            {
+                path: 'claim-points-report',
+                element: <ClaimPointsReportPage />
+            },
+            {
+                path: 'claim-rewards-report',
+                element: <ClaimRewardsReportPage />
+            },
+            {
+                path: 'settings',
+                element: <SettingPage />
+            },
+            {
+                path: 'claim-points',
+                element: <ClaimPointPage />
+            },
+            {
+                path: 'claim-rewards',
+                element: <ClaimRewardPage />
             },
         ], 
     }

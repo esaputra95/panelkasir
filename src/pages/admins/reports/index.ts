@@ -1,1 +1,5 @@
-export { default as DonationReport } from './donationReport'
+export {default as SalesReport} from './salesReport'
+export {default as PointsReportPage} from './pointsReport'
+export {default as UserPointsReportPage} from './userPointsReport'
+export {default as ClaimPointsReportPage} from './claimPointsReport'
+export {default as ClaimRewardsReportPage} from './claimRewardsReport'

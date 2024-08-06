@@ -13,8 +13,7 @@ import { useEffect, useState } from "react"
 import {
     ApiResponseUser,
     ApiResponseUpdateUser,
-    UserInterface,
-    UserRoleEnum
+    UserInterface
 } from "../../../interfaces/settings/UserInterface"
 import { SubmitHandler, useForm } from "react-hook-form"
 import url from "../../../services/url"
@@ -33,10 +32,11 @@ import { UserDummy } from "../../../utils/dummy/setting"
 
 export const useUser = () => {
     const [ query, setQuery ] = useState({
-        name: '', email:''
+        name: '', email:'', phone:'', address: '', role:''
     })
     const [ idDetail, setIdDetail ] = useState<number|null>()
     const [ dataOptionUser, setDataOptionUser] = useState<OptionSelectInterface[]>([{value:'', label:''}])
+    const [ dataOptionStockist, setDataOptionStockist] = useState<OptionSelectInterface[]>([{value:'', label:''}])
     const { User } = url
     const { modalForm, setModalForm } = ModalFormState()
     const { t } = useTranslation();
@@ -57,9 +57,13 @@ export const useUser = () => {
         control,
         setValue,
         getValues,
+        watch,
         formState: { errors },
     } = useForm<UserInterface>({
-        resolver: yupResolver(UserSchema().schema)
+        resolver: yupResolver(UserSchema().schema),
+        defaultValues: {
+            ...UserDummy
+        }
     });
 
     const {
@@ -95,7 +99,16 @@ export const useUser = () => {
     const optionUser = async (data: string): Promise<OptionSelectInterface[]> => {
         const response = await getDataSelect(User.getSelect, {name: data});
         if(response.status){
-            setDataOptionUser(response.data.class);
+            setDataOptionUser(response.data.user);
+            return response.data.user
+        }
+        return [{value:'', label:''}]
+    }
+    
+    const optionStockist = async (data: string): Promise<OptionSelectInterface[]> => {
+        const response = await getDataSelect(User.getStockistSelect, {name: data});
+        if(response.status){
+            setDataOptionStockist(response.data.user);
             return response.data.user
         }
         return [{value:'', label:''}]
@@ -130,7 +143,9 @@ export const useUser = () => {
                 visible: false
             }))
             refetch()
-            reset()
+            reset({
+                ...UserDummy
+            })
             toast.success(t("success-save"), {
                 position: toast.POSITION.TOP_CENTER
             });
@@ -185,8 +200,7 @@ export const useUser = () => {
 
     const onSubmit: SubmitHandler<UserInterface> = (data) => {
         mutate({
-            ...data,
-            role: 'superadmin' as UserRoleEnum
+            ...data
         })
         
     }
@@ -268,6 +282,9 @@ export const useUser = () => {
         registerFilter,
         handleSubmitFilter,
         setValue,
-        getValues
+        getValues,
+        watch,
+        optionStockist,
+        dataOptionStockist
     }
 }
