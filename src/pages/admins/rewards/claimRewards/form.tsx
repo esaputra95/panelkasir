@@ -1,14 +1,8 @@
 import { FC } from 'react'
-import { Button, InputText, LabelInput, SelectOption } from '../../../../components/input';
+import { Button, InputText } from '../../../../components/input';
 import { ClaimRewardsFormProps } from '../../../../interfaces/rewards/ClaimRewardsInterface';
 import { useTranslation } from 'react-i18next';
 import Spinner from '../../../../components/ui/Spinner';
-import { Controller } from 'react-hook-form';
-import AsyncSelect from 'react-select/async';
-import { useUser } from '../../../../hooks/fetch/settings/useUser';
-import InputNumeric from '../../../../components/input/inputNumeric';
-import { OptionSelectInterface } from '../../../../interfaces/globalInterface';
-import { useReward } from '../../../../hooks/fetch/masters/useReward';
 import { BsArrowClockwise } from "react-icons/bs";
 
 const FormClaimRewards: FC<ClaimRewardsFormProps> = (props) => {
@@ -19,24 +13,12 @@ const FormClaimRewards: FC<ClaimRewardsFormProps> = (props) => {
         errors,
         idDetail,
         isLoadingMutate,
-        control,
-        watch,
         checkTotalPoint,
         register,
         fields
     } = props;
     const {t} = useTranslation();
 
-    const {
-        dataOptionUser,
-        optionUser
-    } = useUser()
-
-    const {
-        dataOptionReward,
-        optionReward
-    } = useReward();
-    
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className='flex flex-row items-end space-x-2'>

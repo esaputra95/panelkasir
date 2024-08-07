@@ -1,4 +1,3 @@
-import React from 'react';
 import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/renderer';
 import {Table, TR, TH, TD} from '@ag-media/react-pdf-table';
 import { PDFViewer } from '@react-pdf/renderer';
