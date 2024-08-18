@@ -146,6 +146,40 @@ const FormUser: FC<UserFormProps> = (props) => {
                         type='password'
                         label={t("password")} 
                     />
+                    {
+                        watch('agentTypeId') === 1 ? (
+                            <div className='w-full'>
+                                <LabelInput>{t("referral")}</LabelInput>
+                                <Controller
+                                    name="referrerOption"
+                                    control={control}
+                                        render={({ field }) => 
+                                        <AsyncSelect 
+                                            {...field}
+                                            isDisabled={idDetail?true:false}
+                                            placeholder=''
+                                            defaultOptions
+                                            onChange={(e)=> (
+                                                setValue('referrerId', e?.value as number)
+                                            )}
+                                            value={
+                                                dataOptionUser.find(
+                                                    e=> e.value === watch(`referrerId`)
+                                                )
+                                            }
+                                            loadOptions={optionUser}
+                                            ref={(ref)=>ref}
+                                        />
+                                    }
+                                />
+                                <span className='text-red-300'>
+                                {
+                                    errors.referrerId?.message
+                                }
+                                </span>
+                            </div>
+                        ) : null
+                    }
                     <div className='flex flex-col w-full'>
                         <label htmlFor="address">{t('address')} </label>
                         <textarea

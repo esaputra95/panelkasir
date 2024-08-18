@@ -24,7 +24,7 @@ export interface AgenTypeInterface {
     id?: number;
     name: string;
     description: string;
-    type: 'stockist' | 'point';
+    type: 'stockist' | 'point' | 'referral';
     level: number;
     userCreate?: number;
     createdAt?: Date;

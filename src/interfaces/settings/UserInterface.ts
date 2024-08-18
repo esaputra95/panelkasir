@@ -31,7 +31,9 @@ export interface UserInterface {
     agentTypeOption?: OptionSelectInterface;
     role: UserRoleEnum;
     leaderId?: number;
+    referrerId?: number;
     leaderOption?: OptionSelectInterface;
+    referrerOption?: OptionSelectInterface;
     password?: string;
     warehouseId?: number;
     ktpImage?: string;

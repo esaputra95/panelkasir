@@ -42,7 +42,7 @@ const ProductPage = () => {
         removeSettingPackages,
         optionProduct,
         dataOptionProduct,
-        watch
+        watch,
     } = useProduct()
 
     return (

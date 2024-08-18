@@ -39,7 +39,9 @@ const FormAgenType: FC<AgenTypeFormProps> = (props) => {
                         option={[
                             {label: 'Point', value: 'point'},
                             {label: 'Stockist', value: 'stockist'},
+                            {label: 'Referral', value: 'referral'},
                         ]} 
+                        errors={errors.type?.message}
                     />
                     <InputText
                         {...register("description")}

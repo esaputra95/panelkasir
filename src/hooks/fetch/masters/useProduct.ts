@@ -30,7 +30,6 @@ import { OptionSelectInterface } from "../../../interfaces/globalInterface"
 import { ProductDummy } from "../../../utils/dummy/master"
 
 export const useProduct = () => {
-    const [loading, setLoading] = useState(false)
     const [ query, setQuery ] = useState({name: ''})
     const [ idDetail, setIdDetail ] = useState<number|null>()
     const [ dataOptionProduct, setDataOptionProduct] = useState<OptionSelectInterface[]>([{value:'', label:''}])
@@ -174,7 +173,7 @@ export const useProduct = () => {
         }
     })
 
-    const { mutate } = useMutation({
+    const { mutate, isLoading:loading } = useMutation({
         mutationFn: async (data:ProductInterface)=> {
             return await postData(Product.post, data)
         },
@@ -183,7 +182,6 @@ export const useProduct = () => {
                 ...state,
                 visible: false
             }))
-            setLoading(false);
             refetch()
             reset(ProductDummy)
             toast.success(t("success-save"), {
@@ -202,7 +200,6 @@ export const useProduct = () => {
                 loading: false,
                 visible: false
             })
-            setLoading(false)
             toast.error(message, {
                 position: toast.POSITION.TOP_CENTER
             });

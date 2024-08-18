@@ -17,7 +17,6 @@ export const ProductDummy = {
 }
 export const AgenTypeDummy = {
     name: '',
-    quantity: 0,
     agenTypeId: 0,
 }
 export const MemberDummy = {
