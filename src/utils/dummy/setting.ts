@@ -7,7 +7,8 @@ export const UserDummy = {
     name: '',
     email: '',
     address: '',
-    stockist: 0
+    stockist: 0,
+    code: 'Auto'
 }
 
 export const WarehouseDummy = {

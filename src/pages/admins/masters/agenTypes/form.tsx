@@ -21,6 +21,12 @@ const FormAgenType: FC<AgenTypeFormProps> = (props) => {
             <div className='flex flex-col '>
                 <div className='grid grid-cols-1 gap-4'>
                     <InputText
+                        {...register("code")}
+                        errors={errors.code?.message} 
+                        readOnly={idDetail?true:false} 
+                        label={t("code")} 
+                    />
+                    <InputText
                         {...register("name")}
                         errors={errors.name?.message} 
                         readOnly={idDetail?true:false} 

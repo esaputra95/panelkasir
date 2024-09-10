@@ -21,6 +21,7 @@ const header = [
         width: 'w-4'
     },
     { label: 'name' },
+    { label: 'code' },
     { label: 'type' },
     { label: 'level' },
     { label: 'description' },
@@ -58,6 +59,9 @@ const Table: FC<TableProps> = (props) => {
                                 </td>
                                 <td className="px-6 py-4">
                                     {value?.name}
+                                </td>
+                                <td className="px-6 py-4">
+                                    {value?.code}
                                 </td>
                                 <td className="px-6 py-4">
                                     {value?.type}

@@ -23,6 +23,7 @@ export enum AgenTypesPublish {
 export interface AgenTypeInterface {
     id?: number;
     name: string;
+    code:string;
     description: string;
     type: 'stockist' | 'point' | 'referral';
     level: number;
