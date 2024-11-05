@@ -5,8 +5,7 @@ import { useTranslation } from 'react-i18next';
 import Spinner from '../../../../components/ui/Spinner';
 import { Controller } from 'react-hook-form';
 import AsyncSelect from 'react-select/async';
-import { useAgenType } from '../../../../hooks/fetch/masters/useAgenType';
-import { useUser } from '../../../../hooks/fetch/settings/useUser';
+import { useUser } from '../../../../hooks/slices/settings/useUser';
 
 const FormUser: FC<UserFormProps> = (props) => {
     const {t} = useTranslation()
@@ -22,11 +21,6 @@ const FormUser: FC<UserFormProps> = (props) => {
         setValue,
         watch
     } = props;
-
-    const {
-        dataOptionAgenType,
-        optionAgenType
-    } = useAgenType();
 
     const {
         dataOptionUser,
@@ -49,36 +43,7 @@ const FormUser: FC<UserFormProps> = (props) => {
                         readOnly={idDetail?true:false} 
                         label={t("name")} 
                     />
-                    <div className='w-full'>
-                        <LabelInput>{t("user-types")}</LabelInput>
-                        <Controller
-                            name="agentTypeOption"
-                            control={control}
-                                render={({ field }) => 
-                                <AsyncSelect 
-                                    {...field}
-                                    isDisabled={idDetail?true:false}
-                                    placeholder=''
-                                    defaultOptions
-                                    onChange={(e)=> (
-                                        setValue('agentTypeId', e?.value as number)
-                                    )}
-                                    value={
-                                        dataOptionAgenType.find(
-                                            e=> e.value === watch(`agentTypeId`)
-                                        )
-                                    }
-                                    loadOptions={optionAgenType}
-                                    ref={(ref)=>ref}
-                                />
-                            }
-                        />
-                        <span className='text-red-300'>
-                        {
-                            errors.agentTypeId?.message
-                        }
-                        </span>
-                    </div>
+                    
                     <InputText
                         {...register("phone")}
                         errors={errors.phone?.message} 

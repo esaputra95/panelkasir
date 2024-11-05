@@ -6,7 +6,7 @@ const useLocatioanName = () => {
     const location = useLocation();
     return {
         pathName: t(location.pathname.split('/')[1]),
-        pathNameOriginal: location.pathname.split('/')[1]
+        pathNameOriginal: location.pathname
     }
 }
 

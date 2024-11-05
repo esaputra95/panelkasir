@@ -1,6 +1,6 @@
 import Table from './Table'
 import TablePaging from './TablePaging'
-import { useSale } from '../../../../hooks/fetch/sales/sales/useSale'
+import { useSale } from '../../../../hooks/slices/sales/sales/useSale'
 import { Button } from '../../../../components/input'
 import useLocatioanName from '../../../../utils/location'
 import ModalConfirm from '../../../../components/ui/modal/ModalConfirm'

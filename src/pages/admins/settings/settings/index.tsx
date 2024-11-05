@@ -1,4 +1,4 @@
-import { useSetting } from '../../../../hooks/fetch/settings/useSetting'
+import { useSetting } from '../../../../hooks/slices/settings/useSetting'
 import FormSetting from './form'
 
 const SettingPage = () => {

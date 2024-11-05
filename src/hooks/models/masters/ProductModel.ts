@@ -5,7 +5,8 @@ import { AxiosError } from "axios";
 interface ParamDonationInterface extends ProductSearchInterface {
 	page?: number,
 	limit?: number,
-	order?: string
+	order?: string,
+	storeId?: string
 }
 
 const getData = async (url:string, params:ParamDonationInterface) => {

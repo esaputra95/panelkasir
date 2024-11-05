@@ -4,7 +4,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Menu, MenuHandler, MenuItem, MenuList, Typography } from "@material-tailwind/react";
 import { BsList, BsPersonCircle, BsXLg } from "react-icons/bs";
 import useAccess from "../../../utils/useAccess";
-import { FC } from "react";
+import { FC, useEffect, useMemo } from "react";
+import AsyncSelect from 'react-select/async';
+import useStore from "../../../hooks/slices/masters/useStore";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserSlice } from "../../../redux/userSlice";
+import { OptionSelectInterface } from "../../../interfaces/globalInterface";
+import { SingleValue } from "react-select";
+import { RootState } from "../../../redux/store";
 
 type NavBarType = {
 	menu:boolean;
@@ -16,11 +23,24 @@ const NavBar:FC<NavBarType> = (props) => {
 		menu,
 		handleOpenMenu
 	} = props
-
+	const user = useSelector((state:RootState)=> state.userReducer)
+	const dispatch = useDispatch()
 	const location = useLocation()
 	const { t, i18n } = useTranslation();
 	const navigate = useNavigate()
 	const { token } = useAccess()
+
+	const {optionStore, dataOptionStore} = useStore()
+
+	const store = useMemo(()=> {
+		return user.storeId ? dataOptionStore.filter(val=>val.value === user.storeId)?.[0] ?? dataOptionStore[0] : dataOptionStore[0]
+	},[user.storeId, dataOptionStore]);
+	
+	useEffect(()=>{
+		dispatch(setUserSlice({
+			storeId: store.value+''
+		}))
+	}, [store])
 
 	const onChangeLang = (e:string) => {
 		const lang_code = e;
@@ -31,6 +51,14 @@ const NavBar:FC<NavBarType> = (props) => {
 	const logOut = () => {
 		window.localStorage.removeItem('token')
 		navigate('/login')
+	}
+
+	const onChangeStore = (value:SingleValue<OptionSelectInterface>) => {
+		dispatch(
+			setUserSlice({
+				storeId: value?.value as string
+			})
+		)
 	}
 
 	return (
@@ -44,8 +72,20 @@ const NavBar:FC<NavBarType> = (props) => {
 						}
 					</span>
 					{t(location.pathname.replace('/', '').split('/').slice(-1)[0])}
+				</div>
+				<div className="flex space-x-2 w-6/12 items-center justify-end">
+					<div className="w-6/12">
+						<AsyncSelect
+							className='w-full'
+							cacheOptions
+							value={store}
+							loadOptions={optionStore}
+							onChange={onChangeStore}
+							defaultOptions
+							placeholder="Pilih Toko"
+							ref={(ref)=> ref}
+						/>
 					</div>
-				<div className="flex space-x-2">
 					<div className="flex gap-x-2 bg-gray-50 rounded-lg px-2 items-center">
 						<Menu>
 							<MenuHandler>

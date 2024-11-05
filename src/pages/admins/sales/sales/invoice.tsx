@@ -1,7 +1,7 @@
 import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/renderer';
 import {Table, TR, TH, TD} from '@ag-media/react-pdf-table';
 import { PDFViewer } from '@react-pdf/renderer';
-import useInvoice from '../../../../hooks/fetch/sales/sales/useInvoice';
+import useInvoice from '../../../../hooks/slices/sales/sales/useInvoice';
 import formatter from '../../../../utils/currency';
 import { t } from 'i18next';
 

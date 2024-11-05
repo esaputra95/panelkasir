@@ -12,10 +12,12 @@ const FormMember: FC<MemberFormProps> = (props) => {
         onCancel,
         errors,
         idDetail,
-        isLoadingMutate
+        isLoading
     } = props;
     const {t} = useTranslation();
 
+    console.log({isLoading});
+    
     
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -28,34 +30,10 @@ const FormMember: FC<MemberFormProps> = (props) => {
                         label={t("name")} 
                     />
                     <InputText
-                        {...register("hp")}
-                        errors={errors.hp?.message} 
+                        {...register("phone")}
+                        errors={errors.phone?.message} 
                         readOnly={idDetail?true:false} 
-                        label={t("hp")} 
-                    />
-                    <InputText
-                        {...register("country")}
-                        errors={errors.country?.message} 
-                        readOnly={idDetail?true:false} 
-                        label={t("country")} 
-                    />
-                    <InputText
-                        {...register("province")}
-                        errors={errors.province?.message} 
-                        readOnly={idDetail?true:false} 
-                        label={t("province")} 
-                    />
-                    <InputText
-                        {...register("city")}
-                        errors={errors.city?.message} 
-                        readOnly={idDetail?true:false} 
-                        label={t("city")} 
-                    />
-                    <InputText
-                        {...register("subdistrict")}
-                        errors={errors.subdistrict?.message} 
-                        readOnly={idDetail?true:false} 
-                        label={t("subdistrict")} 
+                        label={t("phone")} 
                     />
                     <InputText
                         {...register("address")}
@@ -76,12 +54,12 @@ const FormMember: FC<MemberFormProps> = (props) => {
                     </Button>
                 {!idDetail ? 
                     <Button 
-                        disabled={isLoadingMutate?true:false} 
+                        disabled={isLoading} 
                         variant="primary" 
                         type='submit' 
                         size="medium" 
                         className='my-4' >
-                            {t('save')} {isLoadingMutate?<Spinner />:null} {isLoadingMutate}
+                            {t('save')} {isLoading?<Spinner />:null} {isLoading}
                     </Button>
                 : null}
             </div>

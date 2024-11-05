@@ -1,6 +1,5 @@
 import Table from './Table'
-import TablePaging from './TablePaging'
-import { useMember } from '../../../../hooks/fetch/masters/useMember'
+import { useMember } from '../../../../hooks/slices/masters/useMember'
 import ModalForm from '../../../../components/ui/modal/ModalForm'
 import FormMember from './form'
 import { Button } from '../../../../components/input'
@@ -8,11 +7,11 @@ import useLocatioanName from '../../../../utils/location'
 import ModalConfirm from '../../../../components/ui/modal/ModalConfirm'
 import { InputText } from "../../../../components/input";
 import { t } from 'i18next'
+import TablePaging from '../../../../components/ui/TablePaging'
 
 const MemberPage = () => {
     const { 
         dataMember, 
-        isFetching,
         errors,
         loading,
         register,
@@ -33,6 +32,7 @@ const MemberPage = () => {
         setValue,
         getValues,
         control,
+        isLoading
     } = useMember()
 
     return (
@@ -56,6 +56,7 @@ const MemberPage = () => {
                     getValues={getValues}
                     isLoadingMutate={loading}
                     status={status}
+                    isLoading={isLoading}
                 />
             </ModalForm>
             <div className='w-full'>
@@ -63,7 +64,7 @@ const MemberPage = () => {
                     <Button 
                         onClick={()=>setModalForm((state)=> ({...state, visible:true}))} 
                     >
-                        + {useLocatioanName().pathName}
+                        + {t(useLocatioanName().pathNameOriginal)}
                     </Button>
                     <div className="w-6/12 md:w-4/12 relative text-gray-600">
                         <form onSubmit={handleSubmitFilter(onFilter)}>
@@ -93,8 +94,7 @@ const MemberPage = () => {
                     </div>
                 </div>
                 <Table
-                    data={dataMember?.data?.Member ?? []}
-                    isFetching={isFetching}
+                    data={dataMember?.data?.member ?? []}
                     page={page.page}
                     limit={page.limit}
                     onDelete={onDelete}

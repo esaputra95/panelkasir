@@ -1,61 +1,43 @@
 const MasterMenu = [
     {
-        label: 'rewards',
-        path: 'rewards',
-        active: false,
-        access: ['admin', 'superadmin']
-    },
-    {
-        label: 'agen-types',
-        path: 'agen-types',
-        active: false,
-        access: ['admin', 'superadmin']
-    },
-    {
         label: 'members',
-        path: 'members',
+        path: '/masters/members',
         active: false,
-        access: ['admin', 'superadmin', 'stockist']
+        access: ['admin', 'superadmin', 'owner']
     },
     {
         label: 'product-categories',
-        path: 'product-categories',
+        path: '/masters/product-categories',
         active: false,
-        access: ['admin', 'superadmin']
+        access: ['admin', 'superadmin', 'owner']
     },
     {
         label: 'products',
-        path: 'products',
+        path: '/masters/products',
         active: false,
-        access: ['admin', 'superadmin']
+        access: ['admin', 'superadmin', 'owner']
     },
-    {
-        label: 'bank-accounts',
-        path: 'bank-accounts',
-        active: false,
-        access: ['admin', 'superadmin']
-    }
 ];
 
 const SettingMenu = [
     {
         label: 'users',
-        path: 'users',
+        path: '/settings/users',
         active: false,
-        access: ['admin', 'superadmin']
+        access: ['admin', 'superadmin', 'owner']
     },
     {
         label: 'warehouses',
-        path: 'warehouses',
+        path: '/settings/stores',
         active: false,
-        access: ['admin', 'superadmin']
+        access: ['admin', 'superadmin', 'owner']
     },
-    {
-        label: 'settings',
-        path: 'settings',
-        active: false,
-        access: ['admin', 'superadmin']
-    },
+    // {
+    //     label: 'settings',
+    //     path: '/settings/setting',
+    //     active: false,
+    //     access: ['admin', 'superadmin', 'owner']
+    // },
 ]
 
 const SalesMenu = [
@@ -63,13 +45,7 @@ const SalesMenu = [
         label: 'sales',
         path: 'sales',
         active: false,
-        access: ['admin', 'agent', 'superadmin']
-    },
-    {
-        label: 'sale-stockists',
-        path: 'sale-stockists',
-        active: false,
-        access: ['admin', 'superadmin']
+        access: ['admin', 'agent', 'superadmin', 'owner']
     },
 ];
 
@@ -93,34 +69,22 @@ const RewardMenu = [
 
 const ReportMenu = [
     {
-        label: 'sales-report',
-        path: 'sales-report',
+        label: 'purchases',
+        path: '/reports/purchases-report',
         active: false,
-        access: ['admin', 'agent', 'superadmin']
+        access: ['admin', 'owner', 'superadmin']
     },
     {
-        label: 'points-report',
-        path: 'points-report',
+        label: 'sales',
+        path: '/reports/sales-report',
         active: false,
-        access: ['admin', 'superadmin']
+        access: ['admin', 'owner', 'superadmin']
     },
     {
-        label: 'user-points-report',
-        path: 'user-points-report',
+        label: 'margins',
+        path: '/reports/margins-report',
         active: false,
-        access: ['admin', 'superadmin']
-    },
-    {
-        label: 'claim-points-report',
-        path: 'claim-points-report',
-        active: false,
-        access: ['admin', 'superadmin']
-    },
-    {
-        label: 'claim-rewards-report',
-        path: 'claim-rewards-report',
-        active: false,
-        access: ['admin', 'superadmin']
+        access: ['admin', 'owner', 'superadmin']
     },
 ]
 

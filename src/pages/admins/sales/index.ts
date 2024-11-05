@@ -1,6 +1,3 @@
 export {default as SalePage} from './sales'
 export {default as FormSalePage} from './sales/form'
 export {default as InvoicePage} from './sales/invoice'
-export {default as SaleStockistPage} from './saleStockists'
-export {default as FormSaleStockist} from './saleStockists/form'
-export {default as InvoiceSaleStockist} from './saleStockists/invoice'

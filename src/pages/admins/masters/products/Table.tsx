@@ -20,9 +20,11 @@ const header = [
         align: 'left',
         width: 'w-4'
     },
+    { label: 'code' },
     { label: 'name' },
     { label: 'categories' },
-    { label: 'description' },
+    { label: 'brands' },
+    { label: 'stock' },
     { 
         label: 'Action',
         width: 'w-16'
@@ -56,13 +58,19 @@ const Table: FC<TableProps> = (props) => {
                                     {(number+index+1)}
                                 </td>
                                 <td className="px-6 py-4">
+                                    {value?.code}
+                                </td>
+                                <td className="px-6 py-4">
                                     {value?.name}
                                 </td>
                                 <td className="px-6 py-4">
-                                    {value?.productCategories?.name}
+                                    {value?.categories?.name}
                                 </td>
                                 <td className="px-6 py-4">
-                                    {value?.description}
+                                    {value?.brands?.name}
+                                </td>
+                                <td className="px-6 py-4">
+                                    {value?.stocks?.[0]?.quantity}
                                 </td>
                                 <td className="px-6 py-4 flex">
                                     <span title="Update" className="p-1.5 bg-green-50 hover:bg-green-100 hover:cursor-pointer rounded-full" onClick={()=>onUpdate(value?.id ?? 0)}>

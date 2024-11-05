@@ -6,15 +6,17 @@ import './index.css'
 import { BrowserRouter } from 'react-router-dom'
 import store from './redux/store.ts'
 import { ThemeProvider } from "@material-tailwind/react";
+import { CookiesProvider } from 'react-cookie'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
+    <CookiesProvider defaultSetOptions={{ path: '/' }}>
     <ThemeProvider>
     <BrowserRouter>
       <Provider store={store}>
         <App />
       </Provider>
     </BrowserRouter>
-    </ThemeProvider>
+    </ThemeProvider></CookiesProvider>
   </React.StrictMode>,
 )

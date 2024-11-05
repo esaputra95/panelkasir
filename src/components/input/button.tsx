@@ -6,8 +6,12 @@ const button = cva("flex items-center justify-center", {
 		variant: {
 			primary: [
 				"text-white",
-				"bg-blue-700",
-				"hover:bg-blue-800",
+				"hover:bg-gradient-to-r",
+				"hover:from-cyan-800", 
+				"hover:to-blue-800",
+				"bg-gradient-to-r",
+				"from-cyan-700", 
+				"to-blue-700",
 				"focus:ring-4",
 				"focus:ring-blue-300",
 				"font-medium",

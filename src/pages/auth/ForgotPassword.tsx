@@ -1,5 +1,5 @@
 import { Button, InputText } from '../../components/input'
-import useForgotPassword from '../../hooks/fetch/auth/useForgotPassword'
+import useForgotPassword from '../../hooks/slices/auth/useForgotPassword'
 
 const ForgotPassword = () => {
     const {

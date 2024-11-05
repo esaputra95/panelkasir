@@ -1,5 +1,5 @@
 import { Button, InputText } from '../../components/input'
-import { useLogin } from '../../hooks//fetch/auth/useLogin'
+import { useLogin } from '../../hooks/slices/auth/useLogin'
 
 const LoginPage = () => {
     const {
@@ -21,10 +21,10 @@ const LoginPage = () => {
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className='flex flex-col gap-y-4'>
                             <InputText 
-                                {...register('username')}
-                                label='Username'
+                                {...register('email')}
+                                label='Email'
                                 type='text'
-                                errors={errors.username?.message}
+                                errors={errors.email?.message}
                             />
                             <InputText
                                 {...register('password')}

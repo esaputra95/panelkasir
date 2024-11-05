@@ -3,43 +3,28 @@ const helperReport = {
         'no',
         'invoice',
         'date',
+        'users',
+        'sub-total',
+        'discount',
         'total',
-        'users',
-        'status'
     ],
-    headerPointsReport: [
+    headerPurchasesReport: [
         'no',
-        'users',
         'invoice',
         'date',
-        'points',
-    ],
-    headerUserPointsReport: [
-        'no',
-        'seller',
-        'points',
-    ],
-    headerClaimPointsReport: [
-        'no',
-        'seller',
-        'start-date',
-        'until-date',
-        'points',
-        'price',
+        'users',
+        'sub-total',
+        'discount',
         'total',
     ],
-    headerClaimRewardReport: [
+    headerMarginsReport: [
         'no',
-        'seller',
-        'points',
-        'rewards',
-    ],
-    headerClaimReward: [
-        'no',
-        'seller',
-        'points',
-        'rewards',
-    ],
+        'invoice',
+        'date',
+        'capital',
+        'sell',
+        'margin',
+    ]
 }
 
 export default helperReport

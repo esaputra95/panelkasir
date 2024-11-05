@@ -5,7 +5,7 @@ import { t } from 'i18next';
 const Data: FC<DataPayrollInterface> = (props) => {
     const { dataSalesReport } = props;
     return (
-        <div className='w-full'>
+        <div className='w-full overflow-auto'>
             <table className='w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400'>
                 <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
                     <tr>
@@ -19,13 +19,16 @@ const Data: FC<DataPayrollInterface> = (props) => {
                             {t('date')}
                         </th>
                         <th className='p-2'>
-                            {t('total')}
-                        </th>
-                        <th className='p-2'>
                             {t('users')}
                         </th>
                         <th className='p-2'>
-                            {t('status')}
+                            {t('sub-total')}
+                        </th>
+                        <th className='p-2'>
+                            {t('discount')}
+                        </th>
+                        <th className='p-2'>
+                            {t('total')}
                         </th>
                     </tr>
                 </thead>

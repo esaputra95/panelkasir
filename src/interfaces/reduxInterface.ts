@@ -9,3 +9,10 @@ export interface ModalConfirmInterface {
     onSubmit?: boolean
     onCancel?: boolean
 }
+
+export interface UserReduxInterface {
+    name?: string;
+    username?: string;
+    level?: string;
+    storeId?: string
+}

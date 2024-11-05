@@ -3,6 +3,9 @@ import { OptionSelectInterface } from "../globalInterface";
 
 export interface SalesReport {
     warehouse?: OptionSelectInterface;
+    storeId?: string;
+    accountCash?: OptionSelectInterface;
+    accountCashId?: string;
     user?: OptionSelectInterface;
     status: 'create' | 'sent' | 'finish'
     startDate?: string;

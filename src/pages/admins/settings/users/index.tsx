@@ -1,6 +1,6 @@
 import Table from './Table'
 import TablePaging from './TablePaging'
-import { useUser } from '../../../../hooks/fetch/settings/useUser'
+import { useUser } from '../../../../hooks/slices/settings/useUser'
 import ModalForm from '../../../../components/ui/modal/ModalForm'
 import FormUser from './form'
 import { Button } from '../../../../components/input'
@@ -64,7 +64,7 @@ const UserPage = () => {
                     <Button 
                         onClick={()=>setModalForm((state)=> ({...state, visible:true}))} 
                     >
-                        + {useLocatioanName().pathName}
+                        + {t(useLocatioanName().pathNameOriginal)}
                     </Button>
                     <div className="w-6/12 md:w-4/12 relative text-gray-600">
                         <form onSubmit={handleSubmitFilter(onFilter)}>

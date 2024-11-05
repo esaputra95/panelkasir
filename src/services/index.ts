@@ -1,10 +1,12 @@
 import axios from 'axios';
+import { Cookies } from 'react-cookie';
 
 const api = axios.create();
+const cookies = new Cookies();
 
 api.interceptors.request.use(
     config => {
-        const token = localStorage.getItem('token');
+        const token = cookies.get('token');
         config.baseURL = import.meta.env.VITE_API_URL
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
@@ -21,7 +23,7 @@ const apiImage = axios.create();
 
 apiImage.interceptors.request.use(
     config => {
-        const token = localStorage.getItem('token');
+        const token = cookies.get('token');
         config.baseURL = import.meta.env.VITE_API_URL
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;

@@ -22,12 +22,10 @@ export enum MembersPublish {
 
 export interface MemberInterface {
     id?: number
-    name: string
-    hp?: string
-    country?: string
-    province?: string
-    city?: string
-    subdistrict?: string;
+    ownerId?: string;
+    level?: number;
+    name: string;
+    phone?: string;
     address?: string
     userCreate?: string
     createdAt?: Date
@@ -68,13 +66,13 @@ export interface MemberTableInterface extends Omit<MemberInterface, 'classType' 
 export interface ApiResponseMember extends ApiResponse {
     data: {
         info: InfoResponse,
-        Member: MemberTableInterface[]
+        member: MemberTableInterface[]
     }
 }
 
 export interface ApiResponseUpdateMember extends ApiResponse {
     data: {
         info: InfoResponse,
-        Member: MemberInterface
+        member: MemberInterface
     }
 }

@@ -11,8 +11,7 @@ import Spinner from '../../../../components/ui/Spinner';
 import { Controller } from 'react-hook-form';
 import InputNumeric from '../../../../components/input/inputNumeric';
 import AsyncSelect from 'react-select/async';
-import { useProductCategory } from '../../../../hooks/fetch/masters/useProductCategory';
-import { useAgenType } from '../../../../hooks/fetch/masters/useAgenType';
+import { useProductCategory } from '../../../../hooks/slices/masters/useProductCategory';
 import { OptionSelectInterface } from '../../../../interfaces/globalInterface';
 import { BsFillTrashFill } from "react-icons/bs";
 
@@ -38,8 +37,6 @@ const FormProduct: FC<ProductFormProps> = (props) => {
         watch
     } = props;
     const {t} = useTranslation();
-
-    const {optionAgenType, dataOptionAgenType} = useAgenType();
 
     const { optionProductCategory } = useProductCategory();
     return (
@@ -211,33 +208,6 @@ const FormProduct: FC<ProductFormProps> = (props) => {
                             {
                                 !watch(`settingPoints.${index}.delete`) ? (
                                     <div key={fields.id} className='flex items-center'>
-                                    <div className='w-6/12'>
-                                        <Controller
-                                            name={`settingPoints.${index}.agenTypeOption`}
-                                            control={control}
-                                                render={({ field }) => 
-                                                <AsyncSelect 
-                                                    {...field}
-                                                    isDisabled={idDetail?true:false}
-                                                    placeholder='Pilih...'
-                                                    defaultOptions
-                                                    value={
-                                                        dataOptionAgenType.find(
-                                                            e=> e.value === watch(`settingPoints.${index}.agenTypeId`)
-                                                        )
-                                                    }
-                                                    loadOptions={optionAgenType}
-                                                    ref={(ref)=>ref}
-                                                    onChange={(e)=> (
-                                                        setValue(`settingPoints.${index}.agenTypeId`, e?.value as number)
-                                                    )}
-                                                />
-                                            }
-                                        />
-                                        <span className='text-red-300'>
-                                        {   errors.settingPoints?.[index]?.agenTypeId?.message} 
-                                        </span>
-                                    </div>
                                     <InputText
                                         {...register(`settingPoints.${index}.value`)}
                                         errors={errors.settingPoints?.[index]?.value?.message} 

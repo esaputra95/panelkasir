@@ -48,7 +48,6 @@ export type ProductCategoryFormProps = {
     getValues: UseFormGetValues<ProductCategoryInterface>;
     control: Control<ProductCategoryInterface>;
     handleOnChange: (key:keyof ProductCategoryInterface, data?: OptionSelectInterface ) => void;
-    isLoadingMutate: boolean;
     status: string;
 }
 
@@ -65,13 +64,13 @@ export interface ProductCategoryTableInterface extends Omit<ProductCategoryInter
 export interface ApiResponseProductCategory extends ApiResponse {
     data: {
         info: InfoResponse,
-        ProductCategory: ProductCategoryTableInterface[]
+        productCategory: ProductCategoryTableInterface[]
     }
 }
 
 export interface ApiResponseUpdateProductCategory extends ApiResponse {
     data: {
         info: InfoResponse,
-        ProductCategory: ProductCategoryInterface
+        productCategory: ProductCategoryInterface
     }
 }

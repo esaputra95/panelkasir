@@ -4,7 +4,6 @@ import {
     Button,
     InputText,
     LabelInput,
-    SelectOption
 } from '../../../../components/input'
 import { t } from 'i18next'
 import { Controller } from 'react-hook-form'
@@ -14,8 +13,7 @@ import {
     AiFillFilePdf
 } from "react-icons/ai";
 import Spinner from '../../../../components/ui/Spinner'
-import { useWarehouse } from '../../../../hooks/fetch/settings/useWarehouse'
-import { useUser } from '../../../../hooks/fetch/settings/useUser'
+import { useBankAccount } from '../../../../hooks/slices/masters/useBankAccount'
 
 const Filter: FC<SalesReportFilter> = (props) => {
     const {
@@ -29,9 +27,8 @@ const Filter: FC<SalesReportFilter> = (props) => {
         onExcel
     } = props
 
-    const {optionWarehouse} = useWarehouse();
+    const {optionBankAccount} = useBankAccount()
 
-    const {optionUser} = useUser();
     return (
         <form className='w-full' onSubmit={handleSubmit(onSubmit)}>
             <div className='w-full flex flex-col lg:grid lg:grid-cols-3 lg:gap-2'>
@@ -47,17 +44,17 @@ const Filter: FC<SalesReportFilter> = (props) => {
                 />
                 <div className='w-full'>
                     <LabelInput>
-                        {t('warehouses')}
+                        {t('bank-accounts')}
                     </LabelInput>
                     <Controller
-                        name={`warehouse`}
+                        name={`accountCash`}
                         control={control}
                             render={({ field }) => 
                             <AsyncSelect
                                 className='w-full'
                                 {...field}
                                 cacheOptions
-                                loadOptions={optionWarehouse}
+                                loadOptions={optionBankAccount}
                                 defaultOptions
                                 placeholder={``}
                                 ref={(ref)=> ref}
@@ -65,36 +62,6 @@ const Filter: FC<SalesReportFilter> = (props) => {
                         }
                     />
                 </div>
-                <div className='w-full'>
-                    <LabelInput>
-                        {t('users')}
-                    </LabelInput>
-                    <Controller
-                        name={`user`}
-                        control={control}
-                            render={({ field }) => 
-                            <AsyncSelect
-                                className='w-full'
-                                {...field}
-                                cacheOptions
-                                loadOptions={optionUser}
-                                defaultOptions
-                                placeholder={``}
-                                ref={(ref)=> ref}
-                            />
-                        }
-                    />
-                </div>
-                <SelectOption
-                    label={t('status')}
-                    {...register('status')}
-                    option={[
-                        {label: 'Dibuat', value:'create'},
-                        {label: 'Dikirim', value:'sent'},
-                        {label: 'Retur', value:'return'},
-                        {label: 'Selesai', value:'finish'},
-                    ]}
-                />
             </div>
             <div className='w-full flex justify-end mt-4 mb-4 gap-4'>
                 <Button 

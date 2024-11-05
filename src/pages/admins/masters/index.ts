@@ -1,7 +1,3 @@
-export {default as DashboardPage} from './dashboards/dashboard'
-export {default as RewardPage} from './rewards'
-export {default as AgenTypePage} from './agenTypes'
 export {default as ProductCategoryPage} from './productCategories'
 export {default as ProductPage} from './products'
-export {default as BankAccountPage} from './bankAccounts'
 export {default as MemberPage} from './members'

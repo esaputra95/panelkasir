@@ -1,6 +1,5 @@
 import Table from './Table'
-import TablePaging from './TablePaging'
-import { useProduct } from '../../../../hooks/fetch/masters/useProduct'
+import { useProduct } from '../../../../hooks/slices/masters/useProduct'
 import ModalForm from '../../../../components/ui/modal/ModalForm'
 import FormProduct from './form'
 import { Button } from '../../../../components/input'
@@ -8,6 +7,7 @@ import useLocatioanName from '../../../../utils/location'
 import ModalConfirm from '../../../../components/ui/modal/ModalConfirm'
 import { InputText } from "../../../../components/input";
 import { t } from 'i18next'
+import TablePaging from '../../../../components/ui/TablePaging'
 
 const ProductPage = () => {
     const { 
@@ -83,7 +83,7 @@ const ProductPage = () => {
                     <Button 
                         onClick={()=>setModalForm((state)=> ({...state, visible:true}))} 
                     >
-                        + {useLocatioanName().pathName}
+                        + {t(useLocatioanName().pathNameOriginal)}
                     </Button>
                     <div className="w-6/12 md:w-4/12 relative text-gray-600">
                         <form onSubmit={handleSubmitFilter(onFilter)}>
@@ -113,7 +113,7 @@ const ProductPage = () => {
                     </div>
                 </div>
                 <Table
-                    data={dataProduct?.data?.Product ?? []}
+                    data={dataProduct?.data?.product ?? []}
                     isFetching={isFetching}
                     page={page.page}
                     limit={page.limit}

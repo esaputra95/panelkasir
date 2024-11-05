@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react"
 import { jwtDecode } from "jwt-decode";
 import useLocatioanName from "./location";
-type Token = {
+import { useCookies } from "react-cookie";
+export type Token = {
     id: string;
     username: string;
     name: string;
-    userType: 'admin' | 'agent' | "superadmin"
+    level: 'admin' | 'agent' | "superadmin" | "owner"
 }
 
 type AccessUserTpe = {
@@ -14,11 +15,44 @@ type AccessUserTpe = {
 }
 
 const access = {
-    admin: [
+    owner: [
         '',
+        '/',
         'rewards',
         'agen-types',
-        'users',
+        'masters/users',
+        'products',
+        'warehouses',
+        'sales',
+        'sales-report',
+        'settings',
+        'points-report',
+        'user-points-report',
+        'claim-points',
+        'claim-points-report',
+        'claim-rewards',
+        'claim-rewards-report',
+        'bank-accounts',
+        'bank-accounts-report',
+        'dashboard',
+        'sale-stockists',
+        '/masters/members',
+        '/masters/product-categories',
+        '/masters/products',
+        "/settings/users",
+        '/settings/stores',
+        '/reports/sales-report',
+        '/reports/purchases-report',
+        '/reports/margins-report',
+        '/dashboard',
+        '/profile'
+    ],
+    admin: [
+        '',
+        '/',
+        'rewards',
+        'agen-types',
+        'masters/users',
         'product-categories',
         'products',
         'warehouses',
@@ -35,7 +69,7 @@ const access = {
         'bank-accounts-report',
         'dashboard',
         'sale-stockists',
-        'members'
+        '/masters/members'
     ],
     agent: [
         '',
@@ -43,12 +77,12 @@ const access = {
         'sales-report'
     ],
     superadmin:[
+        '/',
         '',
-        'rewards',
-        'agen-types',
+        '/masters/members',
         'users',
-        'product-categories',
-        'products',
+        '/masters/product-categories',
+        '/masters/products',
         'warehouses',
         'sales',
         'sales-report',
@@ -63,11 +97,11 @@ const access = {
         'bank-accounts-report',
         'dashboard',
         'sale-stockists',
-        'members'
     ]
 }
 
 const useAccess = () => {
+    const [tokenCookie] = useCookies(['token']);
     const [token, setToken] = useState<Token>()
     const [accessUser, setAccessUser] = useState<AccessUserTpe>({
         loading: false, 
@@ -80,10 +114,11 @@ const useAccess = () => {
     },[])
     
     const parseToken = () => {
-        const token_ = window.localStorage.getItem('token')??'';
+        const token_ = tokenCookie.token;
         if(token_){
             const newToken = jwtDecode<Token>(token_);
-            if(access[newToken.userType]?.includes(pathNameOriginal.split('/')[0]) || newToken.userType === "superadmin"){
+            
+            if(access[newToken.level]?.includes(pathNameOriginal)){
                 setAccessUser({loading: false, status: 1})
             } else{
                 setAccessUser({loading: false, status: -1})

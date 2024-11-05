@@ -13,6 +13,7 @@ import {
 import { ApiResponse, InfoResponse } from "../apiInfoInterface";
 import { OptionSelectInterface } from "../globalInterface";
 import { ProductCategoryInterface } from "./ProductCategoryInterface";
+import { ProductBrandInterface } from "./ProductBrandInterface";
 
 export enum ProductStatusEnum {
     open= 'open',
@@ -28,6 +29,7 @@ export enum ProductsPublish {
 
 export interface ProductInterface {
     id?: number;
+    barcode?: string;
     code: string;
     name: string;
     image?: string;
@@ -38,9 +40,11 @@ export interface ProductInterface {
     sellingPrice: number;
     purchasePrice: number;
     userCreate?: number;
+    stocks?: StockInterface[];
     settingPoints: SettingPointInterface[];
     settingPackages?: SettingPackageInterface[];
-    productCategories?: ProductCategoryInterface;
+    categories?: ProductCategoryInterface;
+    brands?: ProductBrandInterface;
     productPoints?: ProductPoints[];
     productPackages?: ProductPackages[];
     createdAt?: Date;
@@ -62,6 +66,17 @@ export interface SettingPackageInterface {
     productOption?: OptionSelectInterface;
     quantity: number;
     delete?: boolean
+}
+
+export interface StockInterface {
+    id?: string
+    storeId: string
+    productId: string
+    quantity: number
+    userCreate?: string
+    createdAt?: Date
+    updatedAt?: Date
+    deletedAt?: Date
 }
 
 export interface ProductPoints {
@@ -129,13 +144,13 @@ export interface ProductTableInterface extends Omit<ProductInterface, 'classType
 export interface ApiResponseProduct extends ApiResponse {
     data: {
         info: InfoResponse,
-        Product: ProductTableInterface[]
+        product: ProductTableInterface[]
     }
 }
 
 export interface ApiResponseUpdateProduct extends ApiResponse {
     data: {
         info: InfoResponse,
-        Product: ProductInterface
+        product: ProductInterface
     }
 }

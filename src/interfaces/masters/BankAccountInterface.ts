@@ -65,13 +65,13 @@ export interface BankAccountTableInterface extends Omit<BankAccountInterface, 'c
 export interface ApiResponseBankAccount extends ApiResponse {
     data: {
         info: InfoResponse,
-        BankAccount: BankAccountTableInterface[]
+        account: BankAccountTableInterface[]
     }
 }
 
 export interface ApiResponseUpdateBankAccount extends ApiResponse {
     data: {
         info: InfoResponse,
-        BankAccount: BankAccountInterface
+        account: BankAccountInterface
     }
 }

@@ -1,6 +1,5 @@
 import Table from './Table'
-import TablePaging from './TablePaging'
-import { useProductCategory } from '../../../../hooks/fetch/masters/useProductCategory'
+import { useProductCategory } from '../../../../hooks/slices/masters/useProductCategory'
 import ModalForm from '../../../../components/ui/modal/ModalForm'
 import FormProductCategory from './form'
 import { Button } from '../../../../components/input'
@@ -8,13 +7,14 @@ import useLocatioanName from '../../../../utils/location'
 import ModalConfirm from '../../../../components/ui/modal/ModalConfirm'
 import { InputText } from "../../../../components/input";
 import { t } from 'i18next'
+import TablePaging from '../../../../components/ui/TablePaging'
 
 const ProductCategoryPage = () => {
     const { 
         dataProductCategory, 
         isFetching,
         errors,
-        loading,
+        isLoading,
         register,
         onSubmit,
         handleSubmit,
@@ -56,7 +56,7 @@ const ProductCategoryPage = () => {
                     setValue={setValue}
                     getValues={getValues}
                     handleOnChange={handleOnChange}
-                    isLoadingMutate={loading}
+                    isLoading={isLoading}
                     status={status}
                 />
             </ModalForm>
@@ -65,7 +65,7 @@ const ProductCategoryPage = () => {
                     <Button 
                         onClick={()=>setModalForm((state)=> ({...state, visible:true}))} 
                     >
-                        + {useLocatioanName().pathName}
+                        + {t(useLocatioanName().pathNameOriginal)}
                     </Button>
                     <div className="w-6/12 md:w-4/12 relative text-gray-600">
                         <form onSubmit={handleSubmitFilter(onFilter)}>
@@ -95,7 +95,7 @@ const ProductCategoryPage = () => {
                     </div>
                 </div>
                 <Table
-                    data={dataProductCategory?.data?.ProductCategory ?? []}
+                    data={dataProductCategory?.data?.productCategory ?? []}
                     isFetching={isFetching}
                     page={page.page}
                     limit={page.limit}

@@ -12,7 +12,7 @@ const FormProductCategory: FC<ProductCategoryFormProps> = (props) => {
         onCancel,
         errors,
         idDetail,
-        isLoadingMutate
+        isLoading
     } = props;
     const {t} = useTranslation();
 
@@ -46,12 +46,12 @@ const FormProductCategory: FC<ProductCategoryFormProps> = (props) => {
                     </Button>
                 {!idDetail ? 
                     <Button 
-                        disabled={isLoadingMutate?true:false} 
+                        disabled={isLoading?true:false} 
                         variant="primary" 
                         type='submit' 
                         size="medium" 
                         className='my-4' >
-                            {t('save')} {isLoadingMutate?<Spinner />:null} {isLoadingMutate}
+                            {t('save')} {isLoading?<Spinner />:null} {isLoading}
                     </Button>
                 : null}
             </div>

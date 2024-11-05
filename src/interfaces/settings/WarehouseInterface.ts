@@ -37,7 +37,7 @@ export interface WarehouseInterface {
 
 export interface WarehouseSearchInterface {
     name?: string;
-    code?: string
+    code?: string;
 }
 
 export type WarehouseFormProps = {
@@ -69,13 +69,13 @@ export interface WarehouseTableInterface extends Omit<WarehouseInterface, 'class
 export interface ApiResponseWarehouse extends ApiResponse {
     data: {
         info: InfoResponse,
-        Warehouse: WarehouseTableInterface[]
+        store: WarehouseTableInterface[]
     }
 }
 
 export interface ApiResponseUpdateWarehouse extends ApiResponse {
     data: {
         info: InfoResponse,
-        Warehouse: WarehouseInterface
+        store: WarehouseInterface
     }
 }

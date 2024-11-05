@@ -1,17 +1,17 @@
 import { InputText, Button, LabelInput, SelectOption } from '../../../../components/input';
 import { useTranslation } from 'react-i18next';
-import { useSaleForm } from '../../../../hooks/fetch/sales/sales/useSaleForm';
-import { useUser } from '../../../../hooks/fetch/settings/useUser';
+import { useSaleForm } from '../../../../hooks/slices/sales/sales/useSaleForm';
+import { useUser } from '../../../../hooks/slices/settings/useUser';
 import { Controller } from 'react-hook-form';
 import AsyncSelect from 'react-select/async';
-import { useWarehouse } from '../../../../hooks/fetch/settings/useWarehouse';
+import { useWarehouse } from '../../../../hooks/slices/settings/useWarehouse';
 import { TrashIcon } from '@heroicons/react/24/solid';
-import { useProduct } from '../../../../hooks/fetch/masters/useProduct';
+import { useProduct } from '../../../../hooks/slices/masters/useProduct';
 import InputNumeric from '../../../../components/input/inputNumeric';
 import { Link } from 'react-router-dom';
 import { BsClipboard2CheckFill, BsDashCircle, BsFillPrinterFill } from "react-icons/bs";
 import useAccess from '../../../../utils/useAccess';
-import { useMember } from '../../../../hooks/fetch/masters/useMember';
+import { useMember } from '../../../../hooks/slices/masters/useMember';
 
 const FormSalePage = () => {
     const {t} = useTranslation();

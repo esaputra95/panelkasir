@@ -8,7 +8,7 @@ type TablePagingProps = {
 
 const TablePaging:FC<TablePagingProps> = (props) => {
     const {total, page, handlePage} = props
-    let listPage = [];
+    const listPage = [];
     for (let index = 1; index <= total; index++) {
         listPage.push(
         <li key={Math.random().toString(5)} onClick={()=> handlePage(index)}>

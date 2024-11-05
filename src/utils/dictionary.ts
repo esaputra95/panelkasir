@@ -1,4 +1,17 @@
 export const Indonesia = {
+    //MENu
+    "/masters/members": "Pelanggan",
+    "/masters/product-categories": "Kategori",
+    "/masters/products": "Produk",
+    "/settings/users": "User",
+    "/reports/sales-report": "Laporan Penjualan",
+    "/reports/purchases-report": "Laporan Pembelian",
+    "/reports/margins-report": "Laporan Laba",
+    // WORD
+    "purchases": "Pembelian",
+    "margins": "Laba",
+    "margins-report": "Laporan Laba",
+    "purchases-report": "Laporan Pembelian",
     "code": "Kode",
     "data-masters": 'Master Data',
     "agen-types": "Tipe Agen",
@@ -65,7 +78,7 @@ export const Indonesia = {
     "claim-rewards": "Klaim Hadiah",
     "year": "Tahun",
     "claim-rewards-report": "Laporan Klaim Hadiah",
-    'bank-accounts': 'Akun Bank',
+    'bank-accounts': 'Metode Pembayaran',
     "user-types": "Tipe User",
     "leader": "Agen Leader",
     "role": "Hak Akses",
@@ -77,6 +90,13 @@ export const Indonesia = {
 
 export const English = {
     // Menu
+    "/masters/members": "Members",
+    "/masters/product-categories": "Categories",
+    "/masters/products": "Products",
+    "/settings/users": "Users",
+    "/reports/sales-report": "Sales Report",
+    "/reports/purchases-report": "Purchases Report",
+    // WORD
     "data-masters": 'Data Master',
     "agen-types": "Agen Type",
     "quantity": "Quantity",
@@ -142,12 +162,14 @@ export const English = {
     "claim-rewards": "Claim Rewards",
     "year": "Year",
     "claim-rewards-report": "Claim Rewards Report",
-    'bank-accounts': 'Bank Account',
+    'bank-accounts': 'Payment Method',
     "user-types": "User Types",
     "leader": "Agen Leader",
     "role": "Role",
     "stockist": "Stockist",
     "sale-stockists": "Sale Stockists",
     "stockists": "Stockists",
-    "members": "Members"
+    "members": "Members",
+    "purchases": "Purchases",
+    "purchases-report": "Purchases Report"
 }
