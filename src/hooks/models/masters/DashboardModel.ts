@@ -1,11 +1,9 @@
 import { AxiosError } from "axios";
 import { api } from "../../../services"
-import url from "../../../services/url"
 
 const getTotalSales = async () => {
     try {
-        const {Dashboard} = url
-        const response = await api.get(Dashboard.sales);
+        const response = await api.get('Dashboard.sales');
         return response.data.data.sales;
     } catch (error) {
         throw error as AxiosError;
@@ -14,8 +12,7 @@ const getTotalSales = async () => {
 
 const getTotalSaleStockist = async () => {
     try {
-        const {Dashboard} = url
-        const response = await api.get(Dashboard.saleStockist);
+        const response = await api.get('Dashboard.saleStockist');
         return response.data.data.saleStockist;
     } catch (error) {
         throw error as AxiosError;
@@ -24,8 +21,7 @@ const getTotalSaleStockist = async () => {
 
 const getTotalPoint = async () => {
     try {
-        const {Dashboard} = url
-        const response = await api.get(Dashboard.point);
+        const response = await api.get('Dashboard.point');
         return response.data.data.point;
     } catch (error) {
         throw error as AxiosError;
@@ -34,8 +30,7 @@ const getTotalPoint = async () => {
 
 const getTotalPackage = async () => {
     try {
-        const {Dashboard} = url
-        const response = await api.get(Dashboard.package);
+        const response = await api.get('Dashboard.package');
         return response.data.data.package;
     } catch (error) {
         throw error as AxiosError;

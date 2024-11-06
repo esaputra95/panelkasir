@@ -11,7 +11,7 @@ const useInvoice = () => {
     const [data, setData] = useState<SaleInterface>();
     const [image, setImage] = useState('')
     const params = useParams()
-    const {Sale, Setting} = url
+    const {Sale} = url
 
     useEffect(()=> {
         if(params.id){
@@ -29,7 +29,7 @@ const useInvoice = () => {
     });
     const {mutate:mutateSetting} = useMutation({
         mutationKey: ['get-setting'],
-        mutationFn: () => getData(Setting.get),
+        mutationFn: () => getData('Setting.get'),
         onSuccess: (data:ApiResponseSetting) => {
             const icon = data.data.setting.find((value)=> value.label === "icon")
             setImage(icon?.value??'')

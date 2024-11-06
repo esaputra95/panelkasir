@@ -27,7 +27,7 @@ const InvoicePage = () => {
                                             {"No. Faktur "}
                                         </Text>
                                         <Text style={{...styles.fontDefault}}>
-                                            {": "+data?.invoice ?? ''}
+                                            {": "+data?.invoice}
                                         </Text>
                                     </View>
                                     <View style={{flexDirection:'row'}}>
@@ -35,7 +35,7 @@ const InvoicePage = () => {
                                             {`${t("date")} : `}
                                         </Text>
                                         <Text style={{...styles.fontDefault}}>
-                                            {""+data?.date ?? ''}
+                                            {""+data?.date}
                                         </Text>
                                     </View>
                                     <View style={{flexDirection:'row'}}>
@@ -43,7 +43,7 @@ const InvoicePage = () => {
                                             {`${t("warehouses")} : `}
                                         </Text>
                                         <Text style={{...styles.fontDefault}}>
-                                            {""+data?.warehouses?.name ?? ''}
+                                            {""+data?.warehouses?.name}
                                         </Text>
                                     </View>
                                     <View style={{flexDirection:'row'}}>
@@ -51,7 +51,7 @@ const InvoicePage = () => {
                                             {`${t("address")} : `}
                                         </Text>
                                         <Text style={{...styles.fontDefault}}>
-                                            {""+data?.warehouses?.address ?? ''}
+                                            {""+data?.warehouses?.address}
                                         </Text>
                                     </View>
                                     {/* <View style={{flexDirection:'row'}}>
@@ -65,14 +65,14 @@ const InvoicePage = () => {
                                     <Text style={{fontSize: 9}}>Alamat : Faktur penjualan adalah bukti tagihan yang dikeluarkan Pengusaha Kena Pajak (PKP) untuk konsumen atas pembelian sejumlah Barang/Jasa Kena Pajak (BKP/JKP</Text> */}
                                 </View>
                             </View>
-                            <View style={{maxWidth: 200}}>
+                            {/* <View style={{maxWidth: 200}}>
                                 <Text style={{fontSize: 9, fontFamily:'Roboto'}}>{data?.members?.name}</Text>
-                                <Text style={{fontSize: 9, fontFamily:'Roboto'}}>{data?.members?.hp}</Text>
+                                <Text style={{fontSize: 9, fontFamily:'Roboto'}}>{data?.members?.}</Text>
                                 <Text style={{fontSize: 9, fontFamily:'Roboto'}}>{data?.members?.province}</Text>
                                 <Text style={{fontSize: 9, fontFamily:'Roboto'}}>{data?.members?.city}</Text>
                                 <Text style={{fontSize: 9, fontFamily:'Roboto'}}>{data?.members?.subdistrict}</Text>
                                 <Text style={{fontSize: 9, fontFamily:'Roboto'}}>{data?.members?.address}</Text>
-                            </View>
+                            </View> */}
                         </View>
                         <View style={{marginTop: 4}}>
                             <Table style={styles.styleTd}>

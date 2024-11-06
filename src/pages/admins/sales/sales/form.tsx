@@ -57,7 +57,7 @@ const FormSalePage = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className='flex flex-col '>
                 <div className='grid grid-cols-1 gap-4'>
-                    <div className={`grid gap-2 ${token?.userType === "admin" ? "grid-cols-6" : "grid-cols-5"}`}>
+                    <div className={`grid gap-2 ${token?.level === "admin" ? "grid-cols-6" : "grid-cols-5"}`}>
                         <InputText
                             {...register("invoice")}
                             errors={errors.invoice?.message} 
@@ -70,7 +70,7 @@ const FormSalePage = () => {
                             type='date'
                         />
                         {
-                            token?.userType === 'admin' ? (
+                            token?.level === 'admin' ? (
                                 <SelectOption
                                     label={t('status')}
                                     {...register('status')}
