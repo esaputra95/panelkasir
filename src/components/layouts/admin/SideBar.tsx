@@ -85,8 +85,7 @@ const SideBarLayout = () => {
 			</div>
 			<List>
 				<ListItem 
-					className={`${colorTheme.menuHover} ${selector.menu==="dashboard" ? colorTheme.menuActive : ''} ${token?.level==="admin" || token?.level==="owner" 
-						|| token?.level === "agent" || token?.level === "superadmin" ? `flex`: 'hidden'}`
+					className={`${colorTheme.menuHover} ${selector.menu==="dashboard" ? colorTheme.menuActive : ''} ${token?.level==="admin" || token?.level==="owner" || token?.level === "superadmin" ? `flex`: 'hidden'}`
 					} 
 					onClick={()=>handleOnClickMenu('dashboard')}>
 					<ListItemPrefix>
@@ -146,7 +145,7 @@ const SideBarLayout = () => {
 					</AccordionBody>
 				</Accordion>
 				{
-					token?.level==="admin" || token?.level === "superadmin" || token?.level === "agent" ? (
+					token?.level==="admin" || token?.level === "superadmin" ? (
 						<hr className="my-2 border-blue-gray-50" />
 					) : ''
 				}
@@ -156,13 +155,13 @@ const SideBarLayout = () => {
 						<ChevronDownIcon
 						strokeWidth={2.5}
 						className={`mx-auto h-4 w-4 transition-transform 
-							${token?.level==="admin" || token?.level === "superadmin" || token?.level === "agent" ? 'flex':'hidden'}
+							${token?.level==="admin" || token?.level === "superadmin"  ? 'flex':'hidden'}
 							${open === 'sales' ? "rotate-180" : ""}`
 						}
 						/>
 					}
 				>
-					<ListItem className={`p-0 ${token?.level==="admin" || token?.level === "superadmin" || token?.level==="agent" ? 'flex':'hidden'}`} selected={open === 'sales'}>
+					<ListItem className={`p-0 ${token?.level==="admin" || token?.level === "superadmin" ? 'flex':'hidden'}`} selected={open === 'sales'}>
 						<AccordionHeader onClick={() => handleOpen('sales')} className="border-b-0 p-3">
 							<ListItemPrefix>
 								<CurrencyDollarIcon className="h-5 w-5" />

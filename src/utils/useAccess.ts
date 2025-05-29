@@ -6,7 +6,7 @@ export type Token = {
     id: string;
     username: string;
     name: string;
-    level: 'admin' | 'agent' | "superadmin" | "owner"
+    level: 'admin' | "superadmin" | "owner" | "cashier"
 }
 
 type AccessUserTpe = {
@@ -79,6 +79,7 @@ const access = {
     superadmin:[
         '',
         '/',
+        'cashier',
         'rewards',
         'agen-types',
         'masters/users',
@@ -108,7 +109,8 @@ const access = {
         '/dashboard',
         '/profile',
         '/settings/user-managements'
-    ]
+    ],
+    cashier:['']
 }
 
 const useAccess = () => {

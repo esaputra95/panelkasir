@@ -13,6 +13,6 @@ export interface ModalConfirmInterface {
 export interface UserReduxInterface {
     name?: string;
     username?: string;
-    level?: ''|'admin'|'owner'|'superadmin';
+    level?: ''|'admin'|'owner'|'superadmin'|'cashier';
     storeId?: string
 }

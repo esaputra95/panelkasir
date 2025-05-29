@@ -76,7 +76,7 @@ const Table: FC<TableProps> = (props) => {
                                     {value?.name}
                                 </td>
                                 <td className="px-6 py-4">
-                                    {value?.code}
+                                    {value?.token}
                                 </td>
                                 <td className="px-6 py-4">
                                     {value?.email}
