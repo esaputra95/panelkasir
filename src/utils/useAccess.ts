@@ -77,12 +77,12 @@ const access = {
         'sales-report'
     ],
     superadmin:[
-        '/',
         '',
-        '/masters/members',
-        'users',
-        '/masters/product-categories',
-        '/masters/products',
+        '/',
+        'rewards',
+        'agen-types',
+        'masters/users',
+        'products',
         'warehouses',
         'sales',
         'sales-report',
@@ -97,6 +97,17 @@ const access = {
         'bank-accounts-report',
         'dashboard',
         'sale-stockists',
+        '/masters/members',
+        '/masters/product-categories',
+        '/masters/products',
+        "/masters/users",
+        '/masters/stores',
+        '/reports/sales-report',
+        '/reports/purchases-report',
+        '/reports/margins-report',
+        '/dashboard',
+        '/profile',
+        '/settings/user-managements'
     ]
 }
 

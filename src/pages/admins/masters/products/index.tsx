@@ -8,8 +8,12 @@ import ModalConfirm from '../../../../components/ui/modal/ModalConfirm'
 import { InputText } from "../../../../components/input";
 import { t } from 'i18next'
 import TablePaging from '../../../../components/ui/TablePaging'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../../redux/store'
 
 const ProductPage = () => {
+    const pathname = useLocatioanName().pathNameOriginal;
+    const user = useSelector((state:RootState)=> state.userReducer);
     const { 
         dataProduct, 
         isFetching,
@@ -80,11 +84,16 @@ const ProductPage = () => {
             </ModalForm>
             <div className='w-full'>
                 <div className='py-4 flex justify-between'>
-                    <Button 
-                        onClick={()=>setModalForm((state)=> ({...state, visible:true}))} 
-                    >
-                        + {t(useLocatioanName().pathNameOriginal)}
-                    </Button>
+                    {
+                        (user?.level === "admin" || user?.level === "superadmin") ? (
+                            <Button 
+                                    onClick={()=>setModalForm((state)=> ({...state, visible:true}))} 
+                                >
+                                    + {t(pathname)}
+                                </Button>
+                        ) : (<div></div>)
+                    }
+                    
                     <div className="w-6/12 md:w-4/12 relative text-gray-600">
                         <form onSubmit={handleSubmitFilter(onFilter)}>
                             <InputText

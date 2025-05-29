@@ -26,7 +26,8 @@ import {
 	MasterMenu,
 	SettingMenu,
 	SalesMenu,
-	ReportMenu,
+	ReportPurchaseMenu,
+	ReportSalesMenu
 } from './MenuItems';
 import { RootState } from '../../../redux/store';
 import useAccess from '../../../utils/useAccess';
@@ -50,7 +51,7 @@ const SideBarLayout = () => {
     const location = useLocation()
     const selector = useSelector((state: RootState) => state.menu)
     const dispatch = useDispatch()
-	const { token } = useAccess()
+		const { token } = useAccess()
 
     const handleOnClickMenu = (path:string) => {
         dispatch(setMenu(path))
@@ -225,14 +226,116 @@ const SideBarLayout = () => {
 								<DocumentChartBarIcon className="h-5 w-5" />
 							</ListItemPrefix>
 							<Typography color="blue-gray" className={`mr-auto font-normal ${colorTheme.textHover} ${selector.menu==="reports" ? colorTheme.textActive : ''}`}>
-								{t('reports')}
+								{t('purchases-report')}
 							</Typography>
 						</AccordionHeader>
 					</ListItem>
 					<AccordionBody className="py-1">
 						<List className="p-0">
 							{
-								ReportMenu.map((value)=> (
+								ReportPurchaseMenu.map((value)=> (
+									<ListItem
+										selected={
+											selector.menu === value.path ? true : false
+										}
+										className={`${colorTheme.menuHover} ${selector.menu===value.path ? colorTheme.menuActive : ''}`
+										} 
+										key={Math.random()} 
+										onClick={()=>handleOnClickMenu(value.path)}
+									>
+										<ListItemPrefix>
+											<ChevronRightIcon className={`h-4 w-4 ${colorTheme.textHover} ${selector.menu===value.path ? colorTheme.textActive : ''}`} />
+										</ListItemPrefix>
+										<label className={`${colorTheme.textHover} ${selector.menu===value.path ? colorTheme.textActive : ''}`}>{t(value.label)}</label>
+									</ListItem>
+								))
+							}
+						</List>
+					</AccordionBody>
+				</Accordion>
+				<Accordion
+					open={open === 'sales-report'}
+					icon={
+						<ChevronDownIcon
+						strokeWidth={2.5}
+						className={`mx-auto h-4 w-4 transition-transform 
+							${token?.level==="admin" || token?.level==="owner" || token?.level === "superadmin" ? 'flex':'hidden'}
+							${open === 'sales-report' ? "rotate-180" : ""}`
+						}
+						/>
+					}
+				>
+					<ListItem 
+						className={`p-0 ${
+						token?.level==="admin" || token?.level==="owner" || 
+						token?.level === "superadmin" ? 'flex':'hidden'}
+						${colorTheme.menuHover} ${selector.menu==="sales-report" ? colorTheme.menuActive : ''}`
+						} selected={open === 'sales-report'}
+					>
+						<AccordionHeader onClick={() => handleOpen('sales-report')} className="border-b-0 p-3">
+							<ListItemPrefix>
+								<DocumentChartBarIcon className="h-5 w-5" />
+							</ListItemPrefix>
+							<Typography color="blue-gray" className={`mr-auto font-normal ${colorTheme.textHover} ${selector.menu==="sales-report" ? colorTheme.textActive : ''}`}>
+								{t('sales-report')}
+							</Typography>
+						</AccordionHeader>
+					</ListItem>
+					<AccordionBody className="py-1">
+						<List className="p-0">
+							{
+								ReportSalesMenu.map((value)=> (
+									<ListItem
+										selected={
+											selector.menu === value.path ? true : false
+										}
+										className={`${colorTheme.menuHover} ${selector.menu===value.path ? colorTheme.menuActive : ''}`
+										} 
+										key={Math.random()} 
+										onClick={()=>handleOnClickMenu(value.path)}
+									>
+										<ListItemPrefix>
+											<ChevronRightIcon className={`h-4 w-4 ${colorTheme.textHover} ${selector.menu===value.path ? colorTheme.textActive : ''}`} />
+										</ListItemPrefix>
+										<label className={`${colorTheme.textHover} ${selector.menu===value.path ? colorTheme.textActive : ''}`}>{t(value.label)}</label>
+									</ListItem>
+								))
+							}
+						</List>
+					</AccordionBody>
+				</Accordion>
+				<Accordion
+					open={open === 'laba-report'}
+					icon={
+						<ChevronDownIcon
+						strokeWidth={2.5}
+						className={`mx-auto h-4 w-4 transition-transform 
+							${token?.level==="admin" || token?.level==="owner" || token?.level === "superadmin" ? 'flex':'hidden'}
+							${open === 'laba-report' ? "rotate-180" : ""}`
+						}
+						/>
+					}
+				>
+					<ListItem 
+						className={`p-0 ${
+						token?.level==="admin" || token?.level==="owner" || 
+						token?.level === "superadmin" ? 'flex':'hidden'}
+						${colorTheme.menuHover} ${selector.menu==="laba-report" ? colorTheme.menuActive : ''}`
+						} selected={open === 'laba-report'}
+					>
+						<AccordionHeader onClick={() => handleOpen('laba-report')} className="border-b-0 p-3">
+							<ListItemPrefix>
+								<DocumentChartBarIcon className="h-5 w-5" />
+							</ListItemPrefix>
+							<Typography color="blue-gray" className={`mr-auto font-normal ${colorTheme.textHover} ${selector.menu==="laba-report" ? colorTheme.textActive : ''}`}>
+								{t('laba-report')}
+							</Typography>
+						</AccordionHeader>
+					</ListItem>
+					<AccordionBody className="py-1">
+						<List className="p-0">
+							{
+								ReportSalesMenu.map((value)=> (
 									<ListItem
 										selected={
 											selector.menu === value.path ? true : false

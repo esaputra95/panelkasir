@@ -17,27 +17,28 @@ const MasterMenu = [
         active: false,
         access: ['admin', 'superadmin', 'owner']
     },
+
+    {
+        label: 'users',
+        path: '/masters/users',
+        active: false,
+        access: ['admin', 'superadmin', 'owner']
+    },
+    {
+        label: 'stores',
+        path: '/masters/stores',
+        active: false,
+        access: ['admin', 'superadmin', 'owner']
+    },
 ];
 
 const SettingMenu = [
     {
-        label: 'users',
-        path: '/settings/users',
+        label: 'user-managements',
+        path: '/settings/user-managements',
         active: false,
         access: ['admin', 'superadmin', 'owner']
     },
-    {
-        label: 'warehouses',
-        path: '/settings/stores',
-        active: false,
-        access: ['admin', 'superadmin', 'owner']
-    },
-    // {
-    //     label: 'settings',
-    //     path: '/settings/setting',
-    //     active: false,
-    //     access: ['admin', 'superadmin', 'owner']
-    // },
 ]
 
 const SalesMenu = [
@@ -67,19 +68,30 @@ const RewardMenu = [
     },
 ];
 
-const ReportMenu = [
+const ReportPurchaseMenu = [
     {
-        label: 'purchases',
+        label: 'purchases-report',
         path: '/reports/purchases-report',
         active: false,
         access: ['admin', 'owner', 'superadmin']
     },
+];
+
+const ReportSalesMenu = [
     {
-        label: 'sales',
+        label: 'sales-report',
         path: '/reports/sales-report',
         active: false,
         access: ['admin', 'owner', 'superadmin']
     },
+    {
+        label: 'margins',
+        path: '/reports/margins-report',
+        active: false,
+        access: ['admin', 'owner', 'superadmin']
+    },
+]
+const ReportLabaMenu = [
     {
         label: 'margins',
         path: '/reports/margins-report',
@@ -92,7 +104,9 @@ export {
     MasterMenu,
     SettingMenu,
     SalesMenu,
-    ReportMenu,
+    ReportPurchaseMenu,
+    ReportSalesMenu,
+    ReportLabaMenu,
     PointMenu,
-    RewardMenu
+    RewardMenu,
 }

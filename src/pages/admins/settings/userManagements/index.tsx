@@ -1,8 +1,8 @@
 import Table from './Table'
 import TablePaging from './TablePaging'
-import { useUser } from '../../../../hooks/slices/settings/useUser'
+import { useUserManagement } from '../../../../hooks/slices/settings/useUserManagement'
 import ModalForm from '../../../../components/ui/modal/ModalForm'
-import FormUser from './form'
+import FormUserManagement from './form'
 import { Button } from '../../../../components/input'
 import useLocatioanName from '../../../../utils/location'
 import ModalConfirm from '../../../../components/ui/modal/ModalConfirm'
@@ -11,12 +11,12 @@ import { t } from 'i18next'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../../redux/store'
 
-const UserPage = () => {
+const UserManagementPage = () => {
 
     const pathname = useLocatioanName().pathNameOriginal;
-    const user = useSelector((state:RootState)=> state.userReducer);
+    const UserManagement = useSelector((state:RootState)=> state.userReducer);
     const { 
-        dataUser, 
+        dataUserManagement, 
         isFetching,
         errors,
         isLoadingMutate,
@@ -39,10 +39,10 @@ const UserPage = () => {
         getValues,
         control,
         watch
-    } = useUser()
+    } = useUserManagement()
 
     return (
-        <div className='w-full'>
+        <div className='w-full flex'>
             <ModalConfirm data={modalConfirm.modalConfirm}  />
             <ModalForm 
                 visible={modalForm.visible}
@@ -50,7 +50,7 @@ const UserPage = () => {
                 title={modalForm.label}
                 size="medium"
             >
-                <FormUser
+                <FormUserManagement
                     onCancel={onCancel}
                     isLoading={isLoadingMutate}
                     errors={errors}
@@ -64,10 +64,10 @@ const UserPage = () => {
                     watch={watch}
                 />
             </ModalForm>
-            <div className='w-full'>
+            <div className='w-full overflow-auto'>
                 <div className='py-4 flex justify-between'>
                     {
-                        (user?.level === "admin" || user?.level === "superadmin") ? (
+                        (UserManagement?.level === "admin" || UserManagement?.level === "superadmin") ? (
                             <Button 
                                 onClick={()=>setModalForm((state)=> ({...state, visible:true}))} 
                             >
@@ -103,7 +103,7 @@ const UserPage = () => {
                     </div>
                 </div>
                 <Table
-                    data={dataUser?.data?.user ?? []}
+                    data={dataUserManagement?.data?.UserManagement ?? []}
                     isFetching={isFetching}
                     page={page.page}
                     limit={page.limit}
@@ -121,4 +121,4 @@ const UserPage = () => {
     )
 }
 
-export default UserPage
+export default UserManagementPage

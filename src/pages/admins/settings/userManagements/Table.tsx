@@ -1,13 +1,13 @@
 import { BsEyeFill, BsFillTrashFill, BsPencilFill } from "react-icons/bs";
 import { FC } from "react";
+import { UserManagementTableInterface } from "../../../../interfaces/settings/UserManagementInterface";
 import { useTranslation } from "react-i18next";
 import Skeleton from "../../../../components/ui/Skeleton";
-import { ProductInterface } from "../../../../interfaces/masters/ProductInterface";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
 
 type TableProps = {
-    data?: ProductInterface[],
+    data?: UserManagementTableInterface[],
     isFetching?: boolean,
     page: number,
     limit: number,
@@ -22,11 +22,11 @@ const header = [
         align: 'left',
         width: 'w-4'
     },
-    { label: 'code' },
     { label: 'name' },
-    { label: 'categories' },
-    { label: 'brands' },
-    { label: 'stock' },
+    { label: 'email' },
+    { label: 'status' },
+    { label: 'code', width:'w-12' },
+    { label: 'level' },
     { 
         label: 'Action',
         width: 'w-16'
@@ -34,14 +34,14 @@ const header = [
 ] 
 
 const Table: FC<TableProps> = (props) => {
-    const user = useSelector((state:RootState)=> state.userReducer);
+    const UserManagement = useSelector((state:RootState)=> state.userReducer)
     const { data, isFetching, page, limit, onDelete, onUpdate, onDetail } = props;
     const { t } = useTranslation()
     const number:number = ((page-1)*limit)
     
     return (
-        <div className="relative overflow-x-auto">
-            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <div className="overflow-x-auto">
+            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 overflow-auto">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         {
@@ -50,13 +50,13 @@ const Table: FC<TableProps> = (props) => {
                                     <>
                                         {
                                             value.label === "Action" ?
-                                                user.level === "superadmin" || user.level == "admin" ? (
+                                                UserManagement.level === "superadmin" || UserManagement.level == "admin" ? (
                                                     <th key={Math.random()} scope="col" className={`px-6 py-3 ${value.width ?? ''}`}>
                                                         {t(value.label)}
                                                     </th>
                                                 ) : '':
                                                 (
-                                                <th key={Math.random()} scope="col" className={`px-6 py-3 ${value.width ?? ''}`}>
+                                                <th key={Math.random()} scope="col" className={`px-6 py-3 ${value.width ?? ''} ${value.width ?? ''}`}>
                                                     {t(value.label)}
                                                 </th>
                                             )
@@ -70,27 +70,27 @@ const Table: FC<TableProps> = (props) => {
                 <tbody>
                     {
                         !isFetching && data && data.length > 0 ? data.map((value, index)=>(
-                            <tr key={value.id} className="overflow-auto bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <tr key={value.id} className="overflow-auto max-w-3xl bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                 <td scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {(number+index+1)}
-                                </td>
-                                <td className="px-6 py-4">
-                                    {value?.code}
                                 </td>
                                 <td className="px-6 py-4">
                                     {value?.name}
                                 </td>
                                 <td className="px-6 py-4">
-                                    {value?.categories?.name}
+                                    {value?.email}
                                 </td>
                                 <td className="px-6 py-4">
-                                    {value?.brands?.name}
+                                    {value?.verified}
+                                </td>
+                                <td className="px-6 py-4 max-w-[200px] truncate">
+                                    {value?.token}
                                 </td>
                                 <td className="px-6 py-4">
-                                    {value?.stocks?.[0]?.quantity}
+                                    {value?.verified}
                                 </td>
                                 {
-                                    user.level === "superadmin" || user.level == "admin" && (
+                                    (UserManagement.level === "superadmin" || UserManagement.level == "admin") && (
                                         <td className="px-6 py-4 flex">
                                             <span title="Update" className="p-1.5 bg-green-50 hover:bg-green-100 hover:cursor-pointer rounded-full" onClick={()=>onUpdate(value?.id ?? 0)}>
                                                 <BsPencilFill className='text-green-600' />

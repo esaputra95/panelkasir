@@ -3,6 +3,8 @@ import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import Skeleton from "../../../../components/ui/Skeleton";
 import { WarehouseInterface } from "../../../../interfaces/settings/WarehouseInterface";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../redux/store";
 
 type TableProps = {
     data?: WarehouseInterface[],
@@ -31,6 +33,7 @@ const header = [
 ] 
 
 const Table: FC<TableProps> = (props) => {
+    const user = useSelector((state:RootState)=>state.userReducer)
     const { data, isFetching, page, limit, onDelete, onUpdate, onDetail } = props;
     const { t } = useTranslation()
     const number:number = ((page-1)*limit)
@@ -41,11 +44,25 @@ const Table: FC<TableProps> = (props) => {
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         {
-                            header.map((value)=>(
-                                <th key={Math.random()} scope="col" className={`px-6 py-3 ${value.width ?? ''}`}>
-                                    {t(value.label)}
-                                </th>
-                            ))
+                            header.map((value)=>{ 
+                                return(
+                                    <>
+                                        {
+                                            value.label === "Action" ?
+                                                user.level === "superadmin" || user.level == "admin" ? (
+                                                    <th key={Math.random()} scope="col" className={`px-6 py-3 ${value.width ?? ''}`}>
+                                                        {t(value.label)}
+                                                    </th>
+                                                ) : '':
+                                                (
+                                                <th key={Math.random()} scope="col" className={`px-6 py-3 ${value.width ?? ''}`}>
+                                                    {t(value.label)}
+                                                </th>
+                                            )
+                                        }
+                                    </>
+                                )
+                            })
                         }
                     </tr>
                 </thead>
@@ -68,17 +85,21 @@ const Table: FC<TableProps> = (props) => {
                                 <td className="px-6 py-4">
                                     {value?.description}
                                 </td>
-                                <td className="px-6 py-4 flex">
-                                    <span title="Update" className="p-1.5 bg-green-50 hover:bg-green-100 hover:cursor-pointer rounded-full" onClick={()=>onUpdate(value?.id ?? 0)}>
-                                        <BsPencilFill className='text-green-600' />
-                                    </span>
-                                    <span title="Detail" className="p-1.5 bg-cyan-50 hover:bg-cyan-100 hover:cursor-pointer rounded-full" onClick={()=>onDetail(value.id ?? 0)}>
-                                        <BsEyeFill className='text-cyan-600' />
-                                    </span>
-                                    <span title={t("delete")} className="p-1.5 bg-red-50 hover:bg-red-100 hover:cursor-pointer rounded-full" onClick={()=>onDelete(value.id ?? 0)}>
-                                        <BsFillTrashFill className="text-red-600" />
-                                    </span>
-                                </td>
+                                {
+                                    (user.level === "superadmin" || user.level == "admin") && (
+                                        <td className="px-6 py-4 flex">
+                                            <span title="Update" className="p-1.5 bg-green-50 hover:bg-green-100 hover:cursor-pointer rounded-full" onClick={()=>onUpdate(value?.id ?? 0)}>
+                                                <BsPencilFill className='text-green-600' />
+                                            </span>
+                                            <span title="Detail" className="p-1.5 bg-cyan-50 hover:bg-cyan-100 hover:cursor-pointer rounded-full" onClick={()=>onDetail(value.id ?? 0)}>
+                                                <BsEyeFill className='text-cyan-600' />
+                                            </span>
+                                            <span title={t("delete")} className="p-1.5 bg-red-50 hover:bg-red-100 hover:cursor-pointer rounded-full" onClick={()=>onDelete(value.id ?? 0)}>
+                                                <BsFillTrashFill className="text-red-600" />
+                                            </span>
+                                        </td>
+                                    )
+                                }
                             </tr>
                         )) : <tr>
                                 <td className="text-center" colSpan={7}>

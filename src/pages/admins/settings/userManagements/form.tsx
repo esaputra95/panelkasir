@@ -1,10 +1,10 @@
 import { FC } from 'react'
 import { InputText, Button, SelectOption} from '../../../../components/input';
-import { UserFormProps } from '../../../../interfaces/settings/UserInterface';
+import { UserManagementFormProps } from '../../../../interfaces/settings/UserManagementInterface';
 import { useTranslation } from 'react-i18next';
 import Spinner from '../../../../components/ui/Spinner';
 
-const FormUser: FC<UserFormProps> = (props) => {
+const FormUserManagement: FC<UserManagementFormProps> = (props) => {
     const {t} = useTranslation()
     const { 
         handleSubmit,
@@ -16,7 +16,6 @@ const FormUser: FC<UserFormProps> = (props) => {
         idDetail,
     } = props;
 
-    
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className='flex flex-col '>
@@ -97,4 +96,4 @@ const FormUser: FC<UserFormProps> = (props) => {
     )
 }
 
-export default FormUser
+export default FormUserManagement

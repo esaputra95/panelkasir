@@ -3,11 +3,13 @@ export const Indonesia = {
     "/masters/members": "Pelanggan",
     "/masters/product-categories": "Kategori",
     "/masters/products": "Produk",
-    "/settings/users": "User",
+    "/masters/users": "User",
     "/reports/sales-report": "Laporan Penjualan",
     "/reports/purchases-report": "Laporan Pembelian",
     "/reports/margins-report": "Laporan Laba",
     // WORD
+    "laba-report": "Laporan Laba",
+    "stores": "Toko",
     "purchases": "Pembelian",
     "margins": "Laba",
     "margins-report": "Laporan Laba",
@@ -85,7 +87,9 @@ export const Indonesia = {
     "stockist": "Stockist",
     "sale-stockists": "Penjualan Stockist",
     "stockists": "Stockist",
-    "members": "Pelanggan"
+    "members": "Pelanggan",
+    "user-managements": "Manajemen User",
+    "/settings/user-managements":"Manajemen User"
 }
 
 export const English = {
@@ -93,10 +97,11 @@ export const English = {
     "/masters/members": "Members",
     "/masters/product-categories": "Categories",
     "/masters/products": "Products",
-    "/settings/users": "Users",
+    "/masters/users": "Users",
     "/reports/sales-report": "Sales Report",
     "/reports/purchases-report": "Purchases Report",
     // WORD
+    "stores": "Stores",
     "data-masters": 'Data Master',
     "agen-types": "Agen Type",
     "quantity": "Quantity",
@@ -171,5 +176,7 @@ export const English = {
     "stockists": "Stockists",
     "members": "Members",
     "purchases": "Purchases",
-    "purchases-report": "Purchases Report"
+    "purchases-report": "Purchases Report",
+    "user-managements": "User Managements",
+    "/settings/user-managements":"User Managements"
 }

@@ -10,6 +10,13 @@ export const UserDummy = {
     stockist: 0,
     code: 'Auto'
 }
+export const UserManagementDummy = {
+    name: '',
+    email: '',
+    address: '',
+    stockist: 0,
+    code: 'Auto'
+}
 
 export const WarehouseDummy = {
     name: '',

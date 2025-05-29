@@ -8,8 +8,12 @@ import useLocatioanName from '../../../../utils/location'
 import ModalConfirm from '../../../../components/ui/modal/ModalConfirm'
 import { InputText } from "../../../../components/input";
 import { t } from 'i18next'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../../redux/store'
 
 const WarehousePage = () => {
+    const pathname = useLocatioanName().pathNameOriginal;
+    const user = useSelector((state:RootState)=> state.userReducer)
     const { 
         dataWarehouse, 
         isFetching,
@@ -62,11 +66,15 @@ const WarehousePage = () => {
             </ModalForm>
             <div className='w-full'>
                 <div className='py-4 flex justify-between'>
-                    <Button 
-                        onClick={()=>setModalForm((state)=> ({...state, visible:true}))} 
-                    >
-                        + {useLocatioanName().pathName}
-                    </Button>
+                    {
+                        (user?.level === "admin" || user?.level === "superadmin") ? (
+                            <Button 
+                                onClick={()=>setModalForm((state)=> ({...state, visible:true}))} 
+                            >
+                                + {t(pathname)}
+                            </Button>
+                        ) : <div></div>
+                    }
                     <div className="w-6/12 md:w-4/12 relative text-gray-600">
                         <form onSubmit={handleSubmitFilter(onFilter)}>
                             <InputText

@@ -11,6 +11,7 @@ import {
     SalesReport,
 } from "../pages/admins/reports";
 import { SettingPage, UserPage, WarehousePage } from "../pages/admins/settings";
+import UserManagementPage from "../pages/admins/settings/userManagements";
 import ProfilePage from "../pages/auth/ProfilePage";
 import Middleware from "./MiddlewareRouter";
 
@@ -42,6 +43,14 @@ const MainRouters = [
                         path: 'members',
                         element: <MemberPage />
                     },
+                    {
+                        path: 'users',
+                        element: <UserPage />
+                    },
+                    {
+                        path: 'stores',
+                        element: <WarehousePage />
+                    },
                 ]
             },
             {
@@ -52,12 +61,8 @@ const MainRouters = [
                         element: <SettingPage />
                     },
                     {
-                        path: 'users',
-                        element: <UserPage />
-                    },
-                    {
-                        path: 'stores',
-                        element: <WarehousePage />
+                        path: 'user-managements',
+                        element: <UserManagementPage />
                     },
                 ]
             },

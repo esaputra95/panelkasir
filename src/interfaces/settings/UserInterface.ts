@@ -8,7 +8,7 @@ import {
     UseFormWatch
 } from "react-hook-form";
 import { ApiResponse, InfoResponse } from "../apiInfoInterface";
-import { OptionSelectInterface } from "../globalInterface";
+import { UserManagementRoleEnum, UserVerifiedEnum } from "./UserManagementInterface";
 
 export enum UserRoleEnum {
     superadmin= 'superadmin',
@@ -19,35 +19,20 @@ export enum UserRoleEnum {
     leader= 'leader'
 }
 
-
-
 export interface UserInterface {
     id?: number;
-    code?: string;
     name: string;
+    username?:string;
+    password?: string;
     email: string;
     phone: string;
-    address: string;
-    agentTypeId: number;
-    agentTypeOption?: OptionSelectInterface;
-    role: UserRoleEnum;
-    leaderId?: number;
-    referrerId?: number;
-    leaderOption?: OptionSelectInterface;
-    referrerOption?: OptionSelectInterface;
-    password?: string;
-    warehouseId?: number;
-    ktpImage?: string;
-    kkImage?: string;
-    profileImage?: string;
+    level: UserManagementRoleEnum
+    storeId?: string;
+    token?: string;
+    verified?: UserVerifiedEnum;
     createdAt?: Date;
     updatedAt?: Date;
     deletedAt?: Date;
-    userCreate?: number;
-    token?: string;
-    refreshToken?: string;
-    status?: number;
-    stockist?: number;
 }
 
 export interface UserSearchInterface {

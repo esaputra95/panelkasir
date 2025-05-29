@@ -29,6 +29,14 @@ const url = {
         getSelect: 'admin/users/get-select',
         getStockistSelect: 'admin/users/get-stockist-select',
     },
+    UserManagement: {
+        get: 'admin/user-managements',
+        post: 'admin/user-managements',
+        put: 'admin/user-managements',
+        getById: 'admin/user-managements',
+        delete: 'admin/users',
+        getSelect: 'admin/user-managements/get-select',
+    },
     BankAccount: {
         get: 'admin/bank-accounts',
         post: 'admin/bank-accounts',

@@ -37,9 +37,12 @@ const NavBar:FC<NavBarType> = (props) => {
 	},[user.storeId, dataOptionStore]);
 	
 	useEffect(()=>{
-		dispatch(setUserSlice({
-			storeId: store.value+''
-		}))
+		if(store?.value){
+			dispatch(setUserSlice({
+				storeId: store.value+''
+			}))
+		}
+		
 	}, [store])
 
 	const onChangeLang = (e:string) => {
