@@ -61,6 +61,8 @@ const useMarginsReport = () => {
             }
         },
         onError: async (errors) => {
+            console.log(JSON.stringify(errors));
+            
             const err = errors as AxiosError<DataMessageError>
             let message = `${errors}`
             if(err.response?.status === 400){

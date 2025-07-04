@@ -89,7 +89,9 @@ export const Indonesia = {
     "stockists": "Stockist",
     "members": "Pelanggan",
     "user-managements": "Manajemen User",
-    "/settings/user-managements":"Manajemen User"
+    "/settings/user-managements":"Manajemen User",
+    "/settings/payment-methods": "Metode Pembayaran",
+    "payment-methods":"Metode Pembayaran"
 }
 
 export const English = {
@@ -177,6 +179,8 @@ export const English = {
     "members": "Members",
     "purchases": "Purchases",
     "purchases-report": "Purchases Report",
+    "payment-methods":"Payment Method",
     "user-managements": "User Managements",
-    "/settings/user-managements":"User Managements"
+    "/settings/user-managements":"User Managements",
+    "settings/payment-methods":"Payment Method"
 }

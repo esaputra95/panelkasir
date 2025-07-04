@@ -108,7 +108,8 @@ const access = {
         '/reports/margins-report',
         '/dashboard',
         '/profile',
-        '/settings/user-managements'
+        '/settings/user-managements',
+        '/settings/payment-methods',
     ],
     cashier:['']
 }

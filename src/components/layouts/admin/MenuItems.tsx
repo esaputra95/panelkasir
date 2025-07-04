@@ -37,7 +37,13 @@ const SettingMenu = [
         label: 'user-managements',
         path: '/settings/user-managements',
         active: false,
-        access: ['admin', 'superadmin', 'owner']
+        access: ['superadmin']
+    },
+    {
+        label: 'payment-methods',
+        path: '/settings/payment-methods',
+        active: false,
+        access: ['superadmin', 'admin', 'owner']
     },
 ]
 

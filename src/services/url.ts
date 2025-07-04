@@ -37,6 +37,14 @@ const url = {
         delete: 'admin/users',
         getSelect: 'admin/user-managements/get-select',
     },
+    PaymentMethod: {
+        get: 'admin/user-managements',
+        post: 'admin/user-managements',
+        put: 'admin/user-managements',
+        getById: 'admin/user-managements',
+        delete: 'admin/users',
+        getSelect: 'admin/user-managements/get-select',
+    },
     BankAccount: {
         get: 'admin/bank-accounts',
         post: 'admin/bank-accounts',

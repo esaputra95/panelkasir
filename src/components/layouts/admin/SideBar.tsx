@@ -385,7 +385,7 @@ const SideBarLayout = () => {
 										selected={
 											selector.menu === value.path ? true : false
 										}
-										className={`${colorTheme.menuHover} ${selector.menu===value.path ? colorTheme.menuActive : ''}`
+										className={`${colorTheme.menuHover} ${selector.menu===value.path ? colorTheme.menuActive : ''} ${value.access.includes(token?.level as string) ? '' :'hidden'}`
 										} 
 										key={Math.random()} 
 										onClick={()=>handleOnClickMenu(value.path)}

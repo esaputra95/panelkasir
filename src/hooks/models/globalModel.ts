@@ -49,6 +49,8 @@ const getData = async<T> (url:string, params?:T) => {
 		const response = await api.get(url, { params: { ...params } });
 		return response.data
 	} catch (error) {
+		console.log(JSON.stringify(error));
+		
 		throw error as AxiosError
 	}
 };

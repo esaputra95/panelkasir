@@ -19,10 +19,10 @@ const Data: FC<DataPayrollInterface> = (props) => {
                             {t('date')}
                         </th>
                         <th className='p-2'>
-                            {t('capital')}
+                            {t('sell')}
                         </th>
                         <th className='p-2'>
-                            {t('sell')}
+                            {t('capital')}
                         </th>
                         <th className='p-2'>
                             {t('margin')}
