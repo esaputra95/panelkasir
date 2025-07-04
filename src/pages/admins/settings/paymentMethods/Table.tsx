@@ -23,10 +23,6 @@ const header = [
         width: 'w-4'
     },
     { label: 'name' },
-    { label: 'email' },
-    { label: 'status' },
-    { label: 'code', width:'w-12' },
-    { label: 'level' },
     { 
         label: 'Action',
         width: 'w-16'
@@ -76,18 +72,6 @@ const Table: FC<TableProps> = (props) => {
                                 </td>
                                 <td className="px-6 py-4">
                                     {value?.name}
-                                </td>
-                                <td className="px-6 py-4">
-                                    {value?.email}
-                                </td>
-                                <td className="px-6 py-4">
-                                    {value?.verified}
-                                </td>
-                                <td className="px-6 py-4 max-w-[200px] truncate">
-                                    {value?.token}
-                                </td>
-                                <td className="px-6 py-4">
-                                    {value?.verified}
                                 </td>
                                 {
                                     (PaymentMethod.level === "superadmin" || PaymentMethod.level == "admin") && (

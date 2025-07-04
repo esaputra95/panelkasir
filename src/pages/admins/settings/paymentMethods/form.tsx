@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { InputText, Button, SelectOption} from '../../../../components/input';
+import { InputText, Button } from '../../../../components/input';
 import { PaymentMethodFormProps } from '../../../../interfaces/settings/PaymentMethodInterface';
 import { useTranslation } from 'react-i18next';
 import Spinner from '../../../../components/ui/Spinner';
