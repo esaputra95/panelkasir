@@ -12,6 +12,7 @@ import { setUserSlice } from "../../../redux/userSlice";
 import { OptionSelectInterface } from "../../../interfaces/globalInterface";
 import { SingleValue } from "react-select";
 import { RootState } from "../../../redux/store";
+import { useCookies } from "react-cookie";
 
 type NavBarType = {
 	menu:boolean;
@@ -29,6 +30,8 @@ const NavBar:FC<NavBarType> = (props) => {
 	const { t, i18n } = useTranslation();
 	const navigate = useNavigate()
 	const { token } = useAccess()
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const [_a, _b, removeCookie] = useCookies(["token"]);
 
 	const {optionStore, dataOptionStore} = useStore()
 
@@ -52,8 +55,9 @@ const NavBar:FC<NavBarType> = (props) => {
 	};
 	
 	const logOut = () => {
-		window.localStorage.removeItem('token')
-		navigate('/login')
+		removeCookie("token", { path: "/" })
+
+  navigate("/login");
 	}
 
 	const onChangeStore = (value:SingleValue<OptionSelectInterface>) => {
