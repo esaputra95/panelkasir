@@ -14,10 +14,6 @@ const ProductSchema = () => {
             agenTypeId: yup.number().optional(),
             value: yup.number().required(),
         })).required(),
-        settingPackages: yup.array().of(yup.object().shape({
-            productId: yup.number().optional(),
-            quantity: yup.number().required(),
-        })).optional()
     });
 
     return {

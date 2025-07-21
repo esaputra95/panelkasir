@@ -28,11 +28,7 @@ const FormProduct: FC<ProductFormProps> = (props) => {
         handleOnChange,
         fieldSettingPoints,
         appendSettingPoints,
-        fieldSettingPackages,
         appendSettingPackages,
-        removeSettingPackages,
-        optionProduct,
-        dataOptionProduct,
         setValue,
         watch
     } = props;
@@ -145,48 +141,7 @@ const FormProduct: FC<ProductFormProps> = (props) => {
                                     +
                                 </Button>
                             </div>
-                            {
-                                fieldSettingPackages.map((fields, index)=> (
-                                    <div key={fields.id} className='flex items-center'>
-                                        <div className='w-6/12'>
-                                            <Controller
-                                                name={`settingPackages.${index}.productOption`}
-                                                control={control}
-                                                    render={({ field }) => 
-                                                    <AsyncSelect 
-                                                        {...field}
-                                                        isDisabled={idDetail?true:false}
-                                                        placeholder='Pilih...'
-                                                        defaultOptions
-                                                        onChange={(e)=> (
-                                                            setValue(`settingPackages.${index}.productId`, e?.value as number)
-                                                        )}
-                                                        value={
-                                                            dataOptionProduct.find(
-                                                                e=> e.value === watch(`settingPackages.${index}.productId`)
-                                                            )
-                                                        }
-                                                        loadOptions={optionProduct}
-                                                        ref={(ref)=>ref}
-                                                    />
-                                                }
-                                            />
-                                            <span className='text-red-300'>
-                                            {   errors.settingPackages?.[index]?.productId?.message} 
-                                            </span>
-                                        </div>
-                                        <InputText
-                                            {...register(`settingPackages.${index}.quantity`)}
-                                            errors={errors.settingPackages?.[index]?.quantity?.message} 
-                                            readOnly={idDetail?true:false} 
-                                        />
-                                        <BsFillTrashFill
-                                            className='h-10 w-10 text-red-300'
-                                            onClick={()=>removeSettingPackages(index)} 
-                                        />
-                                    </div>
-                                ))
-                            }
+                            
                         </div> 
                     </>
                 ) : null

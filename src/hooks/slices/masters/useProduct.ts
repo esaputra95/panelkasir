@@ -154,7 +154,7 @@ export const useProduct = () => {
                     code: value.code,
                     productCategoryId: value.productCategoryId,
                     productCategoryOption: {
-                        value: value.productCategoryId,
+                        value: value?.productCategoryId+'',
                         label: value.categories?.name
                     },
                     purchasePrice: value.purchasePrice,
