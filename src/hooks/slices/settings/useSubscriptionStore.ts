@@ -2,23 +2,16 @@ import {
     useMutation,
     useQuery
 } from "@tanstack/react-query"
-import {
-    deleteData,
-    getData,
-    getDataById,
-    getDataSelect,
-    postData
-} from "../../models/settings/UserManagementModel"
 import { useEffect, useState } from "react"
 import {
-    ApiResponseUserManagement,
-    ApiResponseUpdateUserManagement,
-    UserManagementInterface
-} from "../../../interfaces/settings/UserManagementInterface"
+    ApiResponseSubscriptionStore,
+    ApiResponseUpdateSubscriptionStore,
+    SubscriptionStoreInterface
+} from "../../../interfaces/settings/SubscriptionStoreInterface"
 import { SubmitHandler, useForm } from "react-hook-form"
 import url from "../../../services/url"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { UserManagementSchema } from "../../../schema/settings"
+import { SubscriptionStoreSchema } from "../../../schema/settings"
 import { AxiosError } from "axios"
 import { ModalFormState } from "../../../utils/modalFormState"
 import { toast } from 'react-toastify';
@@ -28,18 +21,19 @@ import usePage from "../../../utils/pageState"
 import { DataMessageError } from "../../../interfaces/apiInfoInterface"
 import { handleMessageErrors } from "../../../services/handleErrorMessage"
 import { OptionSelectInterface } from "../../../interfaces/globalInterface"
-import { UserManagementDummy } from "../../../utils/dummy/setting"
 import { useSelector } from "react-redux"
 import { RootState } from "../../../redux/store"
 import usePaging from "../../../utils/usePaging"
+import { deleteData, getData, getDataById, getDataSelect, postData } from "../../models/globalModel"
+import moment from "moment"
 
-export const useUserManagement = () => {
+export const useSubscriptionStore = () => {
     const [ query, setQuery ] = useState({
         name: '', email:'', phone:'', address: '', role:''
     })
-    const [ idDetail, setIdDetail ] = useState<number|null>()
-    const [ dataOptionUserManagement, setDataOptionUserManagement] = useState<OptionSelectInterface[]>([{value:'', label:''}])
-    const { UserManagement } = url
+    const [ idDetail, setIdDetail ] = useState<string|null>()
+    const [ dataOptionSubscriptionStore, setDataOptionSubscriptionStore] = useState<OptionSelectInterface[]>([{value:'', label:''}])
+    const { SubscriptionStore } = url
     const { modalForm, setModalForm } = ModalFormState()
     const { t } = useTranslation();
     const modalConfirm = modalConfirmState()
@@ -54,6 +48,8 @@ export const useUserManagement = () => {
         }))
     }, [])
 
+    
+
     const {
         reset,
         register,
@@ -63,37 +59,23 @@ export const useUserManagement = () => {
         getValues,
         watch,
         formState: { errors },
-    } = useForm<UserManagementInterface>({
-        resolver: yupResolver(UserManagementSchema().schema),
-        defaultValues: {
-            ...UserManagementDummy
-        }
+    } = useForm<SubscriptionStoreInterface>({
+        resolver: yupResolver(SubscriptionStoreSchema().schema),
     });
-
-    console.log({errors});
     
-
     const {
         register:registerFilter,
         handleSubmit:handleSubmitFilter,
-    } = useForm<UserManagementInterface>()
+    } = useForm<SubscriptionStoreInterface>()
 
     useEffect(()=> {
         refetch()
     }, [page.page])
     
-    const {data:dataUserManagement, isFetching, refetch} = useQuery<ApiResponseUserManagement, AxiosError>({ 
-        queryKey: ['UserManagement-query', query, User.storeId, queryParams], 
+    const {data:dataSubscriptionStore, isFetching, refetch} = useQuery<ApiResponseSubscriptionStore, AxiosError>({ 
+        queryKey: ['SubscriptionStore-query', query, User.storeId, queryParams], 
         networkMode: 'always',
-        queryFn: async () => await getData(UserManagement.get, 
-            {
-                ...query,
-                page: page.page,
-                limit: page.limit,
-                storeId: User.storeId,
-                ...queryParams
-            }
-        ),
+        queryFn: async () => await getData(SubscriptionStore, queryParams),
         onSuccess(data) {
             page.setTotal(Math.ceil((data?.data?.info?.total  ?? 1)/
             (data?.data?.info?.limit ?? page.limit)));
@@ -105,22 +87,25 @@ export const useUserManagement = () => {
         }
     })
 
-    const optionUserManagement = async (data: string): Promise<OptionSelectInterface[]> => {
-        const response = await getDataSelect(UserManagement.getSelect, {name: data});
+    const optionSubscriptionStore = async (data: string): Promise<OptionSelectInterface[]> => {
+        const response = await getDataSelect(SubscriptionStore, {name: data});
         if(response.status){
-            setDataOptionUserManagement(response.data.UserManagement);
-            return response.data.UserManagement
+            setDataOptionSubscriptionStore(response.data.SubscriptionStore);
+            return response.data.SubscriptionStore
         }
         return [{value:'', label:''}]
     }
 
     const { mutate:mutateById } = useMutation({
-        mutationFn: (id:number) => getDataById(UserManagement.getById, id),
-        onSuccess:(data:ApiResponseUpdateUserManagement)=>{
+        mutationFn: (id:string) => getDataById(SubscriptionStore, id),
+        onSuccess:(data:ApiResponseUpdateSubscriptionStore)=>{
             if(data.status){
+                const data_ = data.data?.subscriptionStore
                 reset({
-                    ...data.data.UserManagement,
-                    password: ''
+                    id: data_.id,
+                    storeId: data_.storeId,
+                    startDate: moment(data_.startDate).format('YYYY-MM-DD'),
+                    endDate: moment(data_.endDate).format('YYYY-MM-DD')
                 })
                 setModalForm((state)=>({
                     ...state,
@@ -136,16 +121,14 @@ export const useUserManagement = () => {
     })
 
     const { mutate, isLoading:isLoadingMutate } = useMutation({
-        mutationFn: (data:UserManagementInterface)=> postData(UserManagement.post, data),
+        mutationFn: (data:SubscriptionStoreInterface)=> postData(SubscriptionStore, data),
         onSuccess: () => {
             setModalForm((state)=>({
                 ...state,
                 visible: false
             }))
             refetch()
-            reset({
-                ...UserManagementDummy
-            })
+            reset()
             toast.success(t("success-save"), {
                 position: toast.POSITION.TOP_CENTER
             });
@@ -169,7 +152,7 @@ export const useUserManagement = () => {
     })
 
     const {mutate:mutateDelete} = useMutation({
-        mutationFn: (id:number) => deleteData(UserManagement.delete, id),
+        mutationFn: (id:string) => deleteData(SubscriptionStore, id),
         onSuccess: () => {
             modalConfirm.setModalConfirm({
                 ...modalConfirm.modalConfirm,
@@ -198,14 +181,14 @@ export const useUserManagement = () => {
         }
     })
 
-    const onSubmit: SubmitHandler<UserManagementInterface> = (data) => {
+    const onSubmit: SubmitHandler<SubscriptionStoreInterface> = (data) => {
         mutate({
             ...data
         })
         
     }
 
-    const onDelete = (id: number) => {
+    const onDelete = (id: string) => {
         modalConfirm.setModalConfirm((state)=>({
             ...state,
             title: state.title,
@@ -230,7 +213,7 @@ export const useUserManagement = () => {
         }))
     }
 
-    const onUpdate = (id:number) => {
+    const onUpdate = (id:string) => {
         mutateById(id)
     }
     
@@ -240,24 +223,17 @@ export const useUserManagement = () => {
             ...state,
             visible: false
         }))
-        reset(UserManagementDummy)
+        reset()
         setIdDetail(null)
     }
 
-    const onDetail = async (id:number) => {
+    const onDetail = async (id:string) => {
         setIdDetail(id)
         mutateById(id)
     }
 
-    const onFilter: SubmitHandler<UserManagementInterface> = (data) => {
-        setQuery((state)=>({
-            ...state,
-            name: data.name
-        }));
-    }
-
     return {
-        dataUserManagement,
+        dataSubscriptionStore,
         isFetching,
         setQuery,
         onSubmit,
@@ -276,9 +252,8 @@ export const useUserManagement = () => {
         idDetail,
         page: page,
         control,
-        optionUserManagement,
-        dataOptionUserManagement,
-        onFilter,
+        optionSubscriptionStore,
+        dataOptionSubscriptionStore,
         registerFilter,
         handleSubmitFilter,
         setValue,

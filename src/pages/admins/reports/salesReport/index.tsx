@@ -20,7 +20,7 @@ const SalesReportPage = () => {
 	// 	optionTutor
 	// } = useTutor()
 	return (
-		<div className='w-full'>
+		<div className='w-full p-2 bg-white'>
 			<Filter
 				register={register}
 				control={control}

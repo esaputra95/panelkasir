@@ -64,10 +64,20 @@ const getDataById = async (url:string, id:string | number) => {
 	}
 }
 
+const deleteData = async (url:string, id:string | number) => {
+	try {
+		const response = await api.delete(`${url}/${id}`)
+		if(response.status===200) return response.data
+	} catch (error) {
+		throw error as AxiosError
+	}
+}
+
 export {
 	getDataSelect,
 	downloadFile,
 	postData,
 	getData,
-	getDataById
+	getDataById,
+	deleteData
 }

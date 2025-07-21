@@ -17,6 +17,13 @@ export const UserManagementDummy = {
     stockist: 0,
     code: 'Auto'
 }
+export const SubscriptionStoreDummy = {
+    name: '',
+    email: '',
+    address: '',
+    stockist: 0,
+    code: 'Auto'
+}
 export const PaymentMethodDummy = {
     name: '',
     email: '',

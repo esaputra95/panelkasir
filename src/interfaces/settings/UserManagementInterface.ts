@@ -28,7 +28,7 @@ export interface UserManagementInterface {
     username?:string;
     password?: string;
     email: string;
-    phone: string;
+    phone?: string;
     level: UserManagementRoleEnum
     storeId?: string;
     token?: string;

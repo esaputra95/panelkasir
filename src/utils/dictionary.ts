@@ -91,7 +91,9 @@ export const Indonesia = {
     "user-managements": "Manajemen User",
     "/settings/user-managements":"Manajemen User",
     "/settings/payment-methods": "Metode Pembayaran",
-    "payment-methods":"Metode Pembayaran"
+    "payment-methods":"Metode Pembayaran",
+    "/settings/subscription-stores": "Toko Berlangganan",
+    "subscription-stores": "Toko Berlangganan",
 }
 
 export const English = {

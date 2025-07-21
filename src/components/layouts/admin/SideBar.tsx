@@ -1,408 +1,221 @@
+// src/components/Sidebar.tsx
+import React, { useState, useRef, useEffect, useMemo } from "react"; // Hapus useCallback, tidak diperlukan lagi
+import { Link, useLocation } from "react-router-dom";
+import {
+  FaChevronDown,
+  FaChevronUp,
+} from "react-icons/fa";
+import { menuItems, MenuItem } from "./MenuItems"; // Pastikan path ini benar
+import AsyncSelect from 'react-select/async';
+import useStore from "../../../hooks/slices/masters/useStore";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
+import { setUserSlice } from "../../../redux/userSlice";
+import { SingleValue } from "react-select";
+import { OptionSelectInterface } from "../../../interfaces/globalInterface";
+import UserAvatar from "./UserAvatar";
+import { t } from "i18next";
 
-import React, { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom';
-import {  useDispatch, useSelector } from 'react-redux'
-import { setMenu } from '../../../redux/menuSlice'
-import {
-	Card,
-	Typography,
-	List,
-	ListItem,
-	ListItemPrefix,
-	AccordionBody,
-	AccordionHeader,
-	Accordion
-} from "@material-tailwind/react";
-import {
-    InboxIcon,
-	HomeIcon,
-	Cog6ToothIcon,
-	CurrencyDollarIcon,
-	DocumentChartBarIcon,
-} from "@heroicons/react/24/solid";
-import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
-import { useTranslation } from 'react-i18next';
-import {
-	MasterMenu,
-	SettingMenu,
-	SalesMenu,
-	ReportPurchaseMenu,
-	ReportSalesMenu
-} from './MenuItems';
-import { RootState } from '../../../redux/store';
-import useAccess from '../../../utils/useAccess';
-
-const colorTheme = {
-	menuHover: `group 
-		hover:bg-gradient-to-r 
-		hover:from-cyan-700 
-		hover:to-blue-700`,
-	menuActive: `group 
-		bg-gradient-to-r
-		from-cyan-700 
-		to-blue-700`,
-	textHover: 'group-hover:text-white',
-	textActive: 'text-white'
+// --- Komponen SidebarMenuItem ---
+interface SidebarMenuItemProps {
+  item: MenuItem;
+  onCloseDrawer: () => void;
+  currentUserRole: string;
+  depth?: number;
 }
 
-const SideBarLayout = () => {
+const SidebarMenuItem: React.FC<SidebarMenuItemProps> = ({
+  item,
+  onCloseDrawer,
+  currentUserRole,
+  depth = 0,
+}) => {
+  const location = useLocation();
+  const hasChildren = item.children && item.children.length > 0;
 
-    const navigate = useNavigate();
-    const location = useLocation()
-    const selector = useSelector((state: RootState) => state.menu)
-    const dispatch = useDispatch()
-		const { token } = useAccess()
+  const isActive = location.pathname === item.path;
 
-    const handleOnClickMenu = (path:string) => {
-        dispatch(setMenu(path))
-        navigate(path)
+  const isChildActive = hasChildren
+    ? item?.children?.some((child) => location.pathname.startsWith(child.path))
+    : false;
+
+  const [isOpen, setIsOpen] = useState(hasChildren && isChildActive);
+  const contentRef = useRef<HTMLUListElement>(null);
+  const [contentHeight, setContentHeight] = useState(0);
+
+  // Efek untuk mengukur contentHeight saat isOpen berubah
+  useEffect(() => {
+    const updateHeight = () => {
+      if (contentRef.current) {
+        setContentHeight(isOpen ? contentRef.current.scrollHeight : 0);
+      }
+    };
+    updateHeight();
+
+    window.addEventListener("resize", updateHeight);
+    return () => window.removeEventListener("resize", updateHeight);
+  }, [isOpen]);
+
+  const handleToggle = (e: React.MouseEvent) => {
+    // Penting: Jangan panggil preventDefault() untuk item non-parent
+    // karena Link membutuhkan default behavior untuk navigasi
+    if (hasChildren) {
+      e.preventDefault(); // Hanya preventDefault untuk item parent (button)
+      setIsOpen(!isOpen); // Toggle state untuk parent
+    } else {
+      // Untuk item daun (Link), biarkan navigasi terjadi secara alami
+      // dan kemudian tutup drawer (jika ini mobile)
+      onCloseDrawer();
     }
+  };
 
-    useEffect(()=> {
-        const path = location.pathname === "/" ? 'dashboard' : location.pathname;
-		if(path){
-			setOpen(path.split('/')[1])
-		}
-        dispatch(setMenu(path));
-    },[])
+  const hasAccess = item.access.includes(currentUserRole);
+  if (!hasAccess) {
+    return null;
+  }
 
-    const [open, setOpen] = useState('dashboard');
+  const baseClasses =
+    "flex items-center p-3 rounded-lg transition-colors duration-200 w-full";
+  const textColor = "text-gray-700";
+  const hoverBg = "hover:bg-blue-50";
+  const hoverText = "hover:text-blue-700";
+  const activeBg = "bg-purple-100 text-purple-700 font-semibold";
 
-	const handleOpen = (value:string) => {
-		setOpen(open === value ? 'dashboard' : value);
-	};
+  const currentItemIsActive = isActive || (hasChildren && isChildActive);
 
-	const { t } = useTranslation();
+  const itemClasses = `${baseClasses} ${textColor} ${hoverBg} ${hoverText} ${
+    currentItemIsActive ? activeBg : ""
+  }`;
 
-    return (
-        <Card className="w-full sticky top-0 overflow-auto h-screen 
-			max-w-[20rem] p-4 rounded-none bg-white shadow-xl shadow-blue-gray-900/5"
-		>
-			<div className="mb-2 p-4">
-				<Typography variant="h5" color="blue-gray">
-					Kasir Q
-				</Typography>
-			</div>
-			<List>
-				<ListItem 
-					className={`${colorTheme.menuHover} ${selector.menu==="dashboard" ? colorTheme.menuActive : ''} ${token?.level==="admin" || token?.level==="owner" || token?.level === "superadmin" ? `flex`: 'hidden'}`
-					} 
-					onClick={()=>handleOnClickMenu('dashboard')}>
-					<ListItemPrefix>
-						<HomeIcon className={`h-5 w-5 ${colorTheme.textHover} ${selector.menu==="dashboard" ? colorTheme.textActive : ''}`} />
-					</ListItemPrefix>
-					<label className={`${colorTheme.textHover} ${selector.menu==="dashboard" ? colorTheme.textActive : ''}`}>{t('homes')}</label>
-				</ListItem>
-				<Accordion
-					open={open === 'masters'}
-					icon={
-						<ChevronDownIcon
-						strokeWidth={2.5}
-						className={`mx-auto h-4 w-4 transition-transform 
-							${token?.level==="admin" || token?.level==="owner" || token?.level === "superadmin" ? 'flex':'hidden'}
-							${open === 'masters' ? "rotate-180" : ""}`
-						}
-						/>
-					}
-				>
-					<ListItem 
-						className={`p-0 ${
-						token?.level==="admin" || token?.level==="owner" || 
-						token?.level === "superadmin" ? 'flex':'hidden'}
-						${colorTheme.menuHover} ${selector.menu==="data-masters" ? colorTheme.menuActive : ''}`
-						} selected={open === 'masters'}
-					>
-						<AccordionHeader onClick={() => handleOpen('masters')} className="border-b-0 p-3">
-							<ListItemPrefix>
-								<InboxIcon className="h-5 w-5" />
-							</ListItemPrefix>
-							<Typography color="blue-gray" className={`mr-auto font-normal ${colorTheme.textHover} ${selector.menu==="data-masters" ? colorTheme.textActive : ''}`}>
-								{t('data-masters')}
-							</Typography>
-						</AccordionHeader>
-					</ListItem>
-					<AccordionBody className="py-1">
-						<List className="p-0">
-							{
-								MasterMenu.map((value)=> (
-									<ListItem
-										selected={
-											selector.menu === value.path ? true : false
-										}
-										className={`${colorTheme.menuHover} ${selector.menu===value.path ? colorTheme.menuActive : ''}`
-										} 
-										key={Math.random()} 
-										onClick={()=>handleOnClickMenu(value.path)}
-									>
-										<ListItemPrefix>
-											<ChevronRightIcon className={`h-4 w-4 ${colorTheme.textHover} ${selector.menu===value.path ? colorTheme.textActive : ''}`} />
-										</ListItemPrefix>
-										<label className={`${colorTheme.textHover} ${selector.menu===value.path ? colorTheme.textActive : ''}`}>{t(value.label)}</label>
-									</ListItem>
-								))
-							}
-						</List>
-					</AccordionBody>
-				</Accordion>
-				{
-					token?.level==="admin" || token?.level === "superadmin" ? (
-						<hr className="my-2 border-blue-gray-50" />
-					) : ''
-				}
-				<Accordion
-					open={open === 'sales'}
-					icon={
-						<ChevronDownIcon
-						strokeWidth={2.5}
-						className={`mx-auto h-4 w-4 transition-transform 
-							${token?.level==="admin" || token?.level === "superadmin"  ? 'flex':'hidden'}
-							${open === 'sales' ? "rotate-180" : ""}`
-						}
-						/>
-					}
-				>
-					<ListItem className={`p-0 ${token?.level==="admin" || token?.level === "superadmin" ? 'flex':'hidden'}`} selected={open === 'sales'}>
-						<AccordionHeader onClick={() => handleOpen('sales')} className="border-b-0 p-3">
-							<ListItemPrefix>
-								<CurrencyDollarIcon className="h-5 w-5" />
-							</ListItemPrefix>
-							<Typography color="blue-gray" className="mr-auto font-normal">
-								{t('sales')}
-							</Typography>
-						</AccordionHeader>
-					</ListItem>
-					<AccordionBody className="py-1">
-						<List className="p-0">
-							{
-								SalesMenu.map((value)=> (
-									<React.Fragment key={value.path}>
-									{
-										value.access.includes(token?.level??'') ? <ListItem
-										selected={
-											selector.menu === value.path ? true : false
-										} 
-										key={Math.random()} 
-										onClick={()=>handleOnClickMenu(value.path)}
-									>
-										<ListItemPrefix>
-											<ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-										</ListItemPrefix>
-										{t(value.label)}
-									</ListItem> : ''
-									}
-									</React.Fragment>
-								))
-							}
-						</List>
-					</AccordionBody>
-				</Accordion>
-				{
-					token?.level==="admin" || token?.level === "superadmin" || token?.level === "owner" ? (
-						<hr className="my-2 border-blue-gray-50" />
-					) : ''
-				}
-				<Accordion
-					open={open === 'reports'}
-					icon={
-						<ChevronDownIcon
-						strokeWidth={2.5}
-						className={`mx-auto h-4 w-4 transition-transform 
-							${token?.level==="admin" || token?.level==="owner" || token?.level === "superadmin" ? 'flex':'hidden'}
-							${open === 'reports' ? "rotate-180" : ""}`
-						}
-						/>
-					}
-				>
-					<ListItem 
-						className={`p-0 ${
-						token?.level==="admin" || token?.level==="owner" || 
-						token?.level === "superadmin" ? 'flex':'hidden'}
-						${colorTheme.menuHover} ${selector.menu==="reports" ? colorTheme.menuActive : ''}`
-						} selected={open === 'reports'}
-					>
-						<AccordionHeader onClick={() => handleOpen('reports')} className="border-b-0 p-3">
-							<ListItemPrefix>
-								<DocumentChartBarIcon className="h-5 w-5" />
-							</ListItemPrefix>
-							<Typography color="blue-gray" className={`mr-auto font-normal ${colorTheme.textHover} ${selector.menu==="reports" ? colorTheme.textActive : ''}`}>
-								{t('purchases-report')}
-							</Typography>
-						</AccordionHeader>
-					</ListItem>
-					<AccordionBody className="py-1">
-						<List className="p-0">
-							{
-								ReportPurchaseMenu.map((value)=> (
-									<ListItem
-										selected={
-											selector.menu === value.path ? true : false
-										}
-										className={`${colorTheme.menuHover} ${selector.menu===value.path ? colorTheme.menuActive : ''}`
-										} 
-										key={Math.random()} 
-										onClick={()=>handleOnClickMenu(value.path)}
-									>
-										<ListItemPrefix>
-											<ChevronRightIcon className={`h-4 w-4 ${colorTheme.textHover} ${selector.menu===value.path ? colorTheme.textActive : ''}`} />
-										</ListItemPrefix>
-										<label className={`${colorTheme.textHover} ${selector.menu===value.path ? colorTheme.textActive : ''}`}>{t(value.label)}</label>
-									</ListItem>
-								))
-							}
-						</List>
-					</AccordionBody>
-				</Accordion>
-				<Accordion
-					open={open === 'sales-report'}
-					icon={
-						<ChevronDownIcon
-						strokeWidth={2.5}
-						className={`mx-auto h-4 w-4 transition-transform 
-							${token?.level==="admin" || token?.level==="owner" || token?.level === "superadmin" ? 'flex':'hidden'}
-							${open === 'sales-report' ? "rotate-180" : ""}`
-						}
-						/>
-					}
-				>
-					<ListItem 
-						className={`p-0 ${
-						token?.level==="admin" || token?.level==="owner" || 
-						token?.level === "superadmin" ? 'flex':'hidden'}
-						${colorTheme.menuHover} ${selector.menu==="sales-report" ? colorTheme.menuActive : ''}`
-						} selected={open === 'sales-report'}
-					>
-						<AccordionHeader onClick={() => handleOpen('sales-report')} className="border-b-0 p-3">
-							<ListItemPrefix>
-								<DocumentChartBarIcon className="h-5 w-5" />
-							</ListItemPrefix>
-							<Typography color="blue-gray" className={`mr-auto font-normal ${colorTheme.textHover} ${selector.menu==="sales-report" ? colorTheme.textActive : ''}`}>
-								{t('sales-report')}
-							</Typography>
-						</AccordionHeader>
-					</ListItem>
-					<AccordionBody className="py-1">
-						<List className="p-0">
-							{
-								ReportSalesMenu.map((value)=> (
-									<ListItem
-										selected={
-											selector.menu === value.path ? true : false
-										}
-										className={`${colorTheme.menuHover} ${selector.menu===value.path ? colorTheme.menuActive : ''}`
-										} 
-										key={Math.random()} 
-										onClick={()=>handleOnClickMenu(value.path)}
-									>
-										<ListItemPrefix>
-											<ChevronRightIcon className={`h-4 w-4 ${colorTheme.textHover} ${selector.menu===value.path ? colorTheme.textActive : ''}`} />
-										</ListItemPrefix>
-										<label className={`${colorTheme.textHover} ${selector.menu===value.path ? colorTheme.textActive : ''}`}>{t(value.label)}</label>
-									</ListItem>
-								))
-							}
-						</List>
-					</AccordionBody>
-				</Accordion>
-				<Accordion
-					open={open === 'laba-report'}
-					icon={
-						<ChevronDownIcon
-						strokeWidth={2.5}
-						className={`mx-auto h-4 w-4 transition-transform 
-							${token?.level==="admin" || token?.level==="owner" || token?.level === "superadmin" ? 'flex':'hidden'}
-							${open === 'laba-report' ? "rotate-180" : ""}`
-						}
-						/>
-					}
-				>
-					<ListItem 
-						className={`p-0 ${
-						token?.level==="admin" || token?.level==="owner" || 
-						token?.level === "superadmin" ? 'flex':'hidden'}
-						${colorTheme.menuHover} ${selector.menu==="laba-report" ? colorTheme.menuActive : ''}`
-						} selected={open === 'laba-report'}
-					>
-						<AccordionHeader onClick={() => handleOpen('laba-report')} className="border-b-0 p-3">
-							<ListItemPrefix>
-								<DocumentChartBarIcon className="h-5 w-5" />
-							</ListItemPrefix>
-							<Typography color="blue-gray" className={`mr-auto font-normal ${colorTheme.textHover} ${selector.menu==="laba-report" ? colorTheme.textActive : ''}`}>
-								{t('laba-report')}
-							</Typography>
-						</AccordionHeader>
-					</ListItem>
-					<AccordionBody className="py-1">
-						<List className="p-0">
-							{
-								ReportSalesMenu.map((value)=> (
-									<ListItem
-										selected={
-											selector.menu === value.path ? true : false
-										}
-										className={`${colorTheme.menuHover} ${selector.menu===value.path ? colorTheme.menuActive : ''}`
-										} 
-										key={Math.random()} 
-										onClick={()=>handleOnClickMenu(value.path)}
-									>
-										<ListItemPrefix>
-											<ChevronRightIcon className={`h-4 w-4 ${colorTheme.textHover} ${selector.menu===value.path ? colorTheme.textActive : ''}`} />
-										</ListItemPrefix>
-										<label className={`${colorTheme.textHover} ${selector.menu===value.path ? colorTheme.textActive : ''}`}>{t(value.label)}</label>
-									</ListItem>
-								))
-							}
-						</List>
-					</AccordionBody>
-				</Accordion>
-				<hr className="my-2 border-blue-gray-50" />
-				<Accordion
-					open={open === 'settings'}
-					icon={
-						<ChevronDownIcon
-						strokeWidth={2.5}
-						className={`mx-auto h-4 w-4 transition-transform 
-							${token?.level==="admin" || token?.level==="owner" || token?.level === "superadmin" ? 'flex':'hidden'}
-							${open === 'settings' ? "rotate-180" : ""}`
-						}
-						/>
-					}
-				>
-					<ListItem className={`p-0 ${token?.level==="admin" || token?.level==="owner" || token?.level === "superadmin" ? 'flex':'hidden'}`} selected={open === 'settings'}>
-						<AccordionHeader onClick={() => handleOpen('settings')} className="border-b-0 p-3">
-							<ListItemPrefix>
-								<Cog6ToothIcon className="h-5 w-5" />
-							</ListItemPrefix>
-							<Typography color="blue-gray" className="mr-auto font-normal">
-								{t('settings')}
-							</Typography>
-						</AccordionHeader>
-					</ListItem>
-					<AccordionBody className="py-1">
-						<List className="p-0">
-							{
-								SettingMenu.map((value)=> (
-									<ListItem
-										selected={
-											selector.menu === value.path ? true : false
-										}
-										className={`${colorTheme.menuHover} ${selector.menu===value.path ? colorTheme.menuActive : ''} ${value.access.includes(token?.level as string) ? '' :'hidden'}`
-										} 
-										key={Math.random()} 
-										onClick={()=>handleOnClickMenu(value.path)}
-									>
-										<ListItemPrefix>
-											<ChevronRightIcon className={`h-4 b-0red-400 w-4 ${colorTheme.textHover} ${selector.menu===value.path ? colorTheme.textActive : ''}`} />
-										</ListItemPrefix>
-										<label className={`${colorTheme.textHover} ${selector.menu===value.path ? colorTheme.textActive : ''}`}>{t(value.label)}</label>
-									</ListItem>
-								))
-							}
-						</List>
-					</AccordionBody>
-				</Accordion>
-			</List>
-		</Card>
-    )
+  const indentation = depth * 16;
+
+  // Render konten menu item (ikon + label)
+  const menuItemContent = (
+    <div className="flex items-center">
+      {item.icon && <item.icon className="h-5 w-5 mr-3 text-gray-500" />}
+      <span>{t(item.label)}</span>
+    </div>
+  );
+
+  return (
+    <li>
+      {hasChildren ? (
+        // Jika memiliki children, render sebagai button
+        <button
+          onClick={handleToggle} // onClick ada di sini
+          className={`${itemClasses} justify-between`} // justify-between untuk panah
+          style={{ paddingLeft: `${12 + indentation}px` }}
+          aria-expanded={isOpen}
+          aria-controls={`submenu-${item.label.replace(/\s+/g, "-")}`}
+        >
+          {menuItemContent}
+          {isOpen ? (
+            <FaChevronUp className="h-4 w-4 text-gray-400 transition-transform duration-300" />
+          ) : (
+            <FaChevronDown className="h-4 w-4 text-gray-400 transition-transform duration-300" />
+          )}
+        </button>
+      ) : (
+        // Jika tidak memiliki children, render sebagai Link
+        <Link
+          to={item.path}
+          onClick={handleToggle} // onClick juga ada di sini untuk item Link
+          className={itemClasses}
+          style={{ paddingLeft: `${12 + indentation}px` }}
+          aria-current={currentItemIsActive ? "page" : undefined}
+        >
+          {menuItemContent}
+        </Link>
+      )}
+
+      {hasChildren && (
+        <div
+          style={{ maxHeight: `${contentHeight}px` }}
+          className={`overflow-hidden transition-[max-height] duration-300 ease-in-out`}
+          id={`submenu-${item.label.replace(/\s+/g, "-")}`}
+        >
+          <ul ref={contentRef} className="mt-2 space-y-2">
+            {item.children?.map((childItem) => (
+              <SidebarMenuItem
+                key={childItem.path}
+                item={childItem}
+                onCloseDrawer={onCloseDrawer}
+                currentUserRole={currentUserRole}
+                depth={depth + 1}
+              />
+            ))}
+          </ul>
+        </div>
+      )}
+    </li>
+  );
+};
+
+// --- Komponen Sidebar Utama (tetap sama) ---
+interface SidebarProps {
+  onClose: () => void;
 }
 
-export default SideBarLayout
+export const Sidebar: React.FC<SidebarProps> = ({ onClose }) => {
+  const {optionStore, dataOptionStore} = useStore()
+    const user = useSelector((state:RootState)=> state.userReducer)
+    const dispatch = useDispatch()
+
+  const store = useMemo(()=> {
+    return user.storeId ? dataOptionStore.filter(val=>val.value === user.storeId)?.[0] ?? dataOptionStore[0] : dataOptionStore[0]
+  },[user.storeId, dataOptionStore]);
+  
+  useEffect(()=>{
+    if(store?.value){
+      dispatch(setUserSlice({
+        storeId: store.value+''
+      }))
+    }
+    
+  }, [store])
+
+  const onChangeStore = (value:SingleValue<OptionSelectInterface>) => {
+    dispatch(
+      setUserSlice({
+        storeId: value?.value as string
+      })
+    )
+  }
+  
+  const currentUserRole = "superadmin";
+
+  return (
+    <nav className="p-4 flex flex-col h-full overflow-y-auto">
+      {/* Profil Pengguna */}
+      <div className="flex flex-col mb-4 space-y-4">
+        <UserAvatar/>
+        <AsyncSelect
+          className='w-full'
+          cacheOptions
+          value={store}
+          loadOptions={optionStore}
+          onChange={onChangeStore}
+          defaultOptions
+          placeholder="Pilih Toko"
+          ref={(ref)=> ref}
+        />
+      </div>
+      <ul className="space-y-2 flex-grow">
+        {menuItems.map((menuItem) => (
+          <SidebarMenuItem
+            key={menuItem.path}
+            item={menuItem}
+            onCloseDrawer={onClose}
+            currentUserRole={currentUserRole}
+            depth={0}
+          />
+        ))}
+      </ul>
+
+      {/* Tombol tutup untuk mobile drawer di bagian bawah */}
+      <div className="m-auto pt-4 border-t border-gray-200 lg:hidden">
+        By Kasir Q
+      </div>
+    </nav>
+  );
+};

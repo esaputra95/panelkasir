@@ -7,7 +7,6 @@ const DonationCategorySchema = () => {
     const schema = yup.object({
         name: yup.string().required(`${t("name")} ${t("required")}`),
         email: yup.string().required(`${t("email")} ${t("required")}`),
-        phone: yup.string().required(`${t("phone")} ${t("required")}`),
         level: yup.string().oneOf([
             UserManagementRoleEnum.admin, 
             UserManagementRoleEnum.cashier, 

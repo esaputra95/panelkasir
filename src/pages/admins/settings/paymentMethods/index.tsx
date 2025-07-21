@@ -42,7 +42,7 @@ const PaymentMethodPage = () => {
     } = usePaymentMethod()
 
     return (
-        <div className='w-full flex'>
+        <div className='w-full flex p-2 bg-white'>
             <ModalConfirm data={modalConfirm.modalConfirm}  />
             <ModalForm 
                 visible={modalForm.visible}

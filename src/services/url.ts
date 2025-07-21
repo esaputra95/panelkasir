@@ -37,6 +37,7 @@ const url = {
         delete: 'admin/users',
         getSelect: 'admin/user-managements/get-select',
     },
+    SubscriptionStore: 'admin/subscription-stores',
     PaymentMethod: {
         get: 'admin/user-managements',
         post: 'admin/user-managements',

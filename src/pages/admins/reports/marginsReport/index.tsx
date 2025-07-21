@@ -17,7 +17,7 @@ const MarginsReportPage = () => {
 	} = useMarginsReport();
 
 	return (
-		<div className='w-full'>
+		<div className='w-full bg-white p-4'>
 			<Filter
 				register={register}
 				control={control}

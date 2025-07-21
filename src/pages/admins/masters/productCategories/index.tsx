@@ -37,7 +37,7 @@ const ProductCategoryPage = () => {
     } = useProductCategory()
 
     return (
-        <div className='w-full'>
+        <div className='w-full p-2 bg-white'>
             <ModalConfirm data={modalConfirm.modalConfirm}  />
             <ModalForm 
                 visible={modalForm.visible}

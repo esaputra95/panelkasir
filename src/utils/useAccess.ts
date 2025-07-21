@@ -110,6 +110,7 @@ const access = {
         '/profile',
         '/settings/user-managements',
         '/settings/payment-methods',
+        '/settings/subscription-stores'
     ],
     cashier:['']
 }
