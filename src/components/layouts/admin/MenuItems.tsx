@@ -8,11 +8,11 @@ import {
   FaStore,
   FaUserCog,
   FaCreditCard,
-  FaCrown,
+  // FaCrown,
   FaFileAlt,
   FaChartLine,
   FaDollarSign,
-  FaQuestionCircle,
+  // FaQuestionCircle,
   FaDatabase,
   FaCog,
   FaTachometerAlt, // Report
@@ -75,12 +75,12 @@ const SettingMenu: MenuItem[] = [
     icon: FaCreditCard,
     access: ["superadmin", "admin", "owner"],
   },
-  {
-    label: "subscription-stores",
-    path: "/settings/subscription-stores",
-    icon: FaCrown,
-    access: ["superadmin"],
-  },
+  // {
+  //   label: "subscription-stores",
+  //   path: "/settings/subscription-stores",
+  //   icon: FaCrown,
+  //   access: ["superadmin"],
+  // },
 ];
 
 const ReportPurchaseMenu: MenuItem[] = [
@@ -126,23 +126,23 @@ export const menuItems: MenuItem[] = [
     children: MasterMenu,
   },
   {
-    label: "Settings",
-    path: "/settings",
-    icon: FaCog,
-    access: ["superadmin", "admin", "owner"],
-    children: SettingMenu,
-  },
-  {
-    label: "Reports",
+    label: "reports",
     path: "/reports",
     icon: FaFileAlt,
     access: ["admin", "owner", "superadmin"],
     children: [...ReportPurchaseMenu, ...ReportSalesMenu, ...ReportLabaMenu],
   },
   {
-    label: "Help & Support",
-    path: "/help-support",
-    icon: FaQuestionCircle,
-    access: ["admin", "superadmin", "owner", "agent"],
+    label: "Settings",
+    path: "/settings",
+    icon: FaCog,
+    access: ["superadmin", "admin", "owner"],
+    children: SettingMenu,
   },
+  // {
+  //   label: "Help & Support",
+  //   path: "/help-support",
+  //   icon: FaQuestionCircle,
+  //   access: ["admin", "superadmin", "owner", "agent"],
+  // },
 ];

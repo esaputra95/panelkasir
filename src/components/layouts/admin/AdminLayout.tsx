@@ -3,11 +3,13 @@ import { useState } from "react";
 import { FaBars } from "react-icons/fa";
 import { Sidebar } from "./SideBar";
 import { MobileDrawer } from "./MobileDrawer";
-import { Outlet} from "react-router-dom";
+import { Outlet, useLocation} from "react-router-dom";
+import { t } from "i18next";
 
 export const AdminLayout = () => {
   // Terima children
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -54,7 +56,8 @@ export const AdminLayout = () => {
         </aside>
 
         {/* Area Konten Utama yang Bisa di-scroll */}
-        <main className="flex-1 overflow-y-auto p-2 bg-gray-100 lg:p-4">
+        <main className="flex-1 overflow-y-auto p-2 bg-gray-100 space-y-2 lg:p-4">
+          <div className="w-full bg-white p-2 font-semibold">{t(location.pathname.replace('/', '').split('/').slice(-1)[0])}</div>
           <Outlet />
         </main>
       </div>
