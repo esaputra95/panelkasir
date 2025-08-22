@@ -16,7 +16,7 @@ const LoginPage = () => {
             <div className='w-full lg:w-4/12 xl:4/12 flex items-center justify-center border-l'>
                 <div className='w-full bg-white p-8 space-y-4'>
                     <div className='flex w-full items-center justify-center'>
-                        <img className='w-48' src='./logoicon.jpeg' />
+                        <img className='w-48' src='./newlogo.png' />
                     </div>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className='flex flex-col gap-y-4'>
