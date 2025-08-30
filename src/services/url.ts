@@ -34,7 +34,7 @@ const url = {
         post: 'admin/user-managements',
         put: 'admin/user-managements',
         getById: 'admin/user-managements',
-        delete: 'admin/users',
+        delete: 'admin/user-managements',
         getSelect: 'admin/user-managements/get-select',
     },
     SubscriptionStore: 'admin/subscription-stores',
@@ -78,6 +78,14 @@ const url = {
         getById: 'admin/members',
         delete: 'admin/members',
         getSelect: 'admin/members/select',
+    },
+    Subscription: {
+        get: 'admin/subscriptions',
+        post: 'admin/subscriptions',
+        put: 'admin/subscriptions',
+        getById: 'admin/subscriptions',
+        delete: 'admin/subscriptions',
+        getSelect: 'admin/subscriptions/select',
     },
     ClaimPoints: {
         get: 'claim-points',

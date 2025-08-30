@@ -3,6 +3,8 @@ import { InputText, Button } from '../../../../components/input';
 import { WarehouseFormProps } from '../../../../interfaces/settings/WarehouseInterface';
 import { useTranslation } from 'react-i18next';
 import Spinner from '../../../../components/ui/Spinner';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../redux/store';
 
 const FormWarehouse: FC<WarehouseFormProps> = (props) => {
     const { 
@@ -15,6 +17,8 @@ const FormWarehouse: FC<WarehouseFormProps> = (props) => {
         isLoadingMutate,
     } = props;
     const {t} = useTranslation();
+
+    const user = useSelector((state:RootState)=> state.userReducer)
     
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -27,29 +31,22 @@ const FormWarehouse: FC<WarehouseFormProps> = (props) => {
                         label={t("name")} 
                     />
                     <InputText
-                        {...register("phone")}
-                        errors={errors.phone?.message} 
-                        readOnly={idDetail?true:false} 
-                        label={t("phone")} 
-                    />
-                    <InputText
-                        {...register("email")}
-                        errors={errors.email?.message} 
-                        readOnly={idDetail?true:false} 
-                        label={t("email")} 
-                    />
-                    <InputText
                         {...register("address")}
                         errors={errors.address?.message} 
                         readOnly={idDetail?true:false} 
                         label={t("address")} 
                     />
-                    <InputText
-                        {...register("description")}
-                        errors={errors.description?.message} 
-                        readOnly={idDetail?true:false} 
-                        label={t("description")} 
-                    />
+                    {
+                        user.level === 'superadmin' && (
+                            <InputText
+                                {...register("expiredDate")}
+                                type='date'
+                                errors={errors.expiredDate?.message} 
+                                readOnly={idDetail?true:false} 
+                                label={t("expiredDate")} 
+                            />
+                        )
+                    }
                 </div>
             </div>
             <div className='w-full flex justify-end space-x-2'>

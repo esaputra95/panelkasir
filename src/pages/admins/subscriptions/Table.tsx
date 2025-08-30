@@ -1,20 +1,20 @@
 import { BsEyeFill, BsFillTrashFill, BsPencilFill } from "react-icons/bs";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
-import Skeleton from "../../../../components/ui/Skeleton";
-import { WarehouseInterface } from "../../../../interfaces/settings/WarehouseInterface";
+import Skeleton from "../../../components/ui/Skeleton";
+import { SubscriptionInterface } from "../../../interfaces/masters/SubscriptionInterface";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../redux/store";
+import { RootState } from "../../../redux/store";
 import moment from "moment";
 
 type TableProps = {
-    data?: WarehouseInterface[],
+    data?: SubscriptionInterface[],
     isFetching?: boolean,
     page: number,
     limit: number,
-    onDelete:(id:number)=>void,
-    onUpdate:(id:number)=>void,
-    onDetail:(id:number)=>void
+    onDelete:(id:string)=>void,
+    onUpdate:(id:string)=>void,
+    onDetail:(id:string)=>void
 }
 
 const header = [
@@ -24,7 +24,7 @@ const header = [
         width: 'w-4'
     },
     { label: 'name' },
-    { label: 'Expired' },
+    { label: 'hp' },
     { label: 'address' },
     { 
         label: 'Action',
@@ -33,8 +33,8 @@ const header = [
 ] 
 
 const Table: FC<TableProps> = (props) => {
-    const user = useSelector((state:RootState)=>state.userReducer)
     const { data, isFetching, page, limit, onDelete, onUpdate, onDetail } = props;
+    const user = useSelector((state:RootState)=> state.userReducer);
     const { t } = useTranslation()
     const number:number = ((page-1)*limit)
     
@@ -74,24 +74,24 @@ const Table: FC<TableProps> = (props) => {
                                     {(number+index+1)}
                                 </td>
                                 <td className="px-6 py-4">
-                                    {value?.name}
+                                    {value?.storeId}
                                 </td>
                                 <td className="px-6 py-4">
-                                    {moment(value?.expiredDate).format('DD/MM/YYYY')}
+                                    {moment(value?.startDate).format("YYYY-MM-DD")}
                                 </td>
                                 <td className="px-6 py-4">
-                                    {value?.address}
+                                    {moment(value?.endDate).format("YYYY-MM-DD")}
                                 </td>
                                 {
-                                    (user.level === "superadmin" || user.level == "admin") && (
+                                    user.level === "superadmin" || user.level == "admin" && (
                                         <td className="px-6 py-4 flex">
-                                            <span title="Update" className="p-1.5 bg-green-50 hover:bg-green-100 hover:cursor-pointer rounded-full" onClick={()=>onUpdate(value?.id ?? 0)}>
+                                            <span title="Update" className="p-1.5 bg-green-50 hover:bg-green-100 hover:cursor-pointer rounded-full" onClick={()=>onUpdate(value?.id as string)}>
                                                 <BsPencilFill className='text-green-600' />
                                             </span>
-                                            <span title="Detail" className="p-1.5 bg-cyan-50 hover:bg-cyan-100 hover:cursor-pointer rounded-full" onClick={()=>onDetail(value.id ?? 0)}>
+                                            <span title="Detail" className="p-1.5 bg-cyan-50 hover:bg-cyan-100 hover:cursor-pointer rounded-full" onClick={()=>onDetail(value.id as string)}>
                                                 <BsEyeFill className='text-cyan-600' />
                                             </span>
-                                            <span title={t("delete")} className="p-1.5 bg-red-50 hover:bg-red-100 hover:cursor-pointer rounded-full" onClick={()=>onDelete(value.id ?? 0)}>
+                                            <span title={t("delete")} className="p-1.5 bg-red-50 hover:bg-red-100 hover:cursor-pointer rounded-full" onClick={()=>onDelete(value.id as string)}>
                                                 <BsFillTrashFill className="text-red-600" />
                                             </span>
                                         </td>

@@ -5,10 +5,11 @@ const WarehouseSchema = () => {
     const {t} = useTranslation()
     const schema = yup.object({
         name: yup.string().required(`${t("name")} ${t("required")}`),
-        phone: yup.string().required(`${t("phone")} ${t("required")}`),
-        email: yup.string().email().required(`${t("email")} ${t("required")}`),
-        address: yup.string().required(`${t("address")} ${t("required")}`),
+        phone: yup.string().optional(),
+        email: yup.string().email().optional(),
+        address: yup.string().optional(),
         description: yup.string().optional(),
+        expiredDate: yup.string().optional(),
     });
 
     return {

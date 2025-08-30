@@ -1,5 +1,4 @@
 
-import TablePaging from './TablePaging'
 import { useUserManagement } from '../../../../hooks/slices/settings/useUserManagement'
 import ModalForm from '../../../../components/ui/modal/ModalForm'
 import FormUserManagement from './form'
@@ -36,7 +35,6 @@ const UserManagementPage = () => {
         onCancel,
         onDetail,
         idDetail,
-        page,
         registerFilter,
         handleSubmitFilter,
         onFilter,
@@ -94,6 +92,22 @@ const UserManagementPage = () => {
             return(
                 <Badge variant={varian}>{row.verified}</Badge>
             )
+        },
+    },
+    {
+        header: "Created At",
+        accessor: "createdAt",
+        sortable: true,
+        filterable: true,
+        filterType:'date',
+        render(row) {
+            return row.createdAt
+                ? new Date(row.createdAt).toLocaleDateString("id-ID", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                })
+                : "-";
         },
     },
     {
@@ -206,20 +220,6 @@ const UserManagementPage = () => {
                     columns={userColumns}
                     isLoading={isFetching}
                     totalPages={dataUserManagement?.data.info.totalPage ?? 1}
-        />
-                {/* <Table
-                    data={dataUserManagement?.data?.UserManagement ?? []}
-                    isFetching={isFetching}
-                    page={page.page}
-                    limit={page.limit}
-                    onDelete={onDelete}
-                    onUpdate={onUpdate}
-                    onDetail={onDetail}
-                /> */}
-                <TablePaging
-                    page={page.page}
-                    total={page.total}
-                    handlePage={page.handlePage}
                 />
             </div>
         </div>

@@ -24,3 +24,13 @@ export const MemberDummy = {
     quantity: 0,
     agenTypeId: 0,
 }
+export const SubscriptionDummy = {
+    id: '',
+    storeId:'',
+    startDate:'',
+    endDate:'',
+    userCreate:'',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    deletedAt: null,
+}

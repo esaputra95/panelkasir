@@ -101,6 +101,15 @@ const ReportSalesMenu: MenuItem[] = [
   },
 ];
 
+// const SubscriptionMenu: MenuItem[] = [
+//   {
+//     label: "subscriptions",
+//     path: "/subscriptions",
+//     icon: FaDollarSign,
+//     access: ["admin", "owner", "superadmin"],
+//   },
+// ];
+
 const ReportLabaMenu: MenuItem[] = [
   {
     label: "margins",
@@ -125,6 +134,13 @@ export const menuItems: MenuItem[] = [
     access: ["admin", "superadmin", "owner"],
     children: MasterMenu,
   },
+  // {
+  //   label: "Subscriptions",
+  //   path: "/subscriptions", // Path parent untuk membuka sub-menu
+  //   icon: FaDatabase,
+  //   access: ["admin", "superadmin", "owner"],
+  //   children: SubscriptionMenu,
+  // },
   {
     label: "reports",
     path: "/reports",

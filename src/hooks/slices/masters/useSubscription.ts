@@ -1,21 +1,20 @@
 import {  useMutation, useQuery } from "@tanstack/react-query"
 import {
     deleteData,
-    getData,
     getDataById,
     getDataSelect,
     postData
-} from "../../models/settings/WarehouseModel"
+} from "../../models/globalModel"
 import { useEffect, useState } from "react"
 import {
-    ApiResponseWarehouse,
-    ApiResponseUpdateWarehouse,
-    WarehouseInterface
-} from "../../../interfaces/settings/WarehouseInterface"
+    ApiResponseSubscription,
+    ApiResponseUpdateSubscription,
+    SubscriptionInterface
+} from "../../../interfaces/masters/SubscriptionInterface"
 import { SubmitHandler, useForm } from "react-hook-form"
 import url from "../../../services/url"
 import { yupResolver } from "@hookform/resolvers/yup"
-import WarehouseSchema, {  } from "../../../schema/settings/WarehouseSchema"
+import SubscriptionSchema, {  } from "../../../schema/masters/SubscriptionSchema"
 import { AxiosError } from "axios"
 import { ModalFormState } from "../../../utils/modalFormState"
 import { toast } from 'react-toastify';
@@ -25,15 +24,14 @@ import usePage from "../../../utils/pageState"
 import { DataMessageError } from "../../../interfaces/apiInfoInterface"
 import { handleMessageErrors } from "../../../services/handleErrorMessage"
 import { OptionSelectInterface } from "../../../interfaces/globalInterface"
-import { WarehouseDummy } from "../../../utils/dummy/setting"
-import moment from "moment"
+import { getData } from "../../models/globalModel"
 
-export const useWarehouse = () => {
+export const useSubscription = () => {
     const [loading, setLoading] = useState(false)
     const [ query, setQuery ] = useState({name: ''})
-    const [ idDetail, setIdDetail ] = useState<number|null>()
-    const [ dataOptionWarehouse, setDataOptionWarehouse] = useState<OptionSelectInterface[]>([{value:'', label:''}])
-    const { store } = url
+    const [ idDetail, setIdDetail ] = useState<string|null>()
+    const [ dataOptionSubscription, setDataOptionSubscription] = useState<OptionSelectInterface[]>([{value:'', label:''}])
+    const { Subscription } = url
     const { modalForm, setModalForm } = ModalFormState()
     const { t } = useTranslation();
     const modalConfirm = modalConfirmState()
@@ -54,26 +52,23 @@ export const useWarehouse = () => {
         setValue,
         getValues,
         formState: { errors },
-    } = useForm<WarehouseInterface>({
-        resolver: yupResolver(WarehouseSchema().schema)
+    } = useForm<SubscriptionInterface>({
+        resolver: yupResolver(SubscriptionSchema().schema)
     });
 
     const {
         register:registerFilter,
         handleSubmit:handleSubmitFilter,
-    } = useForm<WarehouseInterface>()
+    } = useForm<SubscriptionInterface>()
 
     useEffect(()=> {
         refetch()
     }, [page.page])
     
-    const {
-        data:dataWarehouse,
-        isFetching, refetch
-    } = useQuery<ApiResponseWarehouse, AxiosError>({ 
-        queryKey: ['get-Warehouse', query], 
+    const {data:dataSubscription, isFetching, refetch} = useQuery<ApiResponseSubscription, AxiosError>({ 
+        queryKey: ['get-Subscription', query], 
         networkMode: 'always',
-        queryFn: async () => await getData(store.get, 
+        queryFn: async () => await getData(Subscription.get, 
             {
                 ...query, 
                 page:page.page,
@@ -91,28 +86,21 @@ export const useWarehouse = () => {
         }
     })
 
-    const optionWarehouse = async (data: string): Promise<OptionSelectInterface[]> => {
-        const response = await getDataSelect(store.select, {name: data});
+    const optionSubscription = async (data: string): Promise<OptionSelectInterface[]> => {
+        const response = await getDataSelect(Subscription.getSelect, {name: data});
         if(response.status){
-            setDataOptionWarehouse(response.data.store);
-            return response.data.store
+            setDataOptionSubscription(response.data.Subscription);
+            return response.data.Subscription
         }
         return [{value:'', label:''}]
     }
 
     const { mutate:mutateById } = useMutation({
-        mutationFn: (id:number) => getDataById(store.getById, id),
-        onSuccess:(data:ApiResponseUpdateWarehouse)=>{
+        mutationFn: (id:string) => getDataById(Subscription.getById, id),
+        onSuccess:(data:ApiResponseUpdateSubscription)=>{
             if(data.status){
-                const value = data.data.store
-                reset({
-                    id: value.id,
-                    name: value.name,
-                    address: value.address,
-                    expiredDate: moment(value.expiredDate).format('YYYY-MM-DD')
-                });
-                console.log(moment(value.expiredDate).format('DD/MM/YYYY'));
-                
+                const value = data.data.Subscription
+                reset(value);
                 setModalForm((state)=>({
                     ...state,
                     visible: true
@@ -126,9 +114,9 @@ export const useWarehouse = () => {
         }
     })
 
-    const { mutate } = useMutation({
-        mutationFn: async (data:WarehouseInterface)=> {
-            return await postData(store.post, data)
+    const { mutate, isLoading } = useMutation({
+        mutationFn: async (data:SubscriptionInterface)=> {
+            return await postData(Subscription.post, data)
         },
         onSuccess: () => {
             setModalForm((state)=>({
@@ -137,7 +125,7 @@ export const useWarehouse = () => {
             }))
             setLoading(false);
             refetch()
-            reset(WarehouseDummy)
+            reset()
             toast.success(t("success-save"), {
                 position: toast.POSITION.TOP_CENTER
             });
@@ -162,7 +150,7 @@ export const useWarehouse = () => {
     })
 
     const {mutate:mutateDelete} = useMutation({
-        mutationFn: (id:number) => deleteData(store.delete, id),
+        mutationFn: (id:string) => deleteData(Subscription.delete, id),
         onSuccess: () => {
             modalConfirm.setModalConfirm({
                 ...modalConfirm.modalConfirm,
@@ -191,15 +179,15 @@ export const useWarehouse = () => {
         }
     })
 
-    const onSubmit: SubmitHandler<WarehouseInterface> = async (data) => {
+    const onSubmit: SubmitHandler<SubscriptionInterface> = async (data) => {
         mutate(data)
     }
 
-    const onDelete = (id: number) => {
+    const onDelete = (id: string) => {
         modalConfirm.setModalConfirm((state)=>({
             ...state,
             title: state.title,
-            message: 'Aksi ini akan menghapus semua riwayat transaksi yang terkait dengan Toko. Data tidak dapat dikembalikan lagi.',
+            message: state.message,
             confirmLabel: state.confirmLabel,
             cancelLabel: state.cancelLabel,
             type:'danger',
@@ -220,7 +208,7 @@ export const useWarehouse = () => {
         }))
     }
 
-    const onUpdate = (id:number) => {
+    const onUpdate = (id:string) => {
         mutateById(id)
     }
 
@@ -229,31 +217,24 @@ export const useWarehouse = () => {
             ...state,
             visible: false
         }))
-        reset(WarehouseDummy)
+        reset()
         setIdDetail(null)
     }
 
-    const onDetail = async (id:number) => {
+    const onDetail = async (id:string) => {
         setIdDetail(id)
         mutateById(id)
     }
 
-    const onFilter: SubmitHandler<WarehouseInterface> = (data) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const onFilter: SubmitHandler<SubscriptionInterface> = (_data) => {
         setQuery((state)=>({
             ...state,
-            name: data.name
         }));
     }
 
-    const handleOnChange = (key:keyof WarehouseInterface, keyOption:keyof WarehouseInterface, data?: OptionSelectInterface ) => {
-        setValue(key, parseInt(data?.value+''))
-        console.log({keyOption});
-        
-        // setValue(keyOption, data)
-    }
-
     return {
-        dataWarehouse,
+        dataSubscription,
         isFetching,
         setQuery,
         onSubmit,
@@ -272,13 +253,13 @@ export const useWarehouse = () => {
         idDetail,
         page: page,
         control,
-        optionWarehouse,
-        dataOptionWarehouse,
+        optionSubscription,
+        dataOptionSubscription,
         onFilter,
         registerFilter,
         handleSubmitFilter,
         setValue,
         getValues,
-        handleOnChange
+        isLoading
     }
 }

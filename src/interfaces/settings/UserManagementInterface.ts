@@ -33,7 +33,7 @@ export interface UserManagementInterface {
     storeId?: string;
     token?: string;
     verified?: UserVerifiedEnum;
-    createdAt?: Date;
+    createdAt?: string;
     updatedAt?: Date;
     deletedAt?: Date;
 }

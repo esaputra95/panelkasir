@@ -56,6 +56,10 @@ const MainRouters = [
         ],
       },
       {
+        path: "subscriptions",
+        element: <SubscriptionStorePage />,
+      },
+      {
         path: "settings",
         children: [
           {

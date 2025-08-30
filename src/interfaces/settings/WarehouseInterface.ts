@@ -25,10 +25,11 @@ export interface WarehouseInterface {
     id?: number;
     name: string;
     description?: string;
-    phone: string;
-    email: string;
-    address: string;
+    phone?: string;
+    email?: string;
+    address?: string;
     status?: number;
+    expiredDate?: string;
     userCreate?: number;
     createdAt?: Date;
     updatedAt?: Date;
