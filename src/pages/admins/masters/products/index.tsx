@@ -1,4 +1,4 @@
-import Table from './Table'
+
 import { useProduct } from '../../../../hooks/slices/masters/useProduct'
 import ModalForm from '../../../../components/ui/modal/ModalForm'
 import FormProduct from './form'
@@ -7,18 +7,21 @@ import useLocatioanName from '../../../../utils/location'
 import ModalConfirm from '../../../../components/ui/modal/ModalConfirm'
 import { InputText } from "../../../../components/input";
 import { t } from 'i18next'
-import TablePaging from '../../../../components/ui/TablePaging'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../../redux/store'
+import { Column, Table } from '../../../../components/tables/table'
+import { ProductTableInterface } from '../../../../interfaces/masters/ProductInterface'
+import { DropdownSelector } from '../../../../components/ui/DropdownSelector'
+import { BsEye, BsPencil, BsTrash } from 'react-icons/bs'
 
 const ProductPage = () => {
     const pathname = useLocatioanName().pathNameOriginal;
-    const user = useSelector((state:RootState)=> state.userReducer);
+    const Product = useSelector((state:RootState)=> state.userReducer);
     const { 
         dataProduct, 
         isFetching,
         errors,
-        loading,
+        isLoadingMutate,
         register,
         onSubmit,
         handleSubmit,
@@ -30,70 +33,124 @@ const ProductPage = () => {
         onCancel,
         onDetail,
         idDetail,
-        page,
         registerFilter,
         handleSubmitFilter,
         onFilter,
         setValue,
         getValues,
         control,
-        handleOnChange,
-        fieldSettingPoints,
-        removeSettingPoints,
-        appendSettingPoints,
-        fieldSettingPackages,
-        appendSettingPackages,
-        removeSettingPackages,
-        optionProduct,
-        dataOptionProduct,
-        watch,
+        watch
     } = useProduct()
 
+    const userColumns: Column<ProductTableInterface>[] = [
+    { header: "Kode", accessor: "code", sortable: true, filterable: true },
+    { header: "Nama", accessor: "name", sortable: true, filterable: true },
+    {
+        header: "Kategori",
+        accessor: "categories",
+        sortable: true,
+        filterable: true,
+        render(row) {
+            return row?.categories?.name;
+        },
+    },
+    {
+        header: "Brand",
+        accessor: "brands",
+        sortable: true,
+        filterable: true,
+        render(row) {
+            return row?.brands?.name;
+        },
+    },
+    {
+        header: "Stok",
+        accessor: "stocks",
+        sortable: true,
+        filterable: true,
+        render(row) {
+            return row?.stocks?.[0]?.quantity ?? 0;
+        },
+    },
+    {
+        header: "Aksi",
+        accessor: "id",
+        render: (row: ProductTableInterface) => (
+            <DropdownSelector>
+            <button
+                onClick={() => {
+                setModalForm((state) => ({
+                    ...state,
+                    visible: true,
+                    type: "view",
+                }));
+                onDetail(row.id as number);
+                }}
+                className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center gap-2"
+            >
+                <BsEye className="h-4 w-4" /> Detail
+            </button>
+            <button
+                onClick={() => {
+                setModalForm((state) => ({
+                    ...state,
+                    visible: true,
+                    type: "update",
+                }));
+                onUpdate(row.id as number);
+                }}
+                className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center gap-2"
+            >
+                <BsPencil /> Edit
+            </button>
+            <button
+                onClick={() => {
+                    onDelete(row.id as number)
+                }}
+                className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600 flex items-center gap-2"
+            >
+                <BsTrash /> Hapus
+            </button>
+            </DropdownSelector>
+        ),
+    },
+    ];
+
     return (
-        <div className='w-full p-2 bg-white'>
+        <div className='w-full flex p-2 bg-white'>
             <ModalConfirm data={modalConfirm.modalConfirm}  />
             <ModalForm 
                 visible={modalForm.visible}
                 onClose={onCancel}
                 title={modalForm.label}
-                size="large"
+                size="medium"
             >
                 <FormProduct
                     onCancel={onCancel}
+                    isLoading={isLoadingMutate}
                     errors={errors}
                     idDetail={idDetail}
-                    control={control}
                     handleSubmit={handleSubmit}
                     register={register}
                     onSubmit={onSubmit}
                     setValue={setValue}
                     getValues={getValues}
-                    handleOnChange={handleOnChange}
-                    isLoadingMutate={loading}
-                    status={status}
-                    fieldSettingPoints={fieldSettingPoints}
-                    appendSettingPoints={appendSettingPoints}
-                    removeSettingPoints={removeSettingPoints}
-                    fieldSettingPackages={fieldSettingPackages}
-                    appendSettingPackages={appendSettingPackages}
-                    removeSettingPackages={removeSettingPackages}
-                    optionProduct={optionProduct}
-                    dataOptionProduct={dataOptionProduct}
+                    control={control}
                     watch={watch}
+                    
                 />
             </ModalForm>
-            <div className='w-full'>
+            <div className='w-full overflow-auto'>
                 <div className='py-4 flex justify-between'>
                     {
-                        (user?.level === "admin" || user?.level === "superadmin") ? (
+                        (Product?.level === "admin" || Product?.level === "superadmin") ? (
                             <Button 
-                                    onClick={()=>setModalForm((state)=> ({...state, visible:true}))} 
-                                >
-                                    + {t(pathname)}
-                                </Button>
-                        ) : (<div></div>)
+                                onClick={()=>setModalForm((state)=> ({...state, visible:true}))} 
+                            >
+                                + {t(pathname)}
+                            </Button>
+                        ) : <div></div>
                     }
-                    
                     <div className="w-6/12 md:w-4/12 relative text-gray-600">
                         <form onSubmit={handleSubmitFilter(onFilter)}>
                             <InputText
@@ -123,17 +180,9 @@ const ProductPage = () => {
                 </div>
                 <Table
                     data={dataProduct?.data?.product ?? []}
-                    isFetching={isFetching}
-                    page={page.page}
-                    limit={page.limit}
-                    onDelete={onDelete}
-                    onUpdate={onUpdate}
-                    onDetail={onDetail}
-                />
-                <TablePaging
-                    page={page.page}
-                    total={page.total}
-                    handlePage={page.handlePage}
+                    columns={userColumns}
+                    isLoading={isFetching}
+                    totalPages={dataProduct?.data.info.totalPage ?? 1}
                 />
             </div>
         </div>

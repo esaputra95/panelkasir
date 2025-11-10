@@ -1,9 +1,6 @@
 import { 
     Control,
-    FieldArrayWithId,
     FieldErrors,
-    UseFieldArrayAppend,
-    UseFieldArrayRemove,
     UseFormGetValues,
     UseFormHandleSubmit,
     UseFormRegister,
@@ -107,9 +104,9 @@ export interface ProductSearchInterface {
 }
 
 export type ProductFormProps = {
-	handleSubmit: UseFormHandleSubmit<ProductInterface>
-	onSubmit: (data:ProductInterface) => void;
-	register: UseFormRegister<ProductInterface>;
+    handleSubmit: UseFormHandleSubmit<ProductInterface>
+    onSubmit: (data:ProductInterface) => void;
+    register: UseFormRegister<ProductInterface>;
     onCancel: () => void;
     errors: FieldErrors<ProductInterface>;
     isLoading?: boolean;
@@ -117,19 +114,9 @@ export type ProductFormProps = {
     setValue: UseFormSetValue<ProductInterface>;
     getValues: UseFormGetValues<ProductInterface>;
     control: Control<ProductInterface>;
-    handleOnChange: (key:keyof ProductInterface, data?: OptionSelectInterface ) => void;
-    isLoadingMutate: boolean;
-    status: string;
-    fieldSettingPoints: FieldArrayWithId<ProductInterface, "settingPoints", "id">[];
-    appendSettingPoints: UseFieldArrayAppend<ProductInterface, "settingPoints">;
-    removeSettingPoints: UseFieldArrayRemove;
-    fieldSettingPackages: FieldArrayWithId<ProductInterface, "settingPackages", "id">[];
-    appendSettingPackages: UseFieldArrayAppend<ProductInterface, "settingPackages">;
-    removeSettingPackages: UseFieldArrayRemove;
-    optionProduct: (data: string) => Promise<OptionSelectInterface[]>;
-    dataOptionProduct: OptionSelectInterface[];
     watch: UseFormWatch<ProductInterface>
 }
+
 
 export interface Info {
     page: number;

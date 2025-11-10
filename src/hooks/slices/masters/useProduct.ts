@@ -1,4 +1,7 @@
-import {  useMutation, useQuery } from "@tanstack/react-query"
+import { 
+    useMutation,
+    useQuery
+} from "@tanstack/react-query"
 import {
     deleteData,
     getData,
@@ -10,14 +13,12 @@ import { useEffect, useState } from "react"
 import {
     ApiResponseProduct,
     ApiResponseUpdateProduct,
-    ProductInterface,
-    SettingPackageInterface,
-    SettingPointInterface,
+    ProductInterface
 } from "../../../interfaces/masters/ProductInterface"
-import { SubmitHandler, useFieldArray, useForm } from "react-hook-form"
+import { SubmitHandler, useForm } from "react-hook-form"
 import url from "../../../services/url"
 import { yupResolver } from "@hookform/resolvers/yup"
-import ProductSchema from "../../../schema/masters/productSchema"
+import { ProductSchema } from "../../../schema/masters"
 import { AxiosError } from "axios"
 import { ModalFormState } from "../../../utils/modalFormState"
 import { toast } from 'react-toastify';
@@ -30,17 +31,21 @@ import { OptionSelectInterface } from "../../../interfaces/globalInterface"
 import { ProductDummy } from "../../../utils/dummy/master"
 import { useSelector } from "react-redux"
 import { RootState } from "../../../redux/store"
+import usePaging from "../../../utils/usePaging"
 
 export const useProduct = () => {
-    const [ query, setQuery ] = useState({name: ''})
+    const [ query, setQuery ] = useState({
+        name: '', email:'', phone:'', address: '', role:''
+    })
     const [ idDetail, setIdDetail ] = useState<number|null>()
     const [ dataOptionProduct, setDataOptionProduct] = useState<OptionSelectInterface[]>([{value:'', label:''}])
-    const user = useSelector((state:RootState)=>state.userReducer)
     const { Product } = url
     const { modalForm, setModalForm } = ModalFormState()
     const { t } = useTranslation();
     const modalConfirm = modalConfirmState()
     const page = usePage();
+    const User = useSelector((state:RootState)=> state.userReducer)
+    const { queryParams } = usePaging();
     
     useEffect(()=> {
         setModalForm((state)=>({
@@ -59,26 +64,14 @@ export const useProduct = () => {
         watch,
         formState: { errors },
     } = useForm<ProductInterface>({
-        resolver: yupResolver(ProductSchema().schema)
+        resolver: yupResolver(ProductSchema().schema),
+        defaultValues: {
+            ...ProductDummy
+        }
     });
 
-    const {
-        fields: fieldSettingPoints,
-        append: appendSettingPoints,
-        remove: removeSettingPoints,
-    } = useFieldArray({
-        control,
-        name: 'settingPoints'
-    })
-
-    const {
-        fields: fieldSettingPackages,
-        append: appendSettingPackages,
-        remove: removeSettingPackages,
-    } = useFieldArray({
-        control,
-        name: 'settingPackages'
-    })
+    console.log({errors});
+    
 
     const {
         register:registerFilter,
@@ -90,14 +83,15 @@ export const useProduct = () => {
     }, [page.page])
     
     const {data:dataProduct, isFetching, refetch} = useQuery<ApiResponseProduct, AxiosError>({ 
-        queryKey: ['get-Product', query, user.storeId], 
+        queryKey: ['Product-query', query, User.storeId, queryParams], 
         networkMode: 'always',
         queryFn: async () => await getData(Product.get, 
             {
-                ...query, 
-                page:page.page,
+                ...query,
+                page: page.page,
                 limit: page.limit,
-                storeId: user.storeId
+                storeId: User.storeId,
+                ...queryParams
             }
         ),
         onSuccess(data) {
@@ -114,8 +108,8 @@ export const useProduct = () => {
     const optionProduct = async (data: string): Promise<OptionSelectInterface[]> => {
         const response = await getDataSelect(Product.getSelect, {name: data});
         if(response.status){
-            setDataOptionProduct(response.data.product);
-            return response.data.product
+            setDataOptionProduct(response.data.Product);
+            return response.data.Product
         }
         return [{value:'', label:''}]
     }
@@ -124,46 +118,9 @@ export const useProduct = () => {
         mutationFn: (id:number) => getDataById(Product.getById, id),
         onSuccess:(data:ApiResponseUpdateProduct)=>{
             if(data.status){
-                const value = data.data.product
-                const packages = value.productPackages ?? [];
-                let settingPackages:SettingPackageInterface[]=[]
-                for (const v of packages) {
-                    settingPackages=[...settingPackages, 
-                        {
-                            id: v.id,
-                            quantity: v.quantity ?? 0,
-                            productId: v.productPackageId
-                        }
-                    ]
-                }
-
-                const points = value.productPoints ?? [];
-                let settingPoints: SettingPointInterface[]=[]
-                for (const v of points) {
-                    settingPoints=[ ...settingPoints, 
-                        {
-                            id: v.id,
-                            value: v.value,
-                            agenTypeId: v.agenTypeId
-                        }
-                    ]
-                }
                 reset({
-                    id: value.id,
-                    name: value.name,
-                    code: value.code,
-                    productCategoryId: value.productCategoryId,
-                    productCategoryOption: {
-                        value: value?.productCategoryId+'',
-                        label: value.categories?.name
-                    },
-                    purchasePrice: value.purchasePrice,
-                    sellingPrice: value.sellingPrice,
-                    type: value.type,
-                    description: value.description,
-                    settingPackages: settingPackages,
-                    settingPoints: settingPoints
-                });
+                    ...data.data.product,
+                })
                 setModalForm((state)=>({
                     ...state,
                     visible: true
@@ -177,17 +134,17 @@ export const useProduct = () => {
         }
     })
 
-    const { mutate, isLoading:loading } = useMutation({
-        mutationFn: async (data:ProductInterface)=> {
-            return await postData(Product.post, data)
-        },
+    const { mutate, isLoading:isLoadingMutate } = useMutation({
+        mutationFn: (data:ProductInterface)=> postData(Product.post, data),
         onSuccess: () => {
             setModalForm((state)=>({
                 ...state,
                 visible: false
             }))
             refetch()
-            reset(ProductDummy)
+            reset({
+                ...ProductDummy
+            })
             toast.success(t("success-save"), {
                 position: toast.POSITION.TOP_CENTER
             });
@@ -240,8 +197,14 @@ export const useProduct = () => {
         }
     })
 
-    const onSubmit: SubmitHandler<ProductInterface> = async (data) => {
-        mutate(data)
+    console.log({errors});
+    
+
+    const onSubmit: SubmitHandler<ProductInterface> = (data) => {
+        mutate({
+            ...data
+        })
+        
     }
 
     const onDelete = (id: number) => {
@@ -272,6 +235,7 @@ export const useProduct = () => {
     const onUpdate = (id:number) => {
         mutateById(id)
     }
+    
 
     const onCancel = () => {
         setModalForm((state)=>({
@@ -294,16 +258,12 @@ export const useProduct = () => {
         }));
     }
 
-    const handleOnChange = (key:keyof ProductInterface, data?: OptionSelectInterface ) => {
-        setValue(key, parseInt(data?.value+''))
-    }
-
     return {
         dataProduct,
         isFetching,
         setQuery,
         onSubmit,
-        loading,
+        isLoadingMutate,
         errors,
         reset,
         register,
@@ -326,12 +286,5 @@ export const useProduct = () => {
         setValue,
         getValues,
         watch,
-        handleOnChange,
-        fieldSettingPoints,
-        appendSettingPoints,
-        removeSettingPoints,
-        fieldSettingPackages,
-        appendSettingPackages,
-        removeSettingPackages,
     }
 }

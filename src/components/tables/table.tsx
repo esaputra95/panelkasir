@@ -47,7 +47,11 @@ const Pagination: React.FC<PaginationProps> = ({
 
     range.push(1);
     if (showLeftDots) range.push("...");
-    for (let i = left; i <= right; i++) range.push(i);
+    for (let i = left; i <= right; i++) {
+      if (i !== 1 && i !== totalPages) {
+        range.push(i);
+      }
+    }
     if (showRightDots) range.push("...");
     range.push(totalPages);
 
