@@ -182,7 +182,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onClose }) => {
     )
   }
   
-  const currentUserRole = "superadmin";
+  const currentUserRole =  user?.level as string;
 
   return (
     <nav className="p-4 flex flex-col h-full overflow-y-auto">
