@@ -11,10 +11,6 @@ import { ApiResponse, InfoResponse } from "../apiInfoInterface";
 import { OptionSelectInterface } from "../globalInterface";
 import { ProductCategoryInterface } from "./ProductCategoryInterface";
 import { ProductBrandInterface } from "./ProductBrandInterface";
-import { ProductSchema } from "../../schema/masters";
-import { InferType } from "yup";
-
-export type ProductSchemaType = InferType<ReturnType<typeof ProductSchema>["schema"]>;
 
 export enum ProductStatusEnum {
     open= 'open',
