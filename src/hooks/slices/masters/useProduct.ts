@@ -13,8 +13,7 @@ import { useEffect, useState } from "react"
 import {
     ApiResponseProduct,
     ApiResponseUpdateProduct,
-    ProductInterface,
-    ProductSchemaType
+    ProductInterface
 } from "../../../interfaces/masters/ProductInterface"
 import { SubmitHandler, useForm } from "react-hook-form"
 import url from "../../../services/url"
@@ -64,12 +63,15 @@ export const useProduct = () => {
         getValues,
         watch,
         formState: { errors },
-    } = useForm<ProductSchemaType>({
+    } = useForm<ProductInterface>({
         resolver: yupResolver(ProductSchema().schema),
         defaultValues: {
             ...ProductDummy
         }
     });
+
+    console.log({errors});
+    
 
     const {
         register:registerFilter,
