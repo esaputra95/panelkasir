@@ -5,7 +5,7 @@ import {
   FaChevronDown,
   FaChevronUp,
 } from "react-icons/fa";
-import { menuItems, MenuItem } from "./MenuItems"; // Pastikan path ini benar
+import { menuItems, MenuItem } from "./MenuItems"; // Import from local MenuItems
 import AsyncSelect from 'react-select/async';
 import useStore from "../../../hooks/slices/masters/useStore";
 import { useDispatch, useSelector } from "react-redux";
@@ -172,7 +172,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onClose }) => {
       }))
     }
     
-  }, [store])
+  }, [store, dispatch])
 
   const onChangeStore = (value:SingleValue<OptionSelectInterface>) => {
     dispatch(
@@ -182,7 +182,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onClose }) => {
     )
   }
   
-  const currentUserRole = "superadmin";
+  const currentUserRole = user.level as string;
 
   return (
     <nav className="p-4 flex flex-col h-full overflow-y-auto">
