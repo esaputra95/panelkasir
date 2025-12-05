@@ -246,7 +246,7 @@ export const useWarehouse = () => {
         mutateById(id)
     }
 
-    const handleOnChange = (key:keyof WarehouseInterface, keyOption:keyof WarehouseInterface, data?: OptionSelectInterface ) => {
+    const handleOnChange = (key:keyof WarehouseInterface, _keyOption:keyof WarehouseInterface, data?: OptionSelectInterface ) => {
         setValue(key, parseInt(data?.value+''))
     }
 
