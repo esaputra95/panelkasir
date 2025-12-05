@@ -27,10 +27,11 @@ import { handleMessageErrors } from "../../../services/handleErrorMessage"
 import { OptionSelectInterface } from "../../../interfaces/globalInterface"
 import { WarehouseDummy } from "../../../utils/dummy/setting"
 import moment from "moment"
+import { useSearchParams } from "react-router-dom"
 
 export const useWarehouse = () => {
+    const [searchParams] = useSearchParams()
     const [loading, setLoading] = useState(false)
-    const [ query, setQuery ] = useState({name: ''})
     const [ idDetail, setIdDetail ] = useState<number|null>()
     const [ dataOptionWarehouse, setDataOptionWarehouse] = useState<OptionSelectInterface[]>([{value:'', label:''}])
     const { store } = url
@@ -38,6 +39,19 @@ export const useWarehouse = () => {
     const { t } = useTranslation();
     const modalConfirm = modalConfirmState()
     const page = usePage();
+    
+    // Read filters from URL params
+    const query = {
+        name: searchParams.get('name') || '',
+        phone: searchParams.get('phone') || '',
+        email: searchParams.get('email') || '',
+        address: searchParams.get('address') || '',
+        sortby: searchParams.get('sortby') || '',
+        sort: searchParams.get('sort') || ''
+    }
+
+    // Read page from URL params
+    const currentPage = parseInt(searchParams.get("page") || "1")
     
     useEffect(()=> {
         setModalForm((state)=>({
@@ -58,25 +72,20 @@ export const useWarehouse = () => {
         resolver: yupResolver(WarehouseSchema().schema)
     });
 
-    const {
-        register:registerFilter,
-        handleSubmit:handleSubmitFilter,
-    } = useForm<WarehouseInterface>()
-
     useEffect(()=> {
         refetch()
-    }, [page.page])
+    }, [currentPage, query.name, query.phone, query.email, query.address, query.sortby, query.sort])
     
     const {
         data:dataWarehouse,
         isFetching, refetch
     } = useQuery<ApiResponseWarehouse, AxiosError>({ 
-        queryKey: ['get-Warehouse', query], 
+        queryKey: ['get-Warehouse', query, currentPage], 
         networkMode: 'always',
         queryFn: async () => await getData(store.get, 
             {
                 ...query, 
-                page:page.page,
+                page:currentPage,
                 limit: page.limit
             }
         ),
@@ -111,7 +120,6 @@ export const useWarehouse = () => {
                     address: value.address,
                     expiredDate: moment(value.expiredDate).format('YYYY-MM-DD')
                 });
-                console.log(moment(value.expiredDate).format('DD/MM/YYYY'));
                 
                 setModalForm((state)=>({
                     ...state,
@@ -238,24 +246,13 @@ export const useWarehouse = () => {
         mutateById(id)
     }
 
-    const onFilter: SubmitHandler<WarehouseInterface> = (data) => {
-        setQuery((state)=>({
-            ...state,
-            name: data.name
-        }));
-    }
-
     const handleOnChange = (key:keyof WarehouseInterface, keyOption:keyof WarehouseInterface, data?: OptionSelectInterface ) => {
         setValue(key, parseInt(data?.value+''))
-        console.log({keyOption});
-        
-        // setValue(keyOption, data)
     }
 
     return {
         dataWarehouse,
         isFetching,
-        setQuery,
         onSubmit,
         loading,
         errors,
@@ -274,9 +271,6 @@ export const useWarehouse = () => {
         control,
         optionWarehouse,
         dataOptionWarehouse,
-        onFilter,
-        registerFilter,
-        handleSubmitFilter,
         setValue,
         getValues,
         handleOnChange

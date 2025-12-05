@@ -1,7 +1,7 @@
 
-import { useUserManagement } from '../../../../hooks/slices/settings/useUserManagement'
+import { useNotification } from '../../../../hooks/slices/settings/useNotification'
 import ModalForm from '../../../../components/ui/modal/ModalForm'
-import FormUserManagement from './form'
+import FormNotification from './form'
 import { Button } from '../../../../components/input'
 import useLocatioanName from '../../../../utils/location'
 import ModalConfirm from '../../../../components/ui/modal/ModalConfirm'
@@ -9,17 +9,16 @@ import { t } from 'i18next'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../../redux/store'
 import { Column, Table } from '../../../../components/tables/table'
-import { UserManagementTableInterface } from '../../../../interfaces/settings/UserManagementInterface'
+import { NotificationTableInterface } from '../../../../interfaces/settings/NotificationInterface'
 import { DropdownSelector } from '../../../../components/ui/DropdownSelector'
 import { BsEye, BsPencil, BsTrash } from 'react-icons/bs'
-import { Badge, BadgeVariant } from '../../../../components/ui/Badge'
 
-const UserManagementPage = () => {
+const NotificationPage = () => {
 
     const pathname = useLocatioanName().pathNameOriginal;
-    const UserManagement = useSelector((state:RootState)=> state.userReducer);
+    const User = useSelector((state:RootState)=> state.userReducer);
     const { 
-        dataUserManagement, 
+        dataNotification, 
         isFetching,
         errors,
         isLoadingMutate,
@@ -37,57 +36,49 @@ const UserManagementPage = () => {
         setValue,
         getValues,
         control,
-        watch
-    } = useUserManagement()
+        watch,
+        users,
+        selectedUserIds,
+        onUserSelect,
+        onSelectAll,
+        searchUsers,
+        setSearchUsers,
+    } = useNotification()
 
-    const userColumns: Column<UserManagementTableInterface>[] = [
-    { header: "Nama", accessor: "name", sortable: true, filterable: true },
-    {
-        header: "Email",
-        accessor: "email",
-        sortable: true,
-        filterable: true,
+    const notificationColumns: Column<NotificationTableInterface>[] = [
+    { header: "Title", accessor: "title", sortable: true, filterable: true,
         render(row) {
-            return row?.email;
+            return row?.title || '-';
         },
     },
     {
-        header: "Phone",
-        accessor: "phone",
+        header: "Body",
+        accessor: "body",
         sortable: true,
         filterable: true,
         render(row) {
-            return row?.phone;
+            return row?.body.length > 50 
+                ? `${row.body.substring(0, 50)}...` 
+                : row.body;
         },
     },
     {
-        header: "Level",
-        accessor: "level",
+        header: "Type",
+        accessor: "type",
         sortable: true,
         filterable: true,
-        filterType:'select',
-        filterOptions: [
-            {label:'Super Admin', value: 'superadmin'},
-            {label:'Admin', value: 'admin'},
-            {label:'Owner', value:'owner'},
-            {label:'Kasir', value:'cashier'}
-        ],
         render(row) {
-            return row?.level;
+            return row?.type || '-';
         },
     },
     {
-        header: "Verifikasi",
-        accessor: "verified",
-        sortable: true,
-        filterable: true,
-        filterType:'select',
-        filterOptions: [{label:'Aktif', value: 'active'},{label:'Tidak Aktif', value:'non_active'},{label:'Perifikasi Email', value:'verification_email'}],
+        header: "Recipients",
+        accessor: "recipientCount",
+        sortable: false,
+        filterable: false,
         render(row) {
-            const varian:BadgeVariant  = row.verified === 'active' ? 'blue' : 'red';
-            return(
-                <Badge variant={varian}>{row.verified}</Badge>
-            )
+            const count = row?.recipients?.length ?? row?.recipientCount ?? 0;
+            return `${count} ${t("users")}`;
         },
     },
     {
@@ -107,9 +98,9 @@ const UserManagementPage = () => {
         },
     },
     {
-        header: "Aksi",
+        header: "Action",
         accessor: "id",
-        render: (row: UserManagementTableInterface) => (
+        render: (row: NotificationTableInterface) => (
             <DropdownSelector>
             <button
                 onClick={() => {
@@ -118,7 +109,7 @@ const UserManagementPage = () => {
                     visible: true,
                     type: "view",
                 }));
-                onDetail(row.id as number);
+                onDetail(row.id as string);
                 }}
                 className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center gap-2"
             >
@@ -131,7 +122,7 @@ const UserManagementPage = () => {
                     visible: true,
                     type: "update",
                 }));
-                onUpdate(row.id as number);
+                onUpdate(row.id as string);
                 }}
                 className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center gap-2"
             >
@@ -139,11 +130,11 @@ const UserManagementPage = () => {
             </button>
             <button
                 onClick={() => {
-                    onDelete(row.id as number)
+                    onDelete(row.id as string)
                 }}
                 className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600 flex items-center gap-2"
             >
-                <BsTrash /> Hapus
+                <BsTrash /> Delete
             </button>
             </DropdownSelector>
         ),
@@ -159,7 +150,7 @@ const UserManagementPage = () => {
                 title={modalForm.label}
                 size="medium"
             >
-                <FormUserManagement
+                <FormNotification
                     onCancel={onCancel}
                     isLoading={isLoadingMutate}
                     errors={errors}
@@ -171,33 +162,35 @@ const UserManagementPage = () => {
                     getValues={getValues}
                     control={control}
                     watch={watch}
+                    users={users}
+                    selectedUserIds={selectedUserIds}
+                    onUserSelect={onUserSelect}
+                    onSelectAll={onSelectAll}
+                    searchUsers={searchUsers}
+                    setSearchUsers={setSearchUsers}
                 />
             </ModalForm>
-            <div className='w-full overflow-auto px-4 pb-4'>
-                <div className='py-4 flex justify-between items-center'>
+            <div className='w-full overflow-auto'>
+                <div className='py-4 flex justify-between'>
                     {
-                        (UserManagement?.level === "admin" || UserManagement?.level === "superadmin") ? (
+                        (User?.level === "admin" || User?.level === "superadmin") ? (
                             <Button 
                                 onClick={()=>setModalForm((state)=> ({...state, visible:true}))} 
-                                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-sm transition-colors flex items-center gap-2"
                             >
-                                <span className="text-lg">+</span> {t(pathname)}
+                                + {t(pathname)}
                             </Button>
                         ) : <div></div>
                     }
-                    
                 </div>
-                <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                    <Table
-                        data={dataUserManagement?.data?.UserManagement ?? []}
-                        columns={userColumns}
-                        isLoading={isFetching}
-                        totalPages={dataUserManagement?.data.info.totalPage ?? 1}
-                    />
-                </div>
+                <Table
+                    data={dataNotification?.notifications ?? []}
+                    columns={notificationColumns}
+                    isLoading={isFetching}
+                    totalPages={dataNotification?.info.totalPage ?? 1}
+                />
             </div>
         </div>
     )
 }
 
-export default UserManagementPage
+export default NotificationPage

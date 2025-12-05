@@ -70,9 +70,6 @@ export const useProduct = () => {
         }
     });
 
-    console.log({errors});
-    
-
     const {
         register:registerFilter,
         handleSubmit:handleSubmitFilter,
@@ -196,9 +193,6 @@ export const useProduct = () => {
             });
         }
     })
-
-    console.log({errors});
-    
 
     const onSubmit: SubmitHandler<ProductInterface> = (data) => {
         mutate({

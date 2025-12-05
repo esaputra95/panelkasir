@@ -78,8 +78,8 @@ const SidebarMenuItem: React.FC<SidebarMenuItemProps> = ({
     "flex items-center p-3 rounded-lg transition-colors duration-200 w-full";
   const textColor = "text-gray-700";
   const hoverBg = "hover:bg-blue-50";
-  const hoverText = "hover:text-blue-700";
-  const activeBg = "bg-purple-100 text-purple-700 font-semibold";
+  const hoverText = "hover:text-blue-600";
+  const activeBg = "bg-blue-50 text-blue-600 font-semibold";
 
   const currentItemIsActive = isActive || (hasChildren && isChildActive);
 
@@ -188,7 +188,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onClose }) => {
     <nav className="p-4 flex flex-col h-full overflow-y-auto">
       {/* Profil Pengguna */}
       <div className="flex flex-col mb-4 space-y-4">
-        <UserAvatar/>
+        <UserAvatar userName={user.name}/>
         <AsyncSelect
           className='w-full'
           cacheOptions

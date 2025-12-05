@@ -6,19 +6,21 @@ import {
     deleteData,
     getData,
     getDataById,
-    getDataSelect,
+    getUsersForSelection,
     postData
-} from "../../models/settings/UserModel"
+} from "../../models/settings/NotificationModel"
 import { useEffect, useState } from "react"
 import {
-    ApiResponseUser,
-    ApiResponseUpdateUser,
-    UserInterface
-} from "../../../interfaces/settings/UserInterface"
+    ApiResponseNotification,
+    ApiResponseUpdateNotification,
+    ApiResponseUsers,
+    NotificationFormInterface,
+    UserSelectionInterface
+} from "../../../interfaces/settings/NotificationInterface"
 import { SubmitHandler, useForm } from "react-hook-form"
 import url from "../../../services/url"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { UserSchema } from "../../../schema/settings"
+import { NotificationSchema } from "../../../schema/settings"
 import { AxiosError } from "axios"
 import { ModalFormState } from "../../../utils/modalFormState"
 import { toast } from 'react-toastify';
@@ -27,43 +29,43 @@ import { modalConfirmState } from "../../../utils/modalConfirmState"
 import usePage from "../../../utils/pageState"
 import { DataMessageError } from "../../../interfaces/apiInfoInterface"
 import { handleMessageErrors } from "../../../services/handleErrorMessage"
-import { OptionSelectInterface } from "../../../interfaces/globalInterface"
-import { UserDummy } from "../../../utils/dummy/setting"
 import { useSelector } from "react-redux"
 import { RootState } from "../../../redux/store"
-import { useSearchParams } from "react-router-dom"
+import usePaging from "../../../utils/usePaging"
 
-export const useUser = () => {
-    const [searchParams] = useSearchParams()
-    const [ idDetail, setIdDetail ] = useState<number|null>()
-    const [ dataOptionUser, setDataOptionUser] = useState<OptionSelectInterface[]>([{value:'', label:''}])
-    const [ dataOptionStockist, setDataOptionStockist] = useState<OptionSelectInterface[]>([{value:'', label:''}])
-    const { User } = url
+const NotificationDummy: NotificationFormInterface = {
+    title: '',
+    body: '',
+    type: '',
+    screen: '',
+    referenceId: '',
+    metadata: '',
+    userIds: []
+}
+
+export const useNotification = () => {
+    const [ query, setQuery ] = useState({
+        title: '', body: '', type: ''
+    })
+    const [ idDetail, setIdDetail ] = useState<string|null>()
+    const [ selectedUserIds, setSelectedUserIds ] = useState<string[]>([])
+    const [ searchUsers, setSearchUsers ] = useState('')
+    const [ allUsers, setAllUsers ] = useState<UserSelectionInterface[]>([])
+    
+    const { Notification } = url
     const { modalForm, setModalForm } = ModalFormState()
     const { t } = useTranslation();
     const modalConfirm = modalConfirmState()
     const page = usePage();
-    const user = useSelector((state:RootState)=> state.userReducer)
-    
-    // Read filters from URL params
-    const query = {
-        name: searchParams.get('name') || '',
-        email: searchParams.get('email') || '',
-        phone: searchParams.get('phone') || '',
-        level: searchParams.get('level') || '',
-        verified: searchParams.get('verified') || '',
-        sortby: searchParams.get('sortby') || '',
-        sort: searchParams.get('sort') || ''
-    }
-
-    // Read page from URL params
-    const currentPage = parseInt(searchParams.get("page") || "1")
+    const User = useSelector((state:RootState)=> state.userReducer)
+    const { queryParams } = usePaging();
     
     useEffect(()=> {
         setModalForm((state)=>({
             ...state,
-            label: 'Form '
+            label: 'Form Notification'
         }))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const {
@@ -75,26 +77,28 @@ export const useUser = () => {
         getValues,
         watch,
         formState: { errors },
-    } = useForm<UserInterface>({
-        resolver: yupResolver(UserSchema().schema),
+    } = useForm<NotificationFormInterface>({
+        resolver: yupResolver(NotificationSchema().schema),
         defaultValues: {
-            ...UserDummy
+            ...NotificationDummy
         }
-    });
+    }); 
 
     useEffect(()=> {
         refetch()
-    }, [currentPage, query.name, query.email, query.phone, query.level, query.verified, query.sortby, query.sort])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [page.page])
     
-    const {data:dataUser, isFetching, refetch} = useQuery<ApiResponseUser, AxiosError>({ 
-        queryKey: ['user-query', query, user.storeId, currentPage], 
+    const {data:dataNotification, isFetching, refetch} = useQuery<ApiResponseNotification, AxiosError>({ 
+        queryKey: ['Notification-query', query, User.storeId, queryParams], 
         networkMode: 'always',
-        queryFn: async () => await getData(User.get, 
+        queryFn: async () => await getData(Notification.get, 
             {
                 ...query,
-                page: currentPage,
+                page: page.page,
                 limit: page.limit,
-                storeId: user.storeId
+                storeId: User.storeId,
+                ...queryParams
             }
         ),
         onSuccess(data) {
@@ -108,32 +112,40 @@ export const useUser = () => {
         }
     })
 
-    const optionUser = async (data: string): Promise<OptionSelectInterface[]> => {
-        const response = await getDataSelect(User.getSelect, {name: data});
-        if(response.status){
-            setDataOptionUser(response.data.user);
-            return response.data.user
+    // Fetch users for selection
+    useQuery<ApiResponseUsers, AxiosError>({
+        queryKey: ['Users-for-notification', searchUsers],
+        networkMode: 'always',
+        queryFn: async () => await getUsersForSelection(Notification.getUsers, { name: searchUsers }),
+        onSuccess(data) {
+            if (data?.data?.users) {
+                setAllUsers(data.data.users)
+            }
+        },
+        onError: (errors) => {
+            toast.error(errors.message, {
+                position: toast.POSITION.TOP_CENTER
+            });
         }
-        return [{value:'', label:''}]
-    }
-    
-    const optionStockist = async (data: string): Promise<OptionSelectInterface[]> => {
-        const response = await getDataSelect(User.getStockistSelect, {name: data});
-        if(response.status){
-            setDataOptionStockist(response.data.user);
-            return response.data.user
-        }
-        return [{value:'', label:''}]
-    }
+    })
 
     const { mutate:mutateById } = useMutation({
-        mutationFn: (id:number) => getDataById(User.getById, id),
-        onSuccess:(data:ApiResponseUpdateUser)=>{
+        mutationFn: (id:string) => getDataById(Notification.getById, id),
+        onSuccess:(data:ApiResponseUpdateNotification)=>{
             if(data.status){
+                const notification = data.data.notification
+                const userIds = notification?.recipients?.map(r => r.userId) || []
                 reset({
-                    ...data.data.user,
-                    password: ''
+                    id: notification.id,
+                    title: notification.title || '',
+                    body: notification.body,
+                    type: notification.type || '',
+                    screen: notification.screen || '',
+                    referenceId: notification.referenceId || '',
+                    metadata: notification.metadata ? JSON.stringify(notification.metadata) : '',
+                    userIds: userIds
                 })
+                setSelectedUserIds(userIds)
                 setModalForm((state)=>({
                     ...state,
                     visible: true
@@ -148,7 +160,7 @@ export const useUser = () => {
     })
 
     const { mutate, isLoading:isLoadingMutate } = useMutation({
-        mutationFn: (data:UserInterface)=> postData(User.post, data),
+        mutationFn: (data:NotificationFormInterface)=> postData(Notification.post, data),
         onSuccess: () => {
             setModalForm((state)=>({
                 ...state,
@@ -156,8 +168,9 @@ export const useUser = () => {
             }))
             refetch()
             reset({
-                ...UserDummy
+                ...NotificationDummy
             })
+            setSelectedUserIds([])
             toast.success(t("success-save"), {
                 position: toast.POSITION.TOP_CENTER
             });
@@ -181,7 +194,7 @@ export const useUser = () => {
     })
 
     const {mutate:mutateDelete} = useMutation({
-        mutationFn: (id:number) => deleteData(User.delete, id),
+        mutationFn: (id:string) => deleteData(Notification.delete, id),
         onSuccess: () => {
             modalConfirm.setModalConfirm({
                 ...modalConfirm.modalConfirm,
@@ -210,14 +223,14 @@ export const useUser = () => {
         }
     })
 
-    const onSubmit: SubmitHandler<UserInterface> = (data) => {
+    const onSubmit: SubmitHandler<NotificationFormInterface> = (data) => {
         mutate({
-            ...data
+            ...data,
+            userIds: selectedUserIds
         })
-        
     }
 
-    const onDelete = (id: number) => {
+    const onDelete = (id: string) => {
         modalConfirm.setModalConfirm((state)=>({
             ...state,
             title: state.title,
@@ -242,28 +255,60 @@ export const useUser = () => {
         }))
     }
 
-    const onUpdate = (id:number) => {
+    const onUpdate = (id:string) => {
         mutateById(id)
     }
-    
 
     const onCancel = () => {
         setModalForm((state)=>({
             ...state,
             visible: false
         }))
-        reset(UserDummy)
+        reset(NotificationDummy)
         setIdDetail(null)
+        setSelectedUserIds([])
     }
 
-    const onDetail = async (id:number) => {
+    const onDetail = async (id:string) => {
         setIdDetail(id)
         mutateById(id)
     }
 
+    const onFilter: SubmitHandler<NotificationFormInterface> = (data) => {
+        setQuery((state)=>({
+            ...state,
+            title: data.title || ''
+        }));
+    }
+
+    const onUserSelect = (userId: string) => {
+        setSelectedUserIds(prev => {
+            if (prev.includes(userId)) {
+                return prev.filter(id => id !== userId)
+            } else {
+                return [...prev, userId]
+            }
+        })
+    }
+
+    const onSelectAll = () => {
+        if (selectedUserIds.length === allUsers.length) {
+            setSelectedUserIds([])
+        } else {
+            setSelectedUserIds(allUsers.map(u => u.id))
+        }
+    }
+
+    // Sync selectedUserIds with form's userIds field
+    useEffect(() => {
+        setValue('userIds', selectedUserIds)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedUserIds])
+
     return {
-        dataUser,
+        dataNotification: dataNotification?.data,
         isFetching,
+        setQuery,
         onSubmit,
         isLoadingMutate,
         errors,
@@ -280,12 +325,15 @@ export const useUser = () => {
         idDetail,
         page: page,
         control,
-        optionUser,
-        dataOptionUser,
+        onFilter,
         setValue,
         getValues,
         watch,
-        optionStockist,
-        dataOptionStockist
+        users: allUsers,
+        selectedUserIds,
+        onUserSelect,
+        onSelectAll,
+        searchUsers,
+        setSearchUsers,
     }
 }

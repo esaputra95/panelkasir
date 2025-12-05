@@ -15,8 +15,7 @@ import {
   // FaQuestionCircle,
   FaDatabase,
   FaCog,
-  FaTachometerAlt,
-  FaBell, // Report
+  FaTachometerAlt, // Report
 } from "react-icons/fa";
 
 // Definisi Tipe untuk Item Menu
@@ -79,7 +78,7 @@ const SettingMenu: MenuItem[] = [
   {
     label: "notifications",
     path: "/settings/notifications",
-    icon: FaBell,
+    icon: FaCreditCard,
     access: ["superadmin", "admin"],
   },
   // {

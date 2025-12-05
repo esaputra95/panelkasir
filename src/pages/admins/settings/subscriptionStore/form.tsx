@@ -24,8 +24,6 @@ const FormSubscriptionStore: FC<SubscriptionStoreFormProps> = (props) => {
 
 
     const getLabel = (value: string): string => {
-        console.log({value});
-        
         const found = dataOptionStore?.find((item) => item.value === value);
         return found?.label || '';
     };

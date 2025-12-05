@@ -70,9 +70,6 @@ export const useUserManagement = () => {
         }
     });
 
-    console.log({errors});
-    
-
     const {
         register:registerFilter,
         handleSubmit:handleSubmitFilter,

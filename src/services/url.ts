@@ -122,6 +122,14 @@ const url = {
     },
     setting: {
         get:'setting'
+    },
+    Notification: {
+        get: 'admin/notifications',
+        post: 'admin/notifications',
+        put: 'admin/notifications',
+        getById: 'admin/notifications',
+        delete: 'admin/notifications',
+        getUsers: 'admin/notifications/users',
     }
 };
 

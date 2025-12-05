@@ -94,6 +94,8 @@ export const Indonesia = {
     "payment-methods":"Metode Pembayaran",
     "/settings/subscription-stores": "Toko Berlangganan",
     "subscription-stores": "Toko Berlangganan",
+    "/settings/notifications": "Notifikasi",
+    "notifications": "Notifikasi",
 }
 
 export const English = {
@@ -184,5 +186,7 @@ export const English = {
     "payment-methods":"Payment Method",
     "user-managements": "User Managements",
     "/settings/user-managements":"User Managements",
-    "settings/payment-methods":"Payment Method"
+    "settings/payment-methods":"Payment Method",
+    "notifications":"Notifikasi",
+    "settings/notifications":"Notifikasi",
 }

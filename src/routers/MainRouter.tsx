@@ -14,6 +14,7 @@ import { SettingPage, UserPage, WarehousePage } from "../pages/admins/settings";
 import PaymentMethodPage from "../pages/admins/settings/paymentMethods";
 import SubscriptionStorePage from "../pages/admins/settings/subscriptionStore";
 import UserManagementPage from "../pages/admins/settings/userManagements";
+import NotificationPage from "../pages/admins/settings/notifications";
 import ProfilePage from "../pages/auth/ProfilePage";
 import Middleware from "./MiddlewareRouter";
 
@@ -77,6 +78,10 @@ const MainRouters = [
           {
             path: "subscription-stores",
             element: <SubscriptionStorePage />,
+          },
+          {
+            path: "notifications",
+            element: <NotificationPage />,
           },
         ],
       },

@@ -61,8 +61,6 @@ const useMarginsReport = () => {
             }
         },
         onError: async (errors) => {
-            console.log(JSON.stringify(errors));
-            
             const err = errors as AxiosError<DataMessageError>
             let message = `${errors}`
             if(err.response?.status === 400){
@@ -96,8 +94,7 @@ const useMarginsReport = () => {
 
     const toPdf = async (data:string[][]) => {
         const headerData:ApiResponseUpdateWarehouse = await getDataById(store.getById, user.storeId+'');
-        console.log({headerData});
-        
+
         const storeData = headerData?.data?.store ?? {}
 
         doc.setFontSize(9)

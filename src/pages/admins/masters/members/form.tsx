@@ -15,9 +15,6 @@ const FormMember: FC<MemberFormProps> = (props) => {
         isLoading
     } = props;
     const {t} = useTranslation();
-
-    console.log({isLoading});
-    
     
     return (
         <form onSubmit={handleSubmit(onSubmit)}>

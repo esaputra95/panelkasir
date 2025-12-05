@@ -68,9 +68,6 @@ export const usePaymentMethod = () => {
         }
     });
 
-    console.log({errors});
-    
-
     const {
         register:registerFilter,
         handleSubmit:handleSubmitFilter,

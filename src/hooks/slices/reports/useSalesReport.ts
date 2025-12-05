@@ -94,7 +94,6 @@ const useSalesReport = () => {
 
     const toPdf = async (data:string[][]) => {
         const headerData:ApiResponseUpdateWarehouse = await getDataById(store.getById, user.storeId+'');
-        console.log({headerData});
         
         const storeData = headerData?.data?.store ?? {}
 

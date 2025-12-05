@@ -125,7 +125,6 @@ export const useSaleForm = () => {
         for (const v of detail) {
             totals+=((v.quantity??0)*(v.sellingPrice??0))
         }
-        console.log({totals});
         
         mutate({
             ...data,
