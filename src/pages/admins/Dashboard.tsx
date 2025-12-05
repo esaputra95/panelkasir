@@ -105,16 +105,67 @@ const Dashboard = () => {
         }
     },[dataMargin]);
 
-    // Calculate totals for stat cards
-    const totalSales = useMemo(() => {
+    // Helper function to calculate trend percentage
+    const calculateTrend = (data: number[] | undefined): { value: number; isPositive: boolean } | undefined => {
+        if (!data || data.length < 2) return undefined;
+        
+        // Compare last month vs previous month
+        const currentMonth = data[data.length - 1];
+        const previousMonth = data[data.length - 2];
+        
+        if (previousMonth === 0) return undefined;
+        
+        const percentageChange = ((currentMonth - previousMonth) / previousMonth) * 100;
+        
+        return {
+            value: Math.abs(Number(percentageChange.toFixed(1))),
+            isPositive: percentageChange >= 0
+        };
+    };
+
+    // Get current month (last item in array) and previous month data
+    const currentMonthSales = useMemo(() => {
+        if (!data || data.length === 0) return 0;
+        return data[data.length - 1]; // Bulan ini
+    }, [data]);
+
+    const currentMonthMargin = useMemo(() => {
+        if (!dataMargin || dataMargin.length === 0) return 0;
+        return dataMargin[dataMargin.length - 1]; // Bulan ini
+    }, [dataMargin]);
+
+    // Calculate total for year (all months)
+    const totalSalesYear = useMemo(() => {
         if (!data || data.length === 0) return 0;
         return data.reduce((sum: number, val: number) => sum + val, 0);
     }, [data]);
 
-    const totalMargin = useMemo(() => {
-        if (!dataMargin || dataMargin.length === 0) return 0;
-        return dataMargin.reduce((sum: number, val: number) => sum + val, 0);
-    }, [dataMargin]);
+    // Calculate average per month
+    const averagePerMonth = useMemo(() => {
+        if (!data || data.length === 0) return 0;
+        return totalSalesYear / data.length;
+    }, [totalSalesYear, data]);
+
+    // Calculate trends (comparing current month vs previous month)
+    const salesTrend = useMemo(() => calculateTrend(data), [data]);
+    const marginTrend = useMemo(() => calculateTrend(dataMargin), [dataMargin]);
+    
+    // Trend for average: compare current month vs average of all previous months
+    const averageTrend = useMemo((): { value: number; isPositive: boolean } | undefined => {
+        if (!data || data.length < 2) return undefined;
+        
+        const previousData = data.slice(0, -1);
+        const previousAverage = previousData.reduce((sum: number, val: number) => sum + val, 0) / previousData.length;
+        
+        if (previousAverage === 0) return undefined;
+        
+        const percentageChange = ((currentMonthSales - previousAverage) / previousAverage) * 100;
+        
+        return {
+            value: Math.abs(Number(percentageChange.toFixed(1))),
+            isPositive: percentageChange >= 0
+        };
+    }, [currentMonthSales, data]);
 
     const formatCurrency = (value: number) => {
         // For large numbers, use compact notation
@@ -147,19 +198,19 @@ const Dashboard = () => {
             {/* Stat Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <StatCard
-                    title="Total Penjualan"
-                    value={formatCurrency(totalSales)}
+                    title="Penjualan Bulan Ini"
+                    value={formatCurrency(currentMonthSales)}
                     icon={HiCurrencyDollar}
                     color="blue"
-                    trend={{ value: 12.5, isPositive: true }}
+                    trend={salesTrend}
                     loading={isLoading}
                 />
                 <StatCard
-                    title="Total Margin"
-                    value={formatCurrency(totalMargin)}
+                    title="Margin Bulan Ini"
+                    value={formatCurrency(currentMonthMargin)}
                     icon={HiTrendingUp}
                     color="green"
-                    trend={{ value: 8.2, isPositive: true }}
+                    trend={marginTrend}
                     loading={isLoading}
                 />
                 <StatCard
@@ -167,14 +218,14 @@ const Dashboard = () => {
                     value={data?.length || 0}
                     icon={HiShoppingCart}
                     color="purple"
-                    trend={{ value: 3.1, isPositive: false }}
                     loading={isLoading}
                 />
                 <StatCard
                     title="Rata-rata Per Bulan"
-                    value={formatCurrency(totalSales / (data?.length || 1))}
+                    value={formatCurrency(averagePerMonth)}
                     icon={HiStar}
                     color="orange"
+                    trend={averageTrend}
                     loading={isLoading}
                 />
             </div>
