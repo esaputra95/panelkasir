@@ -109,10 +109,14 @@ export const useUser = () => {
     })
 
     const optionUser = async (data: string): Promise<OptionSelectInterface[]> => {
-        const response = await getDataSelect(User.getSelect, {name: data});
+        const response = await getData(User.get, {name: data, level: 'owner'});
         if(response.status){
-            setDataOptionUser(response.data.user);
-            return response.data.user
+            const option = response.data.user.map((item:UserInterface)=>({
+                value: item.id,
+                label: item.name + ' - ' + item.email
+            }))
+            setDataOptionUser(option);
+            return option
         }
         return [{value:'', label:''}]
     }

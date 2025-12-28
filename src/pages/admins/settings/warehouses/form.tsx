@@ -1,5 +1,7 @@
 import { FC } from 'react'
-import { InputText, Button } from '../../../../components/input';
+import { InputText, Button, LabelInput } from '../../../../components/input';
+import { Controller } from 'react-hook-form';
+import AsyncSelect from 'react-select/async';
 import { WarehouseFormProps } from '../../../../interfaces/settings/WarehouseInterface';
 import { useTranslation } from 'react-i18next';
 import Spinner from '../../../../components/ui/Spinner';
@@ -38,13 +40,34 @@ const FormWarehouse: FC<WarehouseFormProps> = (props) => {
                     />
                     {
                         user.level === 'superadmin' && (
-                            <InputText
-                                {...register("expiredDate")}
-                                type='date'
-                                errors={errors.expiredDate?.message} 
-                                readOnly={idDetail?true:false} 
-                                label={t("expiredDate")} 
-                            />
+                            <>
+                                <div className='w-full'>
+                                    <LabelInput>{t("user")} (Owner)</LabelInput>
+                                    <Controller
+                                        name="owner"
+                                        control={props.control}
+                                        render={({ field }) => (
+                                            <AsyncSelect
+                                                {...field}
+                                                cacheOptions
+                                                loadOptions={props.optionUser}
+                                                defaultOptions
+                                                isClearable
+                                                className='mt-1'
+                                                placeholder={t("select-user")}
+                                            />
+                                        )}
+                                    />
+                                    {errors.ownerId && <p className='text-red-500 text-xs mt-1'>{errors.ownerId.message}</p>}
+                                </div>
+                                <InputText
+                                    {...register("expiredDate")}
+                                    type='date'
+                                    errors={errors.expiredDate?.message} 
+                                    readOnly={idDetail?true:false} 
+                                    label={t("expiredDate")} 
+                                />
+                            </>
                         )
                     }
                 </div>

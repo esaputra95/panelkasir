@@ -20,7 +20,7 @@ export enum UserRoleEnum {
 }
 
 export interface UserInterface {
-    id?: number;
+    id?: string;
     name: string;
     username?:string;
     password?: string;

@@ -36,6 +36,7 @@ const WarehousePage = () => {
         getValues,
         control,
         handleOnChange,
+        optionUser
     } = useWarehouse()
 
     const warehouseColumns: Column<WarehouseTableInterface>[] = [
@@ -77,7 +78,7 @@ const WarehousePage = () => {
                             setModalForm((state) => ({
                                 ...state,
                                 visible: true,
-                                type: "view",
+                                status: "view",
                             }));
                             onDetail(row.id as number);
                         }}
@@ -90,7 +91,7 @@ const WarehousePage = () => {
                             setModalForm((state) => ({
                                 ...state,
                                 visible: true,
-                                type: "update",
+                                status: "update",
                             }));
                             onUpdate(row.id as number);
                         }}
@@ -132,7 +133,8 @@ const WarehousePage = () => {
                     getValues={getValues}
                     handleOnChange={handleOnChange}
                     isLoadingMutate={loading}
-                    status={status}
+                    status={modalForm.status}
+                    optionUser={optionUser}
                 />
             </ModalForm>
             <div className='w-full overflow-auto px-4 pb-4'>

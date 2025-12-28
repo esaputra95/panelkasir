@@ -14,6 +14,7 @@ import {
 } from "react-icons/ai";
 import Spinner from '../../../../components/ui/Spinner'
 import { useBankAccount } from '../../../../hooks/slices/masters/useBankAccount'
+import useStore from '../../../../hooks/slices/masters/useStore'
 
 const Filter: FC<SalesReportFilter> = (props) => {
     const {
@@ -28,10 +29,11 @@ const Filter: FC<SalesReportFilter> = (props) => {
     } = props
 
     const {optionBankAccount} = useBankAccount()
+    const {optionStore} = useStore()
 
     return (
         <form className='w-full' onSubmit={handleSubmit(onSubmit)}>
-            <div className='w-full flex flex-col lg:grid lg:grid-cols-3 lg:gap-2'>
+            <div className='w-full flex flex-col lg:grid lg:grid-cols-2 lg:gap-2'>
                 <InputText
                     {...register('startDate')}
                     type='date'
@@ -42,6 +44,27 @@ const Filter: FC<SalesReportFilter> = (props) => {
                     type='date'
                     label={t('until-date')}
                 />
+                <div className='w-full'>
+                    <LabelInput>
+                        {t('store')}
+                    </LabelInput>
+                    <Controller
+                        name={`warehouse`}
+                        control={control}
+                            render={({ field }) => 
+                            <AsyncSelect
+                                className='w-full'
+                                {...field}
+                                cacheOptions
+                                loadOptions={optionStore}
+                                defaultOptions
+                                placeholder={``}
+                                isClearable
+                                ref={(ref)=>ref}
+                            />
+                        }
+                    />
+                </div>
                 <div className='w-full'>
                     <LabelInput>
                         {t('bank-accounts')}
@@ -57,7 +80,8 @@ const Filter: FC<SalesReportFilter> = (props) => {
                                 loadOptions={optionBankAccount}
                                 defaultOptions
                                 placeholder={``}
-                                ref={(ref)=> ref}
+                                isClearable
+                                ref={(ref)=>ref}
                             />
                         }
                     />

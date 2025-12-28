@@ -30,6 +30,8 @@ export interface WarehouseInterface {
     address?: string;
     status?: number;
     expiredDate?: string;
+    owner?: OptionSelectInterface;
+    ownerId?: string;
     userCreate?: number;
     createdAt?: Date;
     updatedAt?: Date;
@@ -55,6 +57,7 @@ export type WarehouseFormProps = {
     handleOnChange: (key:keyof WarehouseInterface, keyOption:keyof WarehouseInterface, data?: OptionSelectInterface ) => void;
     isLoadingMutate: boolean;
     status: string;
+    optionUser: (data: string) => Promise<OptionSelectInterface[]>;
 }
 
 export interface Info {

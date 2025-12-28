@@ -12,6 +12,7 @@ import {
     ApiResponseUpdateWarehouse,
     WarehouseInterface
 } from "../../../interfaces/settings/WarehouseInterface"
+import { useUser } from "./useUser"
 import { SubmitHandler, useForm } from "react-hook-form"
 import url from "../../../services/url"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -37,6 +38,7 @@ export const useWarehouse = () => {
     const { store } = url
     const { modalForm, setModalForm } = ModalFormState()
     const { t } = useTranslation();
+    const { optionUser } = useUser()
     const modalConfirm = modalConfirmState()
     const page = usePage();
     
@@ -89,16 +91,21 @@ export const useWarehouse = () => {
                 limit: page.limit
             }
         ),
-        onSuccess(data) {
-            page.setTotal(Math.ceil((data?.data?.info?.total  ?? 1)/
-            (data?.data?.info?.limit ?? page.limit)));
-        },
         onError: (errors) => {
             toast.error(errors.message, {
                 position: toast.POSITION.TOP_CENTER
             });
         }
     })
+
+    useEffect(() => {
+        if (dataWarehouse?.data?.info) {
+            const totalPage = dataWarehouse.data.info.totalPage || Math.ceil((dataWarehouse.data.info.total || 0) / (dataWarehouse.data.info.limit || page.limit));
+            page.setTotal(totalPage || 1);
+        } else if (dataWarehouse?.data?.store && dataWarehouse.data.store.length > 0) {
+            page.setTotal(1);
+        }
+    }, [dataWarehouse, page.limit, page.setTotal]);
 
     const optionWarehouse = async (data: string): Promise<OptionSelectInterface[]> => {
         const response = await getDataSelect(store.select, {name: data});
@@ -118,7 +125,9 @@ export const useWarehouse = () => {
                     id: value.id,
                     name: value.name,
                     address: value.address,
-                    expiredDate: moment(value.expiredDate).format('YYYY-MM-DD')
+                    expiredDate: moment(value.expiredDate).format('YYYY-MM-DD'),
+                    ownerId: value.ownerId,
+                    owner: value.owner
                 });
                 
                 setModalForm((state)=>({
@@ -200,7 +209,10 @@ export const useWarehouse = () => {
     })
 
     const onSubmit: SubmitHandler<WarehouseInterface> = async (data) => {
-        mutate(data)
+        mutate({
+            ...data,
+            ownerId: data.owner?.value ? data.owner.value : data.ownerId
+        })
     }
 
     const onDelete = (id: number) => {
@@ -273,6 +285,7 @@ export const useWarehouse = () => {
         dataOptionWarehouse,
         setValue,
         getValues,
-        handleOnChange
+        handleOnChange,
+        optionUser
     }
 }

@@ -215,7 +215,7 @@ const Dashboard = () => {
                 />
                 <StatCard
                     title="Total Transaksi"
-                    value={data?.length || 0}
+                    value={formatCurrency(totalSalesYear)}
                     icon={HiShoppingCart}
                     color="purple"
                     loading={isLoading}

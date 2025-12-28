@@ -45,7 +45,7 @@ const useSalesReport = () => {
         mutationFn: (data:SalesReport)=> getData(ReportSales.report, {
             startDate: data.startDate,
             endDate: data.endDate,
-            storeId: user.storeId,
+            storeId: data.warehouse?.value,
             accountCashId: data.accountCash?.value
         }),
         onSuccess: async (data:ResponseApi) => {
@@ -73,7 +73,12 @@ const useSalesReport = () => {
     })
 
     const { mutate:mutatePdf, isLoading:isLoadingMutateExcel } = useMutation({
-        mutationFn: (data:SalesReport)=> getData(ReportSales.excel, data),
+        mutationFn: (data:SalesReport)=> getData(ReportSales.excel, {
+            startDate: data.startDate,
+            endDate: data.endDate,
+            storeId: data.warehouse?.value,
+            accountCashId: data.accountCash?.value
+        }),
         onSuccess: async () => {
             await downloadFile(ReportSales.download, 'Laporan Penjualan')
             toast.success(t("success-get-data"), {
@@ -93,7 +98,8 @@ const useSalesReport = () => {
     })
 
     const toPdf = async (data:string[][]) => {
-        const headerData:ApiResponseUpdateWarehouse = await getDataById(store.getById, user.storeId+'');
+        const selectedStoreId = getValues('warehouse.value') || user.storeId;
+        const headerData:ApiResponseUpdateWarehouse = await getDataById(store.getById, selectedStoreId+'');
         
         const storeData = headerData?.data?.store ?? {}
 

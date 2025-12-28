@@ -10,6 +10,7 @@ const WarehouseSchema = () => {
         address: yup.string().optional(),
         description: yup.string().optional(),
         expiredDate: yup.string().optional(),
+        ownerId: yup.string().optional(),
     });
 
     return {
