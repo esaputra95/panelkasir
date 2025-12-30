@@ -50,7 +50,7 @@ export const AdminLayout = () => {
       {/* Konten Utama (Main Section) */}
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar Desktop */}
-        <aside className="hidden lg:block w-80 bg-white shadow-lg text-gray-800 flex-shrink-0 overflow-y-auto">
+        <aside className="hidden lg:block w-72 bg-white shadow-lg text-gray-800 flex-shrink-0 overflow-y-auto">
           <Sidebar onClose={() => {}} />
         </aside>
 

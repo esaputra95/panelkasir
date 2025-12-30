@@ -92,7 +92,7 @@ const SidebarMenuItem: React.FC<SidebarMenuItemProps> = ({
   // Render konten menu item (ikon + label)
   const menuItemContent = (
     <div className="flex items-center">
-      {item.icon && <item.icon className="h-5 w-5 mr-3 text-gray-500" />}
+      {item.icon && <item.icon className="h-3 w-3 mr-3 text-gray-500" />}
       <span>{t(item.label)}</span>
     </div>
   );
@@ -103,16 +103,16 @@ const SidebarMenuItem: React.FC<SidebarMenuItemProps> = ({
         // Jika memiliki children, render sebagai button
         <button
           onClick={handleToggle} // onClick ada di sini
-          className={`${itemClasses} justify-between`} // justify-between untuk panah
+          className={`${itemClasses} text-sm justify-between`} // justify-between untuk panah
           style={{ paddingLeft: `${12 + indentation}px` }}
           aria-expanded={isOpen}
           aria-controls={`submenu-${item.label.replace(/\s+/g, "-")}`}
         >
           {menuItemContent}
           {isOpen ? (
-            <FaChevronUp className="h-4 w-4 text-gray-400 transition-transform duration-300" />
+            <FaChevronUp className="h-3 w-3 text-gray-400 transition-transform duration-300" />
           ) : (
-            <FaChevronDown className="h-4 w-4 text-gray-400 transition-transform duration-300" />
+            <FaChevronDown className="h-3 w-3 text-gray-400 transition-transform duration-300" />
           )}
         </button>
       ) : (
@@ -134,7 +134,7 @@ const SidebarMenuItem: React.FC<SidebarMenuItemProps> = ({
           className={`overflow-hidden transition-[max-height] duration-300 ease-in-out`}
           id={`submenu-${item.label.replace(/\s+/g, "-")}`}
         >
-          <ul ref={contentRef} className="mt-2 space-y-2">
+          <ul ref={contentRef} className="mt-2 text-sm space-y-2">
             {item.children?.map((childItem) => (
               <SidebarMenuItem
                 key={childItem.path}
@@ -190,7 +190,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onClose }) => {
       <div className="flex flex-col mb-4 space-y-4">
         <UserAvatar userName={user.name}/>
         <AsyncSelect
-          className='w-full'
+          className='w-full text-sm'
           cacheOptions
           value={store}
           loadOptions={optionStore}
