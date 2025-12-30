@@ -35,7 +35,7 @@ import { useSearchParams } from "react-router-dom"
 
 export const useUser = () => {
     const [searchParams] = useSearchParams()
-    const [ idDetail, setIdDetail ] = useState<number|null>()
+    const [ idDetail, setIdDetail ] = useState<string|null>()
     const [ dataOptionUser, setDataOptionUser] = useState<OptionSelectInterface[]>([{value:'', label:''}])
     const [ dataOptionStockist, setDataOptionStockist] = useState<OptionSelectInterface[]>([{value:'', label:''}])
     const { User } = url
@@ -131,7 +131,7 @@ export const useUser = () => {
     }
 
     const { mutate:mutateById } = useMutation({
-        mutationFn: (id:number) => getDataById(User.getById, id),
+        mutationFn: (id:string) => getDataById(User.getById, id),
         onSuccess:(data:ApiResponseUpdateUser)=>{
             if(data.status){
                 reset({
@@ -185,7 +185,7 @@ export const useUser = () => {
     })
 
     const {mutate:mutateDelete} = useMutation({
-        mutationFn: (id:number) => deleteData(User.delete, id),
+        mutationFn: (id:string) => deleteData(User.delete, id),
         onSuccess: () => {
             modalConfirm.setModalConfirm({
                 ...modalConfirm.modalConfirm,
@@ -221,7 +221,7 @@ export const useUser = () => {
         
     }
 
-    const onDelete = (id: number) => {
+    const onDelete = (id: string) => {
         modalConfirm.setModalConfirm((state)=>({
             ...state,
             title: state.title,
@@ -246,7 +246,7 @@ export const useUser = () => {
         }))
     }
 
-    const onUpdate = (id:number) => {
+    const onUpdate = (id:string) => {
         mutateById(id)
     }
     
@@ -260,7 +260,7 @@ export const useUser = () => {
         setIdDetail(null)
     }
 
-    const onDetail = async (id:number) => {
+    const onDetail = async (id:string) => {
         setIdDetail(id)
         mutateById(id)
     }

@@ -28,7 +28,7 @@ const postData = async (url:string, data:UserInterface) => {
 	}
 }
 
-const deleteData = async (url:string, id:number) => {
+const deleteData = async (url:string, id:string) => {
 	try {
 		const response = await api.delete(`${url}/${id}`)
 		if(response.status===204) return true
@@ -37,7 +37,7 @@ const deleteData = async (url:string, id:number) => {
 	}
 }
 
-const getDataById = async (url:string, id:number) => {
+const getDataById = async (url:string, id:string) => {
 	try {
 		const response = await api.get(`${url}/${id}`)
 		if(response.status===200) return response.data

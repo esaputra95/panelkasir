@@ -47,7 +47,7 @@ export type UserFormProps = {
     onCancel: () => void;
     errors: FieldErrors<UserInterface>;
     isLoading?: boolean;
-    idDetail?: number|null
+    idDetail?: string|null
     setValue: UseFormSetValue<UserInterface>;
     getValues: UseFormGetValues<UserInterface>;
     control: Control<UserInterface>;

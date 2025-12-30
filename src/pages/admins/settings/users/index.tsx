@@ -104,7 +104,7 @@ const UserPage = () => {
                                 visible: true,
                                 type: "view",
                             }));
-                            onDetail(row.id as number);
+                            onDetail(row.id as string);
                         }}
                         className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center gap-2"
                     >
@@ -117,7 +117,7 @@ const UserPage = () => {
                                 visible: true,
                                 type: "update",
                             }));
-                            onUpdate(row.id as number);
+                            onUpdate(row.id as string);
                         }}
                         className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center gap-2"
                     >
@@ -125,7 +125,7 @@ const UserPage = () => {
                     </button>
                     <button
                         onClick={() => {
-                            onDelete(row.id as number);
+                            onDelete(row.id as string);
                         }}
                         className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600 flex items-center gap-2"
                     >

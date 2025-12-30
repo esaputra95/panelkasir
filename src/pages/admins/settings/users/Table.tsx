@@ -11,9 +11,9 @@ type TableProps = {
     isFetching?: boolean,
     page: number,
     limit: number,
-    onDelete:(id:number)=>void,
-    onUpdate:(id:number)=>void,
-    onDetail:(id:number)=>void
+    onDelete:(id:string)=>void,
+    onUpdate:(id:string)=>void,
+    onDetail:(id:string)=>void
 }
 
 const header = [
@@ -84,13 +84,13 @@ const Table: FC<TableProps> = (props) => {
                                 {
                                     (user.level === "superadmin" || user.level == "admin") && (
                                         <td className="px-6 py-4 flex">
-                                            <span title="Update" className="p-1.5 bg-green-50 hover:bg-green-100 hover:cursor-pointer rounded-full" onClick={()=>onUpdate(value?.id ?? 0)}>
+                                            <span title="Update" className="p-1.5 bg-green-50 hover:bg-green-100 hover:cursor-pointer rounded-full" onClick={()=>onUpdate(value?.id as string)}>
                                                 <BsPencilFill className='text-green-600' />
                                             </span>
-                                            <span title="Detail" className="p-1.5 bg-cyan-50 hover:bg-cyan-100 hover:cursor-pointer rounded-full" onClick={()=>onDetail(value.id ?? 0)}>
+                                            <span title="Detail" className="p-1.5 bg-cyan-50 hover:bg-cyan-100 hover:cursor-pointer rounded-full" onClick={()=>onDetail(value.id as string)}>
                                                 <BsEyeFill className='text-cyan-600' />
                                             </span>
-                                            <span title={t("delete")} className="p-1.5 bg-red-50 hover:bg-red-100 hover:cursor-pointer rounded-full" onClick={()=>onDelete(value.id ?? 0)}>
+                                            <span title={t("delete")} className="p-1.5 bg-red-50 hover:bg-red-100 hover:cursor-pointer rounded-full" onClick={()=>onDelete(value.id as string)}>
                                                 <BsFillTrashFill className="text-red-600" />
                                             </span>
                                         </td>
