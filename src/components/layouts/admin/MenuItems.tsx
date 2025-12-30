@@ -126,6 +126,72 @@ const ReportLabaMenu: MenuItem[] = [
   },
 ];
 
+const ReportBestSellerMenu: MenuItem[] = [
+    {
+        label: "best-seller-reports",
+        path: "/reports/best-seller-reports",
+        icon: FaChartLine,
+        access: ["admin", "owner", "superadmin"],
+    },
+];
+
+const ReportStockOpnameMenu: MenuItem[] = [
+    {
+        label: "stock-opname-reports",
+        path: "/reports/stock-opname-reports",
+        icon: FaBox,
+        access: ["admin", "owner", "superadmin"],
+    },
+];
+
+const ReportAttendanceMenu: MenuItem[] = [
+    {
+        label: "attendance-reports",
+        path: "/reports/attendance-reports",
+        icon: FaUsers,
+        access: ["admin", "owner", "superadmin"],
+    },
+];
+
+const ReportFinanceMenu: MenuItem[] = [
+    {
+        label: "accountancy-reports",
+        path: "/reports/accountancy-reports",
+        icon: FaFileAlt,
+        access: ["admin", "owner", "superadmin"],
+    },
+    {
+        label: "account-balances",
+        path: "/reports/account-balances",
+        icon: FaDollarSign,
+        access: ["admin", "owner", "superadmin"],
+    },
+    {
+        label: "transfer-reports",
+        path: "/reports/transfer-reports",
+        icon: FaCreditCard,
+        access: ["admin", "owner", "superadmin"],
+    },
+    {
+        label: "cash-in-reports",
+        path: "/reports/cash-in-reports",
+        icon: FaDollarSign,
+        access: ["admin", "owner", "superadmin"],
+    },
+    {
+        label: "cash-out-reports",
+        path: "/reports/cash-out-reports",
+        icon: FaDollarSign,
+        access: ["admin", "owner", "superadmin"],
+    },
+    {
+        label: "expense-reports",
+        path: "/reports/expense-reports",
+        icon: FaDollarSign,
+        access: ["admin", "owner", "superadmin"],
+    },
+];
+
 // Struktur Menu Utama untuk Sidebar
 export const menuItems: MenuItem[] = [
   {
@@ -141,19 +207,26 @@ export const menuItems: MenuItem[] = [
     access: ["admin", "superadmin", "owner"],
     children: MasterMenu,
   },
-  // {
-  //   label: "Subscriptions",
-  //   path: "/subscriptions", // Path parent untuk membuka sub-menu
-  //   icon: FaDatabase,
-  //   access: ["admin", "superadmin", "owner"],
-  //   children: SubscriptionMenu,
-  // },
   {
-    label: "reports",
+    label: "general-reports",
     path: "/reports",
     icon: FaFileAlt,
     access: ["admin", "owner", "superadmin"],
-    children: [...ReportPurchaseMenu, ...ReportSalesMenu, ...ReportLabaMenu],
+    children: [
+        ...ReportPurchaseMenu, 
+        ...ReportSalesMenu, 
+        ...ReportLabaMenu,
+        ...ReportBestSellerMenu,
+        ...ReportStockOpnameMenu,
+        ...ReportAttendanceMenu,
+    ],
+  },
+  {
+    label: 'finance-reports',
+    path: '/reports/finance-reports',
+    icon: FaFileAlt,
+    access: ['admin', 'owner', 'superadmin'],
+    children: ReportFinanceMenu,
   },
   {
     label: "Settings",

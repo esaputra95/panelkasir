@@ -9,6 +9,15 @@ import {
   MarginsReport,
   PurchasesReport,
   SalesReport,
+  BestSellerReport,
+  StockOpnameReport,
+  AttendanceReport,
+  AccountancyReport,
+  AccountBalanceReport,
+  TransferReport,
+  CashInReport,
+  CashOutReport,
+  ExpenseReport,
 } from "../pages/admins/reports";
 import { SettingPage, UserPage, WarehousePage } from "../pages/admins/settings";
 import PaymentMethodPage from "../pages/admins/settings/paymentMethods";
@@ -99,6 +108,42 @@ const MainRouters = [
           {
             path: "margins-report",
             element: <MarginsReport />,
+          },
+          {
+            path: "best-seller-reports",
+            element: <BestSellerReport />,
+          },
+          {
+            path: "stock-opname-reports",
+            element: <StockOpnameReport />,
+          },
+          {
+            path: "attendance-reports",
+            element: <AttendanceReport />,
+          },
+          {
+            path: "accountancy-reports",
+            element: <AccountancyReport />,
+          },
+          {
+            path: "account-balances",
+            element: <AccountBalanceReport />,
+          },
+          {
+            path: "transfer-reports",
+            element: <TransferReport />,
+          },
+          {
+            path: "cash-in-reports",
+            element: <CashInReport />,
+          },
+          {
+            path: "cash-out-reports",
+            element: <CashOutReport />,
+          },
+          {
+            path: "expense-reports",
+            element: <ExpenseReport />,
           },
         ],
       },

@@ -130,6 +130,51 @@ const url = {
         getById: 'admin/notifications',
         delete: 'admin/notifications',
         getUsers: 'admin/notifications/users',
+    },
+    ReportBestSeller: {
+        report: 'admin/reports/best-seller-report',
+        excel: 'admin/reports/best-seller-report/excel',
+        download: 'admin/reports/best-seller-report/download',
+    },
+    ReportStockOpname: {
+        report: 'admin/reports/stock-opname-report',
+        excel: 'admin/reports/stock-opname-report/excel',
+        download: 'admin/reports/stock-opname-report/download',
+    },
+    ReportAttendance: {
+        report: 'admin/reports/attendance-report',
+        excel: 'admin/reports/attendance-report/excel',
+        download: 'admin/reports/attendance-report/download',
+    },
+    ReportAccountancy: {
+        report: 'admin/reports/accountancy-report',
+        excel: 'admin/reports/accountancy-report/excel',
+        download: 'admin/reports/accountancy-report/download',
+    },
+    ReportAccountBalance: {
+        report: 'admin/reports/account-balance-report',
+        excel: 'admin/reports/account-balance-report/excel',
+        download: 'admin/reports/account-balance-report/download',
+    },
+    ReportTransfer: {
+        report: 'admin/reports/transfer-report',
+        excel: 'admin/reports/transfer-report/excel',
+        download: 'admin/reports/transfer-report/download',
+    },
+    ReportCashIn: {
+        report: 'admin/reports/cash-in-report',
+        excel: 'admin/reports/cash-in-report/excel',
+        download: 'admin/reports/cash-in-report/download',
+    },
+    ReportCashOut: {
+        report: 'admin/reports/cash-out-report',
+        excel: 'admin/reports/cash-out-report/excel',
+        download: 'admin/reports/cash-out-report/download',
+    },
+    ReportExpense: {
+        report: 'admin/reports/expense-report',
+        excel: 'admin/reports/expense-report/excel',
+        download: 'admin/reports/expense-report/download',
     }
 };
 
