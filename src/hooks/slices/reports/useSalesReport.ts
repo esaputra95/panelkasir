@@ -45,7 +45,7 @@ const useSalesReport = () => {
         mutationFn: (data:SalesReport)=> getData(ReportSales.report, {
             startDate: data.startDate,
             endDate: data.endDate,
-            storeId: user.storeId,
+            storeId: data.warehouse?.value,
             accountCashId: data.accountCash?.value
         }),
         onSuccess: async (data:ResponseApi) => {
