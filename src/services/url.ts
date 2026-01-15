@@ -37,6 +37,14 @@ const url = {
         delete: 'admin/user-managements',
         getSelect: 'admin/user-managements/get-select',
     },
+    StoreSubscription: {
+        get: 'admin/store-subscriptions',
+        post: 'admin/store-subscriptions',
+        put: 'admin/store-subscriptions',
+        getById: 'admin/store-subscriptions',
+        delete: 'admin/store-subscriptions',
+        getSelect: 'admin/store-subscriptions/select',
+    },
     SubscriptionStore: 'admin/subscription-stores',
     PaymentMethod: {
         get: 'admin/user-managements',

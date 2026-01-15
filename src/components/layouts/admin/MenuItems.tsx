@@ -55,15 +55,15 @@ const MasterMenu: MenuItem[] = [
     icon: FaUser,
     access: ["admin", "superadmin", "owner"],
     },
+];
+
+const CustomerManagementMenu: MenuItem[] = [
     {
     label: "stores",
     path: "/masters/stores",
     icon: FaStore,
     access: ["admin", "superadmin", "owner"],
     },
-];
-
-const SettingMenu: MenuItem[] = [
     {
     label: "user-managements",
     path: "/settings/user-managements",
@@ -71,10 +71,10 @@ const SettingMenu: MenuItem[] = [
     access: ["superadmin"],
   },
   {
-    label: "payment-methods",
-    path: "/settings/payment-methods",
+    label: "store-subscriptions",
+    path: "/settings/store-subscriptions",
     icon: FaCreditCard,
-    access: ["superadmin", "admin", "owner"],
+    access: ["superadmin"],
   },
   {
     label: "notifications",
@@ -82,12 +82,15 @@ const SettingMenu: MenuItem[] = [
     icon: FaBell,
     access: ["superadmin", "admin"],
   },
-  // {
-  //   label: "subscription-stores",
-  //   path: "/settings/subscription-stores",
-  //   icon: FaCrown,
-  //   access: ["superadmin"],
-  // },
+];
+
+const SettingMenu: MenuItem[] = [
+  {
+    label: "payment-methods",
+    path: "/settings/payment-methods",
+    icon: FaCreditCard,
+    access: ["superadmin", "admin", "owner"],
+  },
 ];
 
 const ReportPurchaseMenu: MenuItem[] = [
@@ -206,6 +209,13 @@ export const menuItems: MenuItem[] = [
     icon: FaDatabase,
     access: ["admin", "superadmin", "owner"],
     children: MasterMenu,
+  },
+  {
+    label: "customer-management",
+    path: "/customer-management",
+    icon: FaUserCog,
+    access: ["admin", "superadmin", "owner"],
+    children: CustomerManagementMenu,
   },
   {
     label: "general-reports",
