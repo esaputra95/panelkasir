@@ -1,5 +1,5 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { SalesReport, ResponseApi } from "../../../interfaces/reports/SalesReportInterface";
+import { SubscriptionReport, ResponseApi } from "../../../interfaces/reports/SubscriptionReportInterface";
 import moment from "moment";
 import url from "../../../services/url";
 import { useMutation } from "@tanstack/react-query";
@@ -18,11 +18,11 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { ApiResponseUpdateWarehouse } from "../../../interfaces/settings/WarehouseInterface";
 
-const useSalesReport = () => {
-    const [ dataSalesReport, setDataSalesReport ] = useState<[][]>()
+const useSubscriptionReport = () => {
+    const [ dataSubscriptionReport, setDataSubscriptionReport ] = useState<[][]>()
     const user = useSelector((state:RootState)=>state.userReducer)
     const {
-        ReportSales,
+        ReportSubscription,
         store
     } = url;
     const doc = new jsPDF();
@@ -34,7 +34,7 @@ const useSalesReport = () => {
         getValues,
         setValue,
         formState: { errors },
-    } = useForm<SalesReport>({
+    } = useForm<SubscriptionReport>({
         defaultValues: {
             startDate: moment().startOf('M').format('YYYY-MM-DD'),
             endDate: moment().endOf('M').format('YYYY-MM-DD')
@@ -42,16 +42,15 @@ const useSalesReport = () => {
     })
 
     const { mutate, isLoading:isLoadingMutate } = useMutation({
-        mutationFn: (data:SalesReport)=> getData(ReportSales.report, {
+        mutationFn: (data:SubscriptionReport)=> getData(ReportSubscription.report, {
             startDate: data.startDate,
             endDate: data.endDate,
-            storeId: user.storeId,
-            accountCashId: data.accountCash?.value
+            storeId: data.store?.value || user.storeId,
         }),
         onSuccess: async (data:ResponseApi) => {
             if(data.status){
                 if(getValues('type')==="view"){
-                    setDataSalesReport(data.data)
+                    setDataSubscriptionReport(data.data)
                 }else{
                     toPdf(data.data??[])
                 }
@@ -73,14 +72,13 @@ const useSalesReport = () => {
     })
 
     const { mutate:mutatePdf, isLoading:isLoadingMutateExcel } = useMutation({
-        mutationFn: (data:SalesReport)=> getData(ReportSales.excel, {
+        mutationFn: (data:SubscriptionReport)=> getData(ReportSubscription.excel, {
             startDate: data.startDate,
             endDate: data.endDate,
-            storeId: data.warehouse?.value,
-            accountCashId: data.accountCash?.value
+            storeId: data.store?.value,
         }),
         onSuccess: async () => {
-            await downloadFile(ReportSales.download, 'Laporan Penjualan')
+            await downloadFile(ReportSubscription.download, 'Laporan Berlangganan')
             toast.success(t("success-get-data"), {
                 position: toast.POSITION.TOP_CENTER
             });
@@ -98,37 +96,34 @@ const useSalesReport = () => {
     })
 
     const toPdf = async (data:string[][]) => {
-        const selectedStoreId = getValues('warehouse.value') || user.storeId;
+        const selectedStoreId = getValues('store.value') || user.storeId;
         const headerData:ApiResponseUpdateWarehouse = await getDataById(store.getById, selectedStoreId+'');
         
         const storeData = headerData?.data?.store ?? {}
 
         doc.setFontSize(9)
         doc.text([
-            t('sales report'), 
+            t('subscription-report'), 
             `Nama Toko: ${storeData.name ?? ''}`,
             `Alamat: ${storeData.address ?? ''}`,
             `Telepon: ${storeData?.phone ?? ''}`,
-            `Metode Bayar: ${getValues('accountCash.label') ?? ''}`,
         ], 12, 6);
 
-        if(getValues('user')){
-            const height = 11;
-            const textWidth=186
-            
-            const rgb = hexToRgb('#1bbd9d');
-            doc.setFillColor(rgb.r, rgb.g, rgb.b);
-            doc.rect(12, 34, textWidth, height, 'F');
+        const height = 11;
+        const textWidth=186
+        
+        const rgb = hexToRgb('#1bbd9d');
+        doc.setFillColor(rgb.r, rgb.g, rgb.b);
+        doc.rect(12, 34, textWidth, height, 'F');
 
-            doc.setTextColor('white');
-            doc.setFontSize(10)
-            doc.text([
-                `${t('tutors')} : ${getValues('user.label')}`,
-                `Rentang Waktu ${moment(getValues('startDate')).format('DD/MM/YYYY')} - ${moment(getValues('endDate')).format('DD/MM/YYYY')}`,
-            ], 14, 34 + height - 7); 
-        }
+        doc.setTextColor('white');
+        doc.setFontSize(10)
+        doc.text([
+            `Rentang Waktu ${moment(getValues('startDate')).format('DD/MM/YYYY')} - ${moment(getValues('endDate')).format('DD/MM/YYYY')}`,
+        ], 14, 34 + height - 7); 
+
         let newHead:string[]=[];
-        for (const value of helperReport.headerSalesReport) {
+        for (const value of helperReport.headerSubscriptionReport ?? ['No', 'Store', 'Subscription', 'Start Date', 'End Date', 'Status']) {
             newHead=[...newHead,
                 t(value)
             ]
@@ -142,23 +137,23 @@ const useSalesReport = () => {
             styles:{halign:'left'},
             body: data??'',
         })
-        doc.save(`${t('sales report')}.pdf`)
+        doc.save(`${t('subscription-report')}.pdf`)
     }
 
-    const onDownload: SubmitHandler<SalesReport> = (data) => {
+    const onDownload: SubmitHandler<SubscriptionReport> = (data) => {
         setValue('type', 'download')
         mutate({
             ...data,
         })
     }
-    const onExcel: SubmitHandler<SalesReport> = (data) => {
+    const onExcel: SubmitHandler<SubscriptionReport> = (data) => {
         setValue('type', 'excel')
         mutatePdf({
             ...data,
         })
     }
 
-    const onSubmit: SubmitHandler<SalesReport> = (data) => {
+    const onSubmit: SubmitHandler<SubscriptionReport> = (data) => {
         mutate({
             ...data,
         })
@@ -173,11 +168,11 @@ const useSalesReport = () => {
         errors,
         onSubmit,
         isLoadingMutate,
-        dataSalesReport,
+        dataSubscriptionReport,
         onDownload,
         onExcel,
         isLoadingMutateExcel
     }
 }
 
-export default useSalesReport;
+export default useSubscriptionReport;

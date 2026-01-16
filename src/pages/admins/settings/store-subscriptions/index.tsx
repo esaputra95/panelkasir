@@ -1,6 +1,6 @@
-import { useWarehouse } from '../../../../hooks/slices/settings/useWarehouse'
+import { useStoreSubscription } from '../../../../hooks/slices/settings/useStoreSubscription'
 import ModalForm from '../../../../components/ui/modal/ModalForm'
-import FormWarehouse from './form'
+import FormStoreSubscription from './form'
 import { Button } from '../../../../components/input'
 import useLocatioanName from '../../../../utils/location'
 import ModalConfirm from '../../../../components/ui/modal/ModalConfirm'
@@ -8,18 +8,20 @@ import { t } from 'i18next'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../../redux/store'
 import { Column, Table } from '../../../../components/tables/table'
-import { WarehouseTableInterface } from '../../../../interfaces/settings/WarehouseInterface'
+import { StoreSubscriptionTableInterface } from '../../../../interfaces/settings/StoreSubscriptionInterface'
 import { DropdownSelector } from '../../../../components/ui/DropdownSelector'
 import { BsEye, BsPencil, BsTrash } from 'react-icons/bs'
+import { Badge, BadgeVariant } from '../../../../components/ui/Badge'
 
-const WarehousePage = () => {
+const StoreSubscriptionPage = () => {
+
     const pathname = useLocatioanName().pathNameOriginal;
-    const user = useSelector((state:RootState)=> state.userReducer)
+    const user = useSelector((state:RootState)=> state.userReducer);
     const { 
-        dataWarehouse, 
+        dataStoreSubscription, 
         isFetching,
         errors,
-        loading,
+        isLoadingMutate,
         register,
         onSubmit,
         handleSubmit,
@@ -35,53 +37,111 @@ const WarehousePage = () => {
         setValue,
         getValues,
         control,
-        handleOnChange,
-        optionUser
-    } = useWarehouse()
+        watch
+    } = useStoreSubscription()
 
-    const warehouseColumns: Column<WarehouseTableInterface>[] = [
-        { header: "Nama", accessor: "name", sortable: true, filterable: true },
-        { header: "Owner", accessor: "name", render:(row)=> row?.users?.name || "-" ,sortable: true, filterable: true },
-        {
-            header: "Phone",
-            accessor: "phone",
-            sortable: true,
+    const storeSubscriptionColumns: Column<StoreSubscriptionTableInterface>[] = [
+        { 
+            header: "Store", 
+            accessor: "storeId", 
+            sortable: true, 
             filterable: true,
             render(row) {
-                return row?.phone || "-";
+                return row?.store?.name || row.storeId || "-";
             },
         },
         {
-            header: "Email",
-            accessor: "email",
+            header: "Type",
+            accessor: "type",
             sortable: true,
             filterable: true,
+            filterType: 'select',
+            filterOptions: [
+                {label:'Trial', value: 'trial'},
+                {label:'Monthly', value: 'monthly'},
+                {label:'Yearly', value: 'yearly'}
+            ],
             render(row) {
-                return row?.email || "-";
+                return row?.type || "-";
             },
         },
         {
-            header: "Alamat",
-            accessor: "address",
+            header: "Start Date",
+            accessor: "startDate",
             sortable: true,
-            filterable: true,
             render(row) {
-                return row?.address || "-";
+                return row?.startDate ? new Date(row.startDate).toLocaleDateString() : "-";
             },
         },
         {
-            header: "Aksi",
+            header: "End Date",
+            accessor: "endDate",
+            sortable: true,
+            render(row) {
+                return row?.endDate ? new Date(row.endDate).toLocaleDateString() : "-";
+            },
+        },
+        {
+            header: "Duration (Months)",
+            accessor: "durationMonth",
+            sortable: true,
+            render(row) {
+                return row?.durationMonth || "-";
+            },
+        },
+        {
+            header: "Price",
+            accessor: "price",
+            sortable: true,
+            render(row) {
+                return row?.price ? `Rp ${Number(row.price).toLocaleString()}` : "-";
+            },
+        },
+        {
+            header: "Status",
+            accessor: "status",
+            sortable: true,
+            filterable: true,
+            filterType: 'select',
+            filterOptions: [
+                {label:'Active', value: 'active'},
+                {label:'Pending', value: 'pending'},
+                {label:'Expired', value: 'expired'},
+                {label:'Cancelled', value: 'cancelled'}
+            ],
+            render(row) {
+                let variant: BadgeVariant = 'gray';
+                if (row.status === 'ACTIVE') variant = 'green';
+                else if (row.status === 'EXPIRED') variant = 'yellow';
+                else if (row.status === 'CANCELLED') variant = 'red';
+                
+                return(
+                    <Badge variant={variant}>{row.status}</Badge>
+                )
+            },
+        },
+        {
+            header: "Payment Ref",
+            accessor: "paymentRef",
+            sortable: true,
+            filterable: true,
+            render(row) {
+                return row?.paymentRef || "-";
+            },
+        },
+        {
+            header: "Action",
             accessor: "id",
-            render: (row: WarehouseTableInterface) => (
+            render: (row: StoreSubscriptionTableInterface) => (
                 <DropdownSelector>
                     <button
                         onClick={() => {
                             setModalForm((state) => ({
                                 ...state,
                                 visible: true,
-                                status: "view",
+                                type: "view",
                             }));
-                            onDetail(row.id as number);
+                            onDetail(row.id as string);
                         }}
                         className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center gap-2"
                     >
@@ -92,9 +152,9 @@ const WarehousePage = () => {
                             setModalForm((state) => ({
                                 ...state,
                                 visible: true,
-                                status: "update",
+                                type: "update",
                             }));
-                            onUpdate(row.id as number);
+                            onUpdate(row.id as string);
                         }}
                         className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center gap-2"
                     >
@@ -102,11 +162,11 @@ const WarehousePage = () => {
                     </button>
                     <button
                         onClick={() => {
-                            onDelete(row.id as number);
+                            onDelete(row.id as string);
                         }}
                         className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600 flex items-center gap-2"
                     >
-                        <BsTrash /> Hapus
+                        <BsTrash /> Delete
                     </button>
                 </DropdownSelector>
             ),
@@ -120,22 +180,20 @@ const WarehousePage = () => {
                 visible={modalForm.visible}
                 onClose={onCancel}
                 title={modalForm.label}
-                size="medium"
+                size="large"
             >
-                <FormWarehouse
+                <FormStoreSubscription
                     onCancel={onCancel}
+                    isLoading={isLoadingMutate}
                     errors={errors}
                     idDetail={idDetail}
-                    control={control}
                     handleSubmit={handleSubmit}
                     register={register}
                     onSubmit={onSubmit}
                     setValue={setValue}
                     getValues={getValues}
-                    handleOnChange={handleOnChange}
-                    isLoadingMutate={loading}
-                    status={modalForm.status}
-                    optionUser={optionUser}
+                    control={control}
+                    watch={watch}
                 />
             </ModalForm>
             <div className='w-full overflow-auto px-4 pb-4'>
@@ -153,8 +211,8 @@ const WarehousePage = () => {
                 </div>
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                     <Table
-                        data={dataWarehouse?.data?.store ?? []}
-                        columns={warehouseColumns}
+                        data={dataStoreSubscription?.data?.storeSubscriptions ?? []}
+                        columns={storeSubscriptionColumns}
                         isLoading={isFetching}
                         totalPages={page.total}
                     />
@@ -164,4 +222,4 @@ const WarehousePage = () => {
     )
 }
 
-export default WarehousePage
+export default StoreSubscriptionPage
