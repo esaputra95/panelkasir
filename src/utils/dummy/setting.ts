@@ -42,11 +42,11 @@ export const WarehouseDummy = {
 
 export const StoreSubscriptionDummy = {
     storeId: '',
-    type: StoreSubscriptionTypeEnum.trial,
+    type: StoreSubscriptionTypeEnum.TRIAL,
     startDate: new Date(),
     endDate: new Date(),
     durationMonth: 1,
     price: 0,
-    status: StoreSubscriptionStatusEnum.pending,
+    status: StoreSubscriptionStatusEnum.ACTIVE,
     paymentRef: ''
 }
