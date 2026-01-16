@@ -41,6 +41,7 @@ const WarehousePage = () => {
 
     const warehouseColumns: Column<WarehouseTableInterface>[] = [
         { header: "Nama", accessor: "name", sortable: true, filterable: true },
+        { header: "Owner", accessor: "name", render:(row)=> row?.users?.name || "-" ,sortable: true, filterable: true },
         {
             header: "Phone",
             accessor: "phone",

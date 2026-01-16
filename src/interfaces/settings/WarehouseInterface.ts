@@ -8,6 +8,7 @@ import {
 } from "react-hook-form";
 import { ApiResponse, InfoResponse } from "../apiInfoInterface";
 import { OptionSelectInterface } from "../globalInterface";
+import { UserInterface } from "../userInterface";
 
 export enum WarehouseStatusEnum {
     open= 'open',
@@ -36,6 +37,7 @@ export interface WarehouseInterface {
     createdAt?: Date;
     updatedAt?: Date;
     deletedAt?: Date;
+    users?: UserInterface
 }
 
 export interface WarehouseSearchInterface {

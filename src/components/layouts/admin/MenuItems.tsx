@@ -239,6 +239,20 @@ export const menuItems: MenuItem[] = [
     children: ReportFinanceMenu,
   },
   {
+    label: 'customer-reports',
+    path: '/reports',
+    icon: FaUsers,
+    access: ['admin', 'owner', 'superadmin'],
+    children: [
+      {
+        label: 'subscription-report',
+        path: '/reports/subscription-report',
+        icon: FaFileAlt,
+        access: ['admin', 'owner', 'superadmin'],
+      },
+    ],
+  },
+  {
     label: "Settings",
     path: "/settings",
     icon: FaCog,

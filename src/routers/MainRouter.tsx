@@ -18,6 +18,7 @@ import {
   CashInReport,
   CashOutReport,
   ExpenseReport,
+  SubscriptionReport,
 } from "../pages/admins/reports";
 import { SettingPage, UserPage, WarehousePage, StoreSubscriptionPage } from "../pages/admins/settings";
 import PaymentMethodPage from "../pages/admins/settings/paymentMethods";
@@ -148,6 +149,10 @@ const MainRouters = [
           {
             path: "expense-reports",
             element: <ExpenseReport />,
+          },
+          {
+            path: "subscription-report",
+            element: <SubscriptionReport />,
           },
         ],
       },

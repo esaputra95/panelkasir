@@ -183,6 +183,11 @@ const url = {
         report: 'admin/reports/expense-report',
         excel: 'admin/reports/expense-report/excel',
         download: 'admin/reports/expense-report/download',
+    },
+    ReportSubscription: {
+        report: 'admin/reports/subscription-report',
+        excel: 'admin/reports/subscription-report/excel',
+        download: 'admin/reports/subscription-report/download',
     }
 };
 

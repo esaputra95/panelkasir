@@ -24,6 +24,7 @@ const header = [
         width: 'w-4'
     },
     { label: 'name' },
+    { label: 'owner' },
     { label: 'Expired' },
     { label: 'address' },
     { 
@@ -75,6 +76,9 @@ const Table: FC<TableProps> = (props) => {
                                 </td>
                                 <td className="px-6 py-4">
                                     {value?.name}
+                                </td>
+                                <td className="px-6 py-4">
+                                    {value?.users?.name}
                                 </td>
                                 <td className="px-6 py-4">
                                     {moment(value?.expiredDate).format('DD/MM/YYYY')}

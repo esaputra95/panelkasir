@@ -125,6 +125,15 @@ const ReportLabaMenu: MenuItem[] = [
   },
 ];
 
+const ReportCustomerMenu: MenuItem[] = [
+  {
+    label: "subscription-report",
+    path: "/reports/subscription-report",
+    icon: FaFileAlt,
+    access: ["admin", "owner", "superadmin"],
+  },
+];
+
 // Struktur Menu Utama untuk Sidebar
 export const menuItems: MenuItem[] = [
   {
@@ -153,6 +162,13 @@ export const menuItems: MenuItem[] = [
     icon: FaFileAlt,
     access: ["admin", "owner", "superadmin"],
     children: [...ReportPurchaseMenu, ...ReportSalesMenu, ...ReportLabaMenu],
+  },
+  {
+    label: "customer-reports",
+    path: "/reports",
+    icon: FaUsers,
+    access: ["admin", "owner", "superadmin"],
+    children: ReportCustomerMenu,
   },
   {
     label: "Settings",

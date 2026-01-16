@@ -88,6 +88,14 @@ const helperReport = {
         'account',
         'amount',
         'description',
+    ],
+    headerSubscriptionReport: [
+        'no',
+        'store',
+        'subscription',
+        'start-date',
+        'end-date',
+        'status',
     ]
 }
 

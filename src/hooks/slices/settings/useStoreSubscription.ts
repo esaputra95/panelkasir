@@ -9,6 +9,7 @@ import {
     postData
 } from "../../models/settings/StoreSubscriptionModel"
 import { useEffect, useState } from "react"
+import moment from "moment"
 import {
     ApiResponseStoreSubscription,
     ApiResponseUpdateStoreSubscription,
@@ -104,6 +105,8 @@ export const useStoreSubscription = () => {
             if(data.status){
                 reset({
                     ...data.data.storeSubscription,
+                    startDate: data.data.storeSubscription.startDate ? moment(data.data.storeSubscription.startDate).format('YYYY-MM-DD') : '',
+                    endDate: data.data.storeSubscription.endDate ? moment(data.data.storeSubscription.endDate).format('YYYY-MM-DD') : '',
                 })
                 setModalForm((state)=>({
                     ...state,

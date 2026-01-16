@@ -111,6 +111,11 @@ export const Indonesia = {
     "store": "Toko",
     "customer-management": "Manajemen Pelanggan",
     "store-subscriptions": "Toko Berlangganan",
+    "subscription-report": "Laporan Berlangganan",
+    "customer-reports": "Laporan Pelanggan",
+    "/reports/subscription-report": "Laporan Berlangganan",
+    "subscription": "Langganan",
+    "end-date": "Tanggal Berakhir",
 }
 
 export const English = {
@@ -219,4 +224,9 @@ export const English = {
     "store": "Store",
     "customer-management": "Customer Management",
     "store-subscriptions": "Subscription Store",
+    "subscription-report": "Subscription Report",
+    "customer-reports": "Customer Reports",
+    "/reports/subscription-report": "Subscription Report",
+    "subscription": "Subscription",
+    "end-date": "End Date",
 }
